@@ -36,8 +36,9 @@ class JFProfileCell: UITableViewCell {
             if cellModel!.isKindOfClass(JFProfileCellArrowModel.self) {
                 accessoryView = settingArrowView
             } else if cellModel!.isKindOfClass(JFProfileCellSwitchModel.self) {
-                let settingCellSwitch = cellModel as! JFProfileCellSwitchModel
-                settingSwitchView.on = settingCellSwitch.on
+                if cellModel!.title == "推送开关" {
+                    settingSwitchView.on = NSUserDefaults.standardUserDefaults().boolForKey(PUSH_KEY)
+                }
                 accessoryView = settingSwitchView
             } else if cellModel!.isKindOfClass(JFProfileCellLabelModel.self) {
                 let settingCellLabel = cellModel as! JFProfileCellLabelModel
@@ -81,8 +82,11 @@ class JFProfileCell: UITableViewCell {
     }
     
     @objc private func didChangedSwitch(settingSwitch: UISwitch) {
-        // 修改本地存储的状态
-        NSUserDefaults.standardUserDefaults().setBool(settingSwitch.on, forKey: NIGHT_KEY)
+        
+        if cellModel!.title == "推送开关" {
+            // 修改本地存储的状态
+            NSUserDefaults.standardUserDefaults().setBool(settingSwitch.on, forKey: PUSH_KEY)
+        }
     }
     
     // MARK: - 懒加载

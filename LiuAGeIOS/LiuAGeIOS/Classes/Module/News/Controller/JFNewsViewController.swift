@@ -85,6 +85,7 @@ class JFNewsViewController: UIViewController {
      */
     private func setupprofileVc() {
         profileVc = JFProfileViewController(mainVc: self.navigationController!)
+        profileVc.profileDelegate = self
     }
     
     /**
@@ -447,5 +448,66 @@ extension JFNewsViewController: UIGestureRecognizerDelegate {
         } else {
             return true
         }
+    }
+}
+
+// MARK: - JFProfileViewControllerDelegate
+extension JFNewsViewController: JFProfileViewControllerDelegate {
+    
+    /**
+     资料
+     */
+    func didTappedMyInfo() {
+        if JFAccountModel.isLogin() {
+            navigationController?.pushViewController(JFEditProfileViewController(style: UITableViewStyle.Grouped), animated: true)
+        } else {
+            presentViewController(JFNavigationController(rootViewController: JFLoginViewController(nibName: "JFLoginViewController", bundle: nil)), animated: true, completion: {
+            })
+        }
+    }
+    
+    /**
+     收藏
+     */
+    func didTappedMyCollectionCell() {
+        if JFAccountModel.isLogin() {
+            navigationController?.pushViewController(JFCollectionTableViewController(style: UITableViewStyle.Plain), animated: true)
+        } else {
+            presentViewController(JFNavigationController(rootViewController: JFLoginViewController(nibName: "JFLoginViewController", bundle: nil)), animated: true, completion: {
+            })
+        }
+    }
+    
+    /**
+     评论
+     */
+    func didTappedMyCommentCell() {
+        if JFAccountModel.isLogin() {
+            navigationController?.pushViewController(JFCommentListTableViewController(style: UITableViewStyle.Plain), animated: true)
+        } else {
+            presentViewController(JFNavigationController(rootViewController: JFLoginViewController(nibName: "JFLoginViewController", bundle: nil)), animated: true, completion: {
+            })
+        }
+    }
+    
+    /**
+     设置
+     */
+    func didTappedSettingCell() {
+        navigationController?.pushViewController(JFSettingTableViewController(style: UITableViewStyle.Grouped), animated: true)
+    }
+    
+    /**
+     反馈
+     */
+    func didTappedFeedbackCell() {
+        navigationController?.pushViewController(JFProfileFeedbackViewController(style: UITableViewStyle.Plain), animated: true)
+    }
+    
+    /**
+     关于六阿哥
+     */
+    func didTappedMyDutyCell() {
+        navigationController?.pushViewController(JFDutyViewController(), animated: true)
     }
 }

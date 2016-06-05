@@ -10,9 +10,4 @@ import UIKit
 
 class JFProfileCellSwitchModel: JFProfileCellModel {
     
-    /// 开关状态
-    var on: Bool {
-        return NSUserDefaults.standardUserDefaults().boolForKey(NIGHT_KEY)
-    }
-    
 }

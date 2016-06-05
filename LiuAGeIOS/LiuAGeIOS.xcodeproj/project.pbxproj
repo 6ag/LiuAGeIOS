@@ -106,6 +106,7 @@
 		B2F9EC561D03CBC800FC7E48 /* JFNewFeatureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F9EC551D03CBC800FC7E48 /* JFNewFeatureCell.swift */; };
 		B2F9EC5A1D03F42600FC7E48 /* JFPanGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F9EC591D03F42600FC7E48 /* JFPanGestureRecognizer.swift */; };
 		B2F9EC5C1D041A6B00FC7E48 /* JFProfileFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F9EC5B1D041A6B00FC7E48 /* JFProfileFooterView.swift */; };
+		B2F9EC631D0479F600FC7E48 /* JFSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F9EC621D0479F600FC7E48 /* JFSettingTableViewController.swift */; };
 		B2FA0E7F1D01C0A900EDBF53 /* JFNewsViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2FA0E7E1D01C0A900EDBF53 /* JFNewsViewController.storyboard */; };
 		B2FE1C331CB9F71F001CCF99 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2DD3F9A1CB7BDC20092C717 /* CFNetwork.framework */; };
 		B2FE1C341CB9F728001CCF99 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2DD3F9C1CB7BDCF0092C717 /* CoreFoundation.framework */; };
@@ -282,6 +283,7 @@
 		B2F9EC551D03CBC800FC7E48 /* JFNewFeatureCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFNewFeatureCell.swift; sourceTree = "<group>"; };
 		B2F9EC591D03F42600FC7E48 /* JFPanGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFPanGestureRecognizer.swift; sourceTree = "<group>"; };
 		B2F9EC5B1D041A6B00FC7E48 /* JFProfileFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFProfileFooterView.swift; sourceTree = "<group>"; };
+		B2F9EC621D0479F600FC7E48 /* JFSettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFSettingTableViewController.swift; sourceTree = "<group>"; };
 		B2FA0E7E1D01C0A900EDBF53 /* JFNewsViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = JFNewsViewController.storyboard; sourceTree = "<group>"; };
 		B2FD9A011CB95F6C0005B8AF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		B2FD9A031CB95F760005B8AF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -509,10 +511,11 @@
 				B264A30B1D016C0D00C72E13 /* Comment */,
 				B264A30D1D016C0D00C72E13 /* Forgot */,
 				B264A3101D016C0D00C72E13 /* Info */,
-				B264A3141D016C0D00C72E13 /* JFBaseTableViewController.swift */,
 				B264A3151D016C0D00C72E13 /* JFDutyViewController.swift */,
 				B264A3161D016C0D00C72E13 /* JFProfileFeedbackViewController.swift */,
+				B2F9EC621D0479F600FC7E48 /* JFSettingTableViewController.swift */,
 				B264A3181D016C0D00C72E13 /* JFProfileViewController.swift */,
+				B264A3141D016C0D00C72E13 /* JFBaseTableViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1176,6 +1179,7 @@
 			files = (
 				B264A3B81D016C0D00C72E13 /* JFProfileCell.swift in Sources */,
 				B264A3701D016C0D00C72E13 /* JFCommon.swift in Sources */,
+				B2F9EC631D0479F600FC7E48 /* JFSettingTableViewController.swift in Sources */,
 				B264A40B1D018DC800C72E13 /* JFOtherLinkModel.swift in Sources */,
 				B264A4131D018DC800C72E13 /* JFDetailOtherCell.swift in Sources */,
 				B264A3B91D016C0D00C72E13 /* JFProfileHeaderView.swift in Sources */,
