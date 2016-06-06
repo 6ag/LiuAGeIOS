@@ -11,23 +11,29 @@ import SnapKit
 
 class JFNewsViewController: UIViewController {
     
-    /// 顶部标签按钮区域
+    // MARK: - 各种属性
+    /// 顶部标签scrollView
     @IBOutlet weak var topScrollView: UIScrollView!
-    /// 内容区域
+    /// 内容区域scrollView
     @IBOutlet weak var contentScrollView: UIScrollView!
-    /// 标签按钮旁的箭头按钮
+    /// 顶部标签scrollView旁的箭头按钮
     @IBOutlet weak var arrowButton: UIButton!
-    /// x轴偏移量
+    /// 内容区域scrollView x轴偏移量
     var contentOffsetX: CGFloat = 0.0
+    
+    /// 栏目管理控制器
+    private lazy var editColumnVc: JFEditColumnViewController = {
+        let editColumnVc = JFEditColumnViewController()
+        editColumnVc.transitioningDelegate = self
+        editColumnVc.modalPresentationStyle = .Custom
+        return editColumnVc
+    }()
     
     // 栏目数组
     private var selectedArray: [[String : String]]?
     private var optionalArray: [[String : String]]?
     
-    /// 栏目管理
-    let editColumnVc = JFEditColumnViewController()
-    
-    /// 侧边栏
+    /// 侧边栏控制器
     var profileVc: JFProfileViewController!
     
     /// 侧滑手势 - 打开侧边栏
@@ -51,6 +57,7 @@ class JFNewsViewController: UIViewController {
         (UIApplication.sharedApplication().delegate as! AppDelegate).setupJPush()
         // 注册接收推送通知的通知
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(didReceiveRemoteNotificationOfJPush(_:)), name: "didReceiveRemoteNotificationOfJPush", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(columnViewWillDismiss(_:)), name: "columnViewWillDismiss", object: nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -67,6 +74,7 @@ class JFNewsViewController: UIViewController {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
+    // MARK: - 各种自定义方法
     /**
      处理接收到的远程通知，跳转到指定的文章
      */
@@ -78,6 +86,24 @@ class JFNewsViewController: UIViewController {
             detailVc.articleParam = (classid as! String,id as! String)
             navigationController?.pushViewController(detailVc, animated: true)
         }
+    }
+    
+    /**
+     栏目管理控制器即将消失
+     */
+    func columnViewWillDismiss(notification: NSNotification) {
+        
+        topScrollView.alpha = 1
+        UIView.animateWithDuration(0.5, animations: {
+            self.arrowButton.imageView!.transform = CGAffineTransformIdentity
+            }, completion: { (_) in
+                self.selectedArray = self.editColumnVc.selectedArray
+                self.optionalArray = self.editColumnVc.optionalArray
+                NSUserDefaults.standardUserDefaults().setObject(self.selectedArray, forKey: "selectedArray")
+                NSUserDefaults.standardUserDefaults().setObject(self.optionalArray, forKey: "optionalArray")
+                self.prepareUI()
+        })
+        
     }
     
     /**
@@ -96,7 +122,7 @@ class JFNewsViewController: UIViewController {
     }
     
     /**
-     第一页视图的侧滑手势
+     第一页视图的侧滑手势处理
      */
     @objc private func didPanOnePageView(gesture: UIPanGestureRecognizer) {
         
@@ -119,18 +145,19 @@ class JFNewsViewController: UIViewController {
      */
     @objc private func didTappedTopLabel(gesture: UITapGestureRecognizer) {
         let titleLabel = gesture.view as! JFTopLabel
+        // 让内容视图滚动到指定的位置
         contentScrollView.setContentOffset(CGPoint(x: CGFloat(titleLabel.tag) * contentScrollView.frame.size.width, y: contentScrollView.contentOffset.y), animated: true)
     }
     
-    // MARK: - 各种自定义方法
     /**
      准备视图
      */
     private func prepareUI() {
         
+        // 标题logo
         navigationItem.titleView = UIImageView(image: UIImage(named: "navigation_logo"))
         
-        // 移除原有数据
+        // 移除原有数据 - 为的是排序栏目后的数据清理
         for subView in topScrollView.subviews {
             if subView.isKindOfClass(JFTopLabel.classForCoder()) {
                 subView.removeFromSuperview()
@@ -148,44 +175,25 @@ class JFNewsViewController: UIViewController {
     }
     
     /**
-     编辑分类按钮点击
+     配置栏目按钮点击
      */
     @IBAction func didTappedEditColumnButton(sender: UIButton) {
-        sender.selected = !sender.selected
-        
-        if sender.selected {
-            editColumnVc.selectedArray = selectedArray
-            editColumnVc.optionalArray = optionalArray
-            editColumnVc.view.frame = CGRect(x: 0, y: 40, width: SCREEN_WIDTH, height: 0)
-            addChildViewController(editColumnVc)
-            view.addSubview(editColumnVc.view)
-            tabBarController?.tabBar.hidden = true
             
-            // 切换控制器动画
-            UIView.animateWithDuration(0.5, animations: {
-                self.editColumnVc.view.frame = CGRect(x: 0, y: 40, width: SCREEN_WIDTH, height: SCREEN_HEIGHT - 60)
-                self.arrowButton.imageView!.transform = CGAffineTransformMakeRotation(CGFloat(M_PI) - 0.01)
-            })
-        } else {
-            UIView.animateWithDuration(0.5, animations: {
-                self.editColumnVc.view.frame = CGRect(x: 0, y: 40, width: SCREEN_WIDTH, height: 0)
-                self.arrowButton.imageView!.transform = CGAffineTransformIdentity
-                }, completion: { (_) in
-                    self.selectedArray = self.editColumnVc.selectedArray
-                    self.optionalArray = self.editColumnVc.optionalArray
-                    NSUserDefaults.standardUserDefaults().setObject(self.selectedArray, forKey: "selectedArray")
-                    NSUserDefaults.standardUserDefaults().setObject(self.optionalArray, forKey: "optionalArray")
-                    self.editColumnVc.view.removeFromSuperview()
-                    self.tabBarController?.tabBar.hidden = false
-                    
-                    self.prepareUI()
-            })
-        }
+        editColumnVc.selectedArray = selectedArray
+        editColumnVc.optionalArray = optionalArray
+        presentViewController(editColumnVc, animated: true, completion: { 
+            
+        })
         
+        UIView.animateWithDuration(0.5, animations: {
+            self.topScrollView.alpha = 0
+            self.editColumnVc.view.frame = CGRect(x: 0, y: 40, width: SCREEN_WIDTH, height: SCREEN_HEIGHT - 60)
+            self.arrowButton.imageView!.transform = CGAffineTransformMakeRotation(CGFloat(M_PI) - 0.01)
+        })
     }
     
     /**
-     配置栏目
+     初始化栏目
      */
     private func setupColumn() {
         let tempSelectedArray = NSUserDefaults.standardUserDefaults().objectForKey("selectedArray") as? [[String : String]]
@@ -195,6 +203,7 @@ class JFNewsViewController: UIViewController {
             selectedArray = tempSelectedArray != nil ? tempSelectedArray : [[String : String]]()
             optionalArray = tempOptionalArray != nil ? tempOptionalArray : [[String : String]]()
         } else {
+            // 默认栏目顺序
             selectedArray = [
                 [
                     "classid" : "0",
@@ -313,7 +322,7 @@ class JFNewsViewController: UIViewController {
                 newsVc.classid = Int(selectedArray![0]["classid"]!)
                 newsVc.view.frame = CGRect(x: 0, y: 0, width: contentScrollView.bounds.width, height: contentScrollView.bounds.height)
                 contentScrollView.addSubview(newsVc.view)
-                // 给第一个列表控制器的视图添加手势
+                // 给第一个列表控制器的视图添加手势 - 然后在手势代理里面处理手势冲突（tableView默认自带pan手势，如果不处理，我们添加的手势会覆盖默认手势）
                 newsVc.tableView.addGestureRecognizer(onePagePanGesture)
             }
         }
@@ -359,11 +368,6 @@ extension JFNewsViewController: UIScrollViewDelegate {
                 let topLabel = topScrollView.subviews[i] as! JFTopLabel
                 topLabel.scale = 0.0
             }
-        }
-        
-        // 判断偏移量 添加侧滑手势
-        if scrollView.contentOffset.x == 0 {
-//            print("xxx")
         }
         
     }
@@ -429,7 +433,7 @@ extension JFNewsViewController: UIScrollViewDelegate {
     
 }
 
-// MARK: - UIGestureRecognizerDelegate
+// MARK: - 侧滑手势处理
 extension JFNewsViewController: UIGestureRecognizerDelegate {
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -451,7 +455,7 @@ extension JFNewsViewController: UIGestureRecognizerDelegate {
     }
 }
 
-// MARK: - JFProfileViewControllerDelegate
+// MARK: - 侧边栏各种事件回调
 extension JFNewsViewController: JFProfileViewControllerDelegate {
     
     /**
@@ -509,5 +513,24 @@ extension JFNewsViewController: JFProfileViewControllerDelegate {
      */
     func didTappedMyDutyCell() {
         navigationController?.pushViewController(JFDutyViewController(), animated: true)
+    }
+}
+
+// MARK: - 栏目管理转场动画事件
+extension JFNewsViewController: UIViewControllerTransitioningDelegate {
+    
+    // 返回一个控制modal视图大小的对象
+    func presentationControllerForPresentedViewController(presented: UIViewController, presentingViewController presenting: UIViewController, sourceViewController source: UIViewController) -> UIPresentationController? {
+        return JFPresentationController(presentedViewController: presented, presentingViewController: presenting)
+    }
+    
+    // 返回一个控制器modal动画效果的对象
+    func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return JFPopoverModalAnimation()
+    }
+    
+    // 返回一个控制dismiss动画效果的对象
+    func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return JFPopoverDismissAnimation()
     }
 }

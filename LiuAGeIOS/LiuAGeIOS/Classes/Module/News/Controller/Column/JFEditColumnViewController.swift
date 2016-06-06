@@ -25,7 +25,7 @@ class JFEditColumnViewController: UIViewController, JFEditColumnViewCellDelegate
     
     var isSort = false
     var lastIsHidden = false
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -103,7 +103,6 @@ class JFEditColumnViewController: UIViewController, JFEditColumnViewCellDelegate
                 cell.center = collectionView.layoutAttributesForItemAtIndexPath(cellIndexPath!)!.center
             }
         }
-        
         
     }
     
@@ -208,7 +207,7 @@ extension JFEditColumnViewController: UICollectionViewDataSource, UICollectionVi
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         if section == 0 {
-            return CGSize(width: SCREEN_WIDTH, height: 40.0)
+            return CGSize(width: SCREEN_WIDTH, height: 40)
         } else {
             return CGSize(width: SCREEN_WIDTH, height: 30.0)
         }
@@ -217,7 +216,6 @@ extension JFEditColumnViewController: UICollectionViewDataSource, UICollectionVi
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         return CGSize(width: SCREEN_WIDTH, height: 0.0)
     }
-    
     
     // MARK: - UICollectionViewDataSource
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
