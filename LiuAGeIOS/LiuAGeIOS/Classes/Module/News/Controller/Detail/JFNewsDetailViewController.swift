@@ -369,7 +369,6 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
             if YYImageCache.sharedCache().containsImageForKey(imageString) {
                 let imagePath = "\(YYImageCache.sharedCache().diskCache.path)/data/\(imageString.md5())"
                 bridge?.send("replaceimage\(imageString),\(imagePath)")
-                self.tableView.reloadData()
             } else {
                 YYWebImageManager.sharedManager().requestImageWithURL(NSURL(string: imageString)!, options: YYWebImageOptions.AllowBackgroundTask, progress: { (_, _) in
                     }, transform: { (image, url) -> UIImage? in
@@ -378,7 +377,6 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
                         guard let _ = image else {return}
                         let imagePath = "\(YYImageCache.sharedCache().diskCache.path)/data/\(imageString.md5())"
                         self.bridge?.send("replaceimage\(imageString),\(imagePath)")
-                        self.tableView.reloadData()
                 })
             }
             
