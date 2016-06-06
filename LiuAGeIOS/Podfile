@@ -12,6 +12,7 @@ target 'LiuAGeIOS' do
     pod 'pop', '~> 1.0.9'
     pod 'IQKeyboardManagerSwift'
     pod 'GRMustache.swift', '~> 1.0'
+    pod 'CryptoSwift'
   use_frameworks!
 
   # Pods for LiuAGeIOS

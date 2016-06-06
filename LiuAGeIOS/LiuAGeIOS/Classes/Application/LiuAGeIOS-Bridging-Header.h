@@ -14,3 +14,6 @@
 
 //微信SDK头文件
 #import "WXApi.h"
+
+#import "WebViewJavascriptBridge.h"
+

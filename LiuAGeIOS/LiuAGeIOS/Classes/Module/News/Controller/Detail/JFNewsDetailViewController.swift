@@ -9,10 +9,12 @@
 import UIKit
 import YYWebImage
 import MJRefresh
-import WebKit
 import Mustache
+import CryptoSwift
 
 class JFNewsDetailViewController: UIViewController {
+    
+    var bridge: WebViewJavascriptBridge?
     
     // MARK: - 属性
     var contentOffsetY: CGFloat = 0.0
@@ -30,6 +32,9 @@ class JFNewsDetailViewController: UIViewController {
             bottomBarView.collectionButton.selected = model?.havefava == "1"
         }
     }
+    
+    /// 是否已经加载过
+    var isLoaded: Bool = false
     
     /// 分享的图片url
     var sharePicUrl: String = ""
@@ -55,6 +60,16 @@ class JFNewsDetailViewController: UIViewController {
     // MARK: - 生命周期
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        bridge = WebViewJavascriptBridge(forWebView: webView, webViewDelegate: self, handler: { (data, responseCallback) in
+            responseCallback("Response for message from ObjC")
+        })
+        
+        bridge?.registerHandler("testObjcCallback", handler: { (data, responseCallback) in
+            responseCallback("Response from testObjcCallback")
+        })
+        
+//        WebViewJavascriptBridge.enableLogging()
         
         tableView.registerClass(UITableViewCell.classForCoder(), forCellReuseIdentifier: detailContentIdentifier)
         tableView.registerNib(UINib(nibName: "JFStarAndShareCell", bundle: nil), forCellReuseIdentifier: detailStarAndShareIdentifier)
@@ -191,6 +206,8 @@ class JFNewsDetailViewController: UIViewController {
             ]
         }
         
+//        print(parameters)
+        
         activityView.startAnimating()
         JFNetworkTool.shareNetworkTool.get(ARTICLE_DETAIL, parameters: parameters) { (success, result, error) -> () in
             if success == true {
@@ -214,7 +231,7 @@ class JFNewsDetailViewController: UIViewController {
                     
                     // 正文数据
                     let content = successResult["data"]["content"].dictionaryValue
-                    let dict = [
+                    let dict: [String : AnyObject] = [
                         "title" : content["title"]!.stringValue,          // 文章标题
                         "newstime" : content["newstime"]!.stringValue,    // 时间戳
                         "newstext" : content["newstext"]!.stringValue,    // 文章内容
@@ -226,6 +243,7 @@ class JFNewsDetailViewController: UIViewController {
                         "smalltext" : content["smalltext"]!.stringValue,  // 文章简介
                         "titlepic" : content["titlepic"]!.stringValue,    // 标题图片
                         "befrom" : content["befrom"]!.stringValue,        // 文章来源
+                        "allphoto" : content["allphoto"]!.arrayObject!    // 所有文章图片
                     ]
                     self.model = JFArticleDetailModel(dict: dict)
                 }
@@ -290,11 +308,10 @@ class JFNewsDetailViewController: UIViewController {
     }()
     
     /// webView
-    private lazy var webView: WKWebView = {
-        let webView = WKWebView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT))
-        webView.navigationDelegate = self
+    private lazy var webView: UIWebView = {
+        let webView = UIWebView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT))
+        webView.delegate = self
         webView.scrollView.scrollEnabled = false
-        webView.scrollView.delegate = self
         return webView
     }()
     
@@ -339,6 +356,36 @@ class JFNewsDetailViewController: UIViewController {
 // MARK: - UITableViewDelegate, UITableViewDataSource
 extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate {
     
+    func replaceUrlSpecialString(string: String) -> String {
+        return (string as NSString).stringByReplacingOccurrencesOfString("/", withString: "_")
+    }
+    
+    func getImageFromDownloaderOrDiskByImageUrlArray(imageArray: [AnyObject]) {
+        
+        for dict in imageArray {
+            // 图片的url
+            let imageString = dict["url"] as! String
+            
+            if YYImageCache.sharedCache().containsImageForKey(imageString) {
+                let imagePath = "\(YYImageCache.sharedCache().diskCache.path)/data/\(imageString.md5())"
+                bridge?.send("replaceimage\(imageString),\(imagePath)")
+                self.tableView.reloadData()
+            } else {
+                YYWebImageManager.sharedManager().requestImageWithURL(NSURL(string: imageString)!, options: YYWebImageOptions.AllowBackgroundTask, progress: { (_, _) in
+                    }, transform: { (image, url) -> UIImage? in
+                        return image
+                    }, completion: { (image, url, type, stage, error) in
+                        guard let _ = image else {return}
+                        let imagePath = "\(YYImageCache.sharedCache().diskCache.path)/data/\(imageString.md5())"
+                        self.bridge?.send("replaceimage\(imageString),\(imagePath)")
+                        self.tableView.reloadData()
+                })
+            }
+            
+        }
+        
+    }
+    
     /**
      加载webView内容
      
@@ -346,17 +393,8 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
      */
     func loadWebViewContent(model: JFArticleDetailModel) {
         
-        // 内容页html
         var html = ""
-        html.appendContentsOf("<!doctype html>")
-        html.appendContentsOf("<head>")
-        html.appendContentsOf("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>")
-        
-        // css样式
         let css = "<style type=\"text/css\">" +
-            ".container {" + // body
-            "background: #FFFFFF;" +
-            "}" +
             ".title {" + // 标题
             "text-align: left;" +
             "font-size: 20px;" +
@@ -368,40 +406,62 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
             "font-size: 13px;" +
             "color: #BDBDBD;" +
             "margin-top: 5px;" +
+            "margin-bottom: 5px;" +
             "}" +
             ".content {" + // 文章内容
             "margin-top: -7px;" +
             "width: 100%;" +
             "font-size: \(NSUserDefaults.standardUserDefaults().integerForKey(CONTENT_FONT_SIZE))px;" +
             "}" +
-            ".content p {" + // 内容里的段落
-            "text-indent: 1.5em;" +
-            "}" +
-            ".content img {" + // 内容里的图片
-            "display: block;" +
-            "margin: 0 auto;" +
-            "max-width: 98%;" +
-            "}" +
         "</style>"
         
         html.appendContentsOf(css)
-        html.appendContentsOf("</head>")
-        
-        // body开始
-        html.appendContentsOf("<body class=\"container\">")
         html.appendContentsOf("<div class=\"title\">\(model.title!)</div>")
         html.appendContentsOf("<div class=\"time\">\(model.befrom!)&nbsp;&nbsp;&nbsp;&nbsp;\(model.newstime!.timeStampToString())</div>")
         
-        // 拼接内容主体
-        html.appendContentsOf("<div class=\"content\">\(model.newstext!)</div>")
-        html.appendContentsOf("</body>")
-        html.appendContentsOf("</html>")
+        if model.allphoto!.count == 0 {
+            // 无图
+            html.appendContentsOf("<div class=\"content\">\(model.newstext!)</div>")
+            webView.loadHTMLString(html, baseURL: nil)
+        } else {
+            
+            // 没有加载才去加载
+            if !isLoaded {
+                for dict in model.allphoto! {
+                    // 图片占位符范围
+                    let range = (model.newscontent as NSString).rangeOfString(dict["ref"] as! String)
+                    
+                    // 原来的宽高
+                    let w = CGFloat((dict["pixel"]!!["width"] as! NSNumber).floatValue)
+                    let h = CGFloat((dict["pixel"]!!["height"] as! NSNumber).floatValue)
+                    let rate = (SCREEN_WIDTH - 15) / w
+                    // 计算宽高
+                    let width = w * rate
+                    let height = h * rate
+                    
+                    // 加载中的占位图
+                    let loading = NSBundle.mainBundle().pathForResource("loading", ofType: "png")
+                    
+                    // 图片html
+                    let imageString = "<img src='\(loading!)' id='\(dict["url"] as! String)' width='\(width)' height='\(height)' hspace='0.0' vspace='5'>"
+                    model.newstext = (model.newstext! as NSString).stringByReplacingOccurrencesOfString(dict["ref"] as! String, withString: imageString, options: NSStringCompareOptions.CaseInsensitiveSearch, range: range)
+                }
+                isLoaded = true
+            }
+            
+            // 加载图片
+            getImageFromDownloaderOrDiskByImageUrlArray(model.allphoto!)
+            
+            html.appendContentsOf("<div class=\"content\">\(model.newstext!)</div>")
+            
+            // 从本地加载网页模板，替换新闻主页
+            let templatePath = NSBundle.mainBundle().pathForResource("webViewHtml", ofType: "html")!
+            let template = (try! String(contentsOfFile: templatePath, encoding: NSUTF8StringEncoding)) as NSString
+            html = template.stringByReplacingOccurrencesOfString("<p>mainnews</p>", withString: html, options: NSStringCompareOptions.CaseInsensitiveSearch, range: template.rangeOfString("<p>mainnews</p>"))
+            let baseURL = NSURL(fileURLWithPath: templatePath as String)
+            webView.loadHTMLString(html as String, baseURL: baseURL)
+        }
         
-        let template = try! Template(string: html)
-        let rendering = try! template.render()
-        webView.loadHTMLString(rendering, baseURL: nil)
-        
-//        print(html)
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -710,7 +770,7 @@ extension JFNewsDetailViewController: JFNewsBottomBarDelegate, JFCommentCommitVi
     }
     
     /**
-     修改了正文字体大小，需要重新显示
+     修改了正文字体大小，需要重新显示 添加图片缓存后，目前还有问题
      */
     func didChangeFontSize() {
         loadWebViewContent(model!)
@@ -718,23 +778,18 @@ extension JFNewsDetailViewController: JFNewsBottomBarDelegate, JFCommentCommitVi
 }
 
 // MARK: - WKNavigationDelegate
-extension JFNewsDetailViewController: WKNavigationDelegate {
+extension JFNewsDetailViewController: UIWebViewDelegate {
     
-    func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
-        print("didFinishNavigation")
-        webView.evaluateJavaScript("document.body.offsetHeight") { (result, error) in
-            if let height = result {
-                let frame = webView.frame
-                webView.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, CGFloat(height as! NSNumber) + 20)
-                self.tableView.reloadData()
-                self.activityView.stopAnimating()
-            }
+    func webViewDidFinishLoad(webView: UIWebView) {
+        let result = webView.stringByEvaluatingJavaScriptFromString("document.body.offsetHeight")
+        if let height = result {
+            let frame = webView.frame
+            webView.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, CGFloat((height as NSString).floatValue) + 20)
+            self.tableView.reloadData()
+            self.activityView.stopAnimating()
         }
     }
     
-    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
-        return nil
-    }
 }
 
 // MARK: - JFStarAndShareCellDelegate

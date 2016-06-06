@@ -105,6 +105,11 @@
 		B2C866031D051C1900A5B1FD /* JFPopoverDismissAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C866001D051C1900A5B1FD /* JFPopoverDismissAnimation.swift */; };
 		B2C866041D051C1900A5B1FD /* JFPopoverModalAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C866011D051C1900A5B1FD /* JFPopoverModalAnimation.swift */; };
 		B2C866051D051C1900A5B1FD /* JFPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C866021D051C1900A5B1FD /* JFPresentationController.swift */; };
+		B2C8660E1D056D3000A5B1FD /* webViewHtml.html in Resources */ = {isa = PBXBuildFile; fileRef = B2C8660A1D056D3000A5B1FD /* webViewHtml.html */; };
+		B2C8660F1D056D3000A5B1FD /* WebViewJavascriptBridge.js.txt in Resources */ = {isa = PBXBuildFile; fileRef = B2C8660C1D056D3000A5B1FD /* WebViewJavascriptBridge.js.txt */; };
+		B2C866101D056D3000A5B1FD /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C8660D1D056D3000A5B1FD /* WebViewJavascriptBridge.m */; };
+		B2C866141D05E98100A5B1FD /* loading.png in Resources */ = {isa = PBXBuildFile; fileRef = B2C866131D05E98100A5B1FD /* loading.png */; };
+		B2C866161D05EF1900A5B1FD /* HYQiHei-50J.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B2C866151D05EF1900A5B1FD /* HYQiHei-50J.ttf */; };
 		B2DD3FA31CB7BDF60092C717 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B2DD3FA21CB7BDF60092C717 /* libz.tbd */; };
 		B2F9EC561D03CBC800FC7E48 /* JFNewFeatureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F9EC551D03CBC800FC7E48 /* JFNewFeatureCell.swift */; };
 		B2F9EC5A1D03F42600FC7E48 /* JFPanGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F9EC591D03F42600FC7E48 /* JFPanGestureRecognizer.swift */; };
@@ -280,6 +285,12 @@
 		B2C866001D051C1900A5B1FD /* JFPopoverDismissAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFPopoverDismissAnimation.swift; sourceTree = "<group>"; };
 		B2C866011D051C1900A5B1FD /* JFPopoverModalAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFPopoverModalAnimation.swift; sourceTree = "<group>"; };
 		B2C866021D051C1900A5B1FD /* JFPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFPresentationController.swift; sourceTree = "<group>"; };
+		B2C8660A1D056D3000A5B1FD /* webViewHtml.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = webViewHtml.html; sourceTree = "<group>"; };
+		B2C8660B1D056D3000A5B1FD /* WebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge.h; sourceTree = "<group>"; };
+		B2C8660C1D056D3000A5B1FD /* WebViewJavascriptBridge.js.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WebViewJavascriptBridge.js.txt; sourceTree = "<group>"; };
+		B2C8660D1D056D3000A5B1FD /* WebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridge.m; sourceTree = "<group>"; };
+		B2C866131D05E98100A5B1FD /* loading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loading.png; sourceTree = "<group>"; };
+		B2C866151D05EF1900A5B1FD /* HYQiHei-50J.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HYQiHei-50J.ttf"; sourceTree = "<group>"; };
 		B2DD3F9A1CB7BDC20092C717 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		B2DD3F9C1CB7BDCF0092C717 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		B2DD3F9E1CB7BDDB0092C717 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -415,6 +426,8 @@
 		B264A2BE1D016C0D00C72E13 /* LiuAGeIOS */ = {
 			isa = PBXGroup;
 			children = (
+				B2C866131D05E98100A5B1FD /* loading.png */,
+				B2C866151D05EF1900A5B1FD /* HYQiHei-50J.ttf */,
 				B264A3681D016C0D00C72E13 /* Info.plist */,
 				B264A2C01D016C0D00C72E13 /* LaunchScreen.storyboard */,
 				B264A2BF1D016C0D00C72E13 /* Assets.xcassets */,
@@ -801,6 +814,10 @@
 		B264A3DC1D018DC800C72E13 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				B2C8660A1D056D3000A5B1FD /* webViewHtml.html */,
+				B2C8660B1D056D3000A5B1FD /* WebViewJavascriptBridge.h */,
+				B2C8660C1D056D3000A5B1FD /* WebViewJavascriptBridge.js.txt */,
+				B2C8660D1D056D3000A5B1FD /* WebViewJavascriptBridge.m */,
 				B264A3DD1D018DC800C72E13 /* JFNewsDetailViewController.swift */,
 				B264A3DE1D018DC800C72E13 /* JFPhotoDetailViewController.swift */,
 			);
@@ -1025,6 +1042,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B264A36C1D016C0D00C72E13 /* Assets.xcassets in Resources */,
+				B2C8660E1D056D3000A5B1FD /* webViewHtml.html in Resources */,
 				B264A4151D018DC800C72E13 /* JFNewsBottomBar.xib in Resources */,
 				B264A3AE1D016C0D00C72E13 /* JFRegisterViewController.xib in Resources */,
 				B264A41C1D018DC800C72E13 /* JFNewsNoPicCell.xib in Resources */,
@@ -1033,7 +1051,10 @@
 				B264A4101D018DC800C72E13 /* JFCommentCell.xib in Resources */,
 				B264A3A21D016C0D00C72E13 /* JFForgotViewController.xib in Resources */,
 				B264A41E1D018DC800C72E13 /* JFNewsOnePicCell.xib in Resources */,
+				B2C866161D05EF1900A5B1FD /* HYQiHei-50J.ttf in Resources */,
+				B2C8660F1D056D3000A5B1FD /* WebViewJavascriptBridge.js.txt in Resources */,
 				B264A3D41D016C0D00C72E13 /* Info.plist in Resources */,
+				B2C866141D05E98100A5B1FD /* loading.png in Resources */,
 				B2FA0E7F1D01C0A900EDBF53 /* JFNewsViewController.storyboard in Resources */,
 				B264A3CE1D016C0D00C72E13 /* WeiboSDK.bundle in Resources */,
 				B264A41A1D018DC800C72E13 /* JFStarAndShareCell.xib in Resources */,
@@ -1213,6 +1234,7 @@
 				B264A3741D016C0D00C72E13 /* UIView+Extension.swift in Sources */,
 				B264A4211D018DC800C72E13 /* JFTopLabel.swift in Sources */,
 				B264A4031D018DC800C72E13 /* JFCommentTableViewController.swift in Sources */,
+				B2C866101D056D3000A5B1FD /* WebViewJavascriptBridge.m in Sources */,
 				B264A3B01D016C0D00C72E13 /* JFUserCommentModel.swift in Sources */,
 				B264A3B51D016C0D00C72E13 /* JFProfileCellSwitchModel.swift in Sources */,
 				B264A36F1D016C0D00C72E13 /* AppDelegate.swift in Sources */,

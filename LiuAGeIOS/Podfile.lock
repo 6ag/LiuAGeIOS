@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (3.4.0)
+  - CryptoSwift (0.4.1)
   - GRMustache.swift (1.0.1)
   - IQKeyboardManagerSwift (4.0.3)
   - MJRefresh (3.1.0)
@@ -22,6 +23,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 3.4.0)
+  - CryptoSwift
   - GRMustache.swift (~> 1.0)
   - IQKeyboardManagerSwift
   - MJRefresh (~> 3.1.0)
@@ -34,6 +36,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Alamofire: c19a627cefd6a95f840401c49ab1f124e07f54ee
+  CryptoSwift: 25b5aff3f260967391f8fff2e9abe4254d2c6fd5
   GRMustache.swift: 36a9a277311f6492b7b2c50b0458812df06899a4
   IQKeyboardManagerSwift: b6883b720b0e76473692fdc80828442566e1075f
   MJRefresh: 743e6404967d1c2c688472ea3ecfde247d872db4
@@ -47,6 +50,6 @@ SPEC CHECKSUMS:
   YYImage: 2cc79ed49b9549b71c6715cefe7b0f5ab3d33abf
   YYWebImage: 8da75a611fd0d2e0f58a273f9ca0bc731614cb0d
 
-PODFILE CHECKSUM: c55d8ae07bb65440e159c8a923dd29fe004a6b33
+PODFILE CHECKSUM: 59c5f36c70c8f5c2ba8bb44c3196dcbd9925d7d1
 
 COCOAPODS: 1.0.1
