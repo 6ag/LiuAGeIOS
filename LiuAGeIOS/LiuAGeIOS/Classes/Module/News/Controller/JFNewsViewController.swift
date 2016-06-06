@@ -97,13 +97,15 @@ class JFNewsViewController: UIViewController {
         UIView.animateWithDuration(0.5, animations: {
             self.arrowButton.imageView!.transform = CGAffineTransformIdentity
             }, completion: { (_) in
+                // 赋值重新排序后的栏目数据
                 self.selectedArray = self.editColumnVc.selectedArray
                 self.optionalArray = self.editColumnVc.optionalArray
                 NSUserDefaults.standardUserDefaults().setObject(self.selectedArray, forKey: "selectedArray")
                 NSUserDefaults.standardUserDefaults().setObject(self.optionalArray, forKey: "optionalArray")
+                
+                // 咋判断啥时候需要刷新？咋刷新呢
                 self.prepareUI()
         })
-        
     }
     
     /**
@@ -178,10 +180,10 @@ class JFNewsViewController: UIViewController {
      配置栏目按钮点击
      */
     @IBAction func didTappedEditColumnButton(sender: UIButton) {
-            
+        
         editColumnVc.selectedArray = selectedArray
         editColumnVc.optionalArray = optionalArray
-        presentViewController(editColumnVc, animated: true, completion: { 
+        presentViewController(editColumnVc, animated: true, completion: {
             
         })
         
@@ -203,7 +205,7 @@ class JFNewsViewController: UIViewController {
             selectedArray = tempSelectedArray != nil ? tempSelectedArray : [[String : String]]()
             optionalArray = tempOptionalArray != nil ? tempOptionalArray : [[String : String]]()
         } else {
-            // 默认栏目顺序
+            // 默认栏目顺序 - 可以直接存plist文件
             selectedArray = [
                 [
                     "classid" : "0",
@@ -514,23 +516,44 @@ extension JFNewsViewController: JFProfileViewControllerDelegate {
     func didTappedMyDutyCell() {
         navigationController?.pushViewController(JFDutyViewController(), animated: true)
     }
+    
+    /**
+     扫描微信二维码
+     */
+    func didTappedScanWeixin() {
+        print("扫描微信二维码")
+    }
+    
+    /**
+     点赞
+     */
+    func didTappedStar() {
+        print("点赞")
+    }
 }
 
-// MARK: - 栏目管理转场动画事件
+// MARK: - 栏目管理自定义转场动画事件
 extension JFNewsViewController: UIViewControllerTransitioningDelegate {
     
-    // 返回一个控制modal视图大小的对象
+    /**
+     返回一个控制modal视图大小的对象
+     */
     func presentationControllerForPresentedViewController(presented: UIViewController, presentingViewController presenting: UIViewController, sourceViewController source: UIViewController) -> UIPresentationController? {
         return JFPresentationController(presentedViewController: presented, presentingViewController: presenting)
     }
     
-    // 返回一个控制器modal动画效果的对象
+    /**
+     返回一个控制器modal动画效果的对象
+     */
     func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return JFPopoverModalAnimation()
     }
     
-    // 返回一个控制dismiss动画效果的对象
+    /**
+     返回一个控制dismiss动画效果的对象
+     */
     func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return JFPopoverDismissAnimation()
     }
+    
 }

@@ -9,7 +9,14 @@
 import UIKit
 import SnapKit
 
+protocol JFProfileFooterViewDelegate {
+    func didTappedWxBgView()
+    func didTappedStarBgView()
+}
+
 class JFProfileFooterView: UIView {
+    
+    var delegate: JFProfileFooterViewDelegate?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -60,6 +67,21 @@ class JFProfileFooterView: UIView {
             make.centerX.equalTo(starBgView)
             make.top.equalTo(starImageView.snp_bottom).offset(10)
         }
+        
+    }
+    
+    /**
+     点击微信
+     */
+    func didTappedWxBgView(gesture: UITapGestureRecognizer) {
+        delegate?.didTappedWxBgView()
+    }
+    
+    /**
+     点击点赞
+     */
+    func didTappedStarBgView(gesture: UITapGestureRecognizer) {
+        delegate?.didTappedStarBgView()
     }
     
     // MARK: - 懒加载
@@ -67,12 +89,14 @@ class JFProfileFooterView: UIView {
     private lazy var wxBgView: UIView = {
         let wxBgView = UIView()
         wxBgView.backgroundColor = UIColor.clearColor()
+        wxBgView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTappedWxBgView(_:))))
         return wxBgView
     }()
     
     private lazy var starBgView: UIView = {
         let starBgView = UIView()
         starBgView.backgroundColor = UIColor.clearColor()
+        starBgView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTappedStarBgView(_:))))
         return starBgView
     }()
     

@@ -16,6 +16,8 @@ protocol JFProfileViewControllerDelegate {
     func didTappedSettingCell()       // 设置
     func didTappedFeedbackCell()      // 意见反馈
     func didTappedMyDutyCell()        // 关于六阿哥
+    func didTappedScanWeixin()        // 扫描微信二维码
+    func didTappedStar()              // 点赞 - 跳转到AppStore
     
 }
 
@@ -240,6 +242,7 @@ class JFProfileViewController: JFBaseTableViewController {
         } else if section == 2 {
             // 底部视图
             let footerView = JFProfileFooterView(frame: CGRect(x: 15, y: 0, width: SCREEN_WIDTH * 0.55 - 30, height: 80))
+            footerView.delegate = self
             contentView.addSubview(footerView)
         }
         return contentView
@@ -278,4 +281,22 @@ extension JFProfileViewController: JFProfileHeaderViewDelegate {
         viewDismiss()
     }
     
+}
+
+// MARK: - JFProfileFooterViewDelegate
+extension JFProfileViewController: JFProfileFooterViewDelegate {
+    
+    /**
+     点击扫描微信二维码
+     */
+    func didTappedWxBgView() {
+        profileDelegate?.didTappedScanWeixin()
+    }
+    
+    /**
+     点击点赞
+     */
+    func didTappedStarBgView() {
+        profileDelegate?.didTappedStar()
+    }
 }
