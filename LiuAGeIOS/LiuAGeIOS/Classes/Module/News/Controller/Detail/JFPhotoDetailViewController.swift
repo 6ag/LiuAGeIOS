@@ -475,11 +475,40 @@ extension JFPhotoDetailViewController: JFPhotoDetailCellDelegate {
     }
     
     /**
+     长按保存图片
+     */
+    func didLongPressPhotoDetailView(scrollView: UIScrollView, currentImage: UIImage?) {
+        
+        // 如果图片都还没加载出来，保存个毛线
+        guard let image = currentImage else {return}
+        
+        let alertC = UIAlertController(title: "保存图片到相册", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
+        let save = UIAlertAction(title: "保存", style: UIAlertActionStyle.Default) { (action) in
+            UIImageWriteToSavedPhotosAlbum(image, self, #selector(JFPhotoDetailViewController.image(_:didFinishSavingWithError:contextInfo:)), nil)
+        }
+        let cancel = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel) { (action) in }
+        alertC.addAction(save)
+        alertC.addAction(cancel)
+        presentViewController(alertC, animated: true) {}
+    }
+    
+    /**
      持续滑动中判断偏移量
      */
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if scrollView.contentOffset.x <= -30 {
             navigationController?.popViewControllerAnimated(true)
+        }
+    }
+    
+    /**
+     保存图片到相册
+     */
+    func image(image: UIImage, didFinishSavingWithError error: NSError?, contextInfo:UnsafePointer<Void>) {
+        if let _ = error {
+            JFProgressHUD.showInfoWithStatus("保存失败")
+        } else {
+            JFProgressHUD.showInfoWithStatus("保存成功")
         }
     }
 }

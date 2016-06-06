@@ -12,8 +12,9 @@ import SnapKit
 
 protocol JFPhotoDetailCellDelegate {
     
-    func didOneTappedPhotoDetailView(scrollView: UIScrollView) -> Void
-    func didDoubleTappedPhotoDetailView(scrollView: UIScrollView, touchPoint: CGPoint) -> Void
+    func didOneTappedPhotoDetailView(scrollView: UIScrollView)
+    func didDoubleTappedPhotoDetailView(scrollView: UIScrollView, touchPoint: CGPoint)
+    func didLongPressPhotoDetailView(scrollView: UIScrollView, currentImage: UIImage?)
 }
 
 class JFPhotoDetailCell: UICollectionViewCell {
@@ -97,6 +98,9 @@ class JFPhotoDetailCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    /**
+     准备UI
+     */
     private func prepareUI() {
         
         // 添加单击双击事件
@@ -106,6 +110,9 @@ class JFPhotoDetailCell: UICollectionViewCell {
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(didDoubleTappedPhotoDetailView(_:)))
         doubleTap.numberOfTapsRequired = 2
         addGestureRecognizer(doubleTap)
+        
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(didLongPressPhotoDetailView(_:)))
+        addGestureRecognizer(longPress)
         
         // 如果监听到双击事件，单击事件则不触发
         oneTap.requireGestureRecognizerToFail(doubleTap)
@@ -121,6 +128,32 @@ class JFPhotoDetailCell: UICollectionViewCell {
         
         indicator.snp_makeConstraints { (make) in
             make.center.equalTo(self)
+        }
+    }
+    
+    // MARK: - 各种手势
+    /**
+     图秀详情界面单击事件，隐藏除去图片外的所有UI
+     */
+    func didOneTappedPhotoDetailView(tap: UITapGestureRecognizer) {
+        delegate?.didOneTappedPhotoDetailView(scrollView)
+    }
+    
+    /**
+     图秀详情界面双击事件，缩放
+     */
+    func didDoubleTappedPhotoDetailView(tap: UITapGestureRecognizer) {
+        let touchPoint = tap.locationInView(self)
+        delegate?.didDoubleTappedPhotoDetailView(scrollView, touchPoint: touchPoint)
+    }
+    
+    /**
+     图秀详情长按事件
+     */
+    func didLongPressPhotoDetailView(longPress: UILongPressGestureRecognizer) {
+        if longPress.state == .Began {
+            // 长按手势会触发2次 所以，你懂得
+            delegate?.didLongPressPhotoDetailView(scrollView, currentImage: picImageView.image)
         }
     }
     
@@ -164,21 +197,6 @@ extension JFPhotoDetailCell: UIScrollViewDelegate {
             // 设置scrollView的contentInset来居中图片
             scrollView.contentInset = UIEdgeInsets(top: offestY, left: offestX, bottom: offestY, right: offestX)
         }
-    }
-    
-    /**
-     图秀详情界面单击事件，隐藏除去图片外的所有UI
-     */
-    func didOneTappedPhotoDetailView(tap: UITapGestureRecognizer) -> Void {
-        delegate?.didOneTappedPhotoDetailView(scrollView)
-    }
-    
-    /**
-     图秀详情界面双击事件，缩放
-     */
-    func didDoubleTappedPhotoDetailView(tap: UITapGestureRecognizer) -> Void {
-        let touchPoint = tap.locationInView(self)
-        delegate?.didDoubleTappedPhotoDetailView(scrollView, touchPoint: touchPoint)
     }
     
 }
