@@ -59,12 +59,8 @@ class JFNewsPhotoBrowserViewController: UIViewController {
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
     }
     
-    deinit {
-        print("图库详情释放了")
-    }
-    
     /**
-     滚动停止后调用，判断当然显示的第一张图片
+     滚动停止后调用，更新底部工具条文字
      */
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         
@@ -209,17 +205,16 @@ extension JFNewsPhotoBrowserViewController: UICollectionViewDelegate, UICollecti
 extension JFNewsPhotoBrowserViewController: JFPhotoDetailCellDelegate {
     
     /**
-     单击事件
+     单击事件退出
      */
     func didOneTappedPhotoDetailView(scrollView: UIScrollView) -> Void {
         dismissViewControllerAnimated(true) {}
     }
     
     /**
-     双击事件
+     双击事件放大
      */
     func didDoubleTappedPhotoDetailView(scrollView: UIScrollView, touchPoint: CGPoint) -> Void {
-        
         if scrollView.zoomScale <= 1.0 {
             let scaleX = touchPoint.x + scrollView.contentOffset.x
             let scaleY = touchPoint.y + scrollView.contentOffset.y
@@ -233,7 +228,5 @@ extension JFNewsPhotoBrowserViewController: JFPhotoDetailCellDelegate {
      长按保存图片
      */
     func didLongPressPhotoDetailView(scrollView: UIScrollView, currentImage: UIImage?) {
-        
-        
     }
 }

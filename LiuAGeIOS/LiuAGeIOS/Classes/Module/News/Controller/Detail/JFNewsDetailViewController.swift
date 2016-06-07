@@ -371,10 +371,10 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
     func getImageFromDownloaderOrDiskByImageUrlArray(imageArray: [AnyObject]) {
         
         for dict in imageArray {
-            // 图片的url - YYWebImage缓存图片的key是用图片url，文件名是用key进行md5编码，不过好像作者没有提供根据key获取文件名的方法。得自己进行md5编码，我真的好方
+            
             let imageString = dict["url"] as! String
             
-            // 存储文章图片的目录
+            // 存储文章图片的目录 - 这些代码可以封装起来。提供方法快速创建自定义的imageCache和根据url获取文件路径
             var path = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true).last
             path?.appendContentsOf("/article.image.cache")
             
