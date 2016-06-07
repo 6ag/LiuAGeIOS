@@ -273,9 +273,9 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
                     }
                 }
                 
-                self.tableView.reloadData()
             }
             
+            self.tableView.reloadData()
         }
         
     }

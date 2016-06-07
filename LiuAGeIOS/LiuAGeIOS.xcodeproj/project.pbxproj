@@ -123,9 +123,9 @@
 		B2FFCAD11CE48ED600ADC54C /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2FFCAD01CE48ED600ADC54C /* ImageIO.framework */; };
 		B2FFDDDD1D06552D00C28DD1 /* HYQiHei-50J.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B2FFDDD91D06552D00C28DD1 /* HYQiHei-50J.ttf */; };
 		B2FFDDDE1D06552D00C28DD1 /* loading.png in Resources */ = {isa = PBXBuildFile; fileRef = B2FFDDDA1D06552D00C28DD1 /* loading.png */; };
-		B2FFDDE01D06552D00C28DD1 /* WebViewJavascriptBridge.js.txt in Resources */ = {isa = PBXBuildFile; fileRef = B2FFDDDC1D06552D00C28DD1 /* WebViewJavascriptBridge.js.txt */; };
+		B2FFDDE01D06552D00C28DD1 /* WebViewJavascriptBridge.js in Resources */ = {isa = PBXBuildFile; fileRef = B2FFDDDC1D06552D00C28DD1 /* WebViewJavascriptBridge.js */; };
 		B2FFDDE41D06555D00C28DD1 /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FFDDE31D06555D00C28DD1 /* WebViewJavascriptBridge.m */; };
-		B2FFDDE61D065A8A00C28DD1 /* webViewHtml.html in Resources */ = {isa = PBXBuildFile; fileRef = B2FFDDE51D065A8A00C28DD1 /* webViewHtml.html */; };
+		B2FFDDE61D065A8A00C28DD1 /* article.html in Resources */ = {isa = PBXBuildFile; fileRef = B2FFDDE51D065A8A00C28DD1 /* article.html */; };
 		BF8538DB12052DFF05FDA012 /* Pods_LiuAGeIOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63FA763248D9C2FB48EB29E8 /* Pods_LiuAGeIOSTests.framework */; };
 		C6CED679D52C2E3C6398DF0C /* Pods_LiuAGeIOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D77ED46EE9805FA1B77F2F60 /* Pods_LiuAGeIOSUITests.framework */; };
 		DE47C2D2369AA9CF6893F251 /* Pods_LiuAGeIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98B70C3D9D0370EA79CFF7D7 /* Pods_LiuAGeIOS.framework */; };
@@ -306,10 +306,10 @@
 		B2FFCAD01CE48ED600ADC54C /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		B2FFDDD91D06552D00C28DD1 /* HYQiHei-50J.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HYQiHei-50J.ttf"; sourceTree = "<group>"; };
 		B2FFDDDA1D06552D00C28DD1 /* loading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loading.png; sourceTree = "<group>"; };
-		B2FFDDDC1D06552D00C28DD1 /* WebViewJavascriptBridge.js.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WebViewJavascriptBridge.js.txt; sourceTree = "<group>"; };
+		B2FFDDDC1D06552D00C28DD1 /* WebViewJavascriptBridge.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = WebViewJavascriptBridge.js; sourceTree = "<group>"; };
 		B2FFDDE21D06555D00C28DD1 /* WebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge.h; sourceTree = "<group>"; };
 		B2FFDDE31D06555D00C28DD1 /* WebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridge.m; sourceTree = "<group>"; };
-		B2FFDDE51D065A8A00C28DD1 /* webViewHtml.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = webViewHtml.html; sourceTree = "<group>"; };
+		B2FFDDE51D065A8A00C28DD1 /* article.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = article.html; sourceTree = "<group>"; };
 		D77ED46EE9805FA1B77F2F60 /* Pods_LiuAGeIOSUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LiuAGeIOSUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF4DA7B147DBE031E1CC0FEC /* Pods-LiuAGeIOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LiuAGeIOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-LiuAGeIOS/Pods-LiuAGeIOS.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -767,8 +767,8 @@
 			children = (
 				B2FFDDD91D06552D00C28DD1 /* HYQiHei-50J.ttf */,
 				B2FFDDDA1D06552D00C28DD1 /* loading.png */,
-				B2FFDDDC1D06552D00C28DD1 /* WebViewJavascriptBridge.js.txt */,
-				B2FFDDE51D065A8A00C28DD1 /* webViewHtml.html */,
+				B2FFDDDC1D06552D00C28DD1 /* WebViewJavascriptBridge.js */,
+				B2FFDDE51D065A8A00C28DD1 /* article.html */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -1054,7 +1054,7 @@
 				B264A3AE1D016C0D00C72E13 /* JFRegisterViewController.xib in Resources */,
 				B264A41C1D018DC800C72E13 /* JFNewsNoPicCell.xib in Resources */,
 				B264A3D51D016C0D00C72E13 /* LaunchScreen.strings in Resources */,
-				B2FFDDE01D06552D00C28DD1 /* WebViewJavascriptBridge.js.txt in Resources */,
+				B2FFDDE01D06552D00C28DD1 /* WebViewJavascriptBridge.js in Resources */,
 				B264A3AC1D016C0D00C72E13 /* JFLoginViewController.xib in Resources */,
 				B264A4101D018DC800C72E13 /* JFCommentCell.xib in Resources */,
 				B264A3A21D016C0D00C72E13 /* JFForgotViewController.xib in Resources */,
@@ -1062,7 +1062,7 @@
 				B264A3D41D016C0D00C72E13 /* Info.plist in Resources */,
 				B2FA0E7F1D01C0A900EDBF53 /* JFNewsViewController.storyboard in Resources */,
 				B264A3CE1D016C0D00C72E13 /* WeiboSDK.bundle in Resources */,
-				B2FFDDE61D065A8A00C28DD1 /* webViewHtml.html in Resources */,
+				B2FFDDE61D065A8A00C28DD1 /* article.html in Resources */,
 				B264A41A1D018DC800C72E13 /* JFStarAndShareCell.xib in Resources */,
 				B264A3D21D016C0D00C72E13 /* ShareSDK.bundle in Resources */,
 				B264A3C91D016C0D00C72E13 /* ShareSDKUI.bundle in Resources */,

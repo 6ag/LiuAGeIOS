@@ -412,6 +412,7 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
      */
     func loadWebViewContent(model: JFArticleDetailModel) {
         
+        // 如果不熟悉网页，可以换成GRMutache模板更配哦
         var html = ""
         let css = "<style type=\"text/css\">" +
             "@font-face {" + // 字体
@@ -430,20 +431,21 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
             "color: #3c3c3c;" +
             "font-weight: bold;" +
             "font-family: '汉仪旗黑'" +
+            "margin-top: 5px;" +
             "}" +
             ".time {" + // 来源、时间
             "text-align: left;" +
             "font-size: 13px;" +
             "color: #BDBDBD;" +
             "margin-top: 5px;" +
-            "margin-bottom: 5px;" +
+            "margin-bottom: 10px" +
             "}" +
             ".content {" + // 文章内容
             "font-size: \(NSUserDefaults.standardUserDefaults().integerForKey(CONTENT_FONT_SIZE))px;" +
             "font-family: '汉仪旗黑'" +
             "}" +
             ".content p {" +
-            "margin: 15px 0px;" +
+            "margin: 0px 0px 15px 0px;" + // 上右下左
             "}" +
             ".content img {" +
             "display: block;" +
@@ -456,11 +458,8 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
         html.appendContentsOf("<div class=\"title\">\(model.title!)</div>")
         html.appendContentsOf("<div class=\"time\">\(model.befrom!)&nbsp;&nbsp;&nbsp;&nbsp;\(model.newstime!.timeStampToString())</div>")
         
-        // 正则匹配 - 这一步会放到后台
-        model.newscontent
-        
         // 临时正文 - 这样做的目的是不修改模型
-        var tempNewstext = model.newstext
+        var tempNewstext = model.newscontent
         
         // 有图片才去拼接图片
         if model.allphoto!.count > 0 {
@@ -468,7 +467,7 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
             // 拼接图片标签
             for dict in model.allphoto! {
                 // 图片占位符范围
-                let range = (tempNewstext! as NSString).rangeOfString(dict["ref"] as! String)
+                let range = (tempNewstext as NSString).rangeOfString(dict["ref"] as! String)
                 
                 // 原来的宽高
                 var width = CGFloat((dict["pixel"]!!["width"] as! NSNumber).floatValue)
@@ -485,19 +484,19 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
                 let loading = NSBundle.mainBundle().pathForResource("loading", ofType: "png")
                 
                 // img标签
-                let imgTag = "<img src='\(loading!)' id='\(dict["url"] as! String)' width='\(width)' height='\(height)' hspace='0.0' vspace='5'>"
-                tempNewstext = (tempNewstext! as NSString).stringByReplacingOccurrencesOfString(dict["ref"] as! String, withString: imgTag, options: NSStringCompareOptions.CaseInsensitiveSearch, range: range)
+                let imgTag = "<img src='\(loading!)' id='\(dict["url"] as! String)' width='\(width)' height='\(height)' />"
+                tempNewstext = (tempNewstext as NSString).stringByReplacingOccurrencesOfString(dict["ref"] as! String, withString: imgTag, options: NSStringCompareOptions.CaseInsensitiveSearch, range: range)
             }
             
             // 加载图片 - 从缓存中获取图片的本地绝对路径，发送给webView显示
             getImageFromDownloaderOrDiskByImageUrlArray(model.allphoto!)
         }
         
-        html.appendContentsOf("<div class=\"content\">\(tempNewstext!)</div>")
+        html.appendContentsOf("<div class=\"content\">\(tempNewstext)</div>")
         html.appendContentsOf("</div>")
         
         // 从本地加载网页模板，替换新闻主页
-        let templatePath = NSBundle.mainBundle().pathForResource("webViewHtml", ofType: "html")!
+        let templatePath = NSBundle.mainBundle().pathForResource("article", ofType: "html")!
         let template = (try! String(contentsOfFile: templatePath, encoding: NSUTF8StringEncoding)) as NSString
         html = template.stringByReplacingOccurrencesOfString("<p>mainnews</p>", withString: html, options: NSStringCompareOptions.CaseInsensitiveSearch, range: template.rangeOfString("<p>mainnews</p>"))
         let baseURL = NSURL(fileURLWithPath: templatePath as String)
