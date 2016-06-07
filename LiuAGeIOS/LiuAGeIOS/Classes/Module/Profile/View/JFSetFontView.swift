@@ -9,7 +9,7 @@
 import UIKit
 
 protocol JFSetFontViewDelegate: NSObjectProtocol {
-    func didChangeFontSize() -> Void
+    func didChangeFontSize(fontSize: Int)
 }
 
 class JFSetFontView: UIView {
@@ -45,8 +45,7 @@ class JFSetFontView: UIView {
         // 字体大小系数 1 - 6
         let scale = currentButton.tag
         let fontSize = minSize + scale * 2
-        NSUserDefaults.standardUserDefaults().setInteger(fontSize, forKey: CONTENT_FONT_SIZE)
-        delegate?.didChangeFontSize()
+        delegate?.didChangeFontSize(fontSize)
     }
     
     @IBAction func didTappedFontButton(button: UIButton) {

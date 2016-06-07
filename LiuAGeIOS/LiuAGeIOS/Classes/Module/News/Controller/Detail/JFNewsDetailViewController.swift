@@ -25,7 +25,7 @@ class JFNewsDetailViewController: UIViewController {
     /// 详情页面模型
     var model: JFArticleDetailModel? {
         didSet {
-            // 更新页面数据
+            // 更新webView
             loadWebViewContent(model!)
             
             // 更新收藏状态
@@ -33,11 +33,11 @@ class JFNewsDetailViewController: UIViewController {
         }
     }
     
-    /// 是否已经加载过
-    var isLoaded: Bool = false
-    
     /// 分享的图片url
     var sharePicUrl: String = ""
+    
+    /// 是否已经加载过webView
+    var isLoaded = false
     
     /// 相关连接模型
     var otherLinks = [JFOtherLinkModel]()
@@ -69,7 +69,7 @@ class JFNewsDetailViewController: UIViewController {
             responseCallback("Response from testObjcCallback")
         })
         
-//        WebViewJavascriptBridge.enableLogging()
+        //        WebViewJavascriptBridge.enableLogging()
         
         tableView.registerClass(UITableViewCell.classForCoder(), forCellReuseIdentifier: detailContentIdentifier)
         tableView.registerNib(UINib(nibName: "JFStarAndShareCell", bundle: nil), forCellReuseIdentifier: detailStarAndShareIdentifier)
@@ -206,13 +206,13 @@ class JFNewsDetailViewController: UIViewController {
             ]
         }
         
-//        print(parameters)
+        //        print(parameters)
         
         activityView.startAnimating()
         JFNetworkTool.shareNetworkTool.get(ARTICLE_DETAIL, parameters: parameters) { (success, result, error) -> () in
             if success == true {
                 if let successResult = result {
-//                    print(successResult)
+                    //                    print(successResult)
                     // 相关连接
                     self.otherLinks.removeAll()
                     let otherLinks = successResult["data"]["otherLink"].array
@@ -356,27 +356,30 @@ class JFNewsDetailViewController: UIViewController {
 // MARK: - UITableViewDelegate, UITableViewDataSource
 extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate {
     
-    func replaceUrlSpecialString(string: String) -> String {
-        return (string as NSString).stringByReplacingOccurrencesOfString("/", withString: "_")
-    }
-    
+    /**
+     下载或从缓存中获取图片，发送给webView
+     */
     func getImageFromDownloaderOrDiskByImageUrlArray(imageArray: [AnyObject]) {
         
         for dict in imageArray {
-            // 图片的url
+            // 图片的url - YYWebImage缓存图片的key是用图片url，文件名是用key进行md5编码，不过好像作者没有提供根据key获取文件名的方法。得自己进行md5编码，我真的好方
             let imageString = dict["url"] as! String
             
             if YYImageCache.sharedCache().containsImageForKey(imageString) {
                 let imagePath = "\(YYImageCache.sharedCache().diskCache.path)/data/\(imageString.md5())"
+                // 发送图片占位标识和本地绝对路径给webView
                 bridge?.send("replaceimage\(imageString),\(imagePath)")
             } else {
-                YYWebImageManager.sharedManager().requestImageWithURL(NSURL(string: imageString)!, options: YYWebImageOptions.AllowBackgroundTask, progress: { (_, _) in
+                YYWebImageManager.sharedManager().requestImageWithURL(NSURL(string: imageString)!, options: YYWebImageOptions.ShowNetworkActivity, progress: { (_, _) in
                     }, transform: { (image, url) -> UIImage? in
                         return image
                     }, completion: { (image, url, type, stage, error) in
-                        guard let _ = image else {return}
-                        let imagePath = "\(YYImageCache.sharedCache().diskCache.path)/data/\(imageString.md5())"
-                        self.bridge?.send("replaceimage\(imageString),\(imagePath)")
+                        dispatch_sync(dispatch_get_main_queue(), {
+                            guard let _ = image else {return}
+                            let imagePath = "\(YYImageCache.sharedCache().diskCache.path)/data/\(imageString.md5())"
+                            // 发送图片占位标识和本地绝对路径给webView
+                            self.bridge?.send("replaceimage\(imageString),\(imagePath)")
+                        })
                 })
             }
             
@@ -392,12 +395,24 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
     func loadWebViewContent(model: JFArticleDetailModel) {
         
         var html = ""
+        
         let css = "<style type=\"text/css\">" +
+            "@font-face {" + // 字体
+            "font-family: '汉仪旗黑';" +
+            "src: url('\(NSBundle.mainBundle().pathForResource("HYQiHei-50J", ofType: "ttf")!)');" +
+            "}" +
+            "*{ padding:0px; margin:0px;}" +
+            ".container {" + // 正文主体（包括标题、时间、来源）
+            "width: 96%;" +
+            "margin-left: 2%;" +
+            "margin-top: 5px" +
+            "}" +
             ".title {" + // 标题
             "text-align: left;" +
             "font-size: 20px;" +
             "color: #3c3c3c;" +
             "font-weight: bold;" +
+            "font-family: '汉仪旗黑'" +
             "}" +
             ".time {" + // 来源、时间
             "text-align: left;" +
@@ -407,59 +422,69 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
             "margin-bottom: 5px;" +
             "}" +
             ".content {" + // 文章内容
-            "margin-top: -7px;" +
-            "width: 100%;" +
             "font-size: \(NSUserDefaults.standardUserDefaults().integerForKey(CONTENT_FONT_SIZE))px;" +
+            "font-family: '汉仪旗黑'" +
+            "}" +
+            ".content p {" +
+            "margin: 10px 0px;" +
+            "}" +
+            ".content img {" +
+            "display: block;" +
+            "margin: 15px auto;" +
             "}" +
         "</style>"
         
         html.appendContentsOf(css)
+        html.appendContentsOf("<div class=\"container\">")
         html.appendContentsOf("<div class=\"title\">\(model.title!)</div>")
         html.appendContentsOf("<div class=\"time\">\(model.befrom!)&nbsp;&nbsp;&nbsp;&nbsp;\(model.newstime!.timeStampToString())</div>")
         
-        if model.allphoto!.count == 0 {
-            // 无图
-            html.appendContentsOf("<div class=\"content\">\(model.newstext!)</div>")
-            webView.loadHTMLString(html, baseURL: nil)
-        } else {
+        // 正则匹配 - 这一步会放到后台
+        model.newscontent
+        
+        // 临时正文 - 这样做的目的是不修改模型
+        var tempNewstext = model.newstext
+        
+        // 有图片才去拼接图片
+        if model.allphoto!.count > 0 {
             
-            // 没有加载才去加载
-            if !isLoaded {
-                for dict in model.allphoto! {
-                    // 图片占位符范围
-                    let range = (model.newscontent as NSString).rangeOfString(dict["ref"] as! String)
-                    
-                    // 原来的宽高
-                    let w = CGFloat((dict["pixel"]!!["width"] as! NSNumber).floatValue)
-                    let h = CGFloat((dict["pixel"]!!["height"] as! NSNumber).floatValue)
-                    let rate = (SCREEN_WIDTH - 15) / w
-                    // 计算宽高
-                    let width = w * rate
-                    let height = h * rate
-                    
-                    // 加载中的占位图
-                    let loading = NSBundle.mainBundle().pathForResource("loading", ofType: "png")
-                    
-                    // 图片html
-                    let imageString = "<img src='\(loading!)' id='\(dict["url"] as! String)' width='\(width)' height='\(height)' hspace='0.0' vspace='5'>"
-                    model.newstext = (model.newstext! as NSString).stringByReplacingOccurrencesOfString(dict["ref"] as! String, withString: imageString, options: NSStringCompareOptions.CaseInsensitiveSearch, range: range)
+            // 拼接图片标签
+            for dict in model.allphoto! {
+                // 图片占位符范围
+                let range = (tempNewstext! as NSString).rangeOfString(dict["ref"] as! String)
+                
+                // 原来的宽高
+                var width = CGFloat((dict["pixel"]!!["width"] as! NSNumber).floatValue)
+                var height = CGFloat((dict["pixel"]!!["height"] as! NSNumber).floatValue)
+                
+                // 如果图片超过了最大宽度，才等比压缩
+                if width >= SCREEN_WIDTH - 15  {
+                    let rate = (SCREEN_WIDTH - 15) / width
+                    width = width * rate
+                    height = height * rate
                 }
-                isLoaded = true
+                
+                // 加载中的占位图
+                let loading = NSBundle.mainBundle().pathForResource("loading", ofType: "png")
+                
+                // img标签
+                let imgTag = "<img src='\(loading!)' id='\(dict["url"] as! String)' width='\(width)' height='\(height)' hspace='0.0' vspace='5'>"
+                tempNewstext = (tempNewstext! as NSString).stringByReplacingOccurrencesOfString(dict["ref"] as! String, withString: imgTag, options: NSStringCompareOptions.CaseInsensitiveSearch, range: range)
             }
             
-            // 加载图片
+            // 加载图片 - 从缓存中获取图片的本地绝对路径，发送给webView显示
             getImageFromDownloaderOrDiskByImageUrlArray(model.allphoto!)
-            
-            html.appendContentsOf("<div class=\"content\">\(model.newstext!)</div>")
-            
-            // 从本地加载网页模板，替换新闻主页
-            let templatePath = NSBundle.mainBundle().pathForResource("webViewHtml", ofType: "html")!
-            let template = (try! String(contentsOfFile: templatePath, encoding: NSUTF8StringEncoding)) as NSString
-            html = template.stringByReplacingOccurrencesOfString("<p>mainnews</p>", withString: html, options: NSStringCompareOptions.CaseInsensitiveSearch, range: template.rangeOfString("<p>mainnews</p>"))
-            let baseURL = NSURL(fileURLWithPath: templatePath as String)
-            webView.loadHTMLString(html as String, baseURL: baseURL)
         }
         
+        html.appendContentsOf("<div class=\"content\">\(tempNewstext!)</div>")
+        html.appendContentsOf("</div>")
+        
+        // 从本地加载网页模板，替换新闻主页
+        let templatePath = NSBundle.mainBundle().pathForResource("webViewHtml", ofType: "html")!
+        let template = (try! String(contentsOfFile: templatePath, encoding: NSUTF8StringEncoding)) as NSString
+        html = template.stringByReplacingOccurrencesOfString("<p>mainnews</p>", withString: html, options: NSStringCompareOptions.CaseInsensitiveSearch, range: template.rangeOfString("<p>mainnews</p>"))
+        let baseURL = NSURL(fileURLWithPath: templatePath as String)
+        webView.loadHTMLString(html, baseURL: baseURL)
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -490,7 +515,7 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
         case 1:
             return 160
         case 2:
-//            return 160
+            //            return 160
             return 1
         case 3:
             return 44
@@ -516,11 +541,11 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
         case 1:
             return starAndShareCell
         case 2:
-//            let cell = UITableViewCell()
-//            let adImageView = UIImageView(frame: CGRect(x: 12, y: 0, width: SCREEN_WIDTH - 24, height: 160))
-//            adImageView.image = UIImage(named: "temp_ad")
-//            cell.contentView.addSubview(adImageView)
-//            return cell
+            //            let cell = UITableViewCell()
+            //            let adImageView = UIImageView(frame: CGRect(x: 12, y: 0, width: SCREEN_WIDTH - 24, height: 160))
+            //            adImageView.image = UIImage(named: "temp_ad")
+            //            cell.contentView.addSubview(adImageView)
+            //            return cell
             return UITableViewCell()
         case 3:
             let cell = tableView.dequeueReusableCellWithIdentifier(detailOtherLinkIdentifier)!
@@ -601,7 +626,7 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
         case 1:
             return 1
         case 2:
-//            return 20
+            //            return 20
             return 1
         case 3:
             return commentList.count == 0 ? 1 : 20
@@ -770,7 +795,9 @@ extension JFNewsDetailViewController: JFNewsBottomBarDelegate, JFCommentCommitVi
     /**
      修改了正文字体大小，需要重新显示 添加图片缓存后，目前还有问题
      */
-    func didChangeFontSize() {
+    func didChangeFontSize(fontSize: Int) {
+        
+        NSUserDefaults.standardUserDefaults().setInteger(fontSize, forKey: CONTENT_FONT_SIZE)
         loadWebViewContent(model!)
     }
 }
@@ -778,6 +805,9 @@ extension JFNewsDetailViewController: JFNewsBottomBarDelegate, JFCommentCommitVi
 // MARK: - WKNavigationDelegate
 extension JFNewsDetailViewController: UIWebViewDelegate {
     
+    /**
+     webView加载完成
+     */
     func webViewDidFinishLoad(webView: UIWebView) {
         let result = webView.stringByEvaluatingJavaScriptFromString("document.body.offsetHeight")
         if let height = result {

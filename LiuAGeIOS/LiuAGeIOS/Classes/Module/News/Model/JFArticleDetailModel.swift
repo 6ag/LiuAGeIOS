@@ -10,6 +10,9 @@ import UIKit
 
 class JFArticleDetailModel: NSObject {
     
+    /// 缓存html代码
+    var html: String?
+    
     /// 文章内容 - 计算型数据，处理newstext
     var newscontent: String {
         guard var text = newstext else {
