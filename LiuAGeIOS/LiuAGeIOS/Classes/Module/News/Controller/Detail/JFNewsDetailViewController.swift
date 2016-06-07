@@ -32,15 +32,12 @@ class JFNewsDetailViewController: UIViewController {
                 let baseURL = NSURL(fileURLWithPath: templatePath as String)
                 webView.loadHTMLString(html, baseURL: baseURL)
             } else {
-                // 没有加载过，才去初始化webView
+                // 没有加载过，才去初始化webView - 保证只加载一次
                 loadWebViewContent(model!)
             }
             
             // 更新收藏状态
             bottomBarView.collectionButton.selected = model!.havefava == "1"
-            
-            // 文章来源
-            starAndShareCell.befromLabel.text = "文章来源: \(model!.befrom!)"
         }
     }
     
@@ -49,9 +46,6 @@ class JFNewsDetailViewController: UIViewController {
     
     /// 是否已经加载过webView
     var isLoaded = false
-    
-    /// html代码
-    var htmlString = ""
     
     /// 相关连接模型
     var otherLinks = [JFOtherLinkModel]()
@@ -63,13 +57,6 @@ class JFNewsDetailViewController: UIViewController {
     let detailStarAndShareIdentifier = "detailStarAndShareIdentifier"
     let detailOtherLinkIdentifier = "detailOtherLinkIdentifier"
     let detailCommentIdentifier = "detailCommentIdentifier"
-    
-    /// 赞分享cell
-    private lazy var starAndShareCell: JFStarAndShareCell = {
-        let starAndShareCell = self.tableView.dequeueReusableCellWithIdentifier(self.detailStarAndShareIdentifier) as! JFStarAndShareCell
-        starAndShareCell.delegate = self
-        return starAndShareCell
-    }()
     
     // MARK: - 生命周期
     override func viewDidLoad() {
@@ -116,6 +103,7 @@ class JFNewsDetailViewController: UIViewController {
         tableView.registerNib(UINib(nibName: "JFStarAndShareCell", bundle: nil), forCellReuseIdentifier: detailStarAndShareIdentifier)
         tableView.registerClass(UITableViewCell.classForCoder(), forCellReuseIdentifier: detailOtherLinkIdentifier)
         tableView.registerNib(UINib(nibName: "JFCommentCell", bundle: nil), forCellReuseIdentifier: detailCommentIdentifier)
+        tableView.tableHeaderView = webView
         
         view.backgroundColor = UIColor.whiteColor()
         view.addSubview(tableView)
@@ -197,7 +185,7 @@ class JFNewsDetailViewController: UIViewController {
         navigationController?.pushViewController(commentVc, animated: true)
     }
     
-    // MARK: - 网络请求
+    // MARK: - 各种数据请求
     /**
      加载详情
      
@@ -225,50 +213,47 @@ class JFNewsDetailViewController: UIViewController {
             ]
         }
         
-        //        print(parameters)
-        
         activityView.startAnimating()
         JFNetworkTool.shareNetworkTool.get(ARTICLE_DETAIL, parameters: parameters) { (success, result, error) -> () in
-            if success == true {
-                if let successResult = result {
-                    //                    print(successResult)
-                    // 相关连接
-                    self.otherLinks.removeAll()
-                    let otherLinks = successResult["data"]["otherLink"].array
-                    if let others = otherLinks {
-                        for other in others {
-                            let dict = [
-                                "id" : other["id"].stringValue,
-                                "classid" : other["classid"].stringValue,
-                                "title" : other["title"].stringValue
-                            ]
-                            
-                            let otherModel = JFOtherLinkModel(dict: dict)
-                            self.otherLinks.append(otherModel)
-                        }
-                    }
-                    
-                    // 正文数据
-                    let content = successResult["data"]["content"].dictionaryValue
-                    let dict: [String : AnyObject] = [
-                        "title" : content["title"]!.stringValue,          // 文章标题
-                        "newstime" : content["newstime"]!.stringValue,    // 时间戳
-                        "newstext" : content["newstext"]!.stringValue,    // 文章内容
-                        "titleurl" : content["titleurl"]!.stringValue,    // 文章url
-                        "id" : content["id"]!.stringValue,                // 文章id
-                        "classid" : content["classid"]!.stringValue,      // 当前子分类id
-                        "plnum" : content["plnum"]!.stringValue,          // 评论数
-                        "havefava" : content["havefava"]!.stringValue,    // 是否收藏  1 0
-                        "smalltext" : content["smalltext"]!.stringValue,  // 文章简介
-                        "titlepic" : content["titlepic"]!.stringValue,    // 标题图片
-                        "befrom" : content["befrom"]!.stringValue,        // 文章来源
-                        "allphoto" : content["allphoto"]!.arrayObject!    // 所有文章图片
+            
+            guard let successResult = result where success == true else {return}
+            
+            print(successResult)
+            // 相关连接
+            self.otherLinks.removeAll()
+            let otherLinks = successResult["data"]["otherLink"].array
+            if let others = otherLinks {
+                for other in others {
+                    let dict = [
+                        "id" : other["id"].stringValue,
+                        "classid" : other["classid"].stringValue,
+                        "title" : other["title"].stringValue
                     ]
-                    self.model = JFArticleDetailModel(dict: dict)
+                    
+                    let otherModel = JFOtherLinkModel(dict: dict)
+                    self.otherLinks.append(otherModel)
                 }
-            } else {
-                print("error:\(error)")
             }
+            
+            // 正文数据
+            let content = successResult["data"]["content"].dictionaryValue
+            let dict: [String : AnyObject] = [
+                "title" : content["title"]!.stringValue,          // 文章标题
+                "newstime" : content["newstime"]!.stringValue,    // 时间戳
+                "newstext" : content["newstext"]!.stringValue,    // 文章内容
+                "titleurl" : content["titleurl"]!.stringValue,    // 文章url
+                "id" : content["id"]!.stringValue,                // 文章id
+                "classid" : content["classid"]!.stringValue,      // 当前子分类id
+                "plnum" : content["plnum"]!.stringValue,          // 评论数
+                "havefava" : content["havefava"]!.stringValue,    // 是否收藏  1 0
+                "smalltext" : content["smalltext"]!.stringValue,  // 文章简介
+                "titlepic" : content["titlepic"]!.stringValue,    // 标题图片
+                "befrom" : content["befrom"]!.stringValue,        // 文章来源
+                "allphoto" : content["allphoto"]!.arrayObject!    // 所有文章图片
+            ]
+            
+            self.model = JFArticleDetailModel(dict: dict)
+            self.tableView.reloadData()
         }
     }
     
@@ -285,135 +270,33 @@ class JFNewsDetailViewController: UIViewController {
         
         JFNetworkTool.shareNetworkTool.get(GET_COMMENT, parameters: parameters as? [String : AnyObject]) { (success, result, error) -> () in
             
-            if success {
-                if let successResult = result {
-                    let data = successResult["data"].arrayValue
-                    if data.count == 0 && self.commentList.count == 0 {
-                        return
-                    }
-                    
-                    self.commentList.removeAll()
-                    for comment in data.reverse() {
-                        let dict = [
-                            "plstep" : comment["plstep"].intValue,
-                            "plid" : comment["plid"].intValue,
-                            "plusername" : comment["plusername"].stringValue,
-                            "id" : comment["id"].intValue,
-                            "classid" : comment["classid"].intValue,
-                            "saytext" : comment["saytext"].stringValue,
-                            "saytime" : comment["saytime"].stringValue,
-                            "userpic" : "\(BASE_URL)\(comment["userpic"].stringValue)",
-                            "zcnum" : comment["zcnum"].stringValue
-                        ]
-                        
-                        let commentModel = JFCommentModel(dict: dict as! [String : AnyObject])
-                        self.commentList.append(commentModel)
-                    }
-                    
-                    self.tableView.reloadData()
-                }
-            } else {
-                JFProgressHUD.showErrorWithStatus("网络不给力")
-            }
-        }
-    }
-    
-    // MARK: - 懒加载
-    /// 活动指示器
-    private lazy var activityView: UIActivityIndicatorView = {
-        let activityView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
-        activityView.center = self.view.center
-        return activityView
-    }()
-    
-    /// webView
-    private lazy var webView: UIWebView = {
-        let webView = UIWebView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT))
-        webView.delegate = self
-        webView.scrollView.scrollEnabled = false
-        return webView
-    }()
-    
-    /// 底部条
-    private lazy var bottomBarView: JFNewsBottomBar = {
-        let bottomBarView = NSBundle.mainBundle().loadNibNamed("JFNewsBottomBar", owner: nil, options: nil).last as! JFNewsBottomBar
-        bottomBarView.delegate = self
-        return bottomBarView
-    }()
-    
-    /// 顶部条
-    private lazy var topBarView: UIView = {
-        let topBarView = UIView()
-        topBarView.backgroundColor = UIColor(red: 255, green: 255, blue: 255, alpha: 0.8)
-        return topBarView
-    }()
-    
-    /// tableView
-    private lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT), style: UITableViewStyle.Grouped)
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.backgroundColor = UIColor.whiteColor()
-        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
-        return tableView
-    }()
-    
-    /// 尾部退出视图
-    private lazy var footerView: UIView = {
-        let moreCommentButton = UIButton(frame: CGRect(x: 20, y: 0, width: SCREEN_WIDTH - 40, height: 44))
-        moreCommentButton.addTarget(self, action: #selector(didTappedmoreCommentButton(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        moreCommentButton.setTitle("更多评论", forState: UIControlState.Normal)
-        moreCommentButton.backgroundColor = NAVIGATIONBAR_COLOR
-        moreCommentButton.layer.cornerRadius = CORNER_RADIUS
-        
-        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 44))
-        footerView.addSubview(moreCommentButton)
-        return footerView
-    }()
-}
-
-// MARK: - UITableViewDelegate, UITableViewDataSource
-extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate {
-    
-    /**
-     下载或从缓存中获取图片，发送给webView
-     */
-    func getImageFromDownloaderOrDiskByImageUrlArray(imageArray: [AnyObject]) {
-        
-        for dict in imageArray {
+            guard let successResult = result where success == true else {return}
             
-            let imageString = dict["url"] as! String
-            
-            // 存储文章图片的目录 - 这些代码可以封装起来。提供方法快速创建自定义的imageCache和根据url获取文件路径
-            var path = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true).last
-            path?.appendContentsOf("/article.image.cache")
-            
-            // 自定义缓存
-            let imageCache = YYImageCache(path: path!)!
-            
-            if imageCache.containsImageForKey(imageString, withType: YYImageCacheType.Disk) {
-                // 拼接图片的绝对路径
-                let imagePath = "\(imageCache.diskCache.path)/data/\(imageString.md5())"
-                // 发送图片占位标识和本地绝对路径给webView
-                bridge?.send("replaceimage\(imageString),\(imagePath)")
-            } else {
-                let queue = NSOperationQueue()
-                YYWebImageManager(cache: imageCache, queue: queue).requestImageWithURL(NSURL(string: imageString)!, options: YYWebImageOptions.UseNSURLCache, progress: { (_, _) in
-                    }, transform: { (image, url) -> UIImage? in
-                        return image
-                    }, completion: { (image, url, type, stage, error) in
-                        dispatch_sync(dispatch_get_main_queue(), {
-                            guard let _ = image where error == nil else {return}
-                            // 拼接图片的绝对路径
-                            let imagePath = "\(imageCache.diskCache.path)/data/\(imageString.md5())"
-                            // 发送图片占位标识和本地绝对路径给webView
-                            self.bridge?.send("replaceimage\(imageString),\(imagePath)")
-                        })
-                })
+            let data = successResult["data"].arrayValue
+            if data.count == 0 && self.commentList.count == 0 {
+                return
             }
             
+            self.commentList.removeAll()
+            for comment in data.reverse() {
+                let dict = [
+                    "plstep" : comment["plstep"].intValue,
+                    "plid" : comment["plid"].intValue,
+                    "plusername" : comment["plusername"].stringValue,
+                    "id" : comment["id"].intValue,
+                    "classid" : comment["classid"].intValue,
+                    "saytext" : comment["saytext"].stringValue,
+                    "saytime" : comment["saytime"].stringValue,
+                    "userpic" : "\(BASE_URL)\(comment["userpic"].stringValue)",
+                    "zcnum" : comment["zcnum"].stringValue
+                ]
+                
+                let commentModel = JFCommentModel(dict: dict as! [String : AnyObject])
+                self.commentList.append(commentModel)
+            }
+            
+            self.tableView.reloadData()
         }
-        
     }
     
     /**
@@ -480,9 +363,15 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
                 // 图片占位符范围
                 let range = (tempNewstext as NSString).rangeOfString(dict["ref"] as! String)
                 
-                // 原来的宽高
-                var width = CGFloat((dict["pixel"]!!["width"] as! NSNumber).floatValue)
-                var height = CGFloat((dict["pixel"]!!["height"] as! NSNumber).floatValue)
+                // 默认宽、高为0
+                var width: CGFloat = 0
+                var height: CGFloat = 0
+                if let w = dict["pixel"]!!["width"] as? NSNumber {
+                    width = CGFloat(w.floatValue)
+                }
+                if let h = dict["pixel"]!!["height"] as? NSNumber  {
+                    height = CGFloat(h.floatValue)
+                }
                 
                 // 如果图片超过了最大宽度，才等比压缩
                 if width >= SCREEN_WIDTH - 15  {
@@ -517,21 +406,118 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
         isLoaded = true
     }
     
+    /**
+     下载或从缓存中获取图片，发送给webView
+     */
+    func getImageFromDownloaderOrDiskByImageUrlArray(imageArray: [AnyObject]) {
+        
+        // 循环加载图片
+        for dict in imageArray {
+            
+            let imageString = dict["url"] as! String
+            
+            // 存储文章图片的目录 - 这些代码可以封装起来。提供方法快速创建自定义的imageCache和根据url获取文件路径
+            var path = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true).last
+            path?.appendContentsOf("/article.image.cache")
+            
+            // 自定义缓存
+            let imageCache = YYImageCache(path: path!)!
+            
+            if imageCache.containsImageForKey(imageString, withType: YYImageCacheType.Disk) {
+                // 拼接图片的绝对路径
+                let imagePath = "\(imageCache.diskCache.path)/data/\(imageString.md5())"
+                // 发送图片占位标识和本地绝对路径给webView
+                bridge?.send("replaceimage\(imageString),\(imagePath)")
+            } else {
+                let queue = NSOperationQueue()
+                YYWebImageManager(cache: imageCache, queue: queue).requestImageWithURL(NSURL(string: imageString)!, options: YYWebImageOptions.UseNSURLCache, progress: { (_, _) in
+                    }, transform: { (image, url) -> UIImage? in
+                        return image
+                    }, completion: { (image, url, type, stage, error) in
+                        dispatch_sync(dispatch_get_main_queue(), {
+                            guard let _ = image where error == nil else {return}
+                            // 拼接图片的绝对路径
+                            let imagePath = "\(imageCache.diskCache.path)/data/\(imageString.md5())"
+                            // 发送图片占位标识和本地绝对路径给webView
+                            self.bridge?.send("replaceimage\(imageString),\(imagePath)")
+                        })
+                })
+            }
+            
+        }
+        
+    }
+    
+    // MARK: - 懒加载
+    /// 活动指示器
+    private lazy var activityView: UIActivityIndicatorView = {
+        let activityView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
+        activityView.center = self.view.center
+        return activityView
+    }()
+    
+    /// webView
+    private lazy var webView: UIWebView = {
+        let webView = UIWebView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT))
+        webView.delegate = self
+        webView.scrollView.scrollEnabled = false
+        return webView
+    }()
+    
+    /// 底部条
+    private lazy var bottomBarView: JFNewsBottomBar = {
+        let bottomBarView = NSBundle.mainBundle().loadNibNamed("JFNewsBottomBar", owner: nil, options: nil).last as! JFNewsBottomBar
+        bottomBarView.delegate = self
+        return bottomBarView
+    }()
+    
+    /// 顶部条
+    private lazy var topBarView: UIView = {
+        let topBarView = UIView()
+        topBarView.backgroundColor = UIColor(red: 255, green: 255, blue: 255, alpha: 0.8)
+        return topBarView
+    }()
+    
+    /// tableView
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT), style: UITableViewStyle.Grouped)
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.backgroundColor = UIColor.whiteColor()
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        return tableView
+    }()
+    
+    /// 尾部视图
+    private lazy var footerView: UIView = {
+        let moreCommentButton = UIButton(frame: CGRect(x: 20, y: 0, width: SCREEN_WIDTH - 40, height: 44))
+        moreCommentButton.addTarget(self, action: #selector(didTappedmoreCommentButton(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        moreCommentButton.setTitle("更多评论", forState: UIControlState.Normal)
+        moreCommentButton.backgroundColor = NAVIGATIONBAR_COLOR
+        moreCommentButton.layer.cornerRadius = CORNER_RADIUS
+        
+        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 44))
+        footerView.addSubview(moreCommentButton)
+        return footerView
+    }()
+}
+
+// MARK: - UITableViewDelegate, UITableViewDataSource
+extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate {
+    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 5
+        return 4
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
-        case 0:
+        case 0: // 分享
             return 1
-        case 1:
+        case 1: // 广告
             return 1
-        case 2:
-            return 1
-        case 3:
+        case 2: // 相关新闻
             return otherLinks.count
-        case 4:
+        case 3: // 评论
             return commentList.count
         default:
             return 0
@@ -540,19 +526,17 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         switch indexPath.section {
-        case 0:
-            return webView.height
-        case 1:
+        case 0: // 分享
             return 160
-        case 2:
-            //            return 160
-            return 1
-        case 3:
+        case 1: // 广告
+            return 160
+        case 2: // 相关新闻
             return 44
-        case 4:
+        case 3: // 评论
             var rowHeight = commentList[indexPath.row].rowHeight
             if rowHeight < 1 {
                 let cell = tableView.dequeueReusableCellWithIdentifier(detailCommentIdentifier) as! JFCommentCell
+                // 缓存高度
                 commentList[indexPath.row].rowHeight = cell.getCellHeight(commentList[indexPath.row])
                 rowHeight = commentList[indexPath.row].rowHeight
             }
@@ -562,30 +546,34 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
         }
     }
     
+    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        // 预估高度
+        return 100
+    }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch indexPath.section {
-        case 0:
-            let cell = tableView.dequeueReusableCellWithIdentifier(detailContentIdentifier)!
-            cell.contentView.addSubview(webView)
+        case 0: // 分享
+            let cell = self.tableView.dequeueReusableCellWithIdentifier(self.detailStarAndShareIdentifier) as! JFStarAndShareCell
+            cell.delegate = self
+            cell.befromLabel.text = "文章来源: \(model!.befrom!)"
+            cell.selectionStyle = .None
             return cell
-        case 1:
-            return starAndShareCell
-        case 2:
-            //            let cell = UITableViewCell()
-            //            let adImageView = UIImageView(frame: CGRect(x: 12, y: 0, width: SCREEN_WIDTH - 24, height: 160))
-            //            adImageView.image = UIImage(named: "temp_ad")
-            //            cell.contentView.addSubview(adImageView)
-            //            return cell
-            return UITableViewCell()
-        case 3:
+        case 1: // 广告
+            let cell = UITableViewCell()
+            cell.selectionStyle = .None
+            let adImageView = UIImageView(frame: CGRect(x: 12, y: 0, width: SCREEN_WIDTH - 24, height: 160))
+            adImageView.image = UIImage(named: "temp_ad")
+            cell.contentView.addSubview(adImageView)
+            return cell
+        case 2: // 相关新闻
             let cell = tableView.dequeueReusableCellWithIdentifier(detailOtherLinkIdentifier)!
             cell.textLabel?.text = otherLinks[indexPath.row].title
             let separatorView = UIView(frame: CGRect(x: 0, y: 43.5, width: SCREEN_WIDTH, height: 0.5))
             separatorView.backgroundColor = UIColor(white: 0.6, alpha: 0.5)
             cell.contentView.addSubview(separatorView)
             return cell
-        case 4:
-            // 评论
+        case 3: // 评论
             let cell = tableView.dequeueReusableCellWithIdentifier(detailCommentIdentifier) as! JFCommentCell
             cell.delegate = self
             cell.commentModel = commentList[indexPath.row]
@@ -597,7 +585,7 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        if section == 3 || section == 4 {
+        if section == 2 || section == 3 {
             let leftRedView = UIView(frame: CGRect(x: 0, y: 0, width: 3, height: 30))
             leftRedView.backgroundColor = NAVIGATIONBAR_COLOR
             
@@ -611,7 +599,7 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
             headerView.addSubview(bgView)
             headerView.addSubview(titleLabel)
             
-            if section == 3 {
+            if section == 2 {
                 titleLabel.text = "相关新闻"
                 return otherLinks.count == 0 ? nil : headerView
             } else {
@@ -625,8 +613,8 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
     }
     
     func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        if section == 4 {
-            return commentList.count == 0 ? nil : footerView
+        if section == 3 {
+            return commentList.count == 0 ? nil : footerView // 如果有评论才显示更多评论按钮
         } else {
             return nil
         }
@@ -637,12 +625,10 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
         case 0:
             return 1
         case 1:
-            return 1
-        case 2:
             return 10
-        case 3:
+        case 2:
             return otherLinks.count == 0 ? 1 : 30
-        case 4:
+        case 3:
             return commentList.count == 0 ? 1 : 30
         default:
             return 1
@@ -654,13 +640,10 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
         case 0:
             return 1
         case 1:
-            return 1
+            return 20
         case 2:
-            //            return 20
-            return 1
-        case 3:
             return commentList.count == 0 ? 1 : 20
-        case 4:
+        case 3:
             return commentList.count == 0 ? 50 : 100
         default:
             return 1
@@ -670,7 +653,7 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
-        if indexPath.section == 3 {
+        if indexPath.section == 2 {
             let otherModel = otherLinks[indexPath.row]
             let detailVc = JFNewsDetailViewController()
             detailVc.articleParam = (otherModel.classid!, otherModel.id!)
@@ -835,9 +818,6 @@ extension JFNewsDetailViewController: JFNewsBottomBarDelegate, JFCommentCommitVi
         webView.loadHTMLString(html, baseURL: baseURL)
         
         NSUserDefaults.standardUserDefaults().setInteger(fontSize, forKey: CONTENT_FONT_SIZE)
-        
-        // 缓存html
-        htmlString = html
     }
 }
 
@@ -852,16 +832,9 @@ extension JFNewsDetailViewController: UIWebViewDelegate {
         if let height = result {
             let frame = webView.frame
             webView.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, CGFloat((height as NSString).floatValue) + 20)
-            self.tableView.reloadData()
+            tableView.tableHeaderView = webView
             self.activityView.stopAnimating()
         }
-    }
-    
-    /**
-     js向swift发送事件通过这个方法来拦截
-     */
-    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
-        return true
     }
     
 }
@@ -941,7 +914,7 @@ extension JFNewsDetailViewController: JFCommentCellDelegate {
         ]
         
         JFNetworkTool.shareNetworkTool.get(TOP_DOWN, parameters: parameters as? [String : AnyObject]) { (success, result, error) in
-//            print(result)
+            //            print(result)
             JFProgressHUD.showInfoWithStatus(result!["result"]["info"].stringValue)
             if success {
                 commentModel.zcnum += 1
