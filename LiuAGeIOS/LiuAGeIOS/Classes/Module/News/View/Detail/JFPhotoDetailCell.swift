@@ -21,6 +21,57 @@ class JFPhotoDetailCell: UICollectionViewCell {
     
     var delegate: JFPhotoDetailCellDelegate?
     
+    var articleModel: JFArticleImageModel? {
+        didSet {
+            guard let imageURL = articleModel?.url else {
+                print("imageURL 为空")
+                return
+            }
+            
+            // 将imageView图片设置为nil,防止cell重用
+            picImageView.image = nil
+            resetProperties()
+            
+            // 存储文章图片的目录
+            var path = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true).last
+            path?.appendContentsOf("/article.image.cache")
+            
+            // 自定义缓存
+            let imageCache = YYImageCache(path: path!)!
+            
+            if imageCache.containsImageForKey(imageURL, withType: YYImageCacheType.Disk) {
+                // 拼接图片的绝对路径
+                let imagePath = "\(imageCache.diskCache.path)/data/\(imageURL.md5())"
+                let image = UIImage(contentsOfFile: imagePath)
+                if let img = image {
+                    picImageView.image = img
+                    self.layoutImageView(img)
+                }
+                
+            } else {
+                // 显示下载指示器
+                indicator.startAnimating()
+                
+                picImageView.yy_setImageWithURL(NSURL(string: imageURL), placeholder: nil, options: YYWebImageOptions.ShowNetworkActivity) { (image, url, type, stage, error) in
+                    self.indicator.stopAnimating()
+                    
+                    if error != nil {
+                        print("下载大图片出错:error: \(error), url:\(imageURL)")
+                        return
+                    }
+                    
+                    // 设置图片的大小
+                    if let img = image {
+                        self.layoutImageView(img)
+                    }
+                    
+                }
+            }
+            
+            
+        }
+    }
+    
     var model: JFPhotoDetailModel? {
         didSet {
             guard let imageURL = model?.picurl else {
@@ -35,7 +86,7 @@ class JFPhotoDetailCell: UICollectionViewCell {
             // 显示下载指示器
             indicator.startAnimating()
             
-            picImageView.yy_setImageWithURL(NSURL(string: model!.picurl!), placeholder: nil, options: YYWebImageOptions.ShowNetworkActivity) { (image, url, type, stage, error) in
+            picImageView.yy_setImageWithURL(NSURL(string: imageURL), placeholder: nil, options: YYWebImageOptions.ShowNetworkActivity) { (image, url, type, stage, error) in
                 self.indicator.stopAnimating()
                 
                 if error != nil {

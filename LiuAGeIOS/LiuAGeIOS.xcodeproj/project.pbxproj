@@ -126,6 +126,8 @@
 		B2FFDDE01D06552D00C28DD1 /* WebViewJavascriptBridge.js in Resources */ = {isa = PBXBuildFile; fileRef = B2FFDDDC1D06552D00C28DD1 /* WebViewJavascriptBridge.js */; };
 		B2FFDDE41D06555D00C28DD1 /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FFDDE31D06555D00C28DD1 /* WebViewJavascriptBridge.m */; };
 		B2FFDDE61D065A8A00C28DD1 /* article.html in Resources */ = {isa = PBXBuildFile; fileRef = B2FFDDE51D065A8A00C28DD1 /* article.html */; };
+		B2FFDDEA1D06B82200C28DD1 /* JFNewsPhotoBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FFDDE91D06B82200C28DD1 /* JFNewsPhotoBrowserViewController.swift */; };
+		B2FFDDEC1D06B98000C28DD1 /* JFArticleImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FFDDEB1D06B98000C28DD1 /* JFArticleImageModel.swift */; };
 		BF8538DB12052DFF05FDA012 /* Pods_LiuAGeIOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63FA763248D9C2FB48EB29E8 /* Pods_LiuAGeIOSTests.framework */; };
 		C6CED679D52C2E3C6398DF0C /* Pods_LiuAGeIOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D77ED46EE9805FA1B77F2F60 /* Pods_LiuAGeIOSUITests.framework */; };
 		DE47C2D2369AA9CF6893F251 /* Pods_LiuAGeIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98B70C3D9D0370EA79CFF7D7 /* Pods_LiuAGeIOS.framework */; };
@@ -310,6 +312,8 @@
 		B2FFDDE21D06555D00C28DD1 /* WebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge.h; sourceTree = "<group>"; };
 		B2FFDDE31D06555D00C28DD1 /* WebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridge.m; sourceTree = "<group>"; };
 		B2FFDDE51D065A8A00C28DD1 /* article.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = article.html; sourceTree = "<group>"; };
+		B2FFDDE91D06B82200C28DD1 /* JFNewsPhotoBrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFNewsPhotoBrowserViewController.swift; sourceTree = "<group>"; };
+		B2FFDDEB1D06B98000C28DD1 /* JFArticleImageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFArticleImageModel.swift; sourceTree = "<group>"; };
 		D77ED46EE9805FA1B77F2F60 /* Pods_LiuAGeIOSUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LiuAGeIOSUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF4DA7B147DBE031E1CC0FEC /* Pods-LiuAGeIOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LiuAGeIOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-LiuAGeIOS/Pods-LiuAGeIOS.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -817,6 +821,7 @@
 		B264A3DC1D018DC800C72E13 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				B2FFDDE91D06B82200C28DD1 /* JFNewsPhotoBrowserViewController.swift */,
 				B264A3DD1D018DC800C72E13 /* JFNewsDetailViewController.swift */,
 				B264A3DE1D018DC800C72E13 /* JFPhotoDetailViewController.swift */,
 			);
@@ -838,6 +843,7 @@
 				B264A3E51D018DC800C72E13 /* JFCommentModel.swift */,
 				B264A3E61D018DC800C72E13 /* JFOtherLinkModel.swift */,
 				B264A3E71D018DC800C72E13 /* JFPhotoDetailModel.swift */,
+				B2FFDDEB1D06B98000C28DD1 /* JFArticleImageModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1227,6 +1233,7 @@
 				B264A3701D016C0D00C72E13 /* JFCommon.swift in Sources */,
 				B2F9EC631D0479F600FC7E48 /* JFSettingTableViewController.swift in Sources */,
 				B264A40B1D018DC800C72E13 /* JFOtherLinkModel.swift in Sources */,
+				B2FFDDEC1D06B98000C28DD1 /* JFArticleImageModel.swift in Sources */,
 				B264A4131D018DC800C72E13 /* JFDetailOtherCell.swift in Sources */,
 				B264A3B91D016C0D00C72E13 /* JFProfileHeaderView.swift in Sources */,
 				B264A3A61D016C0D00C72E13 /* JFBaseTableViewController.swift in Sources */,
@@ -1283,6 +1290,7 @@
 				B264A3AB1D016C0D00C72E13 /* JFLoginViewController.swift in Sources */,
 				B2C866041D051C1900A5B1FD /* JFPopoverModalAnimation.swift in Sources */,
 				B264A3B31D016C0D00C72E13 /* JFProfileCellLabelModel.swift in Sources */,
+				B2FFDDEA1D06B82200C28DD1 /* JFNewsPhotoBrowserViewController.swift in Sources */,
 				B264A3A81D016C0D00C72E13 /* JFProfileFeedbackViewController.swift in Sources */,
 				B2F9EC561D03CBC800FC7E48 /* JFNewFeatureCell.swift in Sources */,
 				B264A3711D016C0D00C72E13 /* Color+Extension.swift in Sources */,

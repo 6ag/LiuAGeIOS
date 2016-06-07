@@ -66,6 +66,7 @@ class JFNewsDetailViewController: UIViewController {
         
         setupWebViewJavascriptBridge()
         prepareUI()
+        updateData()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -74,8 +75,6 @@ class JFNewsDetailViewController: UIViewController {
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
         navigationController?.setNavigationBarHidden(true, animated: true)
         
-        // 加载数据
-        updateData()
     }
     
     deinit {
@@ -86,12 +85,14 @@ class JFNewsDetailViewController: UIViewController {
      配置WebViewJavascriptBridge
      */
     private func setupWebViewJavascriptBridge() {
+        
         bridge = WebViewJavascriptBridge(forWebView: webView, webViewDelegate: self, handler: { (data, responseCallback) in
             responseCallback("Response for message from ObjC")
-        })
-        
-        bridge?.registerHandler("testObjcCallback", handler: { (data, responseCallback) in
-            responseCallback("Response from testObjcCallback")
+            
+            // 接收js发送过来的点击事件
+            let newsPhotoBrowserVc = JFNewsPhotoBrowserViewController()
+            newsPhotoBrowserVc.photoParam = (self.model!.allphoto!, Int(data as! NSNumber))
+            self.presentViewController(newsPhotoBrowserVc, animated: true, completion: {})
         })
     }
     
@@ -465,7 +466,7 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
         if model.allphoto!.count > 0 {
             
             // 拼接图片标签
-            for dict in model.allphoto! {
+            for (index, dict) in model.allphoto!.enumerate() {
                 // 图片占位符范围
                 let range = (tempNewstext as NSString).rangeOfString(dict["ref"] as! String)
                 
@@ -484,7 +485,7 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
                 let loading = NSBundle.mainBundle().pathForResource("loading", ofType: "png")
                 
                 // img标签
-                let imgTag = "<img src='\(loading!)' id='\(dict["url"] as! String)' width='\(width)' height='\(height)' />"
+                let imgTag = "<p><img onclick='didTappedImage(\(index));' src='\(loading!)' id='\(dict["url"] as! String)' width='\(width)' height='\(height)' /></p>"
                 tempNewstext = (tempNewstext as NSString).stringByReplacingOccurrencesOfString(dict["ref"] as! String, withString: imgTag, options: NSStringCompareOptions.CaseInsensitiveSearch, range: range)
             }
             
@@ -665,7 +666,7 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
     }
 }
 
-// MARK: - JFNewsBottomBarDelegate、JFCommentCommitViewDelegate
+// MARK: - JFNewsBottomBarDelegate、JFCommentCommitViewDelegate、JFSetFontViewDelegate
 extension JFNewsDetailViewController: JFNewsBottomBarDelegate, JFCommentCommitViewDelegate, JFSetFontViewDelegate {
     
     /**
@@ -818,11 +819,11 @@ extension JFNewsDetailViewController: JFNewsBottomBarDelegate, JFCommentCommitVi
     }
 }
 
-// MARK: - WKNavigationDelegate
+// MARK: - UIWebViewDelegate
 extension JFNewsDetailViewController: UIWebViewDelegate {
     
     /**
-     webView加载完成
+     webView加载完成后更新webView高度并刷新tableView
      */
     func webViewDidFinishLoad(webView: UIWebView) {
         let result = webView.stringByEvaluatingJavaScriptFromString("document.body.offsetHeight")
@@ -832,6 +833,14 @@ extension JFNewsDetailViewController: UIWebViewDelegate {
             self.tableView.reloadData()
             self.activityView.stopAnimating()
         }
+    }
+    
+    /**
+     js向swift发送事件通过这个方法来拦截
+     */
+    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+//        print(request)
+        return true
     }
     
 }
@@ -911,7 +920,7 @@ extension JFNewsDetailViewController: JFCommentCellDelegate {
         ]
         
         JFNetworkTool.shareNetworkTool.get(TOP_DOWN, parameters: parameters as? [String : AnyObject]) { (success, result, error) in
-            print(result)
+//            print(result)
             JFProgressHUD.showInfoWithStatus(result!["result"]["info"].stringValue)
             if success {
                 commentModel.zcnum += 1
