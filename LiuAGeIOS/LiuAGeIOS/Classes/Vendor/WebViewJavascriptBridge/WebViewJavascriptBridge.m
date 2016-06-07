@@ -156,12 +156,12 @@ static bool logging = false;
     
     id messages = [self _deserializeMessageJSON:messageQueueString];
     if (![messages isKindOfClass:[NSArray class]]) {
-        NSLog(@"WebViewJavascriptBridge: WARNING: Invalid %@ received: %@", [messages class], messages);
+//        NSLog(@"WebViewJavascriptBridge: WARNING: Invalid %@ received: %@", [messages class], messages);
         return;
     }
     for (WVJBMessage* message in messages) {
         if (![message isKindOfClass:[WVJBMessage class]]) {
-            NSLog(@"WebViewJavascriptBridge: WARNING: Invalid %@ received: %@", [message class], message);
+//            NSLog(@"WebViewJavascriptBridge: WARNING: Invalid %@ received: %@", [message class], message);
             continue;
         }
         [self _log:@"RCVD" json:message];
@@ -219,9 +219,9 @@ static bool logging = false;
         json = [self _serializeMessage:json];
     }
     if ([json length] > 500) {
-        NSLog(@"WVJB %@: %@ [...]", action, [json substringToIndex:500]);
+//        NSLog(@"WVJB %@: %@ [...]", action, [json substringToIndex:500]);
     } else {
-        NSLog(@"WVJB %@: %@", action, json);
+//        NSLog(@"WVJB %@: %@", action, json);
     }
 }
 
@@ -290,7 +290,7 @@ static bool logging = false;
         if ([[url host] isEqualToString:kQueueHasMessage]) {
             [self _flushMessageQueue];
         } else {
-            NSLog(@"WebViewJavascriptBridge: WARNING: Received unknown WebViewJavascriptBridge command %@://%@", kCustomProtocolScheme, [url path]);
+//            NSLog(@"WebViewJavascriptBridge: WARNING: Received unknown WebViewJavascriptBridge command %@://%@", kCustomProtocolScheme, [url path]);
         }
         [listener ignore];
     } else if (_webViewDelegate && [_webViewDelegate respondsToSelector:@selector(webView:decidePolicyForNavigationAction:request:frame:decisionListener:)]) {
@@ -381,7 +381,7 @@ static bool logging = false;
         if ([[url host] isEqualToString:kQueueHasMessage]) {
             [self _flushMessageQueue];
         } else {
-            NSLog(@"WebViewJavascriptBridge: WARNING: Received unknown WebViewJavascriptBridge command %@://%@", kCustomProtocolScheme, [url path]);
+//            NSLog(@"WebViewJavascriptBridge: WARNING: Received unknown WebViewJavascriptBridge command %@://%@", kCustomProtocolScheme, [url path]);
         }
         return NO;
     } else if (strongDelegate && [strongDelegate respondsToSelector:@selector(webView:shouldStartLoadWithRequest:navigationType:)]) {

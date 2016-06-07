@@ -25,8 +25,16 @@ class JFNewsDetailViewController: UIViewController {
     /// 详情页面模型
     var model: JFArticleDetailModel? {
         didSet {
-            // 更新webView
-            loadWebViewContent(model!)
+            if isLoaded {
+                // 获取当前显示的整个html代码
+                let html = webView.stringByEvaluatingJavaScriptFromString("getHtml();")!
+                let templatePath = NSBundle.mainBundle().pathForResource("article", ofType: "html")!
+                let baseURL = NSURL(fileURLWithPath: templatePath as String)
+                webView.loadHTMLString(html, baseURL: baseURL)
+            } else {
+                // 没有加载过，才去初始化webView
+                loadWebViewContent(model!)
+            }
             
             // 更新收藏状态
             bottomBarView.collectionButton.selected = model!.havefava == "1"
@@ -41,6 +49,9 @@ class JFNewsDetailViewController: UIViewController {
     
     /// 是否已经加载过webView
     var isLoaded = false
+    
+    /// html代码
+    var htmlString = ""
     
     /// 相关连接模型
     var otherLinks = [JFOtherLinkModel]()
@@ -66,7 +77,6 @@ class JFNewsDetailViewController: UIViewController {
         
         setupWebViewJavascriptBridge()
         prepareUI()
-        updateData()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -74,7 +84,7 @@ class JFNewsDetailViewController: UIViewController {
         
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
         navigationController?.setNavigationBarHidden(true, animated: true)
-        
+        updateData()
     }
     
     deinit {
@@ -502,6 +512,9 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
         html = template.stringByReplacingOccurrencesOfString("<p>mainnews</p>", withString: html, options: NSStringCompareOptions.CaseInsensitiveSearch, range: template.rangeOfString("<p>mainnews</p>"))
         let baseURL = NSURL(fileURLWithPath: templatePath as String)
         webView.loadHTMLString(html, baseURL: baseURL)
+        
+        // 已经加载过就修改标记
+        isLoaded = true
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -814,8 +827,17 @@ extension JFNewsDetailViewController: JFNewsBottomBarDelegate, JFCommentCommitVi
      */
     func didChangeFontSize(fontSize: Int) {
         
+        // 获取整个html代码
+        var html = webView.stringByEvaluatingJavaScriptFromString("getHtml();")!
+        html = (html as NSString).stringByReplacingOccurrencesOfString(".content {font-size: \(NSUserDefaults.standardUserDefaults().integerForKey(CONTENT_FONT_SIZE))px;", withString: ".content {font-size: \(fontSize)px;")
+        let templatePath = NSBundle.mainBundle().pathForResource("article", ofType: "html")!
+        let baseURL = NSURL(fileURLWithPath: templatePath as String)
+        webView.loadHTMLString(html, baseURL: baseURL)
+        
         NSUserDefaults.standardUserDefaults().setInteger(fontSize, forKey: CONTENT_FONT_SIZE)
-        loadWebViewContent(model!)
+        
+        // 缓存html
+        htmlString = html
     }
 }
 
@@ -839,7 +861,6 @@ extension JFNewsDetailViewController: UIWebViewDelegate {
      js向swift发送事件通过这个方法来拦截
      */
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
-//        print(request)
         return true
     }
     

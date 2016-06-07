@@ -10,6 +10,11 @@
             bridge.send(index)
         }
     
+    // 获取整个界面的html代码
+    function getHtml() {
+        return document.documentElement.outerHTML
+    }
+    
     function connectWebViewJavascriptBridge(callback) {
         if (window.WebViewJavascriptBridge) {
             callback(WebViewJavascriptBridge)
