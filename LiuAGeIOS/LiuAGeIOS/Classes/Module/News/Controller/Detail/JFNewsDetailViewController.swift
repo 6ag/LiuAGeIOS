@@ -29,7 +29,10 @@ class JFNewsDetailViewController: UIViewController {
             loadWebViewContent(model!)
             
             // 更新收藏状态
-            bottomBarView.collectionButton.selected = model?.havefava == "1"
+            bottomBarView.collectionButton.selected = model!.havefava == "1"
+            
+            // 文章来源
+            starAndShareCell.befromLabel.text = "文章来源: \(model!.befrom!)"
         }
     }
     
@@ -61,21 +64,7 @@ class JFNewsDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        bridge = WebViewJavascriptBridge(forWebView: webView, webViewDelegate: self, handler: { (data, responseCallback) in
-            responseCallback("Response for message from ObjC")
-        })
-        
-        bridge?.registerHandler("testObjcCallback", handler: { (data, responseCallback) in
-            responseCallback("Response from testObjcCallback")
-        })
-        
-        //        WebViewJavascriptBridge.enableLogging()
-        
-        tableView.registerClass(UITableViewCell.classForCoder(), forCellReuseIdentifier: detailContentIdentifier)
-        tableView.registerNib(UINib(nibName: "JFStarAndShareCell", bundle: nil), forCellReuseIdentifier: detailStarAndShareIdentifier)
-        tableView.registerClass(UITableViewCell.classForCoder(), forCellReuseIdentifier: detailOtherLinkIdentifier)
-        tableView.registerNib(UINib(nibName: "JFCommentCell", bundle: nil), forCellReuseIdentifier: detailCommentIdentifier)
-        
+        setupWebViewJavascriptBridge()
         prepareUI()
     }
     
@@ -94,9 +83,28 @@ class JFNewsDetailViewController: UIViewController {
     }
     
     /**
+     配置WebViewJavascriptBridge
+     */
+    private func setupWebViewJavascriptBridge() {
+        bridge = WebViewJavascriptBridge(forWebView: webView, webViewDelegate: self, handler: { (data, responseCallback) in
+            responseCallback("Response for message from ObjC")
+        })
+        
+        bridge?.registerHandler("testObjcCallback", handler: { (data, responseCallback) in
+            responseCallback("Response from testObjcCallback")
+        })
+    }
+    
+    /**
      准备UI
      */
     private func prepareUI() {
+        
+        // 注册cell
+        tableView.registerClass(UITableViewCell.classForCoder(), forCellReuseIdentifier: detailContentIdentifier)
+        tableView.registerNib(UINib(nibName: "JFStarAndShareCell", bundle: nil), forCellReuseIdentifier: detailStarAndShareIdentifier)
+        tableView.registerClass(UITableViewCell.classForCoder(), forCellReuseIdentifier: detailOtherLinkIdentifier)
+        tableView.registerNib(UINib(nibName: "JFCommentCell", bundle: nil), forCellReuseIdentifier: detailCommentIdentifier)
         
         view.backgroundColor = UIColor.whiteColor()
         view.addSubview(tableView)
@@ -365,18 +373,28 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
             // 图片的url - YYWebImage缓存图片的key是用图片url，文件名是用key进行md5编码，不过好像作者没有提供根据key获取文件名的方法。得自己进行md5编码，我真的好方
             let imageString = dict["url"] as! String
             
-            if YYImageCache.sharedCache().containsImageForKey(imageString) {
-                let imagePath = "\(YYImageCache.sharedCache().diskCache.path)/data/\(imageString.md5())"
+            // 存储文章图片的目录
+            var path = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true).last
+            path?.appendContentsOf("/article.image.cache")
+            
+            // 自定义缓存
+            let imageCache = YYImageCache(path: path!)!
+            
+            if imageCache.containsImageForKey(imageString, withType: YYImageCacheType.Disk) {
+                // 拼接图片的绝对路径
+                let imagePath = "\(imageCache.diskCache.path)/data/\(imageString.md5())"
                 // 发送图片占位标识和本地绝对路径给webView
                 bridge?.send("replaceimage\(imageString),\(imagePath)")
             } else {
-                YYWebImageManager.sharedManager().requestImageWithURL(NSURL(string: imageString)!, options: YYWebImageOptions.ShowNetworkActivity, progress: { (_, _) in
+                let queue = NSOperationQueue()
+                YYWebImageManager(cache: imageCache, queue: queue).requestImageWithURL(NSURL(string: imageString)!, options: YYWebImageOptions.UseNSURLCache, progress: { (_, _) in
                     }, transform: { (image, url) -> UIImage? in
                         return image
                     }, completion: { (image, url, type, stage, error) in
                         dispatch_sync(dispatch_get_main_queue(), {
-                            guard let _ = image else {return}
-                            let imagePath = "\(YYImageCache.sharedCache().diskCache.path)/data/\(imageString.md5())"
+                            guard let _ = image where error == nil else {return}
+                            // 拼接图片的绝对路径
+                            let imagePath = "\(imageCache.diskCache.path)/data/\(imageString.md5())"
                             // 发送图片占位标识和本地绝对路径给webView
                             self.bridge?.send("replaceimage\(imageString),\(imagePath)")
                         })
@@ -395,7 +413,6 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
     func loadWebViewContent(model: JFArticleDetailModel) {
         
         var html = ""
-        
         let css = "<style type=\"text/css\">" +
             "@font-face {" + // 字体
             "font-family: '汉仪旗黑';" +
@@ -426,11 +443,11 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
             "font-family: '汉仪旗黑'" +
             "}" +
             ".content p {" +
-            "margin: 10px 0px;" +
+            "margin: 15px 0px;" +
             "}" +
             ".content img {" +
             "display: block;" +
-            "margin: 15px auto;" +
+            "margin: 20px auto;" +
             "}" +
         "</style>"
         

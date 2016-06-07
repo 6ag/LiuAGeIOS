@@ -7,7 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="141" id="KGk-i7-Jjw" customClass="JFStarAndShareCell" customModule="BaoKanIOS" customModuleProvider="target">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="141" id="KGk-i7-Jjw" customClass="JFStarAndShareCell" customModule="LiuAGeIOS" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="375" height="160"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
@@ -136,6 +136,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="befromLabel" destination="PJg-0z-Y7V" id="ldb-jh-zxm"/>
                 <outlet property="friendCircleButton" destination="lUT-1f-dAN" id="rDj-b2-Lje"/>
                 <outlet property="qqButton" destination="7fm-Kb-Jtn" id="ofh-mi-GMR"/>
                 <outlet property="weixinButton" destination="2QS-hV-3JI" id="Yaz-Jg-2iJ"/>

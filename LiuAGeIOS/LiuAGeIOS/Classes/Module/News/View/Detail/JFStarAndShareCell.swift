@@ -19,6 +19,8 @@ class JFStarAndShareCell: UITableViewCell {
     @IBOutlet weak var qqButton: UIButton!
     @IBOutlet weak var weixinButton: UIButton!
     @IBOutlet weak var friendCircleButton: UIButton!
+    @IBOutlet weak var befromLabel: UILabel!
+    
     var delegate: JFStarAndShareCellDelegate?
     
     override func awakeFromNib() {
