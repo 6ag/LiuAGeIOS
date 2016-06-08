@@ -336,7 +336,7 @@ class JFNewsDetailViewController: UIViewController {
             "font-size: \(NSUserDefaults.standardUserDefaults().integerForKey(CONTENT_FONT_SIZE_KEY))px;" +
             "font-family: '\(jf_getContentFont().fontName)';" +
             "color: #3c3c3c;" +
-            "letter-spacing: 1.5px;" +
+            "letter-spacing: 1px;" +
             "}" +
             ".content p {" +
             "margin: 0px 0px 15px 0px;" + // 上右下左
@@ -372,9 +372,9 @@ class JFNewsDetailViewController: UIViewController {
                     height = CGFloat(h.floatValue)
                 }
                 
-                // 如果图片超过了最大宽度，才等比压缩
-                if width >= SCREEN_WIDTH - 30 {
-                    let rate = (SCREEN_WIDTH - 30) / width
+                // 如果图片超过了最大宽度，才等比压缩 这个最大宽度是根据css里的container容器宽度来自适应的
+                if width >= SCREEN_WIDTH - 40 {
+                    let rate = (SCREEN_WIDTH - 40) / width
                     width = width * rate
                     height = height * rate
                 }

@@ -21,6 +21,7 @@ class JFCommentCell: UITableViewCell {
     @IBOutlet weak var contentLabel: UILabel!
     @IBOutlet weak var starButton: UIButton!
     @IBOutlet weak var commentButton: UIButton!
+    
     var delegate: JFCommentCellDelegate?
     
     var commentModel: JFCommentModel? {
