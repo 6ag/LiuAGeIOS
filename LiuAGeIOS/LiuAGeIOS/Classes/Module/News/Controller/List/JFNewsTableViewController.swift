@@ -111,7 +111,6 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
             navigationController?.pushViewController(photoDetailVc, animated: true)
         } else {
             let articleDetailVc = JFNewsDetailViewController()
-            articleDetailVc.sharePicUrl = currentListModel.titlepic!
             articleDetailVc.articleParam = (currentListModel.classid!, currentListModel.id!)
             navigationController?.pushViewController(articleDetailVc, animated: true)
         }

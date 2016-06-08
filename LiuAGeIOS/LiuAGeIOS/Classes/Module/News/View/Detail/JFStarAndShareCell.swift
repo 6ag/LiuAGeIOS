@@ -30,21 +30,25 @@ class JFStarAndShareCell: UITableViewCell {
         prepareButton(weixinButton)
         prepareButton(friendCircleButton)
         
-        // WX
-        if WXApi.isWXAppInstalled() && WXApi.isWXAppSupportApi() {
-            weixinButton.hidden = false
-            friendCircleButton.hidden = false
-        } else {
-            weixinButton.hidden = true
-            friendCircleButton.hidden = true
-        }
-        
-        // QQ
-        if QQApiInterface.isQQInstalled() && QQApiInterface.isQQSupportApi() {
-            qqButton.hidden = false
-        } else {
-            qqButton.hidden = true
-        }
+        #if TARGET_IPHONE_SIMULATOR // 模拟器
+            
+        #elseif TARGET_OS_IPHONE // 真机要根据情况隐藏
+            // 微信
+            if WXApi.isWXAppInstalled() && WXApi.isWXAppSupportApi() {
+                weixinButton.hidden = false
+                friendCircleButton.hidden = false
+            } else {
+                weixinButton.hidden = true
+                friendCircleButton.hidden = true
+            }
+            
+            // QQ
+            if QQApiInterface.isQQInstalled() && QQApiInterface.isQQSupportApi() {
+                qqButton.hidden = false
+            } else {
+                qqButton.hidden = true
+            }
+        #endif
     }
     
     private func prepareButton(button: UIButton) {

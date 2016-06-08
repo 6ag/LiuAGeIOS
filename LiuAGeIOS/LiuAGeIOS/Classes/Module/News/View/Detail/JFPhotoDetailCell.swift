@@ -32,42 +32,31 @@ class JFPhotoDetailCell: UICollectionViewCell {
             picImageView.image = nil
             resetProperties()
             
-            // 存储文章图片的目录
-            var path = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true).last
-            path?.appendContentsOf("/article.image.cache")
-            
-            // 自定义缓存
-            let imageCache = YYImageCache(path: path!)!
-            
-            if imageCache.containsImageForKey(imageURL, withType: YYImageCacheType.Disk) {
-                // 拼接图片的绝对路径
-                let imagePath = "\(imageCache.diskCache.path)/data/\(imageURL.md5())"
-                let image = UIImage(contentsOfFile: imagePath)
-                if let img = image {
-                    picImageView.image = img
-                    self.layoutImageView(img)
-                }
+            // 判断本地磁盘是否已经缓存
+            if JFArticleStorage.getArticleImageCache().containsImageForKey(imageURL, withType: YYImageCacheType.Disk) {
+
+                let image = UIImage(contentsOfFile: JFArticleStorage.getFilePathForKey(imageURL))!
+                picImageView.image = image
+                self.layoutImageView(image)
                 
             } else {
-                // 显示下载指示器
-                indicator.startAnimating()
                 
-                picImageView.yy_setImageWithURL(NSURL(string: imageURL), placeholder: nil, options: YYWebImageOptions.ShowNetworkActivity) { (image, url, type, stage, error) in
-                    self.indicator.stopAnimating()
-                    
-                    if error != nil {
-                        print("下载大图片出错:error: \(error), url:\(imageURL)")
-                        return
-                    }
-                    
-                    // 设置图片的大小
-                    if let img = image {
-                        self.layoutImageView(img)
-                    }
-                    
-                }
+                indicator.startAnimating()
+                YYWebImageManager(cache: JFArticleStorage.getArticleImageCache(), queue: NSOperationQueue()).requestImageWithURL(NSURL(string: imageURL)!, options: YYWebImageOptions.UseNSURLCache, progress: { (_, _) in
+                    }, transform: { (image, url) -> UIImage? in
+                        return image
+                    }, completion: { (image, url, type, stage, error) in
+                        dispatch_sync(dispatch_get_main_queue(), {
+                            self.indicator.stopAnimating()
+                            
+                            guard let _ = image where error == nil else {return}
+                            
+                            let image = UIImage(contentsOfFile: JFArticleStorage.getFilePathForKey(imageURL))!
+                            self.picImageView.image = image
+                            self.layoutImageView(image)
+                        })
+                })
             }
-            
             
         }
     }

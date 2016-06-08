@@ -41,9 +41,6 @@ class JFNewsDetailViewController: UIViewController {
         }
     }
     
-    /// 分享的图片url
-    var sharePicUrl: String = ""
-    
     /// 是否已经加载过webView
     var isLoaded = false
     
@@ -99,9 +96,8 @@ class JFNewsDetailViewController: UIViewController {
     private func prepareUI() {
         
         // 注册cell
-        tableView.registerClass(UITableViewCell.classForCoder(), forCellReuseIdentifier: detailContentIdentifier)
         tableView.registerNib(UINib(nibName: "JFStarAndShareCell", bundle: nil), forCellReuseIdentifier: detailStarAndShareIdentifier)
-        tableView.registerClass(UITableViewCell.classForCoder(), forCellReuseIdentifier: detailOtherLinkIdentifier)
+        tableView.registerNib(UINib(nibName: "JFDetailOtherCell", bundle: nil), forCellReuseIdentifier: detailOtherLinkIdentifier)
         tableView.registerNib(UINib(nibName: "JFCommentCell", bundle: nil), forCellReuseIdentifier: detailCommentIdentifier)
         tableView.tableHeaderView = webView
         
@@ -227,7 +223,10 @@ class JFNewsDetailViewController: UIViewController {
                     let dict = [
                         "id" : other["id"].stringValue,
                         "classid" : other["classid"].stringValue,
-                        "title" : other["title"].stringValue
+                        "title" : other["title"].stringValue,
+                        "onclick" : other["onclick"].stringValue,
+                        "classname" : other["classname"].stringValue,
+                        "titlepic" : other["titlepic"].stringValue,
                     ]
                     
                     let otherModel = JFOtherLinkModel(dict: dict)
@@ -384,7 +383,7 @@ class JFNewsDetailViewController: UIViewController {
                 let loading = NSBundle.mainBundle().pathForResource("loading", ofType: "png")
                 
                 // img标签
-                let imgTag = "<p><img onclick='didTappedImage(\(index));' src='\(loading!)' id='\(dict["url"] as! String)' width='\(width)' height='\(height)' /></p>"
+                let imgTag = "<img onclick='didTappedImage(\(index));' src='\(loading!)' id='\(dict["url"] as! String)' width='\(width)' height='\(height)' />"
                 tempNewstext = (tempNewstext as NSString).stringByReplacingOccurrencesOfString(dict["ref"] as! String, withString: imgTag, options: NSStringCompareOptions.CaseInsensitiveSearch, range: range)
             }
             
@@ -416,28 +415,23 @@ class JFNewsDetailViewController: UIViewController {
             
             let imageString = dict["url"] as! String
             
-            // 存储文章图片的目录 - 这些代码可以封装起来。提供方法快速创建自定义的imageCache和根据url获取文件路径
-            var path = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true).last
-            path?.appendContentsOf("/article.image.cache")
-            
-            // 自定义缓存
-            let imageCache = YYImageCache(path: path!)!
-            
-            if imageCache.containsImageForKey(imageString, withType: YYImageCacheType.Disk) {
-                // 拼接图片的绝对路径
-                let imagePath = "\(imageCache.diskCache.path)/data/\(imageString.md5())"
+            // 判断本地磁盘是否已经缓存
+            if JFArticleStorage.getArticleImageCache().containsImageForKey(imageString, withType: YYImageCacheType.Disk) {
+                
+                let imagePath = JFArticleStorage.getFilePathForKey(imageString)
                 // 发送图片占位标识和本地绝对路径给webView
                 bridge?.send("replaceimage\(imageString),\(imagePath)")
             } else {
-                let queue = NSOperationQueue()
-                YYWebImageManager(cache: imageCache, queue: queue).requestImageWithURL(NSURL(string: imageString)!, options: YYWebImageOptions.UseNSURLCache, progress: { (_, _) in
+                YYWebImageManager(cache: JFArticleStorage.getArticleImageCache(), queue: NSOperationQueue()).requestImageWithURL(NSURL(string: imageString)!, options: YYWebImageOptions.UseNSURLCache, progress: { (_, _) in
                     }, transform: { (image, url) -> UIImage? in
                         return image
                     }, completion: { (image, url, type, stage, error) in
                         dispatch_sync(dispatch_get_main_queue(), {
+                            
+                            // 确保已经下载完成并没有出错 - 这样做其实已经修改了YYWebImage的磁盘缓存策略。默认YYWebImage缓存文件时超过20kb的文件才会存储为文件，所以需要在 YYDiskCache.m的171行修改
                             guard let _ = image where error == nil else {return}
-                            // 拼接图片的绝对路径
-                            let imagePath = "\(imageCache.diskCache.path)/data/\(imageString.md5())"
+                            
+                            let imagePath = JFArticleStorage.getFilePathForKey(imageString)
                             // 发送图片占位标识和本地绝对路径给webView
                             self.bridge?.send("replaceimage\(imageString),\(imagePath)")
                         })
@@ -515,7 +509,7 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
             return 1
         case 1: // 广告
             return 1
-        case 2: // 相关新闻
+        case 2: // 相关阅读
             return otherLinks.count
         case 3: // 评论
             return commentList.count
@@ -530,8 +524,8 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
             return 160
         case 1: // 广告
             return 160
-        case 2: // 相关新闻
-            return 44
+        case 2: // 相关阅读
+            return 100
         case 3: // 评论
             var rowHeight = commentList[indexPath.row].rowHeight
             if rowHeight < 1 {
@@ -566,12 +560,9 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
             adImageView.image = UIImage(named: "temp_ad")
             cell.contentView.addSubview(adImageView)
             return cell
-        case 2: // 相关新闻
-            let cell = tableView.dequeueReusableCellWithIdentifier(detailOtherLinkIdentifier)!
-            cell.textLabel?.text = otherLinks[indexPath.row].title
-            let separatorView = UIView(frame: CGRect(x: 0, y: 43.5, width: SCREEN_WIDTH, height: 0.5))
-            separatorView.backgroundColor = UIColor(white: 0.6, alpha: 0.5)
-            cell.contentView.addSubview(separatorView)
+        case 2: // 相关阅读
+            let cell = tableView.dequeueReusableCellWithIdentifier(detailOtherLinkIdentifier) as! JFDetailOtherCell
+            cell.model = otherLinks[indexPath.row]
             return cell
         case 3: // 评论
             let cell = tableView.dequeueReusableCellWithIdentifier(detailCommentIdentifier) as! JFCommentCell
@@ -600,7 +591,7 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
             headerView.addSubview(titleLabel)
             
             if section == 2 {
-                titleLabel.text = "相关新闻"
+                titleLabel.text = "相关阅读"
                 return otherLinks.count == 0 ? nil : headerView
             } else {
                 titleLabel.text = "最新评论"
@@ -730,23 +721,9 @@ extension JFNewsDetailViewController: JFNewsBottomBarDelegate, JFCommentCommitVi
      */
     func didTappedShareButton(button: UIButton) {
         
-        // 从缓存中获取标题图片
-        guard let currentModel = model else {return}
-        
-        var image = YYImageCache.sharedCache().getImageForKey(sharePicUrl)
-        if image != nil && (image?.size.width > 300 || image?.size.height > 300) {
-            image = image?.resizeImageWithNewSize(CGSize(width: 300, height: 300 * image!.size.height / image!.size.width))
+        guard let shareParames = getShareParameters() else {
+            return
         }
-        
-        // 标题url
-        let titleurl = currentModel.titleurl!.hasPrefix("http") ? currentModel.titleurl! : "\(BASE_URL)\(currentModel.titleurl!)"
-        
-        let shareParames = NSMutableDictionary()
-        shareParames.SSDKSetupShareParamsByText(currentModel.smalltext,
-                                                images : image,
-                                                url : NSURL(string: titleurl),
-                                                title : currentModel.title,
-                                                type : SSDKContentType.Auto)
         
         let items = [
             SSDKPlatformType.TypeQQ.rawValue,
@@ -766,7 +743,6 @@ extension JFNewsDetailViewController: JFNewsBottomBarDelegate, JFCommentCommitVi
                 break
             }
         }
-        
     }
     
     /**
@@ -843,19 +819,21 @@ extension JFNewsDetailViewController: UIWebViewDelegate {
 extension JFNewsDetailViewController: JFStarAndShareCellDelegate {
     
     /**
-     根据类型分享
+     获取文章分享参数
+     
+     - returns: 获取文章分享参数
      */
-    private func shareWithType(type: SSDKPlatformType) {
+    func getShareParameters() -> NSMutableDictionary? {
         
-        guard let currentModel = model else {return}
+        guard let currentModel = model, let picUrl = model?.titlepic, var titleurl = model?.titleurl else {return nil}
         
-        var image = YYImageCache.sharedCache().getImageForKey(sharePicUrl)
+        var image = YYImageCache.sharedCache().getImageForKey(picUrl)
         if image != nil && (image?.size.width > 300 || image?.size.height > 300) {
             image = image?.resizeImageWithNewSize(CGSize(width: 300, height: 300 * image!.size.height / image!.size.width))
         }
         
-        // 标题url
-        let titleurl = currentModel.titleurl!.hasPrefix("http") ? currentModel.titleurl! : "\(BASE_URL)\(currentModel.titleurl!)"
+        // 判断标题url是否带baseurl
+        titleurl = currentModel.titleurl!.hasPrefix("http") ? titleurl : "\(BASE_URL)\(titleurl)"
         
         let shareParames = NSMutableDictionary()
         shareParames.SSDKSetupShareParamsByText(currentModel.smalltext,
@@ -863,6 +841,17 @@ extension JFNewsDetailViewController: JFStarAndShareCellDelegate {
                                                 url : NSURL(string: titleurl),
                                                 title : currentModel.title,
                                                 type : SSDKContentType.Auto)
+        return shareParames
+    }
+    
+    /**
+     根据类型分享
+     */
+    private func shareWithType(type: SSDKPlatformType) {
+        
+        guard let shareParames = getShareParameters() else {
+            return
+        }
         
         ShareSDK.share(type, parameters: shareParames) { (state : SSDKResponseState, userData : [NSObject : AnyObject]!, contentEntity :SSDKContentEntity!, error : NSError!) -> Void in
             switch state {
@@ -914,7 +903,7 @@ extension JFNewsDetailViewController: JFCommentCellDelegate {
         ]
         
         JFNetworkTool.shareNetworkTool.get(TOP_DOWN, parameters: parameters as? [String : AnyObject]) { (success, result, error) in
-            //            print(result)
+            print(result)
             JFProgressHUD.showInfoWithStatus(result!["result"]["info"].stringValue)
             if success {
                 commentModel.zcnum += 1
