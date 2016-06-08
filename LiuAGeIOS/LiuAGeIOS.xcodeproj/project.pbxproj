@@ -11,6 +11,7 @@
 		B20149551D07BA6200ACE583 /* JFArticleStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20149541D07BA6200ACE583 /* JFArticleStorage.swift */; };
 		B20149581D07DBFA00ACE583 /* JFSetFontView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20149561D07DBFA00ACE583 /* JFSetFontView.swift */; };
 		B20149591D07DBFA00ACE583 /* JFSetFontView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B20149571D07DBFA00ACE583 /* JFSetFontView.xib */; };
+		B20149611D08269A00ACE583 /* article_content_placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = B20149601D08269A00ACE583 /* article_content_placeholder.png */; };
 		B264A36C1D016C0D00C72E13 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B264A2BF1D016C0D00C72E13 /* Assets.xcassets */; };
 		B264A36D1D016C0D00C72E13 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B264A2C01D016C0D00C72E13 /* LaunchScreen.storyboard */; };
 		B264A36E1D016C0D00C72E13 /* api.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A2C41D016C0D00C72E13 /* api.swift */; };
@@ -124,7 +125,6 @@
 		B2FFCACF1CE48DA800ADC54C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2FD9A011CB95F6C0005B8AF /* CoreGraphics.framework */; };
 		B2FFCAD11CE48ED600ADC54C /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2FFCAD01CE48ED600ADC54C /* ImageIO.framework */; };
 		B2FFDDDD1D06552D00C28DD1 /* HYQiHei-50J.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B2FFDDD91D06552D00C28DD1 /* HYQiHei-50J.ttf */; };
-		B2FFDDDE1D06552D00C28DD1 /* loading.png in Resources */ = {isa = PBXBuildFile; fileRef = B2FFDDDA1D06552D00C28DD1 /* loading.png */; };
 		B2FFDDE01D06552D00C28DD1 /* WebViewJavascriptBridge.js in Resources */ = {isa = PBXBuildFile; fileRef = B2FFDDDC1D06552D00C28DD1 /* WebViewJavascriptBridge.js */; };
 		B2FFDDE41D06555D00C28DD1 /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FFDDE31D06555D00C28DD1 /* WebViewJavascriptBridge.m */; };
 		B2FFDDE61D065A8A00C28DD1 /* article.html in Resources */ = {isa = PBXBuildFile; fileRef = B2FFDDE51D065A8A00C28DD1 /* article.html */; };
@@ -179,6 +179,7 @@
 		B20149541D07BA6200ACE583 /* JFArticleStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFArticleStorage.swift; sourceTree = "<group>"; };
 		B20149561D07DBFA00ACE583 /* JFSetFontView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFSetFontView.swift; sourceTree = "<group>"; };
 		B20149571D07DBFA00ACE583 /* JFSetFontView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JFSetFontView.xib; sourceTree = "<group>"; };
+		B20149601D08269A00ACE583 /* article_content_placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = article_content_placeholder.png; sourceTree = "<group>"; };
 		B264A2BF1D016C0D00C72E13 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B264A2C11D016C0D00C72E13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B264A2C41D016C0D00C72E13 /* api.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = api.swift; sourceTree = "<group>"; };
@@ -311,7 +312,6 @@
 		B2FFCACD1CE48D0000ADC54C /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		B2FFCAD01CE48ED600ADC54C /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		B2FFDDD91D06552D00C28DD1 /* HYQiHei-50J.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HYQiHei-50J.ttf"; sourceTree = "<group>"; };
-		B2FFDDDA1D06552D00C28DD1 /* loading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loading.png; sourceTree = "<group>"; };
 		B2FFDDDC1D06552D00C28DD1 /* WebViewJavascriptBridge.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = WebViewJavascriptBridge.js; sourceTree = "<group>"; };
 		B2FFDDE21D06555D00C28DD1 /* WebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge.h; sourceTree = "<group>"; };
 		B2FFDDE31D06555D00C28DD1 /* WebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridge.m; sourceTree = "<group>"; };
@@ -773,7 +773,7 @@
 			isa = PBXGroup;
 			children = (
 				B2FFDDD91D06552D00C28DD1 /* HYQiHei-50J.ttf */,
-				B2FFDDDA1D06552D00C28DD1 /* loading.png */,
+				B20149601D08269A00ACE583 /* article_content_placeholder.png */,
 				B2FFDDDC1D06552D00C28DD1 /* WebViewJavascriptBridge.js */,
 				B2FFDDE51D065A8A00C28DD1 /* article.html */,
 			);
@@ -1068,6 +1068,7 @@
 				B264A41C1D018DC800C72E13 /* JFNewsNoPicCell.xib in Resources */,
 				B264A3D51D016C0D00C72E13 /* LaunchScreen.strings in Resources */,
 				B2FFDDE01D06552D00C28DD1 /* WebViewJavascriptBridge.js in Resources */,
+				B20149611D08269A00ACE583 /* article_content_placeholder.png in Resources */,
 				B264A3AC1D016C0D00C72E13 /* JFLoginViewController.xib in Resources */,
 				B264A4101D018DC800C72E13 /* JFCommentCell.xib in Resources */,
 				B264A3A21D016C0D00C72E13 /* JFForgotViewController.xib in Resources */,
@@ -1084,7 +1085,6 @@
 				B2FFDDDD1D06552D00C28DD1 /* HYQiHei-50J.ttf in Resources */,
 				B264A3BA1D016C0D00C72E13 /* JFProfileHeaderView.xib in Resources */,
 				B264A3CC1D016C0D00C72E13 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
-				B2FFDDDE1D06552D00C28DD1 /* loading.png in Resources */,
 				B264A3D01D016C0D00C72E13 /* README.txt in Resources */,
 				B264A4171D018DC800C72E13 /* JFPhotoBottomBar.xib in Resources */,
 				B264A36D1D016C0D00C72E13 /* LaunchScreen.storyboard in Resources */,

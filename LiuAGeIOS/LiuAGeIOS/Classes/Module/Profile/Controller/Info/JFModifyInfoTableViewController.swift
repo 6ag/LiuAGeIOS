@@ -91,25 +91,22 @@ class JFModifyInfoTableViewController: JFBaseTableViewController {
      */
     func didTappedSaveButton(button: UIButton) -> Void {
         
-        JFProgressHUD.showSuccessWithStatus("修改成功")
-        navigationController?.popViewControllerAnimated(true)
+        let parameters: [String : AnyObject] = [
+            "username" : JFAccountModel.shareAccount()!.username!,
+            "userid" : JFAccountModel.shareAccount()!.id,
+            "action" : "EditInfo",
+            "token" : JFAccountModel.shareAccount()!.token!,
+        ]
         
-//        let parameters: [String : AnyObject] = [
-//            "username" : JFAccountModel.shareAccount()!.username!,
-//            "userid" : JFAccountModel.shareAccount()!.id,
-//            "action" : "EditSafeInfo",
-//            "token" : JFAccountModel.shareAccount()!.token!,
-//        ]
-//        
-//        JFNetworkTool.shareNetworkTool.post(MODIFY_ACCOUNT_INFO, parameters: parameters) { (success, result, error) in
-//            print(result)
-//            if success {
-//                JFProgressHUD.showSuccessWithStatus("修改成功")
-//                self.navigationController?.popViewControllerAnimated(true)
-//            } else if result != nil {
-////                JFProgressHUD.showInfoWithStatus(result!["result"]["info"].stringValue)
-//            }
-//        }
+        JFNetworkTool.shareNetworkTool.post(MODIFY_ACCOUNT_INFO, parameters: parameters) { (success, result, error) in
+            print(result)
+            if success {
+                JFProgressHUD.showSuccessWithStatus("修改成功")
+                self.navigationController?.popViewControllerAnimated(true)
+            } else if result != nil {
+                JFProgressHUD.showInfoWithStatus(result!["result"]["info"].stringValue)
+            }
+        }
     }
     
     /// 尾部保存视图

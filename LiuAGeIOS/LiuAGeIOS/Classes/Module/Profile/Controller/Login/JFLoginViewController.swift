@@ -56,10 +56,6 @@ class JFLoginViewController: UIViewController, JFRegisterViewControllerDelegate 
     // 测试账号密码都是：bbsbaokan
     @IBAction func didTappedLoginButton(button: JFLoginButton) {
         
-        // 保存账号和密码
-        NSUserDefaults.standardUserDefaults().setObject(self.usernameField.text, forKey: "username")
-        NSUserDefaults.standardUserDefaults().setObject(self.passwordField.text, forKey: "password")
-        
         view.userInteractionEnabled = false
         view.endEditing(true)
         
@@ -75,8 +71,12 @@ class JFLoginViewController: UIViewController, JFRegisterViewControllerDelegate 
             
             // 发送登录请求
             JFNetworkTool.shareNetworkTool.post(LOGIN, parameters: parameters) { (success, result, error) in
+                print(result)
                 if success {
-                    print(result)
+                    // 保存账号和密码
+                    NSUserDefaults.standardUserDefaults().setObject(self.usernameField.text, forKey: "username")
+                    NSUserDefaults.standardUserDefaults().setObject(self.passwordField.text, forKey: "password")
+                    
                     if let successResult = result {
                        let account = JFAccountModel(dict: successResult["data"]["user"].dictionaryObject!)
                         // 更新用户信息

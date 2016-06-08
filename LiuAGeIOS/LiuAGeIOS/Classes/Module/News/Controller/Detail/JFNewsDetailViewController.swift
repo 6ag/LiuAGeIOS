@@ -27,9 +27,9 @@ class JFNewsDetailViewController: UIViewController {
         didSet {
             if isLoaded {
                 // 获取当前显示的整个html代码
-                let html = webView.stringByEvaluatingJavaScriptFromString("getHtml();")!
+                let html = getArticleHtml()
                 let templatePath = NSBundle.mainBundle().pathForResource("article", ofType: "html")!
-                let baseURL = NSURL(fileURLWithPath: templatePath as String)
+                let baseURL = NSURL(fileURLWithPath: templatePath)
                 webView.loadHTMLString(html, baseURL: baseURL)
             } else {
                 // 没有加载过，才去初始化webView - 保证只加载一次
@@ -214,7 +214,6 @@ class JFNewsDetailViewController: UIViewController {
             
             guard let successResult = result where success == true else {return}
             
-            //            print(successResult)
             // 相关连接
             self.otherLinks.removeAll()
             let otherLinks = successResult["data"]["otherLink"].array
@@ -286,7 +285,7 @@ class JFNewsDetailViewController: UIViewController {
                     "classid" : comment["classid"].intValue,
                     "saytext" : comment["saytext"].stringValue,
                     "saytime" : comment["saytime"].stringValue,
-                    "userpic" : "\(BASE_URL)\(comment["userpic"].stringValue)",
+                    "userpic" : comment["userpic"].stringValue,
                     "zcnum" : comment["zcnum"].stringValue
                 ]
                 
@@ -304,7 +303,6 @@ class JFNewsDetailViewController: UIViewController {
      - parameter model: 新闻模型
      */
     func loadWebViewContent(model: JFArticleDetailModel) {
-        
         
         // 如果不熟悉网页，可以换成GRMutache模板更配哦
         var html = ""
@@ -337,6 +335,8 @@ class JFNewsDetailViewController: UIViewController {
             ".content {" + // 文章内容
             "font-size: \(NSUserDefaults.standardUserDefaults().integerForKey(CONTENT_FONT_SIZE_KEY))px;" +
             "font-family: '\(jf_getContentFont().fontName)';" +
+            "color: #3c3c3c;" +
+            "letter-spacing: 1.5px;" +
             "}" +
             ".content p {" +
             "margin: 0px 0px 15px 0px;" + // 上右下左
@@ -348,7 +348,6 @@ class JFNewsDetailViewController: UIViewController {
         "</style>"
         
         html.appendContentsOf(css)
-        html.appendContentsOf("<div class=\"container\">")
         html.appendContentsOf("<div class=\"title\">\(model.title!)</div>")
         html.appendContentsOf("<div class=\"time\">\(model.befrom!)&nbsp;&nbsp;&nbsp;&nbsp;\(model.newstime!.timeStampToString())</div>")
         
@@ -381,7 +380,7 @@ class JFNewsDetailViewController: UIViewController {
                 }
                 
                 // 加载中的占位图
-                let loading = NSBundle.mainBundle().pathForResource("loading", ofType: "png")
+                let loading = NSBundle.mainBundle().pathForResource("article_content_placeholder", ofType: "png")
                 
                 // img标签
                 let imgTag = "<img onclick='didTappedImage(\(index));' src='\(loading!)' id='\(dict["url"] as! String)' width='\(width)' height='\(height)' />"
@@ -393,13 +392,12 @@ class JFNewsDetailViewController: UIViewController {
         }
         
         html.appendContentsOf("<div class=\"content\">\(tempNewstext)</div>")
-        html.appendContentsOf("</div>")
         
         // 从本地加载网页模板，替换新闻主页
         let templatePath = NSBundle.mainBundle().pathForResource("article", ofType: "html")!
         let template = (try! String(contentsOfFile: templatePath, encoding: NSUTF8StringEncoding)) as NSString
         html = template.stringByReplacingOccurrencesOfString("<p>mainnews</p>", withString: html, options: NSStringCompareOptions.CaseInsensitiveSearch, range: template.rangeOfString("<p>mainnews</p>"))
-        let baseURL = NSURL(fileURLWithPath: templatePath as String)
+        let baseURL = NSURL(fileURLWithPath: templatePath)
         webView.loadHTMLString(html, baseURL: baseURL)
         
         // 已经加载过就修改标记
@@ -486,7 +484,7 @@ class JFNewsDetailViewController: UIViewController {
     
     /// 尾部更多评论按钮
     private lazy var footerView: UIView = {
-        let moreCommentButton = UIButton(frame: CGRect(x: 20, y: 0, width: SCREEN_WIDTH - 40, height: 44))
+        let moreCommentButton = UIButton(frame: CGRect(x: 20, y: 20, width: SCREEN_WIDTH - 40, height: 44))
         moreCommentButton.addTarget(self, action: #selector(didTappedmoreCommentButton(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         moreCommentButton.setTitle("更多评论", forState: UIControlState.Normal)
         moreCommentButton.backgroundColor = NAVIGATIONBAR_COLOR
@@ -502,7 +500,8 @@ class JFNewsDetailViewController: UIViewController {
 extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 4
+        // 这样做是为了防止还没有数据的时候滑动崩溃哦
+        return model == nil ? 0 : 4
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -518,33 +517,6 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
         default:
             return 0
         }
-    }
-    
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        switch indexPath.section {
-        case 0: // 分享
-            return 160
-        case 1: // 广告
-            return 160
-        case 2: // 相关阅读
-            return 100
-        case 3: // 评论
-            var rowHeight = commentList[indexPath.row].rowHeight
-            if rowHeight < 1 {
-                let cell = tableView.dequeueReusableCellWithIdentifier(detailCommentIdentifier) as! JFCommentCell
-                // 缓存评论cell高度
-                commentList[indexPath.row].rowHeight = cell.getCellHeight(commentList[indexPath.row])
-                rowHeight = commentList[indexPath.row].rowHeight
-            }
-            return rowHeight
-        default:
-            return 0
-        }
-    }
-    
-    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        // 预估高度
-        return 120
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -611,6 +583,33 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
         }
     }
     
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        switch indexPath.section {
+        case 0: // 分享
+            return 160
+        case 1: // 广告
+            return 160
+        case 2: // 相关阅读
+            return 100
+        case 3: // 评论
+            var rowHeight = commentList[indexPath.row].rowHeight
+            if rowHeight < 1 {
+                let cell = tableView.dequeueReusableCellWithIdentifier(detailCommentIdentifier) as! JFCommentCell
+                // 缓存评论cell高度
+                commentList[indexPath.row].rowHeight = cell.getCellHeight(commentList[indexPath.row])
+                rowHeight = commentList[indexPath.row].rowHeight
+            }
+            return rowHeight
+        default:
+            return 0
+        }
+    }
+    
+    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        // 预估高度
+        return 120
+    }
+    
     func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         if section == 3 {
             return commentList.count == 0 ? nil : footerView // 如果有评论才显示更多评论按钮
@@ -643,7 +642,7 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
         case 2:
             return commentList.count == 0 ? 1 : 20
         case 3:
-            return commentList.count == 0 ? 50 : 100
+            return commentList.count == 0 ? 50 : 120
         default:
             return 1
         }
@@ -795,15 +794,23 @@ extension JFNewsDetailViewController: JFNewsBottomBarDelegate, JFCommentCommitVi
 extension JFNewsDetailViewController: JFSetFontViewDelegate {
     
     /**
+     获取文章html代码
+     */
+    func getArticleHtml() -> String {
+        let html = webView.stringByEvaluatingJavaScriptFromString("getHtml();")!
+        return (html as NSString).stringByReplacingOccurrencesOfString("<iframe src=\"wvjbscheme://__WVJB_QUEUE_MESSAGE__\" style=\"display: none;\"></iframe>", withString: "")
+    }
+    
+    /**
      修改了正文字体大小，需要重新显示 添加图片缓存后，目前还有问题
      */
     func didChangeFontSize(fontSize: Int) {
         
         // 获取整个html代码
-        var html = webView.stringByEvaluatingJavaScriptFromString("getHtml();")!
+        var html = getArticleHtml()
         html = (html as NSString).stringByReplacingOccurrencesOfString(".content {font-size: \(NSUserDefaults.standardUserDefaults().integerForKey(CONTENT_FONT_SIZE_KEY))px;", withString: ".content {font-size: \(fontSize)px;")
         let templatePath = NSBundle.mainBundle().pathForResource("article", ofType: "html")!
-        let baseURL = NSURL(fileURLWithPath: templatePath as String)
+        let baseURL = NSURL(fileURLWithPath: templatePath)
         webView.loadHTMLString(html, baseURL: baseURL)
         
         NSUserDefaults.standardUserDefaults().setInteger(fontSize, forKey: CONTENT_FONT_SIZE_KEY)
@@ -819,12 +826,12 @@ extension JFNewsDetailViewController: JFSetFontViewDelegate {
     func didChangedFont(fontNumber: Int, fontPath: String, fontName: String) {
         
         // 获取整个html代码
-        var html = webView.stringByEvaluatingJavaScriptFromString("getHtml();")!
+        var html = getArticleHtml()
         html = (html as NSString).stringByReplacingOccurrencesOfString("font-family: '\(jf_getContentFont().fontName)';", withString: "font-family: '\(fontName)';")
         html = (html as NSString).stringByReplacingOccurrencesOfString("src: url('\(jf_getContentFont().fontPath)');", withString: "src: url('\(fontPath)');")
         
         let templatePath = NSBundle.mainBundle().pathForResource("article", ofType: "html")!
-        let baseURL = NSURL(fileURLWithPath: templatePath as String)
+        let baseURL = NSURL(fileURLWithPath: templatePath)
         webView.loadHTMLString(html, baseURL: baseURL)
         
         NSUserDefaults.standardUserDefaults().setInteger(fontNumber, forKey: CONTENT_FONT_TYPE_KEY)
@@ -850,7 +857,8 @@ extension JFNewsDetailViewController: UIWebViewDelegate {
      webView加载完成后更新webView高度并刷新tableView
      */
     func webViewDidFinishLoad(webView: UIWebView) {
-        let result = webView.stringByEvaluatingJavaScriptFromString("document.body.offsetHeight")
+        
+        let result = webView.stringByEvaluatingJavaScriptFromString("getHtmlHeight();")
         if let height = result {
             let frame = webView.frame
             webView.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, CGFloat((height as NSString).floatValue) + 20)
@@ -953,7 +961,6 @@ extension JFNewsDetailViewController: JFCommentCellDelegate {
         ]
         
         JFNetworkTool.shareNetworkTool.get(TOP_DOWN, parameters: parameters as? [String : AnyObject]) { (success, result, error) in
-            print(result)
             JFProgressHUD.showInfoWithStatus(result!["result"]["info"].stringValue)
             if success {
                 commentModel.zcnum += 1

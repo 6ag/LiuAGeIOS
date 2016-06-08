@@ -13,9 +13,9 @@ class JFNewsThreePicCell: UITableViewCell {
     
     var postModel: JFArticleListModel? {
         didSet {
-            iconView1.yy_setImageWithURL(NSURL(string: postModel!.morepic![0]), placeholder: UIImage(named: "placeholder_logo"))
-            iconView2.yy_setImageWithURL(NSURL(string: postModel!.morepic![1]), placeholder: UIImage(named: "placeholder_logo"))
-            iconView3.yy_setImageWithURL(NSURL(string: postModel!.morepic![2]), placeholder: UIImage(named: "placeholder_logo"))
+            iconView1.yy_setImageWithURL(NSURL(string: postModel!.morepic![0]), placeholder: UIImage(named: "list_placeholder"))
+            iconView2.yy_setImageWithURL(NSURL(string: postModel!.morepic![1]), placeholder: UIImage(named: "list_placeholder"))
+            iconView3.yy_setImageWithURL(NSURL(string: postModel!.morepic![2]), placeholder: UIImage(named: "list_placeholder"))
             
             articleTitleLabel.text = postModel?.title!
             timeLabel.text = postModel?.newstime!.timeStampToString()

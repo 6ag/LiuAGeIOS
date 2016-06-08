@@ -22,7 +22,7 @@ class JFSetFontView: UIView {
     
     var currentButton: UIButton!              // 当前选中状态的按钮
     let bgView = UIView(frame: SCREEN_BOUNDS) // 透明遮罩
-    let minSize = 12                          // 14   16   18   20  22   24
+    let minSize = 14                          //  16   18   20  22   24  26
     var delegate: JFSetFontViewDelegate?
     
     // 初始化

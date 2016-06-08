@@ -14,7 +14,7 @@ class JFNewsOnePicCell: UITableViewCell {
     var postModel: JFArticleListModel? {
         didSet {
             iconView.image = nil
-            iconView.yy_setImageWithURL(NSURL(string: postModel!.titlepic!), placeholder: UIImage(named: "placeholder_logo"))
+            iconView.yy_setImageWithURL(NSURL(string: postModel!.titlepic!), placeholder: UIImage(named: "list_placeholder"))
             articleTitleLabel.text = postModel?.title!
             timeLabel.text = postModel?.newstime!.timeStampToString()
             befromLabel.text = postModel?.befrom!

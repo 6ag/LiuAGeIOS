@@ -15,6 +15,11 @@
         return document.documentElement.outerHTML
     }
     
+    // 获取网页高度
+    function getHtmlHeight() {
+        return document.body.scrollHeight
+    }
+    
     function connectWebViewJavascriptBridge(callback) {
         if (window.WebViewJavascriptBridge) {
             callback(WebViewJavascriptBridge)
@@ -54,20 +59,10 @@
                                                }
                                                })
                                    
-                                   /*
-                                    // 从iOS 通过Handler发送过来的就会调用这个函数
-                                    bridge.registerHandler('testJavascriptHandler', function (data, responseCallback) {
-                                    var responseData = {'Javascript Says': 'Right back atcha!'}
-                                    alert('Received message: ' + data)
-                                    if (responseCallback) {
-                                    responseCallback(responseData)
-                                    }
-                                    })*/
-                                   
                                    })
                                    
         </script>
-    <body>
+    <body class="container">
         <p>mainnews</p>
     </body>
 </html>

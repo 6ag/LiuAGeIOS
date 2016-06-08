@@ -18,7 +18,7 @@ class JFDetailOtherCell: UITableViewCell {
     
     var model: JFOtherLinkModel? {
         didSet {
-            iconImageView.yy_setImageWithURL(NSURL(string: model!.titlepic!), options: YYWebImageOptions.ShowNetworkActivity)
+            iconImageView.yy_setImageWithURL(NSURL(string: model!.titlepic!), placeholder: UIImage(named: "list_placeholder"))
             articleTitleLabel.text = model!.title!
             befromLabel.text = model!.classname!
             showNumLabel.text = model!.onclick!

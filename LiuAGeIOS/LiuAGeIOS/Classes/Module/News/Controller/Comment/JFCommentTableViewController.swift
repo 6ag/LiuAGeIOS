@@ -103,7 +103,7 @@ class JFCommentTableViewController: UITableViewController {
                             "classid" : comment["classid"].intValue,
                             "saytext" : comment["saytext"].stringValue,
                             "saytime" : comment["saytime"].stringValue,
-                            "userpic" : "\(BASE_URL)\(comment["userpic"].stringValue)",
+                            "userpic" : comment["userpic"].stringValue,
                             "zcnum" : comment["zcnum"].stringValue
                         ]
                         
