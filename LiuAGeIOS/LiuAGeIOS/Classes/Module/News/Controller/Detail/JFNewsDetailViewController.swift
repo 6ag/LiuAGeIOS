@@ -76,6 +76,15 @@ class JFNewsDetailViewController: UIViewController {
     }
     
     /**
+     点击更多评论
+     */
+    func didTappedmoreCommentButton(button: UIButton) -> Void {
+        let commentVc = JFCommentTableViewController(style: UITableViewStyle.Plain)
+        commentVc.param = articleParam
+        navigationController?.pushViewController(commentVc, animated: true)
+    }
+    
+    /**
      配置WebViewJavascriptBridge
      */
     private func setupWebViewJavascriptBridge() {
@@ -123,7 +132,7 @@ class JFNewsDetailViewController: UIViewController {
         loadCommentList(articleParam!.classid, id: articleParam!.id)
     }
     
-    // MARK: - 底部条操作
+    // MARK: - 底部工具条相关处理
     // 开始拖拽视图
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         contentOffsetY = scrollView.contentOffset.y
@@ -172,15 +181,6 @@ class JFNewsDetailViewController: UIViewController {
         }
     }
     
-    /**
-     点击更多评论
-     */
-    func didTappedmoreCommentButton(button: UIButton) -> Void {
-        let commentVc = JFCommentTableViewController(style: UITableViewStyle.Plain)
-        commentVc.param = articleParam
-        navigationController?.pushViewController(commentVc, animated: true)
-    }
-    
     // MARK: - 各种数据请求
     /**
      加载详情
@@ -214,7 +214,7 @@ class JFNewsDetailViewController: UIViewController {
             
             guard let successResult = result where success == true else {return}
             
-            print(successResult)
+            //            print(successResult)
             // 相关连接
             self.otherLinks.removeAll()
             let otherLinks = successResult["data"]["otherLink"].array
@@ -227,7 +227,7 @@ class JFNewsDetailViewController: UIViewController {
                         "onclick" : other["onclick"].stringValue,
                         "classname" : other["classname"].stringValue,
                         "titlepic" : other["titlepic"].stringValue,
-                    ]
+                        ]
                     
                     let otherModel = JFOtherLinkModel(dict: dict)
                     self.otherLinks.append(otherModel)
@@ -308,15 +308,15 @@ class JFNewsDetailViewController: UIViewController {
         // 如果不熟悉网页，可以换成GRMutache模板更配哦
         var html = ""
         let css = "<style type=\"text/css\">" +
-            "@font-face {" + // 字体
+            "@font-face {" + // 自定义字体
             "font-family: '汉仪旗黑';" +
             "src: url('\(NSBundle.mainBundle().pathForResource("HYQiHei-50J", ofType: "ttf")!)');" +
             "}" +
             "*{ padding:0px; margin:0px;}" +
-            ".container {" + // 正文主体（包括标题、时间、来源）
-            "width: 96%;" +
-            "margin-left: 2%;" +
-            "margin-top: 5px" +
+            ".container {" + // 正文主体（包括标题、时间、来源、内容）
+            "width: 92%;" +
+            "margin-left: 4%;" +
+            "margin-top: 10px" +
             "}" +
             ".title {" + // 标题
             "text-align: left;" +
@@ -373,8 +373,8 @@ class JFNewsDetailViewController: UIViewController {
                 }
                 
                 // 如果图片超过了最大宽度，才等比压缩
-                if width >= SCREEN_WIDTH - 15  {
-                    let rate = (SCREEN_WIDTH - 15) / width
+                if width >= SCREEN_WIDTH - 30 {
+                    let rate = (SCREEN_WIDTH - 30) / width
                     width = width * rate
                     height = height * rate
                 }
@@ -423,6 +423,7 @@ class JFNewsDetailViewController: UIViewController {
                 bridge?.send("replaceimage\(imageString),\(imagePath)")
             } else {
                 YYWebImageManager(cache: JFArticleStorage.getArticleImageCache(), queue: NSOperationQueue()).requestImageWithURL(NSURL(string: imageString)!, options: YYWebImageOptions.UseNSURLCache, progress: { (_, _) in
+                    
                     }, transform: { (image, url) -> UIImage? in
                         return image
                     }, completion: { (image, url, type, stage, error) in
@@ -443,36 +444,7 @@ class JFNewsDetailViewController: UIViewController {
     }
     
     // MARK: - 懒加载
-    /// 活动指示器
-    private lazy var activityView: UIActivityIndicatorView = {
-        let activityView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
-        activityView.center = self.view.center
-        return activityView
-    }()
-    
-    /// webView
-    private lazy var webView: UIWebView = {
-        let webView = UIWebView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT))
-        webView.delegate = self
-        webView.scrollView.scrollEnabled = false
-        return webView
-    }()
-    
-    /// 底部条
-    private lazy var bottomBarView: JFNewsBottomBar = {
-        let bottomBarView = NSBundle.mainBundle().loadNibNamed("JFNewsBottomBar", owner: nil, options: nil).last as! JFNewsBottomBar
-        bottomBarView.delegate = self
-        return bottomBarView
-    }()
-    
-    /// 顶部条
-    private lazy var topBarView: UIView = {
-        let topBarView = UIView()
-        topBarView.backgroundColor = UIColor(red: 255, green: 255, blue: 255, alpha: 0.8)
-        return topBarView
-    }()
-    
-    /// tableView
+    /// tableView - 整个容器
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT), style: UITableViewStyle.Grouped)
         tableView.delegate = self
@@ -482,7 +454,36 @@ class JFNewsDetailViewController: UIViewController {
         return tableView
     }()
     
-    /// 尾部视图
+    /// webView - 显示正文的
+    private lazy var webView: UIWebView = {
+        let webView = UIWebView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT))
+        webView.delegate = self
+        webView.scrollView.scrollEnabled = false
+        return webView
+    }()
+    
+    /// 活动指示器 - 页面正在加载时显示
+    private lazy var activityView: UIActivityIndicatorView = {
+        let activityView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
+        activityView.center = self.view.center
+        return activityView
+    }()
+    
+    /// 底部工具条
+    private lazy var bottomBarView: JFNewsBottomBar = {
+        let bottomBarView = NSBundle.mainBundle().loadNibNamed("JFNewsBottomBar", owner: nil, options: nil).last as! JFNewsBottomBar
+        bottomBarView.delegate = self
+        return bottomBarView
+    }()
+    
+    /// 顶部透明白条
+    private lazy var topBarView: UIView = {
+        let topBarView = UIView()
+        topBarView.backgroundColor = UIColor(red: 255, green: 255, blue: 255, alpha: 0.8)
+        return topBarView
+    }()
+    
+    /// 尾部更多评论按钮
     private lazy var footerView: UIView = {
         let moreCommentButton = UIButton(frame: CGRect(x: 20, y: 0, width: SCREEN_WIDTH - 40, height: 44))
         moreCommentButton.addTarget(self, action: #selector(didTappedmoreCommentButton(_:)), forControlEvents: UIControlEvents.TouchUpInside)
@@ -530,7 +531,7 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
             var rowHeight = commentList[indexPath.row].rowHeight
             if rowHeight < 1 {
                 let cell = tableView.dequeueReusableCellWithIdentifier(detailCommentIdentifier) as! JFCommentCell
-                // 缓存高度
+                // 缓存评论cell高度
                 commentList[indexPath.row].rowHeight = cell.getCellHeight(commentList[indexPath.row])
                 rowHeight = commentList[indexPath.row].rowHeight
             }
@@ -542,7 +543,7 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
     
     func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         // 预估高度
-        return 100
+        return 120
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -576,17 +577,23 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
+        // 相关阅读和最新评论才需要创建组头
         if section == 2 || section == 3 {
-            let leftRedView = UIView(frame: CGRect(x: 0, y: 0, width: 3, height: 30))
-            leftRedView.backgroundColor = NAVIGATIONBAR_COLOR
             
+            // 屎黄色竖线
+            let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 3, height: 30))
+            leftView.backgroundColor = NAVIGATIONBAR_COLOR
+            
+            // 灰色背景
             let bgView = UIView(frame: CGRect(x: 3, y: 0, width: SCREEN_WIDTH - 3, height: 30))
             bgView.backgroundColor = UIColor(red:0.914,  green:0.890,  blue:0.847, alpha:0.3)
             
+            // 组头名称
             let titleLabel = UILabel(frame: CGRect(x: 20, y: 0, width: 100, height: 30))
             
+            // 组头容器 （因为组头默认是和cell一样宽，高度也是委托方法里返回，所以里面的子控件才需要布局）
             let headerView = UIView()
-            headerView.addSubview(leftRedView)
+            headerView.addSubview(leftView)
             headerView.addSubview(bgView)
             headerView.addSubview(titleLabel)
             
@@ -696,19 +703,19 @@ extension JFNewsDetailViewController: JFNewsBottomBarDelegate, JFCommentCommitVi
             ]
             
             JFNetworkTool.shareNetworkTool.post(ADD_DEL_FAVA, parameters: parameters) { (success, result, error) in
-                if success {
-                    if let successResult = result {
-                        if successResult["result"]["status"].intValue == 1 {
-                            // 增加成功
-                            JFProgressHUD.showSuccessWithStatus("收藏成功")
-                            button.selected = true
-                        } else if successResult["result"]["status"].intValue == 3 {
-                            // 删除成功
-                            JFProgressHUD.showSuccessWithStatus("取消收藏")
-                            button.selected = false
-                        }
-                    }
+                
+                guard let successResult = result where success == true else {return}
+                
+                if successResult["result"]["status"].intValue == 1 {
+                    // 增加成功
+                    JFProgressHUD.showSuccessWithStatus("收藏成功")
+                    button.selected = true
+                } else if successResult["result"]["status"].intValue == 3 {
+                    // 删除成功
+                    JFProgressHUD.showSuccessWithStatus("取消收藏")
+                    button.selected = false
                 }
+                
             }
         } else {
             presentViewController(JFNavigationController(rootViewController: JFLoginViewController(nibName: "JFLoginViewController", bundle: nil)), animated: true, completion: { })
