@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		B20149531D071CD100ACE583 /* JFDetailOtherCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B20149521D071CD100ACE583 /* JFDetailOtherCell.xib */; };
 		B20149551D07BA6200ACE583 /* JFArticleStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20149541D07BA6200ACE583 /* JFArticleStorage.swift */; };
+		B20149581D07DBFA00ACE583 /* JFSetFontView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20149561D07DBFA00ACE583 /* JFSetFontView.swift */; };
+		B20149591D07DBFA00ACE583 /* JFSetFontView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B20149571D07DBFA00ACE583 /* JFSetFontView.xib */; };
 		B264A36C1D016C0D00C72E13 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B264A2BF1D016C0D00C72E13 /* Assets.xcassets */; };
 		B264A36D1D016C0D00C72E13 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B264A2C01D016C0D00C72E13 /* LaunchScreen.storyboard */; };
 		B264A36E1D016C0D00C72E13 /* api.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A2C41D016C0D00C72E13 /* api.swift */; };
@@ -50,8 +52,6 @@
 		B264A3B91D016C0D00C72E13 /* JFProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A32E1D016C0D00C72E13 /* JFProfileHeaderView.swift */; };
 		B264A3BA1D016C0D00C72E13 /* JFProfileHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B264A32F1D016C0D00C72E13 /* JFProfileHeaderView.xib */; };
 		B264A3BB1D016C0D00C72E13 /* JFProfileTopButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A3301D016C0D00C72E13 /* JFProfileTopButton.swift */; };
-		B264A3BC1D016C0D00C72E13 /* JFSetFontView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A3311D016C0D00C72E13 /* JFSetFontView.swift */; };
-		B264A3BD1D016C0D00C72E13 /* JFSetFontView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B264A3321D016C0D00C72E13 /* JFSetFontView.xib */; };
 		B264A3C41D016C0D00C72E13 /* JFNetworkTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A33F1D016C0D00C72E13 /* JFNetworkTool.swift */; };
 		B264A3C51D016C0D00C72E13 /* JFProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A3401D016C0D00C72E13 /* JFProgressHUD.swift */; };
 		B264A3C61D016C0D00C72E13 /* jpush-ios-2.1.6.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B264A3431D016C0D00C72E13 /* jpush-ios-2.1.6.a */; };
@@ -177,6 +177,8 @@
 		A50FF2141C26914500D2F040 /* LiuAGeIOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LiuAGeIOS.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B20149521D071CD100ACE583 /* JFDetailOtherCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JFDetailOtherCell.xib; sourceTree = "<group>"; };
 		B20149541D07BA6200ACE583 /* JFArticleStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFArticleStorage.swift; sourceTree = "<group>"; };
+		B20149561D07DBFA00ACE583 /* JFSetFontView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFSetFontView.swift; sourceTree = "<group>"; };
+		B20149571D07DBFA00ACE583 /* JFSetFontView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JFSetFontView.xib; sourceTree = "<group>"; };
 		B264A2BF1D016C0D00C72E13 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B264A2C11D016C0D00C72E13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B264A2C41D016C0D00C72E13 /* api.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = api.swift; sourceTree = "<group>"; };
@@ -219,8 +221,6 @@
 		B264A32E1D016C0D00C72E13 /* JFProfileHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFProfileHeaderView.swift; sourceTree = "<group>"; };
 		B264A32F1D016C0D00C72E13 /* JFProfileHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JFProfileHeaderView.xib; sourceTree = "<group>"; };
 		B264A3301D016C0D00C72E13 /* JFProfileTopButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFProfileTopButton.swift; sourceTree = "<group>"; };
-		B264A3311D016C0D00C72E13 /* JFSetFontView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFSetFontView.swift; sourceTree = "<group>"; };
-		B264A3321D016C0D00C72E13 /* JFSetFontView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JFSetFontView.xib; sourceTree = "<group>"; };
 		B264A33F1D016C0D00C72E13 /* JFNetworkTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFNetworkTool.swift; sourceTree = "<group>"; };
 		B264A3401D016C0D00C72E13 /* JFProgressHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFProgressHUD.swift; sourceTree = "<group>"; };
 		B264A3431D016C0D00C72E13 /* jpush-ios-2.1.6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "jpush-ios-2.1.6.a"; sourceTree = "<group>"; };
@@ -637,8 +637,6 @@
 				B264A32E1D016C0D00C72E13 /* JFProfileHeaderView.swift */,
 				B264A32F1D016C0D00C72E13 /* JFProfileHeaderView.xib */,
 				B264A3301D016C0D00C72E13 /* JFProfileTopButton.swift */,
-				B264A3311D016C0D00C72E13 /* JFSetFontView.swift */,
-				B264A3321D016C0D00C72E13 /* JFSetFontView.xib */,
 				B2F9EC5B1D041A6B00FC7E48 /* JFProfileFooterView.swift */,
 			);
 			path = View;
@@ -887,6 +885,8 @@
 		B264A3F11D018DC800C72E13 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				B20149561D07DBFA00ACE583 /* JFSetFontView.swift */,
+				B20149571D07DBFA00ACE583 /* JFSetFontView.xib */,
 				B264A3F21D018DC800C72E13 /* JFDetailOtherCell.swift */,
 				B20149521D071CD100ACE583 /* JFDetailOtherCell.xib */,
 				B264A3F31D018DC800C72E13 /* JFNewsBottomBar.swift */,
@@ -1061,6 +1061,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B20149591D07DBFA00ACE583 /* JFSetFontView.xib in Resources */,
 				B264A36C1D016C0D00C72E13 /* Assets.xcassets in Resources */,
 				B264A4151D018DC800C72E13 /* JFNewsBottomBar.xib in Resources */,
 				B264A3AE1D016C0D00C72E13 /* JFRegisterViewController.xib in Resources */,
@@ -1083,7 +1084,6 @@
 				B2FFDDDD1D06552D00C28DD1 /* HYQiHei-50J.ttf in Resources */,
 				B264A3BA1D016C0D00C72E13 /* JFProfileHeaderView.xib in Resources */,
 				B264A3CC1D016C0D00C72E13 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
-				B264A3BD1D016C0D00C72E13 /* JFSetFontView.xib in Resources */,
 				B2FFDDDE1D06552D00C28DD1 /* loading.png in Resources */,
 				B264A3D01D016C0D00C72E13 /* README.txt in Resources */,
 				B264A4171D018DC800C72E13 /* JFPhotoBottomBar.xib in Resources */,
@@ -1254,6 +1254,7 @@
 				B264A3BB1D016C0D00C72E13 /* JFProfileTopButton.swift in Sources */,
 				B264A40C1D018DC800C72E13 /* JFPhotoDetailModel.swift in Sources */,
 				B264A4061D018DC800C72E13 /* JFNewsViewController.swift in Sources */,
+				B20149581D07DBFA00ACE583 /* JFSetFontView.swift in Sources */,
 				B264A3741D016C0D00C72E13 /* UIView+Extension.swift in Sources */,
 				B264A4211D018DC800C72E13 /* JFTopLabel.swift in Sources */,
 				B264A4031D018DC800C72E13 /* JFCommentTableViewController.swift in Sources */,
@@ -1268,7 +1269,6 @@
 				B264A4191D018DC800C72E13 /* JFStarAndShareCell.swift in Sources */,
 				B264A40E1D018DC800C72E13 /* JFEditColumnViewCell.swift in Sources */,
 				B264A3731D016C0D00C72E13 /* UIImage+Extension.swift in Sources */,
-				B264A3BC1D016C0D00C72E13 /* JFSetFontView.swift in Sources */,
 				B264A3781D016C0D00C72E13 /* JFNewFeatureViewController.swift in Sources */,
 				B264A3A31D016C0D00C72E13 /* JFEditProfileViewController.swift in Sources */,
 				B264A39F1D016C0D00C72E13 /* JFCollectionTableViewController.swift in Sources */,

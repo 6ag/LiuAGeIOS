@@ -50,26 +50,42 @@ func isNight() -> Bool {
 /**
  是否接收推送
  
- - returns: true 是夜间模式
+ - returns: true 接收
  */
 func isPush() -> Bool {
     return NSUserDefaults.standardUserDefaults().boolForKey(PUSH_KEY)
 }
 
+/**
+ 获取正文字体的字体文件名和类型名称
+ 
+ - returns: 返回字体文件路径和字体名称 比如 ("HYQiHei-50J.ttf", "汉仪旗黑")
+ */
+func jf_getContentFont() -> (fontPath: String, fontName: String) {
+    
+    // 用一些数字来判断字体，默认0就是系统默认，1是汉仪旗黑。其他有需求，再加
+    let fontNumber = NSUserDefaults.standardUserDefaults().integerForKey(CONTENT_FONT_TYPE_KEY)
+    if fontNumber == 1 {
+        return (NSBundle.mainBundle().pathForResource("HYQiHei-50J.ttf", ofType: nil)!, "汉仪旗黑")
+    } else {
+        return ("", "")
+    }
+}
+
 /// 保存夜间模式的状态的key
 let NIGHT_KEY = "night"
+
+/// 保存正文字体类型的key
+let CONTENT_FONT_TYPE_KEY = "contentFontType"
+
+/// 保存正文字体大小的key
+let CONTENT_FONT_SIZE_KEY = "contentFontSize"
 
 /// 推送开关
 let PUSH_KEY = "push"
 
 /// appStore中的应用id
 let APPLE_ID = "1120896924"
-
-/// 检查是否登录的key
-let IS_LOGIN = "isLogin"
-
-/// 保存正文字体大小的key
-let CONTENT_FONT_SIZE = "contentFontSize"
 
 /// 导航栏背景颜色 - （屎黄色）
 let NAVIGATIONBAR_COLOR = UIColor(red:0.996,  green:0.816,  blue:0.012, alpha:1)
@@ -96,7 +112,7 @@ let SCREEN_HEIGHT = UIScreen.mainScreen().bounds.height
 let SCREEN_BOUNDS = UIScreen.mainScreen().bounds
 
 /// 全局遮罩透明度
-let GLOBAL_SHADOW_ALPHA: CGFloat = 0.6
+let GLOBAL_SHADOW_ALPHA: CGFloat = 0.5
 
 /// shareSDK
 let SHARESDK_APP_KEY = "1385076478b60"

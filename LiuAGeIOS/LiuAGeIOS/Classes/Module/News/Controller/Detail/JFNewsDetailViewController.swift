@@ -305,12 +305,13 @@ class JFNewsDetailViewController: UIViewController {
      */
     func loadWebViewContent(model: JFArticleDetailModel) {
         
+        
         // 如果不熟悉网页，可以换成GRMutache模板更配哦
         var html = ""
         let css = "<style type=\"text/css\">" +
             "@font-face {" + // 自定义字体
-            "font-family: '汉仪旗黑';" +
-            "src: url('\(NSBundle.mainBundle().pathForResource("HYQiHei-50J", ofType: "ttf")!)');" +
+            "font-family: '\(jf_getContentFont().fontName)';" +
+            "src: url('\(jf_getContentFont().fontPath)');" +
             "}" +
             "*{ padding:0px; margin:0px;}" +
             ".container {" + // 正文主体（包括标题、时间、来源、内容）
@@ -323,7 +324,7 @@ class JFNewsDetailViewController: UIViewController {
             "font-size: 20px;" +
             "color: #3c3c3c;" +
             "font-weight: bold;" +
-            "font-family: '汉仪旗黑'" +
+            "font-family: '\(jf_getContentFont().fontName)';" +
             "margin-top: 5px;" +
             "}" +
             ".time {" + // 来源、时间
@@ -334,8 +335,8 @@ class JFNewsDetailViewController: UIViewController {
             "margin-bottom: 10px" +
             "}" +
             ".content {" + // 文章内容
-            "font-size: \(NSUserDefaults.standardUserDefaults().integerForKey(CONTENT_FONT_SIZE))px;" +
-            "font-family: '汉仪旗黑'" +
+            "font-size: \(NSUserDefaults.standardUserDefaults().integerForKey(CONTENT_FONT_SIZE_KEY))px;" +
+            "font-family: '\(jf_getContentFont().fontName)';" +
             "}" +
             ".content p {" +
             "margin: 0px 0px 15px 0px;" + // 上右下左
@@ -660,8 +661,8 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
     }
 }
 
-// MARK: - JFNewsBottomBarDelegate、JFCommentCommitViewDelegate、JFSetFontViewDelegate
-extension JFNewsDetailViewController: JFNewsBottomBarDelegate, JFCommentCommitViewDelegate, JFSetFontViewDelegate {
+// MARK: - JFNewsBottomBarDelegate、JFCommentCommitViewDelegate
+extension JFNewsDetailViewController: JFNewsBottomBarDelegate, JFCommentCommitViewDelegate {
     
     /**
      底部返回按钮点击
@@ -788,6 +789,11 @@ extension JFNewsDetailViewController: JFNewsBottomBarDelegate, JFCommentCommitVi
         }
     }
     
+}
+
+// MARK: - JFSetFontViewDelegate
+extension JFNewsDetailViewController: JFSetFontViewDelegate {
+    
     /**
      修改了正文字体大小，需要重新显示 添加图片缓存后，目前还有问题
      */
@@ -795,12 +801,45 @@ extension JFNewsDetailViewController: JFNewsBottomBarDelegate, JFCommentCommitVi
         
         // 获取整个html代码
         var html = webView.stringByEvaluatingJavaScriptFromString("getHtml();")!
-        html = (html as NSString).stringByReplacingOccurrencesOfString(".content {font-size: \(NSUserDefaults.standardUserDefaults().integerForKey(CONTENT_FONT_SIZE))px;", withString: ".content {font-size: \(fontSize)px;")
+        html = (html as NSString).stringByReplacingOccurrencesOfString(".content {font-size: \(NSUserDefaults.standardUserDefaults().integerForKey(CONTENT_FONT_SIZE_KEY))px;", withString: ".content {font-size: \(fontSize)px;")
         let templatePath = NSBundle.mainBundle().pathForResource("article", ofType: "html")!
         let baseURL = NSURL(fileURLWithPath: templatePath as String)
         webView.loadHTMLString(html, baseURL: baseURL)
         
-        NSUserDefaults.standardUserDefaults().setInteger(fontSize, forKey: CONTENT_FONT_SIZE)
+        NSUserDefaults.standardUserDefaults().setInteger(fontSize, forKey: CONTENT_FONT_SIZE_KEY)
+    }
+    
+    /**
+     修改了正文字体
+     
+     - parameter fontNumber: 字体编号
+     - parameter fontPath:   字体路径
+     - parameter fontName:   字体名称
+     */
+    func didChangedFont(fontNumber: Int, fontPath: String, fontName: String) {
+        
+        // 获取整个html代码
+        var html = webView.stringByEvaluatingJavaScriptFromString("getHtml();")!
+        html = (html as NSString).stringByReplacingOccurrencesOfString("font-family: '\(jf_getContentFont().fontName)';", withString: "font-family: '\(fontName)';")
+        html = (html as NSString).stringByReplacingOccurrencesOfString("src: url('\(jf_getContentFont().fontPath)');", withString: "src: url('\(fontPath)');")
+        
+        let templatePath = NSBundle.mainBundle().pathForResource("article", ofType: "html")!
+        let baseURL = NSURL(fileURLWithPath: templatePath as String)
+        webView.loadHTMLString(html, baseURL: baseURL)
+        
+        NSUserDefaults.standardUserDefaults().setInteger(fontNumber, forKey: CONTENT_FONT_TYPE_KEY)
+    }
+    
+    /**
+     修改了夜间/白日模式
+     
+     - parameter on: true则是夜间模式
+     */
+    func didChangedNightMode(on: Bool) {
+        NSUserDefaults.standardUserDefaults().setBool(on, forKey: NIGHT_KEY)
+        
+        // 切换代码
+        
     }
 }
 
@@ -898,6 +937,10 @@ extension JFNewsDetailViewController: JFStarAndShareCellDelegate {
 
 // MARK: - JFCommentCellDelegate
 extension JFNewsDetailViewController: JFCommentCellDelegate {
+    
+    /**
+     点击了评论cell上的赞按钮
+     */
     func didTappedStarButton(button: UIButton, commentModel: JFCommentModel) {
         button.selected = true
         

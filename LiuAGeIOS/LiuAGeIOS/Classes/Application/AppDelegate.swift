@@ -33,9 +33,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
      */
     private func setupGlobalData() {
         // 设置初始正文字体大小
-        if NSUserDefaults.standardUserDefaults().integerForKey(CONTENT_FONT_SIZE) == 0 {
+        if NSUserDefaults.standardUserDefaults().integerForKey(CONTENT_FONT_SIZE_KEY) == 0 {
             // 字体 14小   16中   18大   20  22   24  共6个等级，可以用枚举列举使用
-            NSUserDefaults.standardUserDefaults().setInteger(16, forKey: CONTENT_FONT_SIZE)
+            NSUserDefaults.standardUserDefaults().setInteger(16, forKey: CONTENT_FONT_SIZE_KEY)
         }
         
         // 验证缓存的账号是否有效
