@@ -172,6 +172,9 @@ class JFProfileViewController: JFBaseTableViewController {
         let group3 = JFProfileCellGroupModel(cells: [group3CellModel1, group3CellModel2, group3CellModel3, group3CellModel4])
         
         groupModels = [group1, group2, group3]
+        
+        // 更新头部数据
+        updateHeaderData()
     }
     
     /**
