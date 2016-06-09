@@ -11,7 +11,7 @@
 		B20149551D07BA6200ACE583 /* JFArticleStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20149541D07BA6200ACE583 /* JFArticleStorage.swift */; };
 		B20149581D07DBFA00ACE583 /* JFSetFontView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20149561D07DBFA00ACE583 /* JFSetFontView.swift */; };
 		B20149591D07DBFA00ACE583 /* JFSetFontView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B20149571D07DBFA00ACE583 /* JFSetFontView.xib */; };
-		B20149611D08269A00ACE583 /* article_content_placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = B20149601D08269A00ACE583 /* article_content_placeholder.png */; };
+		B20149611D08269A00ACE583 /* loading.png in Resources */ = {isa = PBXBuildFile; fileRef = B20149601D08269A00ACE583 /* loading.png */; };
 		B264A36C1D016C0D00C72E13 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B264A2BF1D016C0D00C72E13 /* Assets.xcassets */; };
 		B264A36D1D016C0D00C72E13 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B264A2C01D016C0D00C72E13 /* LaunchScreen.storyboard */; };
 		B264A36E1D016C0D00C72E13 /* api.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A2C41D016C0D00C72E13 /* api.swift */; };
@@ -109,6 +109,7 @@
 		B2C866041D051C1900A5B1FD /* JFPopoverModalAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C866011D051C1900A5B1FD /* JFPopoverModalAnimation.swift */; };
 		B2C866051D051C1900A5B1FD /* JFPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C866021D051C1900A5B1FD /* JFPresentationController.swift */; };
 		B2DD3FA31CB7BDF60092C717 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B2DD3FA21CB7BDF60092C717 /* libz.tbd */; };
+		B2EBCE3F1D0960F300A09BA2 /* JFFPSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2EBCE3E1D0960F300A09BA2 /* JFFPSLabel.swift */; };
 		B2F9EC561D03CBC800FC7E48 /* JFNewFeatureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F9EC551D03CBC800FC7E48 /* JFNewFeatureCell.swift */; };
 		B2F9EC5A1D03F42600FC7E48 /* JFPanGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F9EC591D03F42600FC7E48 /* JFPanGestureRecognizer.swift */; };
 		B2F9EC5C1D041A6B00FC7E48 /* JFProfileFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F9EC5B1D041A6B00FC7E48 /* JFProfileFooterView.swift */; };
@@ -179,7 +180,7 @@
 		B20149541D07BA6200ACE583 /* JFArticleStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFArticleStorage.swift; sourceTree = "<group>"; };
 		B20149561D07DBFA00ACE583 /* JFSetFontView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFSetFontView.swift; sourceTree = "<group>"; };
 		B20149571D07DBFA00ACE583 /* JFSetFontView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JFSetFontView.xib; sourceTree = "<group>"; };
-		B20149601D08269A00ACE583 /* article_content_placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = article_content_placeholder.png; sourceTree = "<group>"; };
+		B20149601D08269A00ACE583 /* loading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loading.png; sourceTree = "<group>"; };
 		B264A2BF1D016C0D00C72E13 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B264A2C11D016C0D00C72E13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B264A2C41D016C0D00C72E13 /* api.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = api.swift; sourceTree = "<group>"; };
@@ -298,6 +299,7 @@
 		B2DD3FA01CB7BDE50092C717 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		B2DD3FA21CB7BDF60092C717 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		B2DD3FA41CB7BE050092C717 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		B2EBCE3E1D0960F300A09BA2 /* JFFPSLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFFPSLabel.swift; sourceTree = "<group>"; };
 		B2F9EC551D03CBC800FC7E48 /* JFNewFeatureCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFNewFeatureCell.swift; sourceTree = "<group>"; };
 		B2F9EC591D03F42600FC7E48 /* JFPanGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFPanGestureRecognizer.swift; sourceTree = "<group>"; };
 		B2F9EC5B1D041A6B00FC7E48 /* JFProfileFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFProfileFooterView.swift; sourceTree = "<group>"; };
@@ -773,7 +775,7 @@
 			isa = PBXGroup;
 			children = (
 				B2FFDDD91D06552D00C28DD1 /* HYQiHei-50J.ttf */,
-				B20149601D08269A00ACE583 /* article_content_placeholder.png */,
+				B20149601D08269A00ACE583 /* loading.png */,
 				B2FFDDDC1D06552D00C28DD1 /* WebViewJavascriptBridge.js */,
 				B2FFDDE51D065A8A00C28DD1 /* article.html */,
 			);
@@ -928,6 +930,7 @@
 			isa = PBXGroup;
 			children = (
 				B2F9EC551D03CBC800FC7E48 /* JFNewFeatureCell.swift */,
+				B2EBCE3E1D0960F300A09BA2 /* JFFPSLabel.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1068,7 +1071,7 @@
 				B264A41C1D018DC800C72E13 /* JFNewsNoPicCell.xib in Resources */,
 				B264A3D51D016C0D00C72E13 /* LaunchScreen.strings in Resources */,
 				B2FFDDE01D06552D00C28DD1 /* WebViewJavascriptBridge.js in Resources */,
-				B20149611D08269A00ACE583 /* article_content_placeholder.png in Resources */,
+				B20149611D08269A00ACE583 /* loading.png in Resources */,
 				B264A3AC1D016C0D00C72E13 /* JFLoginViewController.xib in Resources */,
 				B264A4101D018DC800C72E13 /* JFCommentCell.xib in Resources */,
 				B264A3A21D016C0D00C72E13 /* JFForgotViewController.xib in Resources */,
@@ -1240,6 +1243,7 @@
 				B264A3701D016C0D00C72E13 /* JFCommon.swift in Sources */,
 				B2F9EC631D0479F600FC7E48 /* JFSettingTableViewController.swift in Sources */,
 				B264A40B1D018DC800C72E13 /* JFOtherLinkModel.swift in Sources */,
+				B2EBCE3F1D0960F300A09BA2 /* JFFPSLabel.swift in Sources */,
 				B2FFDDEC1D06B98000C28DD1 /* JFArticleImageModel.swift in Sources */,
 				B264A4131D018DC800C72E13 /* JFDetailOtherCell.swift in Sources */,
 				B264A3B91D016C0D00C72E13 /* JFProfileHeaderView.swift in Sources */,

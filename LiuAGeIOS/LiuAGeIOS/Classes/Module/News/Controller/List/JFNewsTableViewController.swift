@@ -153,7 +153,7 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
                 guard let successResult = result else {
                     return
                 }
-                
+//                print(successResult)
                 // 如果有数据则清空原来的数据
                 self.isGoodList.removeAll()
                 let data = successResult["data"].arrayValue.reverse()

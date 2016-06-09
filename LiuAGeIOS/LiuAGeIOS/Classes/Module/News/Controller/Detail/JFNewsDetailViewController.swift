@@ -307,43 +307,13 @@ class JFNewsDetailViewController: UIViewController {
         // 如果不熟悉网页，可以换成GRMutache模板更配哦
         var html = ""
         let css = "<style type=\"text/css\">" +
-            "@font-face {" + // 自定义字体
+            "@font-face {" +
             "font-family: '\(jf_getContentFont().fontName)';" +
             "src: url('\(jf_getContentFont().fontPath)');" +
             "}" +
-            "*{ padding:0px; margin:0px;}" +
-            ".container {" + // 正文主体（包括标题、时间、来源、内容）
-            "width: 92%;" +
-            "margin-left: 4%;" +
-            "margin-top: 10px" +
-            "}" +
-            ".title {" + // 标题
-            "text-align: left;" +
-            "font-size: 20px;" +
-            "color: #3c3c3c;" +
-            "font-weight: bold;" +
-            "font-family: '\(jf_getContentFont().fontName)';" +
-            "margin-top: 5px;" +
-            "}" +
-            ".time {" + // 来源、时间
-            "text-align: left;" +
-            "font-size: 13px;" +
-            "color: #BDBDBD;" +
-            "margin-top: 5px;" +
-            "margin-bottom: 10px" +
-            "}" +
-            ".content {" + // 文章内容
+            ".content {" +
             "font-size: \(NSUserDefaults.standardUserDefaults().integerForKey(CONTENT_FONT_SIZE_KEY))px;" +
             "font-family: '\(jf_getContentFont().fontName)';" +
-            "color: #3c3c3c;" +
-            "letter-spacing: 1px;" +
-            "}" +
-            ".content p {" +
-            "margin: 0px 0px 15px 0px;" + // 上右下左
-            "}" +
-            ".content img {" +
-            "display: block;" +
-            "margin: 20px auto;" +
             "}" +
         "</style>"
         
@@ -380,7 +350,7 @@ class JFNewsDetailViewController: UIViewController {
                 }
                 
                 // 加载中的占位图
-                let loading = NSBundle.mainBundle().pathForResource("article_content_placeholder", ofType: "png")
+                let loading = NSBundle.mainBundle().pathForResource("loading", ofType: "png")
                 
                 // img标签
                 let imgTag = "<img onclick='didTappedImage(\(index));' src='\(loading!)' id='\(dict["url"] as! String)' width='\(width)' height='\(height)' />"
@@ -583,6 +553,14 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
         }
     }
     
+    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        if section == 3 {
+            return commentList.count == 0 ? nil : footerView // 如果有评论才显示更多评论按钮
+        } else {
+            return nil
+        }
+    }
+    
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         switch indexPath.section {
         case 0: // 分享
@@ -610,14 +588,6 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
         return 120
     }
     
-    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        if section == 3 {
-            return commentList.count == 0 ? nil : footerView // 如果有评论才显示更多评论按钮
-        } else {
-            return nil
-        }
-    }
-    
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         switch section {
         case 0:
@@ -627,7 +597,7 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
         case 2:
             return otherLinks.count == 0 ? 1 : 30
         case 3:
-            return commentList.count == 0 ? 1 : 30
+            return commentList.count == 0 ? 1 : 35
         default:
             return 1
         }
@@ -859,9 +829,9 @@ extension JFNewsDetailViewController: UIWebViewDelegate {
     func webViewDidFinishLoad(webView: UIWebView) {
         
         let result = webView.stringByEvaluatingJavaScriptFromString("getHtmlHeight();")
+        
         if let height = result {
-            let frame = webView.frame
-            webView.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, CGFloat((height as NSString).floatValue) + 20)
+            webView.frame = CGRectMake(0, 0, SCREEN_WIDTH, CGFloat((height as NSString).floatValue))
             tableView.tableHeaderView = webView
             self.activityView.stopAnimating()
         }

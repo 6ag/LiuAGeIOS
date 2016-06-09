@@ -99,6 +99,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = newsVc
 //        window?.rootViewController =  isNewVersion() ? JFNewFeatureViewController() : newsVc
         window?.makeKeyAndVisible()
+        
+        // 添加帧数到窗口左下角
+        window?.addSubview(JFFPSLabel(frame: CGRect(x: 15, y: SCREEN_HEIGHT - 80, width: 50, height: 30)))
     }
     
     /**
