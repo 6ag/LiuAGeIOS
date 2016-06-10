@@ -92,7 +92,7 @@ class JFNewsDetailViewController: UIViewController {
         bridge = WebViewJavascriptBridge(forWebView: webView, webViewDelegate: self, handler: { (data, responseCallback) in
             responseCallback("Response for message from ObjC")
             
-            // 接收js发送过来的点击事件
+            // 接收js发送过来的图片点击事件
             let newsPhotoBrowserVc = JFNewsPhotoBrowserViewController()
             newsPhotoBrowserVc.photoParam = (self.model!.allphoto!, Int(data as! NSNumber))
             self.presentViewController(newsPhotoBrowserVc, animated: true, completion: {})
@@ -213,7 +213,7 @@ class JFNewsDetailViewController: UIViewController {
         JFNetworkTool.shareNetworkTool.get(ARTICLE_DETAIL, parameters: parameters) { (success, result, error) -> () in
             
             guard let successResult = result where success == true else {return}
-            print(successResult)
+            
             // 相关连接
             self.otherLinks.removeAll()
             let otherLinks = successResult["data"]["otherLink"].array
@@ -372,6 +372,8 @@ class JFNewsDetailViewController: UIViewController {
         
         // 已经加载过就修改标记
         isLoaded = true
+        
+        print(html)
     }
     
     /**
@@ -382,6 +384,7 @@ class JFNewsDetailViewController: UIViewController {
         // 循环加载图片
         for dict in imageArray {
             
+            // 图片url
             let imageString = dict["url"] as! String
             
             // 判断本地磁盘是否已经缓存
@@ -770,7 +773,7 @@ extension JFNewsDetailViewController: JFSetFontViewDelegate {
         let html = webView.stringByEvaluatingJavaScriptFromString("getHtml();")!
         return (html as NSString).stringByReplacingOccurrencesOfString("<iframe src=\"wvjbscheme://__WVJB_QUEUE_MESSAGE__\" style=\"display: none;\"></iframe>", withString: "")
     }
-    
+
     /**
      修改了正文字体大小，需要重新显示 添加图片缓存后，目前还有问题
      */
@@ -785,7 +788,7 @@ extension JFNewsDetailViewController: JFSetFontViewDelegate {
         
         NSUserDefaults.standardUserDefaults().setInteger(fontSize, forKey: CONTENT_FONT_SIZE_KEY)
     }
-    
+
     /**
      修改了正文字体
      

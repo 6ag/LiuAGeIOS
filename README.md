@@ -41,7 +41,8 @@
 
 ### 模仿网易新闻的内容正文
 
-图片使用YYWebImage进行缓存，所以让人感觉非常流畅，不像是WebView。然后通过js和swift交互，进行一系列操作，后面我会写一篇文章来详细说明这一部分。
-
 ![image](https://github.com/6ag/LiuAGeIOS/blob/master/5.gif)
+
+[网易新闻app内容详情页实现分析
+](https://blog.6ag.cn/1514.html)
 
