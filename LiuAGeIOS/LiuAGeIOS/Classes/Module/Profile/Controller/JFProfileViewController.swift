@@ -139,8 +139,11 @@ class JFProfileViewController: JFBaseTableViewController {
         group2CellModel1.operation = { () -> Void in
             self.viewDismiss()
             JFProgressHUD.showWithStatus("正在清理")
+            let cache = CGFloat((YYImageCache.sharedCache().diskCache.totalCost() + JFArticleStorage.getArticleImageCache().diskCache.totalCost())) / 1024.0 / 1024.0
             YYImageCache.sharedCache().diskCache.removeAllObjectsWithBlock({
-                JFProgressHUD.showSuccessWithStatus("清楚了\(String(format: "%.2f", CGFloat(YYImageCache.sharedCache().diskCache.totalCost()) / 1024 / 1024))M缓存")
+                JFArticleStorage.getArticleImageCache().diskCache.removeAllObjectsWithBlock({
+                    JFProgressHUD.showSuccessWithStatus("清除了\(String(format: "%.2f", cache))M缓存")
+                })
             })
         }
         let group2CellModel2 = JFProfileCellModel(title: "夜间模式", icon: "profile_mode_daylight")
