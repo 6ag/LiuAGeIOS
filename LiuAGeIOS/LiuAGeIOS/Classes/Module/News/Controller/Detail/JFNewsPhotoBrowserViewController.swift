@@ -87,15 +87,7 @@ class JFNewsPhotoBrowserViewController: UIViewController {
         
         let imageURL = photoModels[currentIndex].url!
         
-        // 存储文章图片的目录
-        var path = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true).last
-        path?.appendContentsOf("/article.image.cache")
-        
-        // 自定义缓存
-        let imageCache = YYImageCache(path: path!)!
-        
-        // 拼接图片的绝对路径
-        let imagePath = "\(imageCache.diskCache.path)/data/\(imageURL.md5())"
+        let imagePath = JFArticleStorage.getFilePathForKey(imageURL)
         let image = UIImage(contentsOfFile: imagePath)
         if let img = image {
             UIImageWriteToSavedPhotosAlbum(img, self, #selector(JFPhotoDetailViewController.image(_:didFinishSavingWithError:contextInfo:)), nil)

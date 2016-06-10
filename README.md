@@ -29,6 +29,11 @@
 
 资讯正文部分的图片是用 `YYWebImage` 进行缓存管理的，而由于 `YYWebImage` 的缓存策略原因，低于 `20kb` 的文件不会直接存文件，所以我们必须要修改框架原文件。修改`YYCache` -> `YYDiskCache.m` 的第 `171` 行，将 `1024 * 20` 修改为 `0` 即可。
 
+### 讲解文章
+
+[网易新闻app内容详情页实现分析
+](https://blog.6ag.cn/1514.html)
+
 ### 主流控制器切换
 
 ![image](https://github.com/6ag/LiuAGeIOS/blob/master/1.gif)
@@ -48,9 +53,4 @@
 ### 模仿网易新闻的内容正文
 
 ![image](https://github.com/6ag/LiuAGeIOS/blob/master/5.gif)
-
-### 讲解文章
-
-[网易新闻app内容详情页实现分析
-](https://blog.6ag.cn/1514.html)
 

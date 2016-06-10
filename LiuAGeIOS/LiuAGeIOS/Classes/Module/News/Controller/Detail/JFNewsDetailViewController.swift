@@ -269,7 +269,7 @@ class JFNewsDetailViewController: UIViewController {
         JFNetworkTool.shareNetworkTool.get(GET_COMMENT, parameters: parameters as? [String : AnyObject]) { (success, result, error) -> () in
             
             guard let successResult = result where success == true else {return}
-            print(successResult)
+//            print(successResult)
             let data = successResult["data"].arrayValue
             if data.count == 0 && self.commentList.count == 0 {
                 return
@@ -374,7 +374,6 @@ class JFNewsDetailViewController: UIViewController {
         // 已经加载过就修改标记
         isLoaded = true
         
-        print(html)
     }
     
     /**
@@ -461,6 +460,7 @@ class JFNewsDetailViewController: UIViewController {
         let moreCommentButton = UIButton(frame: CGRect(x: 20, y: 20, width: SCREEN_WIDTH - 40, height: 44))
         moreCommentButton.addTarget(self, action: #selector(didTappedmoreCommentButton(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         moreCommentButton.setTitle("更多评论", forState: UIControlState.Normal)
+        moreCommentButton.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
         moreCommentButton.backgroundColor = NAVIGATIONBAR_COLOR
         moreCommentButton.layer.cornerRadius = CORNER_RADIUS
         
