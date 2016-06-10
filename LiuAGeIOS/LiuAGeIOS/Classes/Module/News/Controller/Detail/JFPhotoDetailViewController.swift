@@ -27,7 +27,7 @@ class JFPhotoDetailViewController: UIViewController {
         didSet {
             topTitleLabel.text = "\(currentPageData!.page) / \(photoModels.count)"
             captionLabel.text = "\(currentPageData!.text)"
-            updateBottomBgViewConstraint()
+            updatebottomScrollViewConstraint()
         }
     }
     
@@ -66,6 +66,9 @@ class JFPhotoDetailViewController: UIViewController {
         let model = photoModels[page]
         
         currentPageData = (page + 1, model.text!)
+        
+        // 每次滚动，文字区域都滑动到最顶部
+        bottomScrollView.setContentOffset(CGPoint(x: bottomScrollView.contentOffset.x, y: 0), animated: false)
     }
     
     /**
@@ -154,8 +157,8 @@ class JFPhotoDetailViewController: UIViewController {
         view.addSubview(collectionView)
         view.addSubview(navigationBarView)
         view.addSubview(bottomToolView)
-        view.addSubview(bottomBgView)
-        bottomBgView.addSubview(captionLabel)
+        view.addSubview(bottomScrollView)
+        bottomScrollView.addSubview(captionLabel)
         navigationBarView.addSubview(topTitleLabel)
         view.addSubview(activityView)
         
@@ -170,30 +173,42 @@ class JFPhotoDetailViewController: UIViewController {
             make.height.equalTo(45)
         }
         
-        bottomBgView.snp_makeConstraints { (make) in
-            make.left.right.equalTo(0)
-            make.bottom.equalTo(bottomToolView.snp_top)
-            make.height.equalTo(20)
+        bottomScrollView.snp_makeConstraints { (make) in
+            make.left.equalTo(12)
+            make.width.equalTo(SCREEN_WIDTH - 24)
+            make.bottom.equalTo(bottomToolView.snp_top).offset(-20)
+            make.height.equalTo(40)
         }
         
         captionLabel.snp_makeConstraints { (make) in
-            make.left.equalTo(20)
+            make.left.equalTo(0)
+            make.width.equalTo(SCREEN_WIDTH - 30)
             make.top.equalTo(10)
-            make.width.equalTo(SCREEN_WIDTH - 40)
         }
         
-        updateBottomBgViewConstraint()
+        updatebottomScrollViewConstraint()
     }
     
     /**
      更新底部详情视图的高度
      */
-    @objc private func updateBottomBgViewConstraint() {
+    @objc private func updatebottomScrollViewConstraint() {
         
         view.layoutIfNeeded()
-        bottomBgView.snp_updateConstraints { (make) in
-            make.height.equalTo(captionLabel.height + 20)
+        // 如果文字高度超过50，就可以滑动
+        if captionLabel.height > 50 {
+            bottomScrollView.snp_updateConstraints { (make) in
+                make.height.equalTo(50 + 20)
+            }
+            bottomScrollView.contentSize = CGSize(width: 0, height: captionLabel.height + 20)
+            bottomScrollView.scrollEnabled = true
+        } else {
+            bottomScrollView.snp_updateConstraints { (make) in
+                make.height.equalTo(captionLabel.height + 20)
+            }
+            bottomScrollView.scrollEnabled = false
         }
+        
     }
     
     // MARK: - 懒加载
@@ -237,11 +252,12 @@ class JFPhotoDetailViewController: UIViewController {
         return activityView
     }()
     
-    /// 底部文字透明背景视图
-    private lazy var bottomBgView: UIView = {
-        let bottomBgView = UIView()
-        bottomBgView.backgroundColor = self.bgColor
-        return bottomBgView
+    /// 底部文字透明滚动视图
+    private lazy var bottomScrollView: UIScrollView = {
+        let bottomScrollView = UIScrollView()
+        bottomScrollView.indicatorStyle = .White
+        bottomScrollView.backgroundColor = self.bgColor
+        return bottomScrollView
     }()
     
     /// 文字描述
@@ -249,7 +265,7 @@ class JFPhotoDetailViewController: UIViewController {
         let captionLabel = UILabel()
         captionLabel.textColor = UIColor(red:0.945,  green:0.945,  blue:0.945, alpha:1)
         captionLabel.numberOfLines = 0
-        captionLabel.font = UIFont.systemFontOfSize(15)
+        captionLabel.font = UIFont.systemFontOfSize(14)
         return captionLabel
     }()
     
@@ -440,17 +456,17 @@ extension JFPhotoDetailViewController: JFPhotoDetailCellDelegate {
             
             // 隐藏和显示的平移效果
             if alpha == 0 {
-                self.bottomBgView.transform = CGAffineTransformTranslate(self.bottomBgView.transform, 0, 20)
+                self.bottomScrollView.transform = CGAffineTransformTranslate(self.bottomScrollView.transform, 0, 20)
                 self.bottomToolView.transform = CGAffineTransformTranslate(self.bottomToolView.transform, 0, 20)
                 self.navigationBarView.transform = CGAffineTransformTranslate(self.navigationBarView.transform, 0, -20)
             } else {
-                self.bottomBgView.transform = CGAffineTransformTranslate(self.bottomBgView.transform, 0, -20)
+                self.bottomScrollView.transform = CGAffineTransformTranslate(self.bottomScrollView.transform, 0, -20)
                 self.bottomToolView.transform = CGAffineTransformTranslate(self.bottomToolView.transform, 0, -20)
                 self.navigationBarView.transform = CGAffineTransformTranslate(self.navigationBarView.transform, 0, 20)
             }
             
             // 底部视图
-            self.bottomBgView.alpha = alpha
+            self.bottomScrollView.alpha = alpha
             self.bottomToolView.alpha = alpha
             
             // 顶部导航栏
