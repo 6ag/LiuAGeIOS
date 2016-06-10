@@ -10,37 +10,6 @@ import UIKit
 
 class JFArticleDetailModel: NSObject {
     
-    /// 缓存html代码
-    var html: String?
-    
-    /// 文章内容 - 计算型数据，处理newstext
-    var newscontent: String {
-        guard var text = newstext else {
-            return ""
-        }
-        
-        var tempString = text as NSString
-        // 匹配 <!--IMG#x-->，换成顺序标签。。麻蛋，接口写出来一直有问题，只能swift来写了
-        // 使用正则表达式一定要加try语句
-        do {
-            // - 1、创建规则
-            let pattern = "<!--IMG#x-->"
-            // - 2、创建正则表达式对象
-            let regex = try NSRegularExpression(pattern: pattern, options: NSRegularExpressionOptions.CaseInsensitive)
-            // - 3、开始匹配
-            let res = regex.matchesInString(text, options: NSMatchingOptions(rawValue: 0), range: NSMakeRange(0, text.characters.count))
-            // 输出结果
-            for (index, checkingRes) in res.enumerate() {
-                tempString = tempString.stringByReplacingCharactersInRange(checkingRes.range, withString: "<!--IMG#\(index)-->")
-            }
-            text = tempString as String
-            newstext = text
-        } catch {
-            print(error)
-        }
-        return text
-    }
-    
     /// 文章标题
     var title: String?
     

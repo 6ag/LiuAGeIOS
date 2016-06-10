@@ -213,7 +213,7 @@ class JFNewsDetailViewController: UIViewController {
         JFNetworkTool.shareNetworkTool.get(ARTICLE_DETAIL, parameters: parameters) { (success, result, error) -> () in
             
             guard let successResult = result where success == true else {return}
-            
+            print(successResult)
             // 相关连接
             self.otherLinks.removeAll()
             let otherLinks = successResult["data"]["otherLink"].array
@@ -322,7 +322,7 @@ class JFNewsDetailViewController: UIViewController {
         html.appendContentsOf("<div class=\"time\">\(model.befrom!)&nbsp;&nbsp;&nbsp;&nbsp;\(model.newstime!.timeStampToString())</div>")
         
         // 临时正文 - 这样做的目的是不修改模型
-        var tempNewstext = model.newscontent
+        var tempNewstext = model.newstext!
         
         // 有图片才去拼接图片
         if model.allphoto!.count > 0 {
