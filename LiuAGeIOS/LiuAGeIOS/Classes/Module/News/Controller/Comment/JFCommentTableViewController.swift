@@ -99,12 +99,13 @@ class JFCommentTableViewController: UITableViewController {
                             "plstep" : comment["plstep"].intValue,
                             "plid" : comment["plid"].intValue,
                             "plusername" : comment["plusername"].stringValue,
+                            "plnickname" : comment["plnickname"].stringValue,
                             "id" : comment["id"].intValue,
                             "classid" : comment["classid"].intValue,
                             "saytext" : comment["saytext"].stringValue,
                             "saytime" : comment["saytime"].stringValue,
                             "userpic" : comment["userpic"].stringValue,
-                            "zcnum" : comment["zcnum"].stringValue
+                            "zcnum" : comment["zcnum"].stringValue,
                         ]
                         
                         let commentModel = JFCommentModel(dict: dict as! [String : AnyObject])

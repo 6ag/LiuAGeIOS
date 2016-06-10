@@ -27,7 +27,7 @@ class JFCommentCell: UITableViewCell {
     var commentModel: JFCommentModel? {
         didSet {
             avatarImageView.yy_setImageWithURL(NSURL(string: commentModel!.userpic!), placeholder: UIImage(named: "default－portrait"))
-            usernameLabel.text = commentModel!.plusername!
+            usernameLabel.text = commentModel!.plnickname == "" ? commentModel!.plusername! : commentModel!.plnickname!
             timeLabel.text = commentModel!.saytime!
             contentLabel.text = commentModel!.saytext!
             starButton.setTitle("\(commentModel!.zcnum)", forState: UIControlState.Normal)

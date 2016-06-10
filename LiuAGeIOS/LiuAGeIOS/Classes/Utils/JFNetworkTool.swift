@@ -23,6 +23,47 @@ class JFNetworkTool: NSObject {
 extension JFNetworkTool {
     
     /**
+     上传用户头像
+     
+     - parameter APIString:  api接口
+     - parameter image:      图片对象
+     - parameter parameters: 绑定参数
+     - parameter finished:   完成回调
+     */
+    func uploadUserAvatar(APIString: String, imagePath: NSURL, parameters: [String : AnyObject]?, finished: NetworkFinished) {
+        
+        var urlString = ""
+        if APIString.hasPrefix("http") {
+            urlString = APIString
+        } else {
+            urlString = "\(API_URL)\(APIString)"
+        }
+        
+        Alamofire.upload(.POST, urlString, multipartFormData: { multipartFormData in
+            
+            for (key, value) in parameters! {
+                assert(value is String, "参数必须能够转换为NSData的类型，比如String")
+                multipartFormData.appendBodyPart(data: value.dataUsingEncoding(NSUTF8StringEncoding)!, name: key)
+            }
+            multipartFormData.appendBodyPart(fileURL: imagePath, name: "file")
+            
+            },encodingCompletion: { encodingResult in
+                switch encodingResult {
+                case .Success(let upload, _, _):
+                    upload.responseJSON { response in
+                        debugPrint(response)
+                        finished(success: true, result: nil, error: nil)
+                    }
+                case .Failure(let encodingError):
+                    print(encodingError)
+                    finished(success: false, result: nil, error: nil)
+                }
+            }
+        )
+        
+    }
+    
+    /**
      GET请求
      
      - parameter URLString:  urlString
@@ -37,6 +78,7 @@ extension JFNetworkTool {
         } else {
             urlString = "\(API_URL)\(APIString)"
         }
+        
         Alamofire.request(.GET, urlString, parameters: parameters).responseJSON { (response) -> Void in
             
             if let data = response.data {
@@ -68,6 +110,7 @@ extension JFNetworkTool {
         } else {
             urlString = "\(API_URL)\(APIString)"
         }
+        
         Alamofire.request(.POST, urlString, parameters: parameters).responseJSON { (response) -> Void in
             
             if let data = response.data {

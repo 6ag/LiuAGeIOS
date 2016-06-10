@@ -49,6 +49,18 @@ class JFAccountModel: NSObject, NSCoding {
     /// 签到天数
     var CheckingToday: String?
     
+    /// 个性签名
+    var saytext: String?
+    
+    /// 电话号码
+    var phone: String?
+    
+    /// qq号码
+    var qq: String?
+    
+    /// 昵称
+    var nickname: String?
+    
     // KVC 字典转模型
     init(dict: [String: AnyObject]) {
         super.init()
@@ -66,7 +78,7 @@ class JFAccountModel: NSObject, NSCoding {
     /**
      每次打开app就检查一次用户是否有效
      */
-    class func checkUserInfo() {
+    class func checkUserInfo(finished: () -> ()) {
         if isLogin() {
             // 已经登录并保存过信息，验证信息是否有效
             let parameters: [String : AnyObject] = [
@@ -76,17 +88,21 @@ class JFAccountModel: NSObject, NSCoding {
             ]
             
             JFNetworkTool.shareNetworkTool.post(GET_USERINFO, parameters: parameters, finished: { (success, result, error) in
-                if success {
-                    print("登录信息有效")
-                    if let successResult = result {
-                        let account = JFAccountModel(dict: successResult["data"]["user"].dictionaryObject!)
-                        // 更新用户信息
-                        account.updateUserInfo()
-                    }
-                } else {
-                    print("登录信息无效")
+                
+                guard let successResult = result where success == true else {
                     JFAccountModel.logout()
+                    print("登录信息无效")
+                    return
                 }
+                
+                print("登录信息有效")
+                print(successResult)
+                let account = JFAccountModel(dict: successResult["data"].dictionaryObject!)
+                // 更新用户信息
+                account.updateUserInfo()
+                
+                // 回调
+                finished()
             })
         }
     }
@@ -158,6 +174,10 @@ class JFAccountModel: NSObject, NSCoding {
         aCoder.encodeObject(checkingDate, forKey: "checkingDate")
         aCoder.encodeObject(checkingMoth, forKey: "checkingMoth")
         aCoder.encodeObject(CheckingToday, forKey: "CheckingToday")
+        aCoder.encodeObject(saytext, forKey: "saytext")
+        aCoder.encodeObject(phone, forKey: "phone")
+        aCoder.encodeObject(qq, forKey: "qq")
+        aCoder.encodeObject(nickname, forKey: "nickname")
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -174,5 +194,9 @@ class JFAccountModel: NSObject, NSCoding {
         checkingDate = aDecoder.decodeObjectForKey("checkingDate") as? String
         checkingMoth = aDecoder.decodeObjectForKey("checkingMoth") as? String
         CheckingToday = aDecoder.decodeObjectForKey("CheckingToday") as? String
+        saytext = aDecoder.decodeObjectForKey("saytext") as? String
+        phone = aDecoder.decodeObjectForKey("phone") as? String
+        qq = aDecoder.decodeObjectForKey("qq") as? String
+        nickname = aDecoder.decodeObjectForKey("nickname") as? String
     }
 }

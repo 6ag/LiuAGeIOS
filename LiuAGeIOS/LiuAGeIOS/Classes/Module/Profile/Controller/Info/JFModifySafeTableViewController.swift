@@ -98,11 +98,12 @@ class JFModifySafeTableViewController: JFBaseTableViewController {
             ]
         
         JFNetworkTool.shareNetworkTool.post(MODIFY_ACCOUNT_INFO, parameters: parameters) { (success, result, error) in
-            if result != nil {
-                if result!["data"]["info"].stringValue == "修改信息成功！" {
-                    self.navigationController?.popViewControllerAnimated(true)
-                }
-                JFProgressHUD.showInfoWithStatus(result!["data"]["info"].stringValue)
+            if success {
+                JFProgressHUD.showSuccessWithStatus("修改资料成功")
+                self.navigationController?.popViewControllerAnimated(true)
+                
+                // 修改资料成功需要重新更新资料
+                JFAccountModel.checkUserInfo({})
             } else {
                 JFProgressHUD.showInfoWithStatus("修改失败，请联系管理员！")
             }
@@ -161,7 +162,7 @@ class JFModifySafeTableViewController: JFBaseTableViewController {
         field.addTarget(self, action: #selector(didChangeTextField(_:)), forControlEvents: UIControlEvents.EditingChanged)
         field.font = UIFont.systemFontOfSize(14)
         field.placeholder = "邮箱"
-        field.secureTextEntry = true
+        field.keyboardType = .EmailAddress
         field.clearButtonMode = .WhileEditing
         return field
     }()

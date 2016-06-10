@@ -257,7 +257,11 @@ class JFProfileViewController: JFBaseTableViewController {
     private func updateHeaderData() {
         if JFAccountModel.isLogin() {
             headerView.avatarButton.yy_setBackgroundImageWithURL(NSURL(string: JFAccountModel.shareAccount()!.avatarUrl!), forState: UIControlState.Normal, options: YYWebImageOptions.AllowBackgroundTask)
-            headerView.nameLabel.text = JFAccountModel.shareAccount()!.username
+            if JFAccountModel.shareAccount()!.nickname == nil || JFAccountModel.shareAccount()!.nickname == "" {
+                headerView.nameLabel.text = "点击设置昵称"
+            } else {
+                headerView.nameLabel.text = JFAccountModel.shareAccount()!.nickname!
+            }
         } else {
             headerView.avatarButton.setBackgroundImage(UIImage(named: "default－portrait"), forState: UIControlState.Normal)
             headerView.nameLabel.text = "登录账号"

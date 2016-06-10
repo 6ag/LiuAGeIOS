@@ -20,7 +20,7 @@ class JFPhotoDetailViewController: UIViewController {
     }
     
     // 导航栏/背景颜色
-    private let bgColor = UIColor(red:0.110,  green:0.102,  blue:0.110, alpha:0.9)
+    private let bgColor = UIColor(red:0.110,  green:0.102,  blue:0.110, alpha:0.7)
     
     /// 当前页显示的文字数据
     private var currentPageData: (page: Int, text: String)? {

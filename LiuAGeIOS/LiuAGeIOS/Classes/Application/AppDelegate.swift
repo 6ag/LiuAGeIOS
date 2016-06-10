@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // 验证缓存的账号是否有效
-        JFAccountModel.checkUserInfo()
+        JFAccountModel.checkUserInfo({})
     }
     
     /**

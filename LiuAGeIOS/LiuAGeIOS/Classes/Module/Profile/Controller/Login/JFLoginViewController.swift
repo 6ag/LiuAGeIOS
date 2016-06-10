@@ -78,7 +78,7 @@ class JFLoginViewController: UIViewController, JFRegisterViewControllerDelegate 
                     NSUserDefaults.standardUserDefaults().setObject(self.passwordField.text, forKey: "password")
                     
                     if let successResult = result {
-                       let account = JFAccountModel(dict: successResult["data"]["user"].dictionaryObject!)
+                       let account = JFAccountModel(dict: successResult["data"].dictionaryObject!)
                         // 更新用户信息
                         account.updateUserInfo()
                         self.didTappedBackButton()

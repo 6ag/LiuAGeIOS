@@ -19,6 +19,9 @@ class JFCommentModel: NSObject {
     /// 评论用户名
     var plusername: String?
     
+    /// 评论昵称
+    var plnickname: String?
+    
     /// 文章id
     var id: Int = 0
     

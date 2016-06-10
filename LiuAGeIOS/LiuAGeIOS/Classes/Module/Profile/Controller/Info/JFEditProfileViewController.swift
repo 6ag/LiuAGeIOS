@@ -26,7 +26,6 @@ class JFEditProfileViewController: JFBaseTableViewController {
         
         groupModels = [group1, group2]
         
-        tableView.tableHeaderView = headerView
         tableView.tableFooterView = footerView
     }
     
@@ -34,6 +33,12 @@ class JFEditProfileViewController: JFBaseTableViewController {
         super.viewWillAppear(animated)
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
         navigationController?.setNavigationBarHidden(false, animated: true)
+        
+        tableView.tableHeaderView = JFInfoHeaderView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 70))
+    }
+    
+    private func prepareData() {
+        
     }
     
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -68,12 +73,6 @@ class JFEditProfileViewController: JFBaseTableViewController {
     }
     
     // MARK: - 懒加载
-    /// 头部视图
-    private lazy var headerView: JFInfoHeaderView = {
-        let headerView = JFInfoHeaderView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 70))
-        return headerView
-    }()
-    
     /// 尾部退出视图
     private lazy var footerView: UIView = {
         let logoutButton = UIButton(frame: CGRect(x: 20, y: 0, width: SCREEN_WIDTH - 40, height: 44))

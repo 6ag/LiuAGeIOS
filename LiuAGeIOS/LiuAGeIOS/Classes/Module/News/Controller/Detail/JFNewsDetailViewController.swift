@@ -269,7 +269,7 @@ class JFNewsDetailViewController: UIViewController {
         JFNetworkTool.shareNetworkTool.get(GET_COMMENT, parameters: parameters as? [String : AnyObject]) { (success, result, error) -> () in
             
             guard let successResult = result where success == true else {return}
-            
+            print(successResult)
             let data = successResult["data"].arrayValue
             if data.count == 0 && self.commentList.count == 0 {
                 return
@@ -281,6 +281,7 @@ class JFNewsDetailViewController: UIViewController {
                     "plstep" : comment["plstep"].intValue,
                     "plid" : comment["plid"].intValue,
                     "plusername" : comment["plusername"].stringValue,
+                    "plnickname" : comment["plnickname"].stringValue,
                     "id" : comment["id"].intValue,
                     "classid" : comment["classid"].intValue,
                     "saytext" : comment["saytext"].stringValue,

@@ -13,6 +13,8 @@ class JFModifyInfoTableViewController: JFBaseTableViewController {
 
     let modifyInfoIdenfitier = "modifyInfoIdenfitier"
     
+    let imagePickerC = UIImagePickerController()
+    
     override init(style: UITableViewStyle) {
         super.init(style: UITableViewStyle.Grouped)
     }
@@ -24,12 +26,34 @@ class JFModifyInfoTableViewController: JFBaseTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.allowsSelection = false
         tableView.tableFooterView = footerView
         
         let group1CellModel1 = JFProfileCellModel(title: "头像")
+        group1CellModel1.operation = {() -> Void in
+            let alertC = UIAlertController()
+            let takeAction = UIAlertAction(title: "拍照上传", style: UIAlertActionStyle.Default, handler: { (action) in
+                self.setupImagePicker(.Camera)
+                self.presentViewController(self.imagePickerC, animated: true, completion: {})
+            })
+            let photoLibraryAction = UIAlertAction(title: "图库选择", style: UIAlertActionStyle.Default, handler: { (action) in
+                self.setupImagePicker(.PhotoLibrary)
+                self.presentViewController(self.imagePickerC, animated: true, completion: {})
+            })
+            let albumAction = UIAlertAction(title: "相册选择", style: UIAlertActionStyle.Default, handler: { (action) in
+                self.setupImagePicker(.SavedPhotosAlbum)
+                self.presentViewController(self.imagePickerC, animated: true, completion: {})
+            })
+            let cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: { (action) in
+                
+            })
+            alertC.addAction(takeAction)
+            alertC.addAction(photoLibraryAction)
+            alertC.addAction(albumAction)
+            alertC.addAction(cancelAction)
+            self.presentViewController(alertC, animated: true, completion: {})
+        }
         let group1CellModel2 = JFProfileCellModel(title: "用户名:")
-        let group1CellModel3 = JFProfileCellModel(title: "真实姓名:")
+        let group1CellModel3 = JFProfileCellModel(title: "昵称:")
         let group1CellModel4 = JFProfileCellModel(title: "联系电话:")
         let group1CellModel5 = JFProfileCellModel(title: "QQ号码:")
         let group1CellModel6 = JFProfileCellModel(title: "个性签名:")
@@ -37,74 +61,43 @@ class JFModifyInfoTableViewController: JFBaseTableViewController {
         groupModels = [group1]
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 6
-    }
-    
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.row == 0 {
-            return 70
-        } else {
-            return 44
-        }
-    }
-    
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        let cell = super.tableView(tableView, cellForRowAtIndexPath: indexPath)
-        switch indexPath.row {
-        case 0:
-            avatarImageView.yy_setImageWithURL(NSURL(string: JFAccountModel.shareAccount()!.avatarUrl!), options: YYWebImageOptions.AllowBackgroundTask)
-            cell.contentView.addSubview(avatarImageView)
-            return cell
-        case 1:
-            usernameField.text = JFAccountModel.shareAccount()!.username!
-            cell.contentView.addSubview(usernameField)
-            return cell
-        case 2:
-            cell.contentView.addSubview(realField)
-            return cell
-        case 3:
-            cell.contentView.addSubview(phoneNumberField)
-            return cell
-        case 4:
-            cell.contentView.addSubview(qqField)
-            return cell
-        case 5:
-            cell.contentView.addSubview(signField)
-            return cell
-        default:
-            return cell
-        }
-    }
-    
-    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 0.1
-    }
-    
-    override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 20
+    /**
+     配置imagePicker
+     
+     - parameter sourceType:  资源类型
+     */
+    func setupImagePicker(sourceType: UIImagePickerControllerSourceType) {
+        self.imagePickerC.delegate = self
+        self.imagePickerC.sourceType = sourceType
+        self.imagePickerC.allowsEditing = true
+        self.imagePickerC.modalTransitionStyle = UIModalTransitionStyle.CoverVertical
     }
     
     /**
      点击了保存
      */
-    func didTappedSaveButton(button: UIButton) -> Void {
+    func didTappedSaveButton(button: UIButton) {
         
         let parameters: [String : AnyObject] = [
             "username" : JFAccountModel.shareAccount()!.username!,
             "userid" : JFAccountModel.shareAccount()!.id,
-            "action" : "EditInfo",
             "token" : JFAccountModel.shareAccount()!.token!,
+            "action" : "EditInfo",
+            "nickname" : nicknameField.text!,
+            "qq" : qqField.text!,
+            "phone" : phoneNumberField.text!,
+            "saytext" : signField.text!
         ]
         
         JFNetworkTool.shareNetworkTool.post(MODIFY_ACCOUNT_INFO, parameters: parameters) { (success, result, error) in
-            print(result)
             if success {
-                JFProgressHUD.showSuccessWithStatus("修改成功")
+                JFProgressHUD.showSuccessWithStatus("修改资料成功")
                 self.navigationController?.popViewControllerAnimated(true)
-            } else if result != nil {
-                JFProgressHUD.showInfoWithStatus(result!["result"]["info"].stringValue)
+                
+                // 修改资料成功需要重新更新资料
+                JFAccountModel.checkUserInfo({})
+            } else {
+                JFProgressHUD.showInfoWithStatus("修改失败，请联系管理员！")
             }
         }
     }
@@ -131,10 +124,10 @@ class JFModifyInfoTableViewController: JFBaseTableViewController {
         return field
     }()
     
-    private lazy var realField: UITextField = {
+    private lazy var nicknameField: UITextField = {
         let field = UITextField(frame: CGRect(x: 100, y: 0, width: SCREEN_WIDTH - 120, height: 44))
         field.font = UIFont.systemFontOfSize(14)
-        field.placeholder = "姓名"
+        field.placeholder = "昵称"
         field.clearButtonMode = .WhileEditing
         return field
     }()
@@ -169,4 +162,123 @@ class JFModifyInfoTableViewController: JFBaseTableViewController {
         avatarImageView.layer.masksToBounds = true
         return avatarImageView
     }()
+}
+
+extension JFModifyInfoTableViewController {
+    
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 6
+    }
+    
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if indexPath.row == 0 {
+            return 70
+        } else {
+            return 44
+        }
+    }
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        let cell = super.tableView(tableView, cellForRowAtIndexPath: indexPath)
+        cell.selectionStyle = .None
+        switch indexPath.row {
+        case 0:
+            avatarImageView.yy_setImageWithURL(NSURL(string: JFAccountModel.shareAccount()!.avatarUrl!), options: YYWebImageOptions.AllowBackgroundTask)
+            cell.contentView.addSubview(avatarImageView)
+            return cell
+        case 1:
+            usernameField.text = JFAccountModel.shareAccount()!.username!
+            cell.contentView.addSubview(usernameField)
+            return cell
+        case 2:
+            nicknameField.text = JFAccountModel.shareAccount()!.nickname!
+            cell.contentView.addSubview(nicknameField)
+            return cell
+        case 3:
+            phoneNumberField.text = JFAccountModel.shareAccount()!.phone!
+            cell.contentView.addSubview(phoneNumberField)
+            return cell
+        case 4:
+            qqField.text = JFAccountModel.shareAccount()!.qq!
+            cell.contentView.addSubview(qqField)
+            return cell
+        case 5:
+            signField.text = JFAccountModel.shareAccount()!.saytext!
+            cell.contentView.addSubview(signField)
+            return cell
+        default:
+            return cell
+        }
+    }
+    
+    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 0.1
+    }
+    
+    override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 20
+    }
+}
+
+// MARK: - UINavigationControllerDelegate, UIImagePickerControllerDelegate
+extension JFModifyInfoTableViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        
+        picker.dismissViewControllerAnimated(true, completion: nil)
+        let image = info[UIImagePickerControllerEditedImage] as! UIImage
+        let newImage = image.resizeImageWithNewSize(CGSize(width: 108, height: 108))
+        uploadUserAvatar(newImage)
+    }
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        picker.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    /**
+     上传用户头像
+     
+     - parameter image: 头像图片
+     */
+    func uploadUserAvatar(image: UIImage) {
+        
+        let imagePath = saveImageAndGetURL(image, imageName: "avatar.png")
+        
+        let parameters: [String : AnyObject] = [
+            "username" : JFAccountModel.shareAccount()!.username!,
+            "userid" : "\(JFAccountModel.shareAccount()!.id)",
+            "token" : JFAccountModel.shareAccount()!.token!,
+            "action" : "UploadAvatar",
+            ]
+        
+        JFProgressHUD.showWithStatus("正在上传")
+        JFNetworkTool.shareNetworkTool.uploadUserAvatar("\(MODIFY_ACCOUNT_INFO)", imagePath: imagePath, parameters: parameters) { (success, result, error) in
+            print(result)
+            if success {
+                JFProgressHUD.showInfoWithStatus("上传成功")
+                
+                // 更新用户信息并刷新tableView
+                JFAccountModel.checkUserInfo({
+                    self.tableView.reloadData()
+                })
+            } else {
+                JFProgressHUD.showInfoWithStatus("上传失败")
+            }
+        }
+    }
+    
+    /**
+     保存图片并获取保存的图片路径
+     */
+    func saveImageAndGetURL(image: UIImage, imageName: NSString) -> NSURL {
+        
+        let home = NSHomeDirectory() as NSString
+        let docPath = home.stringByAppendingPathComponent("Documents") as NSString;
+        let fullPath = docPath.stringByAppendingPathComponent(imageName as NSString as String);
+        let imageData: NSData = UIImageJPEGRepresentation(image, 0.5)!
+        imageData.writeToFile(fullPath as String, atomically: false)
+        return NSURL(fileURLWithPath: fullPath)
+    }
+    
 }
