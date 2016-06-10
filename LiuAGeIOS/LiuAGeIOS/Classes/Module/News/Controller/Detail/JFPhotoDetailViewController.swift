@@ -102,40 +102,33 @@ class JFPhotoDetailViewController: UIViewController {
         activityView.startAnimating()
         JFNetworkTool.shareNetworkTool.get(ARTICLE_DETAIL, parameters: parameters) { (success, result, error) -> () in
             
-            if success == true {
-                if let successResult = result {
-                    print(successResult)
-                    
-                    // 标题url
-                    self.titleurl = successResult["data"]["content"]["titleurl"].stringValue
-                    
-                    // 更新评论数量
-                    if successResult["data"]["content"]["plnum"].stringValue != "0" {
-                        self.bottomToolView.commentButton.setTitle(successResult["data"]["content"]["plnum"].stringValue, forState: UIControlState.Normal)
-                    }
-                    
-                    // 更新收藏状态
-                    self.bottomToolView.collectionButton.selected = successResult["data"]["content"]["havefava"].stringValue == "1"
-                    
-                    let morepic = successResult["data"]["content"]["morepic"].arrayValue
-                    for picJSON in morepic {
-                        let dict = [
-                            "title" : picJSON["title"].stringValue, // 图片标题
-                            "picurl" : picJSON["url"].stringValue,  // 图片url
-                            "text" : picJSON["caption"].stringValue // 图片文字描述
-                        ]
-                        
-                        let model = JFPhotoDetailModel(dict: dict)
-                        self.photoModels.append(model)
-                    }
-                    
-                    self.scrollViewDidEndDecelerating(self.collectionView)
-                    self.collectionView.reloadData()
-                    self.activityView.stopAnimating()
-                }
-            } else {
-                print("error:\(error)")
+            guard let successResult = result where success == true else {return}
+            // 标题url
+            self.titleurl = successResult["data"]["content"]["titleurl"].stringValue
+            
+            // 更新评论数量
+            if successResult["data"]["content"]["plnum"].stringValue != "0" {
+                self.bottomToolView.commentButton.setTitle(successResult["data"]["content"]["plnum"].stringValue, forState: UIControlState.Normal)
             }
+            
+            // 更新收藏状态
+            self.bottomToolView.collectionButton.selected = successResult["data"]["content"]["havefava"].stringValue == "1"
+            
+            let morepic = successResult["data"]["content"]["morepic"].arrayValue
+            for picJSON in morepic {
+                let dict = [
+                    "title" : picJSON["title"].stringValue, // 图片标题
+                    "picurl" : picJSON["url"].stringValue,  // 图片url
+                    "text" : picJSON["caption"].stringValue // 图片文字描述
+                ]
+                
+                let model = JFPhotoDetailModel(dict: dict)
+                self.photoModels.append(model)
+            }
+            
+            self.scrollViewDidEndDecelerating(self.collectionView)
+            self.collectionView.reloadData()
+            self.activityView.stopAnimating()
         }
         
     }
@@ -157,6 +150,7 @@ class JFPhotoDetailViewController: UIViewController {
         view.addSubview(collectionView)
         view.addSubview(navigationBarView)
         view.addSubview(bottomToolView)
+        view.addSubview(bottomBgView)
         view.addSubview(bottomScrollView)
         bottomScrollView.addSubview(captionLabel)
         navigationBarView.addSubview(topTitleLabel)
@@ -173,10 +167,16 @@ class JFPhotoDetailViewController: UIViewController {
             make.height.equalTo(45)
         }
         
+        bottomBgView.snp_makeConstraints { (make) in
+            make.left.right.equalTo(0)
+            make.bottom.equalTo(bottomToolView.snp_top)
+            make.height.equalTo(40)
+        }
+        
         bottomScrollView.snp_makeConstraints { (make) in
             make.left.equalTo(12)
             make.width.equalTo(SCREEN_WIDTH - 24)
-            make.bottom.equalTo(bottomToolView.snp_top).offset(-20)
+            make.bottom.equalTo(bottomToolView.snp_top).offset(-30)
             make.height.equalTo(40)
         }
         
@@ -198,15 +198,25 @@ class JFPhotoDetailViewController: UIViewController {
         // 如果文字高度超过50，就可以滑动
         if captionLabel.height > 50 {
             bottomScrollView.snp_updateConstraints { (make) in
-                make.height.equalTo(50 + 20)
+                make.height.equalTo(70)
             }
             bottomScrollView.contentSize = CGSize(width: 0, height: captionLabel.height + 20)
             bottomScrollView.scrollEnabled = true
+            
+            // 重新约束背景
+            bottomBgView.snp_updateConstraints(closure: { (make) in
+                make.height.equalTo(110)
+            })
         } else {
             bottomScrollView.snp_updateConstraints { (make) in
                 make.height.equalTo(captionLabel.height + 20)
             }
             bottomScrollView.scrollEnabled = false
+            
+            // 重新约束背景 - 比滚动区域高度顶部高10 底部高30，加起来就是40
+            bottomBgView.snp_updateConstraints(closure: { (make) in
+                make.height.equalTo(captionLabel.height + 60)
+            })
         }
         
     }
@@ -256,8 +266,15 @@ class JFPhotoDetailViewController: UIViewController {
     private lazy var bottomScrollView: UIScrollView = {
         let bottomScrollView = UIScrollView()
         bottomScrollView.indicatorStyle = .White
-        bottomScrollView.backgroundColor = self.bgColor
+        bottomScrollView.backgroundColor = UIColor.clearColor()
         return bottomScrollView
+    }()
+    
+    /// 底部背景视图
+    private lazy var bottomBgView: UIView = {
+        let bottomBgView = UIView()
+        bottomBgView.backgroundColor = self.bgColor
+        return bottomBgView
     }()
     
     /// 文字描述
@@ -351,20 +368,16 @@ extension JFPhotoDetailViewController: JFCommentCommitViewDelegate, JFPhotoBotto
             ]
             
             JFNetworkTool.shareNetworkTool.post(ADD_DEL_FAVA, parameters: parameters) { (success, result, error) in
-                if success {
-                    if let successResult = result {
-                        if successResult["result"]["status"].intValue == 1 {
-                            // 增加成功
-                            JFProgressHUD.showSuccessWithStatus("收藏成功")
-                            button.selected = true
-                        } else if successResult["result"]["status"].intValue == 3 {
-                            // 删除成功
-                            JFProgressHUD.showSuccessWithStatus("取消收藏")
-                            button.selected = false
-                        }
-                    }
-                } else {
-                    print(error)
+                
+                guard let successResult = result where success == true else {return}
+                if successResult["result"]["status"].intValue == 1 {
+                    // 增加成功
+                    JFProgressHUD.showSuccessWithStatus("收藏成功")
+                    button.selected = true
+                } else if successResult["result"]["status"].intValue == 3 {
+                    // 删除成功
+                    JFProgressHUD.showSuccessWithStatus("取消收藏")
+                    button.selected = false
                 }
             }
         } else {

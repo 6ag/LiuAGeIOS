@@ -149,42 +149,38 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
         ]
         
         JFNetworkTool.shareNetworkTool.get(ARTICLE_LIST, parameters: parameters) { (success, result, error) -> () in
-            if success == true {
-                guard let successResult = result else {
-                    return
-                }
-//                print(successResult)
-                // 如果有数据则清空原来的数据
-                self.isGoodList.removeAll()
-                let data = successResult["data"].arrayValue.reverse()
-                for article in data {
-                    var dict: [String : AnyObject] = [
-                        "title" : article["title"].stringValue,     // 文章标题
-                        "classid" : article["classid"].stringValue, // 文章栏目id
-                        "id" : article["id"].stringValue,           // 文章id
-                    ]
+            
+            guard let successResult = result where success == true else {return}
+            
+            // 如果有数据则清空原来的数据
+            self.isGoodList.removeAll()
+            let data = successResult["data"].arrayValue.reverse()
+            for article in data {
+                var dict: [String : AnyObject] = [
+                    "title" : article["title"].stringValue,     // 文章标题
+                    "classid" : article["classid"].stringValue, // 文章栏目id
+                    "id" : article["id"].stringValue,           // 文章id
+                ]
+                
+                // 判断是否有标题图片 幻灯片必须要有图片
+                if article["titlepic"].string != "" {
+                    dict["titlepic"] = article["titlepic"].stringValue // 标题图片
                     
-                    // 判断是否有标题图片 幻灯片必须要有图片
-                    if article["titlepic"].string != "" {
-                        dict["titlepic"] = article["titlepic"].stringValue // 标题图片
-                        
-                        // 判断是否是多图
-                        if let _ = article["morepic"].array {
-                            dict["piccount"] = 3
-                        } else {
-                            dict["piccount"] = 1
-                        }
-                        
-                        // 字典转模型
-                        let postModel = JFArticleListModel(dict: dict)
-                        self.isGoodList.append(postModel)
+                    // 判断是否是多图
+                    if let _ = article["morepic"].array {
+                        dict["piccount"] = 3
+                    } else {
+                        dict["piccount"] = 1
                     }
                     
+                    // 字典转模型
+                    let postModel = JFArticleListModel(dict: dict)
+                    self.isGoodList.append(postModel)
                 }
-                
-                // 更新幻灯片
-                self.prepareScrollView()
             }
+            
+            // 更新幻灯片
+            self.prepareScrollView()
         }
     }
     
@@ -208,11 +204,8 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
             self.tableView.mj_header.endRefreshing()
             self.tableView.mj_footer.endRefreshing()
             
-            guard let successResult = result else {
-                JFProgressHUD.showInfoWithStatus("您的网络不给力")
-                return
-            }
-//            print(successResult)
+            guard let successResult = result where success == true else {return}
+            
             var data = successResult["data"].arrayValue
             if method == 0 {
                 // 根据文章id从小到大排序 文章id小的最终后显示在列表后面，越大在越前面
