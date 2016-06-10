@@ -469,16 +469,19 @@ extension JFPhotoDetailViewController: JFPhotoDetailCellDelegate {
             
             // 隐藏和显示的平移效果
             if alpha == 0 {
+                self.bottomBgView.transform = CGAffineTransformTranslate(self.bottomBgView.transform, 0, 20)
                 self.bottomScrollView.transform = CGAffineTransformTranslate(self.bottomScrollView.transform, 0, 20)
                 self.bottomToolView.transform = CGAffineTransformTranslate(self.bottomToolView.transform, 0, 20)
                 self.navigationBarView.transform = CGAffineTransformTranslate(self.navigationBarView.transform, 0, -20)
             } else {
+                self.bottomBgView.transform = CGAffineTransformTranslate(self.bottomBgView.transform, 0, -20)
                 self.bottomScrollView.transform = CGAffineTransformTranslate(self.bottomScrollView.transform, 0, -20)
                 self.bottomToolView.transform = CGAffineTransformTranslate(self.bottomToolView.transform, 0, -20)
                 self.navigationBarView.transform = CGAffineTransformTranslate(self.navigationBarView.transform, 0, 20)
             }
             
             // 底部视图
+            self.bottomBgView.alpha = alpha
             self.bottomScrollView.alpha = alpha
             self.bottomToolView.alpha = alpha
             
