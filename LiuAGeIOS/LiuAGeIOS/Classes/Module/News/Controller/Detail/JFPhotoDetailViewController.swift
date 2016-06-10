@@ -8,6 +8,7 @@
 
 import UIKit
 import YYWebImage
+import pop
 
 class JFPhotoDetailViewController: UIViewController {
     
@@ -358,7 +359,6 @@ extension JFPhotoDetailViewController: JFCommentCommitViewDelegate, JFPhotoBotto
     func didTappedCollectButton(button: UIButton) {
         
         if JFAccountModel.isLogin() {
-            
             let parameters: [String : AnyObject] = [
                 "username" : JFAccountModel.shareAccount()!.username!,
                 "userid" : JFAccountModel.shareAccount()!.id,
@@ -374,6 +374,7 @@ extension JFPhotoDetailViewController: JFCommentCommitViewDelegate, JFPhotoBotto
                     // 增加成功
                     JFProgressHUD.showSuccessWithStatus("收藏成功")
                     button.selected = true
+                    
                 } else if successResult["result"]["status"].intValue == 3 {
                     // 删除成功
                     JFProgressHUD.showSuccessWithStatus("取消收藏")

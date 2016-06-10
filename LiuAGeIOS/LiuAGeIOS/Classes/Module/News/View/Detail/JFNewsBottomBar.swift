@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import pop
 
 protocol JFNewsBottomBarDelegate {
     func didTappedBackButton(button: UIButton)
@@ -36,11 +37,21 @@ class JFNewsBottomBar : UIView {
     }
     
     @IBAction func didTappedCollectButton(button: UIButton) {
+        setupAnimation(button)
         delegate?.didTappedCollectButton(button)
     }
     
     @IBAction func didTappedShareButton(button: UIButton) {
         delegate?.didTappedShareButton(button)
+    }
+    
+    private func setupAnimation(button: UIButton) {
+        let sprintAnimation = POPSpringAnimation(propertyNamed: kPOPViewScaleXY)
+        sprintAnimation.fromValue = NSValue(CGPoint: CGPoint(x: 0.8, y: 0.8))
+        sprintAnimation.toValue = NSValue(CGPoint: CGPoint(x: 1, y: 1))
+        sprintAnimation.velocity = NSValue(CGPoint: CGPoint(x: 20, y: 20))
+        sprintAnimation.springBounciness = 20
+        button.pop_addAnimation(sprintAnimation, forKey: "springAnimation")
     }
     
 }

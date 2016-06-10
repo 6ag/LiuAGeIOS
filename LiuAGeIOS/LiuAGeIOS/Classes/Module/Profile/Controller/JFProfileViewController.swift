@@ -90,7 +90,8 @@ class JFProfileViewController: JFBaseTableViewController {
     func viewShow() {
         // 每次显示都更新数据
         updateHeaderData()
-        tableView.reloadData()
+        
+        view.userInteractionEnabled = true
         UIView.animateWithDuration(0.25, animations: {
             self.mainVc?.view.transform = CGAffineTransformMakeTranslation(SCREEN_WIDTH - self.mainVcViewWidth, 0)
         }) { (_) in
@@ -103,6 +104,7 @@ class JFProfileViewController: JFBaseTableViewController {
      */
     func viewDismiss() {
         
+        view.userInteractionEnabled = false
         UIView.animateWithDuration(0.25, animations: {
             self.mainVc?.view.transform = CGAffineTransformIdentity
         }) { (_) in
@@ -274,7 +276,7 @@ class JFProfileViewController: JFBaseTableViewController {
     lazy var headerView: JFProfileHeaderView = {
         let headerView = NSBundle.mainBundle().loadNibNamed("JFProfileHeaderView", owner: nil, options: nil).last as! JFProfileHeaderView
         headerView.delegate = self
-        headerView.frame = CGRect(x: 0, y: -SCREEN_HEIGHT * 2 + 180, width: SCREEN_WIDTH * 0.55, height: SCREEN_HEIGHT * 2)
+        headerView.frame = CGRect(x: 0, y: -SCREEN_HEIGHT * 2 + 150, width: SCREEN_WIDTH * 0.55, height: SCREEN_HEIGHT * 2)
         return headerView
     }()
     

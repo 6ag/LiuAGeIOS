@@ -8,6 +8,7 @@
 
 import UIKit
 import SnapKit
+import pop
 
 class JFNewsViewController: UIViewController {
     

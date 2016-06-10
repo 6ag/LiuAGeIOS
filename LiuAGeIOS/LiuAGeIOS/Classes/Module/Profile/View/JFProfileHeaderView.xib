@@ -12,13 +12,13 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="登录账号" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CZQ-BM-nPr">
-                    <rect key="frame" x="157" y="190" width="60" height="18"/>
+                    <rect key="frame" x="157" y="220" width="60" height="18"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M4U-ni-wQF">
-                    <rect key="frame" x="152" y="105" width="70" height="70"/>
+                    <rect key="frame" x="152" y="135" width="70" height="70"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="70" id="Ndb-Hs-dr2"/>
                         <constraint firstAttribute="width" constant="70" id="gTn-zh-KNc"/>
@@ -37,7 +37,7 @@
             </subviews>
             <color key="backgroundColor" red="0.13333333333333333" green="0.13333333333333333" blue="0.13333333333333333" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="CZQ-BM-nPr" secondAttribute="bottom" constant="30" id="6g1-SD-Csb"/>
+                <constraint firstAttribute="bottom" secondItem="CZQ-BM-nPr" secondAttribute="bottom" id="6g1-SD-Csb"/>
                 <constraint firstItem="CZQ-BM-nPr" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="9Fd-ID-F6k"/>
                 <constraint firstItem="M4U-ni-wQF" firstAttribute="centerX" secondItem="CZQ-BM-nPr" secondAttribute="centerX" id="SXi-wG-sa0"/>
                 <constraint firstItem="CZQ-BM-nPr" firstAttribute="top" secondItem="M4U-ni-wQF" secondAttribute="bottom" constant="15" id="k6v-eC-6ol"/>

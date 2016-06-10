@@ -11,6 +11,7 @@ import YYWebImage
 import MJRefresh
 import Mustache
 import CryptoSwift
+import pop
 
 class JFNewsDetailViewController: UIViewController {
     
@@ -460,7 +461,6 @@ class JFNewsDetailViewController: UIViewController {
         let moreCommentButton = UIButton(frame: CGRect(x: 20, y: 20, width: SCREEN_WIDTH - 40, height: 44))
         moreCommentButton.addTarget(self, action: #selector(didTappedmoreCommentButton(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         moreCommentButton.setTitle("更多评论", forState: UIControlState.Normal)
-        moreCommentButton.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
         moreCommentButton.backgroundColor = NAVIGATIONBAR_COLOR
         moreCommentButton.layer.cornerRadius = CORNER_RADIUS
         
@@ -683,13 +683,14 @@ extension JFNewsDetailViewController: JFNewsBottomBarDelegate, JFCommentCommitVi
                 if successResult["result"]["status"].intValue == 1 {
                     // 增加成功
                     JFProgressHUD.showSuccessWithStatus("收藏成功")
+                    
                     button.selected = true
+                    
                 } else if successResult["result"]["status"].intValue == 3 {
                     // 删除成功
                     JFProgressHUD.showSuccessWithStatus("取消收藏")
                     button.selected = false
                 }
-                
             }
         } else {
             presentViewController(JFNavigationController(rootViewController: JFLoginViewController(nibName: "JFLoginViewController", bundle: nil)), animated: true, completion: { })
@@ -924,6 +925,7 @@ extension JFNewsDetailViewController: JFCommentCellDelegate {
      点击了评论cell上的赞按钮
      */
     func didTappedStarButton(button: UIButton, commentModel: JFCommentModel) {
+        
         button.selected = true
         
         let parameters = [
@@ -938,7 +940,10 @@ extension JFNewsDetailViewController: JFCommentCellDelegate {
             JFProgressHUD.showInfoWithStatus(result!["result"]["info"].stringValue)
             if success {
                 commentModel.zcnum += 1
-                self.tableView.reloadData()
+                
+                // 刷新单行
+                let indexPath = NSIndexPath(forRow: self.commentList.indexOf(commentModel)!, inSection: 3)
+                self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
             }
         }
     }

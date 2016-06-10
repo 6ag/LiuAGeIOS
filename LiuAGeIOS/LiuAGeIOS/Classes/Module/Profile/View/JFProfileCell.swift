@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import pop
 
 class JFProfileCell: UITableViewCell {
 
@@ -68,6 +69,23 @@ class JFProfileCell: UITableViewCell {
         let lineY = frame.size.height - lineH
         let lineW = frame.size.width - lineX
         settingLineView.frame = CGRect(x: lineX, y: lineY, width: lineW, height: lineH)
+    }
+    
+    override func setHighlighted(highlighted: Bool, animated: Bool) {
+        super.setHighlighted(highlighted, animated: animated)
+        
+        if self.highlighted {
+            let scaleAnimation = POPBasicAnimation(propertyNamed: kPOPViewScaleXY)
+            scaleAnimation.duration = 0.1
+            scaleAnimation.toValue = NSValue(CGPoint: CGPoint(x: 1.5, y: 1.5))
+            imageView?.pop_addAnimation(scaleAnimation, forKey: "scalingUp")
+        } else {
+            let sprintAnimation = POPSpringAnimation(propertyNamed: kPOPViewScaleXY)
+            sprintAnimation.toValue = NSValue(CGPoint: CGPoint(x: 0.9, y: 0.9))
+            sprintAnimation.velocity = NSValue(CGPoint: CGPoint(x: 2, y: 2))
+            sprintAnimation.springBounciness = 20
+            imageView?.pop_addAnimation(sprintAnimation, forKey: "springAnimation")
+        }
     }
     
     private func prepareUI() {
