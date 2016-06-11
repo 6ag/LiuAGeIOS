@@ -67,10 +67,11 @@ class JFModifyInfoTableViewController: JFBaseTableViewController {
      - parameter sourceType:  资源类型
      */
     func setupImagePicker(sourceType: UIImagePickerControllerSourceType) {
-        self.imagePickerC.delegate = self
-        self.imagePickerC.sourceType = sourceType
-        self.imagePickerC.allowsEditing = true
-        self.imagePickerC.modalTransitionStyle = UIModalTransitionStyle.CoverVertical
+        imagePickerC.view.backgroundColor = BACKGROUND_COLOR
+        imagePickerC.delegate = self
+        imagePickerC.sourceType = sourceType
+        imagePickerC.allowsEditing = true
+        imagePickerC.modalTransitionStyle = UIModalTransitionStyle.CoverVertical
     }
     
     /**
