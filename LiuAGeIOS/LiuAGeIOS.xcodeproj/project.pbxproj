@@ -11,8 +11,8 @@
 		B20149551D07BA6200ACE583 /* JFArticleStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20149541D07BA6200ACE583 /* JFArticleStorage.swift */; };
 		B20149581D07DBFA00ACE583 /* JFSetFontView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20149561D07DBFA00ACE583 /* JFSetFontView.swift */; };
 		B20149591D07DBFA00ACE583 /* JFSetFontView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B20149571D07DBFA00ACE583 /* JFSetFontView.xib */; };
-		B20149611D08269A00ACE583 /* loading.png in Resources */ = {isa = PBXBuildFile; fileRef = B20149601D08269A00ACE583 /* loading.png */; };
 		B2354A021D0BA84B0050AF13 /* JFNoHighlightedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B2354A011D0BA84A0050AF13 /* JFNoHighlightedButton.m */; };
+		B2354A101D0BD4080050AF13 /* loading.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B2354A0F1D0BD4080050AF13 /* loading.jpg */; };
 		B264A36C1D016C0D00C72E13 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B264A2BF1D016C0D00C72E13 /* Assets.xcassets */; };
 		B264A36D1D016C0D00C72E13 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B264A2C01D016C0D00C72E13 /* LaunchScreen.storyboard */; };
 		B264A36E1D016C0D00C72E13 /* api.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A2C41D016C0D00C72E13 /* api.swift */; };
@@ -181,9 +181,9 @@
 		B20149541D07BA6200ACE583 /* JFArticleStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFArticleStorage.swift; sourceTree = "<group>"; };
 		B20149561D07DBFA00ACE583 /* JFSetFontView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFSetFontView.swift; sourceTree = "<group>"; };
 		B20149571D07DBFA00ACE583 /* JFSetFontView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JFSetFontView.xib; sourceTree = "<group>"; };
-		B20149601D08269A00ACE583 /* loading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loading.png; sourceTree = "<group>"; };
 		B2354A001D0BA84A0050AF13 /* JFNoHighlightedButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFNoHighlightedButton.h; sourceTree = "<group>"; };
 		B2354A011D0BA84A0050AF13 /* JFNoHighlightedButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFNoHighlightedButton.m; sourceTree = "<group>"; };
+		B2354A0F1D0BD4080050AF13 /* loading.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = loading.jpg; sourceTree = "<group>"; };
 		B264A2BF1D016C0D00C72E13 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B264A2C11D016C0D00C72E13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B264A2C41D016C0D00C72E13 /* api.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = api.swift; sourceTree = "<group>"; };
@@ -777,8 +777,8 @@
 		B264A3691D016C0D00C72E13 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				B2354A0F1D0BD4080050AF13 /* loading.jpg */,
 				B2FFDDD91D06552D00C28DD1 /* HYQiHei-50J.ttf */,
-				B20149601D08269A00ACE583 /* loading.png */,
 				B2FFDDDC1D06552D00C28DD1 /* WebViewJavascriptBridge.js */,
 				B2FFDDE51D065A8A00C28DD1 /* article.html */,
 			);
@@ -1069,6 +1069,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2354A101D0BD4080050AF13 /* loading.jpg in Resources */,
 				B20149591D07DBFA00ACE583 /* JFSetFontView.xib in Resources */,
 				B264A36C1D016C0D00C72E13 /* Assets.xcassets in Resources */,
 				B264A4151D018DC800C72E13 /* JFNewsBottomBar.xib in Resources */,
@@ -1076,7 +1077,6 @@
 				B264A41C1D018DC800C72E13 /* JFNewsNoPicCell.xib in Resources */,
 				B264A3D51D016C0D00C72E13 /* LaunchScreen.strings in Resources */,
 				B2FFDDE01D06552D00C28DD1 /* WebViewJavascriptBridge.js in Resources */,
-				B20149611D08269A00ACE583 /* loading.png in Resources */,
 				B264A3AC1D016C0D00C72E13 /* JFLoginViewController.xib in Resources */,
 				B264A4101D018DC800C72E13 /* JFCommentCell.xib in Resources */,
 				B264A3A21D016C0D00C72E13 /* JFForgotViewController.xib in Resources */,

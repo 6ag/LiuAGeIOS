@@ -352,7 +352,7 @@ class JFNewsDetailViewController: UIViewController {
                 }
                 
                 // 加载中的占位图
-                let loading = NSBundle.mainBundle().pathForResource("loading", ofType: "png")
+                let loading = NSBundle.mainBundle().pathForResource("loading", ofType: "jpg")
                 
                 // img标签
                 let imgTag = "<img onclick='didTappedImage(\(index));' src='\(loading!)' id='\(dict["url"] as! String)' width='\(width)' height='\(height)' />"
