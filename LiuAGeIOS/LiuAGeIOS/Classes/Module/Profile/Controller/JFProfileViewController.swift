@@ -151,6 +151,7 @@ class JFProfileViewController: JFBaseTableViewController {
         let group2CellModel2 = JFProfileCellModel(title: "夜间模式", icon: "profile_mode_daylight")
         group2CellModel2.operation = { () -> Void in
             print("夜间模式")
+            self.viewDismiss()
         }
         let group2 = JFProfileCellGroupModel(cells: [group2CellModel1, group2CellModel2])
         

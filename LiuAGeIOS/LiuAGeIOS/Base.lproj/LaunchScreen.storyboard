@@ -17,25 +17,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="六阿哥临时启动页" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pgt-9l-E25">
-                                <rect key="frame" x="180" y="282" width="240" height="36"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="开启探索之旅" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wa1-pX-8lb">
-                                <rect key="frame" x="210" y="338" width="180" height="36"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchimage" translatesAutoresizingMaskIntoConstraints="NO" id="Lkr-do-EWw">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Wa1-pX-8lb" firstAttribute="top" secondItem="Pgt-9l-E25" secondAttribute="bottom" constant="20" id="SNn-2Y-L7a"/>
-                            <constraint firstItem="Pgt-9l-E25" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="gda-un-W9h"/>
-                            <constraint firstItem="Wa1-pX-8lb" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="q0J-gD-O2Y"/>
-                            <constraint firstItem="Pgt-9l-E25" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="yiv-2g-dZf"/>
+                            <constraint firstItem="Lkr-do-EWw" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="iWI-OB-UNa"/>
+                            <constraint firstAttribute="trailing" secondItem="Lkr-do-EWw" secondAttribute="trailing" id="mFc-ZC-kGz"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="Lkr-do-EWw" secondAttribute="bottom" id="skS-HK-Qk2"/>
+                            <constraint firstItem="Lkr-do-EWw" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="tfc-8z-Fkd"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -44,4 +35,7 @@
             <point key="canvasLocation" x="262" y="400"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="launchimage" width="375" height="667"/>
+    </resources>
 </document>

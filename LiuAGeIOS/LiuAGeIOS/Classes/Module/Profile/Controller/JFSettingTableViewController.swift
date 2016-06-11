@@ -28,5 +28,13 @@ class JFSettingTableViewController: JFBaseTableViewController {
         
         groupModels = [group1]
     }
+    
+    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 5
+    }
+    
+    override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 5
+    }
 
 }
