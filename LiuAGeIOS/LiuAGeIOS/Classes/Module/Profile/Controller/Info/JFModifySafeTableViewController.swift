@@ -37,7 +37,7 @@ class JFModifySafeTableViewController: JFBaseTableViewController {
     func didChangeTextField(sender: UITextField) {
         if oldPasswordField.text?.characters.count > 1 && newPasswordField.text?.characters.count > 1 && reNewPasswordField.text?.characters.count > 1 && emailField.text?.characters.count > 1 {
             saveButton.enabled = true
-            saveButton.backgroundColor = NAVIGATIONBAR_COLOR
+            saveButton.backgroundColor = NAVIGATIONBAR_COLOR_DARK
         } else {
             saveButton.enabled = false
             saveButton.backgroundColor = UIColor.grayColor()
@@ -120,7 +120,7 @@ class JFModifySafeTableViewController: JFBaseTableViewController {
     private lazy var saveButton: UIButton = {
         let saveButton = UIButton(frame: CGRect(x: 20, y: 0, width: SCREEN_WIDTH - 40, height: 44))
         saveButton.addTarget(self, action: #selector(didTappedSaveButton(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        saveButton.setTitle("保存", forState: UIControlState.Normal)
+        saveButton.setTitle("保存修改", forState: UIControlState.Normal)
         saveButton.enabled = false
         saveButton.backgroundColor = UIColor.grayColor()
         saveButton.layer.cornerRadius = CORNER_RADIUS

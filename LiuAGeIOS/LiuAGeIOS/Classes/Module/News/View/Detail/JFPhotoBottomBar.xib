@@ -32,7 +32,7 @@
                         <action selector="didTappedEditButton:" destination="jOX-oJ-3J4" eventType="touchUpInside" id="xYr-wi-aJs"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wvs-3u-gev" userLabel="Collection">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wvs-3u-gev" userLabel="Collection" customClass="JFNoHighlightedButton">
                     <rect key="frame" x="192" y="1" width="64" height="44"/>
                     <state key="normal" image="bottom_bar_collection_normal1"/>
                     <state key="selected" image="bottom_bar_collection_selected"/>

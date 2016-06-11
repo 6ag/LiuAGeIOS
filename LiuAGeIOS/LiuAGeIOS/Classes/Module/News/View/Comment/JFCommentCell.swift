@@ -8,6 +8,7 @@
 
 import UIKit
 import YYWebImage
+import pop
 
 protocol JFCommentCellDelegate {
     func didTappedStarButton(button: UIButton, commentModel: JFCommentModel)
@@ -44,7 +45,17 @@ class JFCommentCell: UITableViewCell {
      点击了赞
      */
     @IBAction func didTappedStarButton(sender: UIButton) {
+        setupAnimation(sender)
         delegate?.didTappedStarButton(sender, commentModel: commentModel!)
+    }
+    
+    private func setupAnimation(button: UIButton) {
+        let sprintAnimation = POPSpringAnimation(propertyNamed: kPOPViewScaleXY)
+        sprintAnimation.fromValue = NSValue(CGPoint: CGPoint(x: 0.8, y: 0.8))
+        sprintAnimation.toValue = NSValue(CGPoint: CGPoint(x: 1, y: 1))
+        sprintAnimation.velocity = NSValue(CGPoint: CGPoint(x: 40, y: 40))
+        sprintAnimation.springBounciness = 20
+        button.pop_addAnimation(sprintAnimation, forKey: "springAnimation")
     }
     
 }

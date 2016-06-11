@@ -171,8 +171,8 @@ class JFCommentTableViewController: UITableViewController {
 
 // MARK: - JFCommentCellDelegate
 extension JFCommentTableViewController: JFCommentCellDelegate {
+    
     func didTappedStarButton(button: UIButton, commentModel: JFCommentModel) {
-        button.selected = true
         
         let parameters = [
             "classid" : commentModel.classid,
@@ -183,12 +183,20 @@ extension JFCommentTableViewController: JFCommentCellDelegate {
         ]
         
         JFNetworkTool.shareNetworkTool.get(TOP_DOWN, parameters: parameters as? [String : AnyObject]) { (success, result, error) in
-            print(result)
-            JFProgressHUD.showInfoWithStatus(result!["result"]["info"].stringValue)
             if success {
+                JFProgressHUD.showInfoWithStatus("谢谢支持")
+                // 只要顶成功才选中
+                button.selected = true
+                
                 commentModel.zcnum += 1
-                self.tableView.reloadData()
+                
+                // 刷新单行
+                let indexPath = NSIndexPath(forRow: self.commentList.indexOf(commentModel)!, inSection: 3)
+                self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
+            } else {
+                JFProgressHUD.showInfoWithStatus("不能重复顶哦")
             }
+            
         }
     }
 }

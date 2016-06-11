@@ -106,8 +106,8 @@ class JFModifyInfoTableViewController: JFBaseTableViewController {
     private lazy var footerView: UIView = {
         let logoutButton = UIButton(frame: CGRect(x: 20, y: 0, width: SCREEN_WIDTH - 40, height: 44))
         logoutButton.addTarget(self, action: #selector(didTappedSaveButton(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        logoutButton.setTitle("保存", forState: UIControlState.Normal)
-        logoutButton.backgroundColor = NAVIGATIONBAR_COLOR
+        logoutButton.setTitle("保存修改", forState: UIControlState.Normal)
+        logoutButton.backgroundColor = NAVIGATIONBAR_COLOR_DARK
         logoutButton.layer.cornerRadius = CORNER_RADIUS
         
         let footerView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 44))
@@ -119,8 +119,7 @@ class JFModifyInfoTableViewController: JFBaseTableViewController {
         let field = UITextField(frame: CGRect(x: 100, y: 0, width: SCREEN_WIDTH - 120, height: 44))
         field.enabled = false
         field.font = UIFont.systemFontOfSize(14)
-        field.placeholder = "用户名"
-        field.clearButtonMode = .WhileEditing
+        field.textColor = UIColor.grayColor()
         return field
     }()
     

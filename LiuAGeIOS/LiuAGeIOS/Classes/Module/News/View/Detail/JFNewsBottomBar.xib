@@ -35,7 +35,7 @@
                         <action selector="didTappedCommentButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="2db-8N-oAX"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ilo-Ts-jCo" userLabel="Collection">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ilo-Ts-jCo" userLabel="Collection" customClass="JFNoHighlightedButton">
                     <rect key="frame" x="192" y="1" width="64" height="44"/>
                     <state key="normal" image="bottom_bar_collection_normal2"/>
                     <state key="selected" image="bottom_bar_collection_selected"/>

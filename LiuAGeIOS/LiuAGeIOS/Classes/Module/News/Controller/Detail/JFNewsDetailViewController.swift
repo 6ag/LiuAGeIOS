@@ -461,7 +461,7 @@ class JFNewsDetailViewController: UIViewController {
         let moreCommentButton = UIButton(frame: CGRect(x: 20, y: 20, width: SCREEN_WIDTH - 40, height: 44))
         moreCommentButton.addTarget(self, action: #selector(didTappedmoreCommentButton(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         moreCommentButton.setTitle("更多评论", forState: UIControlState.Normal)
-        moreCommentButton.backgroundColor = NAVIGATIONBAR_COLOR
+        moreCommentButton.backgroundColor = NAVIGATIONBAR_COLOR_DARK
         moreCommentButton.layer.cornerRadius = CORNER_RADIUS
         
         let footerView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 44))
@@ -926,8 +926,6 @@ extension JFNewsDetailViewController: JFCommentCellDelegate {
      */
     func didTappedStarButton(button: UIButton, commentModel: JFCommentModel) {
         
-        button.selected = true
-        
         let parameters = [
             "classid" : commentModel.classid,
             "id" : commentModel.id,
@@ -937,13 +935,19 @@ extension JFNewsDetailViewController: JFCommentCellDelegate {
         ]
         
         JFNetworkTool.shareNetworkTool.get(TOP_DOWN, parameters: parameters as? [String : AnyObject]) { (success, result, error) in
-            JFProgressHUD.showInfoWithStatus(result!["result"]["info"].stringValue)
+            
             if success {
+                JFProgressHUD.showInfoWithStatus("谢谢支持")
+                // 只要顶成功才选中
+                button.selected = true
+                
                 commentModel.zcnum += 1
                 
                 // 刷新单行
                 let indexPath = NSIndexPath(forRow: self.commentList.indexOf(commentModel)!, inSection: 3)
                 self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
+            } else {
+                JFProgressHUD.showInfoWithStatus("不能重复顶哦")
             }
         }
     }

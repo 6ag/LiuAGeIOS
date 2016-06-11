@@ -78,7 +78,7 @@ class JFEditProfileViewController: JFBaseTableViewController {
         let logoutButton = UIButton(frame: CGRect(x: 20, y: 0, width: SCREEN_WIDTH - 40, height: 44))
         logoutButton.addTarget(self, action: #selector(didTappedLogoutButton(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         logoutButton.setTitle("退出登录", forState: UIControlState.Normal)
-        logoutButton.backgroundColor = NAVIGATIONBAR_COLOR
+        logoutButton.backgroundColor = NAVIGATIONBAR_COLOR_DARK
         logoutButton.layer.cornerRadius = CORNER_RADIUS
         
         let footerView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 44))

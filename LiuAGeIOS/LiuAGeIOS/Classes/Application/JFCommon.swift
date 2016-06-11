@@ -90,6 +90,9 @@ let APPLE_ID = "1120896924"
 /// 导航栏背景颜色 - （屎黄色）
 let NAVIGATIONBAR_COLOR = UIColor(red:0.996,  green:0.816,  blue:0.012, alpha:1)
 
+/// 比导航栏背景色更深一点的颜色
+let NAVIGATIONBAR_COLOR_DARK = UIColor(red:0.896,  green:0.716,  blue:0.002, alpha:1)
+
 /// 控制器背景颜色
 let BACKGROUND_COLOR = UIColor(red:0.933,  green:0.933,  blue:0.933, alpha:1)
 
