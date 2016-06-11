@@ -335,13 +335,9 @@ extension JFPhotoDetailViewController: JFCommentCommitViewDelegate, JFPhotoBotto
      发布评论
      */
     func didTappedEditButton(button: UIButton) {
-        if JFAccountModel.isLogin() {
-            let commentCommitView = NSBundle.mainBundle().loadNibNamed("JFCommentCommitView", owner: nil, options: nil).last as! JFCommentCommitView
-            commentCommitView.delegate = self
-            commentCommitView.show()
-        } else {
-            presentViewController(JFNavigationController(rootViewController: JFLoginViewController(nibName: "JFLoginViewController", bundle: nil)), animated: true, completion: { })
-        }
+        let commentCommitView = NSBundle.mainBundle().loadNibNamed("JFCommentCommitView", owner: nil, options: nil).last as! JFCommentCommitView
+        commentCommitView.delegate = self
+        commentCommitView.show()
     }
     
     /**
@@ -380,6 +376,8 @@ extension JFPhotoDetailViewController: JFCommentCommitViewDelegate, JFPhotoBotto
                     JFProgressHUD.showSuccessWithStatus("取消收藏")
                     button.selected = false
                 }
+                
+                jf_setupButtonSpringAnimation(button)
             }
         } else {
             presentViewController(JFNavigationController(rootViewController: JFLoginViewController(nibName: "JFLoginViewController", bundle: nil)), animated: true, completion: {
@@ -437,13 +435,26 @@ extension JFPhotoDetailViewController: JFCommentCommitViewDelegate, JFPhotoBotto
      */
     func didTappedSendButtonWithMessage(message: String) {
         
-        let parameters: [String : AnyObject] = [
-            "classid" : photoParam!.classid,
-            "id" : photoParam!.id,
-            "userid" : JFAccountModel.shareAccount()!.id,
-            "username" : JFAccountModel.shareAccount()!.username!,
-            "saytext" : message
-        ]
+        var parameters = [String : AnyObject]()
+        
+        if JFAccountModel.isLogin() {
+            parameters = [
+                "classid" : photoParam!.classid,
+                "id" : photoParam!.id,
+                "userid" : JFAccountModel.shareAccount()!.id,
+                "nomember" : "0",
+                "username" : JFAccountModel.shareAccount()!.username!,
+                "token" : JFAccountModel.shareAccount()!.token!,
+                "saytext" : message
+            ]
+        } else {
+            parameters = [
+                "classid" : photoParam!.classid,
+                "id" : photoParam!.id,
+                "nomember" : "1",
+                "saytext" : message
+            ]
+        }
         
         JFNetworkTool.shareNetworkTool.get(SUBMIT_COMMENT, parameters: parameters) { (success, result, error) in
             if success {

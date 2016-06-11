@@ -31,7 +31,7 @@ class JFNavigationController: UINavigationController, UIGestureRecognizerDelegat
     /**
      全屏返回手势
      */
-    func panGestureBack() -> Void {
+    func panGestureBack() {
         let target = interactivePopGestureRecognizer?.delegate
         let pan = UIPanGestureRecognizer(target: target, action: Selector("handleNavigationTransition:"))
         pan.delegate = self

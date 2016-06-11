@@ -292,7 +292,7 @@ class JFNewsDetailViewController: UIViewController {
                 ]
                 
                 let commentModel = JFCommentModel(dict: dict as! [String : AnyObject])
-                self.commentList.append(commentModel)
+                self.commentList.insert(commentModel, atIndex: 0)
             }
             
             self.tableView.reloadData()
@@ -691,6 +691,8 @@ extension JFNewsDetailViewController: JFNewsBottomBarDelegate, JFCommentCommitVi
                     JFProgressHUD.showSuccessWithStatus("取消收藏")
                     button.selected = false
                 }
+                
+                jf_setupButtonSpringAnimation(button)
             }
         } else {
             presentViewController(JFNavigationController(rootViewController: JFLoginViewController(nibName: "JFLoginViewController", bundle: nil)), animated: true, completion: { })
@@ -758,7 +760,7 @@ extension JFNewsDetailViewController: JFNewsBottomBarDelegate, JFCommentCommitVi
         JFNetworkTool.shareNetworkTool.get(SUBMIT_COMMENT, parameters: parameters) { (success, result, error) in
             if success {
                 // 加载数据
-                self.updateData()
+                self.loadCommentList(self.articleParam!.classid, id: self.articleParam!.id)
             }
         }
     }
@@ -945,10 +947,12 @@ extension JFNewsDetailViewController: JFCommentCellDelegate {
                 
                 // 刷新单行
                 let indexPath = NSIndexPath(forRow: self.commentList.indexOf(commentModel)!, inSection: 3)
-                self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
+                self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
             } else {
                 JFProgressHUD.showInfoWithStatus("不能重复顶哦")
             }
+            
+            jf_setupButtonSpringAnimation(button)
         }
     }
 }

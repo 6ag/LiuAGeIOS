@@ -188,8 +188,19 @@ class JFProfileViewController: JFBaseTableViewController {
     private func shareToGoodFriend() {
         
         viewDismiss()
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.25 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+            self.shareToFriend()
+        }
+        
+    }
+    
+    /**
+     分享给朋友
+     */
+    private func shareToFriend() {
         // 宣传图
-        var image = UIImage(named: "launchScreen")
+        var image = UIImage(named: "shareapp")
         if image != nil && (image?.size.width > 300 || image?.size.height > 300) {
             image = image?.resizeImageWithNewSize(CGSize(width: 300, height: 300 * image!.size.height / image!.size.width))
         }
@@ -197,7 +208,7 @@ class JFProfileViewController: JFBaseTableViewController {
         let shareParames = NSMutableDictionary()
         shareParames.SSDKSetupShareParamsByText("六阿哥网是国内最大的以奇闻异事探索为主题的网站之一，为广大探索爱好者提供丰富的探索资讯内容。进入app下载界面...",
                                                 images : image,
-                                                url : NSURL(string:"http://www.6ag.cn"), // app下载页面
+                                                url : NSURL(string:"https://itunes.apple.com/app/id1120896924"),
                                                 title : "六阿哥",
                                                 type : SSDKContentType.Auto)
         
@@ -236,6 +247,9 @@ class JFProfileViewController: JFBaseTableViewController {
     }
     
     override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if section == 2 {
+            return 80
+        }
         return 5
     }
     
@@ -251,6 +265,7 @@ class JFProfileViewController: JFBaseTableViewController {
             // 底部视图
             let footerView = JFProfileFooterView(frame: CGRect(x: 15, y: 0, width: SCREEN_WIDTH * 0.55 - 30, height: 80))
             footerView.delegate = self
+            contentView.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH * 0.55, height: 80)
             contentView.addSubview(footerView)
         }
         return contentView
@@ -303,6 +318,7 @@ extension JFProfileViewController: JFProfileFooterViewDelegate {
      */
     func didTappedWxBgView() {
         profileDelegate?.didTappedScanWeixin()
+        viewDismiss()
     }
     
     /**
@@ -310,5 +326,6 @@ extension JFProfileViewController: JFProfileFooterViewDelegate {
      */
     func didTappedStarBgView() {
         profileDelegate?.didTappedStar()
+        viewDismiss()
     }
 }

@@ -39,7 +39,8 @@ class JFFPSLabel: UILabel {
         super.init(coder: aDecoder)
     }
     
-    func tick(link:CADisplayLink) {
+    func tick(link: CADisplayLink) {
+        
         if _lastTime == 0  {
             _lastTime = link.timestamp
             return

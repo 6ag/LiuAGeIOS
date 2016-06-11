@@ -529,7 +529,12 @@ extension JFNewsViewController: JFProfileViewControllerDelegate {
      点赞
      */
     func didTappedStar() {
-        print("点赞")
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.25 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+            let url = NSURL(string: "https://itunes.apple.com/app/id1120896924")!
+            if UIApplication.sharedApplication().canOpenURL(url) {
+                UIApplication.sharedApplication().openURL(url)
+            }
+        }
     }
 }
 

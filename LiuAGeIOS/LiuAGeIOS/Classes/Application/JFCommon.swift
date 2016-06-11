@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import pop
 
 /**
  手机型号枚举
@@ -70,6 +71,18 @@ func jf_getContentFont() -> (fontPath: String, fontName: String) {
     } else {
         return ("", "")
     }
+}
+
+/**
+ 给按钮添加弹簧动画
+ */
+func jf_setupButtonSpringAnimation(button: UIButton) {
+    let sprintAnimation = POPSpringAnimation(propertyNamed: kPOPViewScaleXY)
+    sprintAnimation.fromValue = NSValue(CGPoint: CGPoint(x: 0.8, y: 0.8))
+    sprintAnimation.toValue = NSValue(CGPoint: CGPoint(x: 1, y: 1))
+    sprintAnimation.velocity = NSValue(CGPoint: CGPoint(x: 30, y: 30))
+    sprintAnimation.springBounciness = 20
+    button.pop_addAnimation(sprintAnimation, forKey: "springAnimation")
 }
 
 /// 保存夜间模式的状态的key

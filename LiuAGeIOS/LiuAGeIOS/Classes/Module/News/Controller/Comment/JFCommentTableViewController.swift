@@ -192,11 +192,12 @@ extension JFCommentTableViewController: JFCommentCellDelegate {
                 
                 // 刷新单行
                 let indexPath = NSIndexPath(forRow: self.commentList.indexOf(commentModel)!, inSection: 3)
-                self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
+                self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
             } else {
                 JFProgressHUD.showInfoWithStatus("不能重复顶哦")
             }
             
+            jf_setupButtonSpringAnimation(button)
         }
     }
 }

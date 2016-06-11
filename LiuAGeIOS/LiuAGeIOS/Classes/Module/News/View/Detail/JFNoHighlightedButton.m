@@ -14,7 +14,7 @@
  *  防止 收藏按钮、评论赞按钮 按下后改变图片，去除系统默认做法
  */
 - (void)setHighlighted:(BOOL)highlighted {
-    
+  
 }
 
 @end
