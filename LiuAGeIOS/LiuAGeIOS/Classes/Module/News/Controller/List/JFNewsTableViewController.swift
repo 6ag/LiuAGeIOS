@@ -26,14 +26,13 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
     var articleList = [JFArticleListModel]()
     /// 幻灯片模型数组
     var isGoodList = [JFArticleListModel]()
+    /// 顶部轮播
+    var topScrollView: SDCycleScrollView!
     
     /// 新闻cell重用标识符 无图、单图、三图
     let newsNoPicCell = "newsNoPicCell"
     let newsOnePicCell = "newsOnePicCell"
     let newsThreePicCell = "newsThreePicCell"
-    
-    /// 顶部轮播
-    var topScrollView: SDCycleScrollView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,7 +61,7 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
     }
     
     /**
-     准备头部轮播
+     准备tableHeaderView轮播
      */
     private func prepareScrollView() {
         
@@ -104,6 +103,7 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
      - parameter currentListModel: 模型
      */
     private func jumpToDetailViewControllerWith(currentListModel: JFArticleListModel) {
+        
         // 如果是多图就跳转到图片浏览器
         if currentListModel.piccount == 3 {
             let photoDetailVc = JFPhotoDetailViewController()
@@ -205,7 +205,6 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
             self.tableView.mj_footer.endRefreshing()
             
             guard let successResult = result where success == true else {return}
-            
             var data = successResult["data"].arrayValue
             if method == 0 {
                 // 根据文章id从小到大排序 文章id小的最终后显示在列表后面，越大在越前面
@@ -218,29 +217,27 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
             let maxId = self.articleList.first?.id ?? "0"
             let minId = self.articleList.last?.id ?? "0"
             
+            // 遍历添加数据
             for article in data {
                 var dict: [String : AnyObject] = [
-                    "classid" : article["classid"].stringValue,      // 当前分类id
-                    "id" : article["id"].stringValue,                // 文章id
-                    "title" : article["title"].stringValue,          // 文章标题
-                    "newstime" : article["created_at"].stringValue,  // 发布时间
-                    "created_at" : article["created_at"].stringValue,// 创建文章时间戳
-                    "smalltext" : article["smalltext"].stringValue,  // 简介
-                    "onclick" : article["onclick"].stringValue,      // 点击量
-                    "befrom" : article["befrom"].stringValue,        // 文章来源
+                    "title" : article["title"].stringValue,       // 文章标题
+                    "newstime" : article["newstime"].stringValue, // 创建文章时间戳
+                    "classid" : article["classid"].stringValue,   // 分类id
+                    "id" : article["id"].stringValue,             // 文章id
+                    "onclick" : article["onclick"].stringValue,   // 点击量
+                    "befrom" : article["befrom"].stringValue,     // 文章来源
                 ]
                 
-                // 判断是否有标题图片
+                // 判断是否有标题图片 列表cell分为 无图、单图、三图
                 if article["titlepic"].string != "" {
                     dict["titlepic"] = article["titlepic"].stringValue // 标题图片
                     
-                    // 标题多图
-                    let morepics = article["morepic"].array
-                    if let morepic = morepics {
+                    // 多图 - 取前面3张缩略图作为列表展示
+                    let morepics = article["morepic"].arrayValue
+                    if morepics.count >= 3 {
                         var morepicArray = [String]()
-                        for picdict in morepic {
-                            let smallpic = picdict["smallpic"].stringValue
-                            morepicArray.append(smallpic)
+                        for index in 0..<3 {
+                            morepicArray.append(morepics[index]["smallpic"].stringValue)
                         }
                         dict["morepic"] = morepicArray
                         dict["piccount"] = 3
@@ -248,7 +245,7 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
                         dict["piccount"] = 1
                     }
                 } else {
-                    dict["piccount"] = 0 // 列表图片显示数量 无图、单图、三图
+                    dict["piccount"] = 0
                 }
                 
                 // 字典转模型
@@ -267,12 +264,17 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
                 
             }
             
+            // 添加完后刷新
             self.tableView.reloadData()
         }
         
     }
     
-    // MARK: - Table view data source
+}
+
+// MARK: - Table view data source
+extension JFNewsTableViewController {
+    
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
@@ -333,9 +335,8 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
         // 取消cell选中状态
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
-        // 当前被点击cell的模型
+        // 跳转控制器
         let currentListModel = articleList[indexPath.row]
         jumpToDetailViewControllerWith(currentListModel)
     }
-    
 }

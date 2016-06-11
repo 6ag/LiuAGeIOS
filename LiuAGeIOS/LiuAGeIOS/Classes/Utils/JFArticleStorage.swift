@@ -8,6 +8,7 @@
 
 import UIKit
 import YYWebImage
+import CryptoSwift
 
 class JFArticleStorage: NSObject {
     

@@ -14,7 +14,7 @@ class JFNewsNoPicCell: UITableViewCell {
     var postModel: JFArticleListModel? {
         didSet {
             articleTitleLabel.text = postModel?.title!.timeStampToString()
-            timeLabel.text = postModel?.newstime!.timeStampToString()
+            timeLabel.text = postModel?.newstimeString
             befromLabel.text = postModel?.befrom!
             showNumLabel.text = postModel?.onclick!
         }

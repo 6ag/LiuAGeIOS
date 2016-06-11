@@ -183,15 +183,18 @@ extension JFCommentTableViewController: JFCommentCellDelegate {
         ]
         
         JFNetworkTool.shareNetworkTool.get(TOP_DOWN, parameters: parameters as? [String : AnyObject]) { (success, result, error) in
+            
             if success {
                 JFProgressHUD.showInfoWithStatus("谢谢支持")
+                
                 // 只要顶成功才选中
                 button.selected = true
                 
                 commentModel.zcnum += 1
+                commentModel.isStar = true
                 
                 // 刷新单行
-                let indexPath = NSIndexPath(forRow: self.commentList.indexOf(commentModel)!, inSection: 3)
+                let indexPath = NSIndexPath(forRow: self.commentList.indexOf(commentModel)!, inSection: 0)
                 self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
             } else {
                 JFProgressHUD.showInfoWithStatus("不能重复顶哦")

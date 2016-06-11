@@ -23,7 +23,6 @@
 		B264A3731D016C0D00C72E13 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A2CB1D016C0D00C72E13 /* UIImage+Extension.swift */; };
 		B264A3741D016C0D00C72E13 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A2CC1D016C0D00C72E13 /* UIView+Extension.swift */; };
 		B264A3751D016C0D00C72E13 /* JFAccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A2CE1D016C0D00C72E13 /* JFAccountModel.swift */; };
-		B264A3761D016C0D00C72E13 /* JFArticleListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A2CF1D016C0D00C72E13 /* JFArticleListModel.swift */; };
 		B264A3771D016C0D00C72E13 /* JFNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A2D31D016C0D00C72E13 /* JFNavigationController.swift */; };
 		B264A3781D016C0D00C72E13 /* JFNewFeatureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A2D41D016C0D00C72E13 /* JFNewFeatureViewController.swift */; };
 		B264A39F1D016C0D00C72E13 /* JFCollectionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A30A1D016C0D00C72E13 /* JFCollectionTableViewController.swift */; };
@@ -106,6 +105,7 @@
 		B29D53EE1CF45DCB00CD3F0D /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B29D53ED1CF45DCB00CD3F0D /* JavaScriptCore.framework */; };
 		B29D53F01CF45DD500CD3F0D /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B29D53EF1CF45DD500CD3F0D /* libicucore.tbd */; };
 		B2A877181D029A420061AC70 /* NSDate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A877171D029A420061AC70 /* NSDate+Extension.swift */; };
+		B2C0FE111D0C5EE000DACAC9 /* JFArticleListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C0FE101D0C5EE000DACAC9 /* JFArticleListModel.swift */; };
 		B2C866031D051C1900A5B1FD /* JFPopoverDismissAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C866001D051C1900A5B1FD /* JFPopoverDismissAnimation.swift */; };
 		B2C866041D051C1900A5B1FD /* JFPopoverModalAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C866011D051C1900A5B1FD /* JFPopoverModalAnimation.swift */; };
 		B2C866051D051C1900A5B1FD /* JFPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C866021D051C1900A5B1FD /* JFPresentationController.swift */; };
@@ -192,7 +192,6 @@
 		B264A2CB1D016C0D00C72E13 /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		B264A2CC1D016C0D00C72E13 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		B264A2CE1D016C0D00C72E13 /* JFAccountModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFAccountModel.swift; sourceTree = "<group>"; };
-		B264A2CF1D016C0D00C72E13 /* JFArticleListModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFArticleListModel.swift; sourceTree = "<group>"; };
 		B264A2D31D016C0D00C72E13 /* JFNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFNavigationController.swift; sourceTree = "<group>"; };
 		B264A2D41D016C0D00C72E13 /* JFNewFeatureViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFNewFeatureViewController.swift; sourceTree = "<group>"; };
 		B264A30A1D016C0D00C72E13 /* JFCollectionTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFCollectionTableViewController.swift; sourceTree = "<group>"; };
@@ -290,6 +289,7 @@
 		B29D53ED1CF45DCB00CD3F0D /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		B29D53EF1CF45DD500CD3F0D /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
 		B2A877171D029A420061AC70 /* NSDate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Extension.swift"; sourceTree = "<group>"; };
+		B2C0FE101D0C5EE000DACAC9 /* JFArticleListModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFArticleListModel.swift; sourceTree = "<group>"; };
 		B2C866001D051C1900A5B1FD /* JFPopoverDismissAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFPopoverDismissAnimation.swift; sourceTree = "<group>"; };
 		B2C866011D051C1900A5B1FD /* JFPopoverModalAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFPopoverModalAnimation.swift; sourceTree = "<group>"; };
 		B2C866021D051C1900A5B1FD /* JFPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFPresentationController.swift; sourceTree = "<group>"; };
@@ -481,7 +481,6 @@
 			isa = PBXGroup;
 			children = (
 				B264A2CE1D016C0D00C72E13 /* JFAccountModel.swift */,
-				B264A2CF1D016C0D00C72E13 /* JFArticleListModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -839,6 +838,7 @@
 		B264A3E31D018DC800C72E13 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				B2C0FE101D0C5EE000DACAC9 /* JFArticleListModel.swift */,
 				B264A3E41D018DC800C72E13 /* JFArticleDetailModel.swift */,
 				B264A3E51D018DC800C72E13 /* JFCommentModel.swift */,
 				B264A3E61D018DC800C72E13 /* JFOtherLinkModel.swift */,
@@ -1288,6 +1288,7 @@
 				B264A3AD1D016C0D00C72E13 /* JFRegisterViewController.swift in Sources */,
 				B264A3B11D016C0D00C72E13 /* JFProfileCellArrowModel.swift in Sources */,
 				B264A4021D018DC800C72E13 /* JFEditColumnViewController.swift in Sources */,
+				B2C0FE111D0C5EE000DACAC9 /* JFArticleListModel.swift in Sources */,
 				B264A40D1D018DC800C72E13 /* JFColumnReusableView.swift in Sources */,
 				B264A3C41D016C0D00C72E13 /* JFNetworkTool.swift in Sources */,
 				B264A3B21D016C0D00C72E13 /* JFProfileCellGroupModel.swift in Sources */,
@@ -1304,7 +1305,6 @@
 				B264A3A81D016C0D00C72E13 /* JFProfileFeedbackViewController.swift in Sources */,
 				B2F9EC561D03CBC800FC7E48 /* JFNewFeatureCell.swift in Sources */,
 				B264A3711D016C0D00C72E13 /* Color+Extension.swift in Sources */,
-				B264A3761D016C0D00C72E13 /* JFArticleListModel.swift in Sources */,
 				B264A3771D016C0D00C72E13 /* JFNavigationController.swift in Sources */,
 				B264A3A41D016C0D00C72E13 /* JFModifyInfoTableViewController.swift in Sources */,
 				B264A3B61D016C0D00C72E13 /* JFInfoHeaderView.swift in Sources */,

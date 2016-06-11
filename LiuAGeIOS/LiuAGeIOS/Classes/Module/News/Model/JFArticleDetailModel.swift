@@ -10,6 +10,12 @@ import UIKit
 
 class JFArticleDetailModel: NSObject {
     
+    /// 顶贴数
+    var top: String?
+    
+    /// 踩帖数
+    var down: String?
+    
     /// 文章标题
     var title: String?
     
@@ -34,7 +40,7 @@ class JFArticleDetailModel: NSObject {
     /// 评论数量
     var plnum: String?
     
-    /// 是否收藏
+    /// 是否收藏 1收藏  0未收藏
     var havefava: String?
     
     /// 文章简介
@@ -45,9 +51,6 @@ class JFArticleDetailModel: NSObject {
     
     /// 所有图片
     var allphoto: [AnyObject]?
-    
-    /// 赞数量
-    var isgood: Int = 0
     
     /// 信息来源 - 如果没有则返回空字符串，所以可以直接强拆
     var befrom: String?

@@ -32,6 +32,7 @@ class JFCommentCell: UITableViewCell {
             timeLabel.text = commentModel!.saytime!
             contentLabel.text = commentModel!.saytext!
             starButton.setTitle("\(commentModel!.zcnum)", forState: UIControlState.Normal)
+            starButton.selected = commentModel!.isStar
         }
     }
     

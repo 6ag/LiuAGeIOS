@@ -8,10 +8,6 @@
 
 import UIKit
 import YYWebImage
-import MJRefresh
-import Mustache
-import CryptoSwift
-import pop
 
 class JFNewsDetailViewController: UIViewController {
     
@@ -33,7 +29,7 @@ class JFNewsDetailViewController: UIViewController {
                 let baseURL = NSURL(fileURLWithPath: templatePath)
                 webView.loadHTMLString(html, baseURL: baseURL)
             } else {
-                // 没有加载过，才去初始化webView - 保证只加载一次
+                // 没有加载过，才去初始化webView - 保证只初始化一次
                 loadWebViewContent(model!)
             }
             
@@ -47,10 +43,10 @@ class JFNewsDetailViewController: UIViewController {
     
     /// 相关连接模型
     var otherLinks = [JFOtherLinkModel]()
-    
     /// 评论模型
     var commentList = [JFCommentModel]()
     
+    // cell标识符
     let detailContentIdentifier = "detailContentIdentifier"
     let detailStarAndShareIdentifier = "detailStarAndShareIdentifier"
     let detailOtherLinkIdentifier = "detailOtherLinkIdentifier"
@@ -62,6 +58,7 @@ class JFNewsDetailViewController: UIViewController {
         
         setupWebViewJavascriptBridge()
         prepareUI()
+        updateData()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -69,20 +66,6 @@ class JFNewsDetailViewController: UIViewController {
         
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
         navigationController?.setNavigationBarHidden(true, animated: true)
-        updateData()
-    }
-    
-    deinit {
-        print("文章详情释放了")
-    }
-    
-    /**
-     点击更多评论
-     */
-    func didTappedmoreCommentButton(button: UIButton) -> Void {
-        let commentVc = JFCommentTableViewController(style: UITableViewStyle.Plain)
-        commentVc.param = articleParam
-        navigationController?.pushViewController(commentVc, animated: true)
     }
     
     /**
@@ -127,64 +110,17 @@ class JFNewsDetailViewController: UIViewController {
         }
     }
     
-    @objc private func updateData() {
-        // 请求页面数据
+    /**
+      请求页面数据和评论数据
+     */
+    private func updateData() {
+        
         loadNewsDetail(articleParam!.classid, id: articleParam!.id)
         loadCommentList(articleParam!.classid, id: articleParam!.id)
     }
     
-    // MARK: - 底部工具条相关处理
-    // 开始拖拽视图
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        contentOffsetY = scrollView.contentOffset.y
-    }
-    
     /**
-     手指滑动屏幕开始滚动
-     */
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        
-        if (scrollView.dragging) {
-            if scrollView.contentOffset.y - contentOffsetY > 5.0 {
-                // 向上拖拽 隐藏
-                bottomBarView.snp_updateConstraints(closure: { (make) in
-                    make.bottom.equalTo(44)
-                })
-                UIView.animateWithDuration(0.25, animations: {
-                    self.view.layoutIfNeeded()
-                })
-            } else if contentOffsetY - scrollView.contentOffset.y > 5.0 {
-                // 向下拖拽 显示
-                bottomBarView.snp_updateConstraints(closure: { (make) in
-                    make.bottom.equalTo(0)
-                })
-                UIView.animateWithDuration(0.25, animations: {
-                    self.view.layoutIfNeeded()
-                })
-            }
-            
-        }
-    }
-    
-    /**
-     滚动减速结束
-     */
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        
-        // 滚动到底部后 显示
-        if case let space = scrollView.contentOffset.y + SCREEN_HEIGHT - scrollView.contentSize.height where space > -5 && space < 5 {
-            bottomBarView.snp_updateConstraints(closure: { (make) in
-                make.bottom.equalTo(0)
-            })
-            UIView.animateWithDuration(0.25, animations: {
-                self.view.layoutIfNeeded()
-            })
-        }
-    }
-    
-    // MARK: - 各种数据请求
-    /**
-     加载详情
+     加载正文数据
      
      - parameter classid: 当前子分类id
      - parameter id:      文章id
@@ -192,7 +128,6 @@ class JFNewsDetailViewController: UIViewController {
     func loadNewsDetail(classid: String, id: String) {
         
         var parameters = [String : AnyObject]()
-        
         if JFAccountModel.isLogin() {
             parameters = [
                 "table" : "news",
@@ -240,180 +175,22 @@ class JFNewsDetailViewController: UIViewController {
                 "title" : content["title"]!.stringValue,          // 文章标题
                 "newstime" : content["newstime"]!.stringValue,    // 时间戳
                 "newstext" : content["newstext"]!.stringValue,    // 文章内容
+                "smalltext" : content["smalltext"]!.stringValue,  // 文章简介
                 "titleurl" : content["titleurl"]!.stringValue,    // 文章url
                 "id" : content["id"]!.stringValue,                // 文章id
                 "classid" : content["classid"]!.stringValue,      // 当前子分类id
                 "plnum" : content["plnum"]!.stringValue,          // 评论数
                 "havefava" : content["havefava"]!.stringValue,    // 是否收藏  1 0
-                "smalltext" : content["smalltext"]!.stringValue,  // 文章简介
                 "titlepic" : content["titlepic"]!.stringValue,    // 标题图片
                 "befrom" : content["befrom"]!.stringValue,        // 文章来源
-                "allphoto" : content["allphoto"]!.arrayObject!    // 所有文章图片
+                "allphoto" : content["allphoto"]!.arrayObject!,   // 所有文章图片
+                "top" : content["top"]!.stringValue,              // 顶贴数
+                "down" : content["down"]!.stringValue,            // 踩帖数
             ]
             
             self.model = JFArticleDetailModel(dict: dict)
             self.tableView.reloadData()
         }
-    }
-    
-    
-    /**
-     加载评论
-     */
-    func loadCommentList(classid: String, id: String) {
-        let parameters = [
-            "classid" : classid,
-            "id" : id,
-            "pageIndex" : 1
-        ]
-        
-        JFNetworkTool.shareNetworkTool.get(GET_COMMENT, parameters: parameters as? [String : AnyObject]) { (success, result, error) -> () in
-            
-            guard let successResult = result where success == true else {return}
-//            print(successResult)
-            let data = successResult["data"].arrayValue
-            if data.count == 0 && self.commentList.count == 0 {
-                return
-            }
-            
-            self.commentList.removeAll()
-            for comment in data.reverse() {
-                let dict = [
-                    "plstep" : comment["plstep"].intValue,
-                    "plid" : comment["plid"].intValue,
-                    "plusername" : comment["plusername"].stringValue,
-                    "plnickname" : comment["plnickname"].stringValue,
-                    "id" : comment["id"].intValue,
-                    "classid" : comment["classid"].intValue,
-                    "saytext" : comment["saytext"].stringValue,
-                    "saytime" : comment["saytime"].stringValue,
-                    "userpic" : comment["userpic"].stringValue,
-                    "zcnum" : comment["zcnum"].stringValue
-                ]
-                
-                let commentModel = JFCommentModel(dict: dict as! [String : AnyObject])
-                self.commentList.insert(commentModel, atIndex: 0)
-            }
-            
-            self.tableView.reloadData()
-        }
-    }
-    
-    /**
-     加载webView内容
-     
-     - parameter model: 新闻模型
-     */
-    func loadWebViewContent(model: JFArticleDetailModel) {
-        
-        // 如果不熟悉网页，可以换成GRMutache模板更配哦
-        var html = ""
-        let css = "<style type=\"text/css\">" +
-            "@font-face {" +
-            "font-family: '\(jf_getContentFont().fontName)';" +
-            "src: url('\(jf_getContentFont().fontPath)');" +
-            "}" +
-            ".content {" +
-            "font-size: \(NSUserDefaults.standardUserDefaults().integerForKey(CONTENT_FONT_SIZE_KEY))px;" +
-            "font-family: '\(jf_getContentFont().fontName)';" +
-            "}" +
-        "</style>"
-        
-        html.appendContentsOf(css)
-        html.appendContentsOf("<div class=\"title\">\(model.title!)</div>")
-        html.appendContentsOf("<div class=\"time\">\(model.befrom!)&nbsp;&nbsp;&nbsp;&nbsp;\(model.newstime!.timeStampToString())</div>")
-        
-        // 临时正文 - 这样做的目的是不修改模型
-        var tempNewstext = model.newstext!
-        
-        // 有图片才去拼接图片
-        if model.allphoto!.count > 0 {
-            
-            // 拼接图片标签
-            for (index, dict) in model.allphoto!.enumerate() {
-                // 图片占位符范围
-                let range = (tempNewstext as NSString).rangeOfString(dict["ref"] as! String)
-                
-                // 默认宽、高为0
-                var width: CGFloat = 0
-                var height: CGFloat = 0
-                if let w = dict["pixel"]!!["width"] as? NSNumber {
-                    width = CGFloat(w.floatValue)
-                }
-                if let h = dict["pixel"]!!["height"] as? NSNumber  {
-                    height = CGFloat(h.floatValue)
-                }
-                
-                // 如果图片超过了最大宽度，才等比压缩 这个最大宽度是根据css里的container容器宽度来自适应的
-                if width >= SCREEN_WIDTH - 40 {
-                    let rate = (SCREEN_WIDTH - 40) / width
-                    width = width * rate
-                    height = height * rate
-                }
-                
-                // 加载中的占位图
-                let loading = NSBundle.mainBundle().pathForResource("loading", ofType: "jpg")
-                
-                // img标签
-                let imgTag = "<img onclick='didTappedImage(\(index));' src='\(loading!)' id='\(dict["url"] as! String)' width='\(width)' height='\(height)' />"
-                tempNewstext = (tempNewstext as NSString).stringByReplacingOccurrencesOfString(dict["ref"] as! String, withString: imgTag, options: NSStringCompareOptions.CaseInsensitiveSearch, range: range)
-            }
-            
-            // 加载图片 - 从缓存中获取图片的本地绝对路径，发送给webView显示
-            getImageFromDownloaderOrDiskByImageUrlArray(model.allphoto!)
-        }
-        
-        html.appendContentsOf("<div class=\"content\">\(tempNewstext)</div>")
-        
-        // 从本地加载网页模板，替换新闻主页
-        let templatePath = NSBundle.mainBundle().pathForResource("article", ofType: "html")!
-        let template = (try! String(contentsOfFile: templatePath, encoding: NSUTF8StringEncoding)) as NSString
-        html = template.stringByReplacingOccurrencesOfString("<p>mainnews</p>", withString: html, options: NSStringCompareOptions.CaseInsensitiveSearch, range: template.rangeOfString("<p>mainnews</p>"))
-        let baseURL = NSURL(fileURLWithPath: templatePath)
-        webView.loadHTMLString(html, baseURL: baseURL)
-        
-        // 已经加载过就修改标记
-        isLoaded = true
-        
-    }
-    
-    /**
-     下载或从缓存中获取图片，发送给webView
-     */
-    func getImageFromDownloaderOrDiskByImageUrlArray(imageArray: [AnyObject]) {
-        
-        // 循环加载图片
-        for dict in imageArray {
-            
-            // 图片url
-            let imageString = dict["url"] as! String
-            
-            // 判断本地磁盘是否已经缓存
-            if JFArticleStorage.getArticleImageCache().containsImageForKey(imageString, withType: YYImageCacheType.Disk) {
-                
-                let imagePath = JFArticleStorage.getFilePathForKey(imageString)
-                // 发送图片占位标识和本地绝对路径给webView
-                bridge?.send("replaceimage\(imageString),\(imagePath)")
-            } else {
-                YYWebImageManager(cache: JFArticleStorage.getArticleImageCache(), queue: NSOperationQueue()).requestImageWithURL(NSURL(string: imageString)!, options: YYWebImageOptions.UseNSURLCache, progress: { (_, _) in
-                    
-                    }, transform: { (image, url) -> UIImage? in
-                        return image
-                    }, completion: { (image, url, type, stage, error) in
-                        dispatch_sync(dispatch_get_main_queue(), {
-                            
-                            // 确保已经下载完成并没有出错 - 这样做其实已经修改了YYWebImage的磁盘缓存策略。默认YYWebImage缓存文件时超过20kb的文件才会存储为文件，所以需要在 YYDiskCache.m的171行修改
-                            guard let _ = image where error == nil else {return}
-                            
-                            let imagePath = JFArticleStorage.getFilePathForKey(imageString)
-                            // 发送图片占位标识和本地绝对路径给webView
-                            self.bridge?.send("replaceimage\(imageString),\(imagePath)")
-                        })
-                })
-            }
-            
-        }
-        
     }
     
     // MARK: - 懒加载
@@ -470,7 +247,7 @@ class JFNewsDetailViewController: UIViewController {
     }()
 }
 
-// MARK: - UITableViewDelegate, UITableViewDataSource
+// MARK: - tableView相关
 extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -486,8 +263,8 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
             return 1
         case 2: // 相关阅读
             return otherLinks.count
-        case 3: // 评论
-            return commentList.count
+        case 3: // 评论、最多显示10条
+            return commentList.count >= 10 ? 10 : commentList.count
         default:
             return 0
         }
@@ -522,6 +299,7 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
         }
     }
     
+    // 组头
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         // 相关阅读和最新评论才需要创建组头
@@ -557,14 +335,17 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
         }
     }
     
+    // 组尾
     func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         if section == 3 {
-            return commentList.count == 0 ? nil : footerView // 如果有评论才显示更多评论按钮
+            // 如果有评论信息就添加更多评论按钮 超过10条才显示更多评论
+            return commentList.count >= 10 ? footerView : nil // 如果有评论才显示更多评论按钮
         } else {
             return nil
         }
     }
     
+    // cell高度
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         switch indexPath.section {
         case 0: // 分享
@@ -587,11 +368,12 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
         }
     }
     
+    // 预估高度
     func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        // 预估高度
         return 120
     }
     
+    // 组头高度
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         switch section {
         case 0:
@@ -607,6 +389,7 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
         }
     }
     
+    // 组尾高度
     func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         switch section {
         case 0:
@@ -614,9 +397,9 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
         case 1:
             return 20
         case 2:
-            return commentList.count == 0 ? 1 : 20
+            return otherLinks.count == 0 ? 1 : 20
         case 3:
-            return commentList.count == 0 ? 50 : 120
+            return commentList.count == 10 ? 120 : 50
         default:
             return 1
         }
@@ -634,8 +417,56 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
     }
 }
 
-// MARK: - JFNewsBottomBarDelegate、JFCommentCommitViewDelegate
+// MARK: - 底部浮动工具条相关
 extension JFNewsDetailViewController: JFNewsBottomBarDelegate, JFCommentCommitViewDelegate {
+    
+    // 开始拖拽视图
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        contentOffsetY = scrollView.contentOffset.y
+    }
+    
+    /**
+     手指滑动屏幕开始滚动
+     */
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        
+        if (scrollView.dragging) {
+            if scrollView.contentOffset.y - contentOffsetY > 5.0 {
+                // 向上拖拽 隐藏
+                bottomBarView.snp_updateConstraints(closure: { (make) in
+                    make.bottom.equalTo(44)
+                })
+                UIView.animateWithDuration(0.25, animations: {
+                    self.view.layoutIfNeeded()
+                })
+            } else if contentOffsetY - scrollView.contentOffset.y > 5.0 {
+                // 向下拖拽 显示
+                bottomBarView.snp_updateConstraints(closure: { (make) in
+                    make.bottom.equalTo(0)
+                })
+                UIView.animateWithDuration(0.25, animations: {
+                    self.view.layoutIfNeeded()
+                })
+            }
+            
+        }
+    }
+    
+    /**
+     滚动减速结束
+     */
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        
+        // 滚动到底部后 显示
+        if case let space = scrollView.contentOffset.y + SCREEN_HEIGHT - scrollView.contentSize.height where space > -5 && space < 5 {
+            bottomBarView.snp_updateConstraints(closure: { (make) in
+                make.bottom.equalTo(0)
+            })
+            UIView.animateWithDuration(0.25, animations: {
+                self.view.layoutIfNeeded()
+            })
+        }
+    }
     
     /**
      底部返回按钮点击
@@ -767,7 +598,7 @@ extension JFNewsDetailViewController: JFNewsBottomBarDelegate, JFCommentCommitVi
     
 }
 
-// MARK: - JFSetFontViewDelegate
+// MARK: - 修改字体相关
 extension JFNewsDetailViewController: JFSetFontViewDelegate {
     
     /**
@@ -827,7 +658,7 @@ extension JFNewsDetailViewController: JFSetFontViewDelegate {
     }
 }
 
-// MARK: - UIWebViewDelegate
+// MARK: - webView相关
 extension JFNewsDetailViewController: UIWebViewDelegate {
     
     /**
@@ -844,9 +675,126 @@ extension JFNewsDetailViewController: UIWebViewDelegate {
         }
     }
     
+    /**
+     加载webView内容
+     
+     - parameter model: 新闻模型
+     */
+    func loadWebViewContent(model: JFArticleDetailModel) {
+        
+        // 如果不熟悉网页，可以换成GRMutache模板更配哦
+        var html = ""
+        let css = "<style type=\"text/css\">" +
+            "@font-face {" +
+            "font-family: '\(jf_getContentFont().fontName)';" +
+            "src: url('\(jf_getContentFont().fontPath)');" +
+            "}" +
+            ".content {" +
+            "font-size: \(NSUserDefaults.standardUserDefaults().integerForKey(CONTENT_FONT_SIZE_KEY))px;" +
+            "font-family: '\(jf_getContentFont().fontName)';" +
+            "}" +
+        "</style>"
+        
+        html.appendContentsOf(css)
+        html.appendContentsOf("<div class=\"title\">\(model.title!)</div>")
+        html.appendContentsOf("<div class=\"time\">\(model.befrom!)&nbsp;&nbsp;&nbsp;&nbsp;\(model.newstime!.timeStampToString())</div>")
+        
+        // 临时正文 - 这样做的目的是不修改模型
+        var tempNewstext = model.newstext!
+        
+        // 有图片才去拼接图片
+        if model.allphoto!.count > 0 {
+            
+            // 拼接图片标签
+            for (index, dict) in model.allphoto!.enumerate() {
+                // 图片占位符范围
+                let range = (tempNewstext as NSString).rangeOfString(dict["ref"] as! String)
+                
+                // 默认宽、高为0
+                var width: CGFloat = 0
+                var height: CGFloat = 0
+                if let w = dict["pixel"]!!["width"] as? NSNumber {
+                    width = CGFloat(w.floatValue)
+                }
+                if let h = dict["pixel"]!!["height"] as? NSNumber  {
+                    height = CGFloat(h.floatValue)
+                }
+                
+                // 如果图片超过了最大宽度，才等比压缩 这个最大宽度是根据css里的container容器宽度来自适应的
+                if width >= SCREEN_WIDTH - 40 {
+                    let rate = (SCREEN_WIDTH - 40) / width
+                    width = width * rate
+                    height = height * rate
+                }
+                
+                // 加载中的占位图
+                let loading = NSBundle.mainBundle().pathForResource("loading", ofType: "jpg")
+                
+                // img标签
+                let imgTag = "<img onclick='didTappedImage(\(index));' src='\(loading!)' id='\(dict["url"] as! String)' width='\(width)' height='\(height)' />"
+                tempNewstext = (tempNewstext as NSString).stringByReplacingOccurrencesOfString(dict["ref"] as! String, withString: imgTag, options: NSStringCompareOptions.CaseInsensitiveSearch, range: range)
+            }
+            
+            // 加载图片 - 从缓存中获取图片的本地绝对路径，发送给webView显示
+            getImageFromDownloaderOrDiskByImageUrlArray(model.allphoto!)
+        }
+        
+        html.appendContentsOf("<div class=\"content\">\(tempNewstext)</div>")
+        
+        // 从本地加载网页模板，替换新闻主页
+        let templatePath = NSBundle.mainBundle().pathForResource("article", ofType: "html")!
+        let template = (try! String(contentsOfFile: templatePath, encoding: NSUTF8StringEncoding)) as NSString
+        html = template.stringByReplacingOccurrencesOfString("<p>mainnews</p>", withString: html, options: NSStringCompareOptions.CaseInsensitiveSearch, range: template.rangeOfString("<p>mainnews</p>"))
+        let baseURL = NSURL(fileURLWithPath: templatePath)
+        webView.loadHTMLString(html, baseURL: baseURL)
+        
+        // 已经加载过就修改标记
+        isLoaded = true
+        
+    }
+    
+    /**
+     下载或从缓存中获取图片，发送给webView
+     */
+    func getImageFromDownloaderOrDiskByImageUrlArray(imageArray: [AnyObject]) {
+        
+        // 循环加载图片
+        for dict in imageArray {
+            
+            // 图片url
+            let imageString = dict["url"] as! String
+            
+            // 判断本地磁盘是否已经缓存
+            if JFArticleStorage.getArticleImageCache().containsImageForKey(imageString, withType: YYImageCacheType.Disk) {
+                
+                let imagePath = JFArticleStorage.getFilePathForKey(imageString)
+                // 发送图片占位标识和本地绝对路径给webView
+                bridge?.send("replaceimage\(imageString),\(imagePath)")
+            } else {
+                YYWebImageManager(cache: JFArticleStorage.getArticleImageCache(), queue: NSOperationQueue()).requestImageWithURL(NSURL(string: imageString)!, options: YYWebImageOptions.UseNSURLCache, progress: { (_, _) in
+                    
+                    }, transform: { (image, url) -> UIImage? in
+                        return image
+                    }, completion: { (image, url, type, stage, error) in
+                        dispatch_sync(dispatch_get_main_queue(), {
+                            
+                            // 确保已经下载完成并没有出错 - 这样做其实已经修改了YYWebImage的磁盘缓存策略。默认YYWebImage缓存文件时超过20kb的文件才会存储为文件，所以需要在 YYDiskCache.m的171行修改
+                            guard let _ = image where error == nil else {return}
+                            
+                            let imagePath = JFArticleStorage.getFilePathForKey(imageString)
+                            // 发送图片占位标识和本地绝对路径给webView
+                            self.bridge?.send("replaceimage\(imageString),\(imagePath)")
+                        })
+                })
+            }
+            
+        }
+        
+    }
+    
 }
 
-// MARK: - JFStarAndShareCellDelegate
+// MARK: - 分享相关
 extension JFNewsDetailViewController: JFStarAndShareCellDelegate {
     
     /**
@@ -920,8 +868,53 @@ extension JFNewsDetailViewController: JFStarAndShareCellDelegate {
     }
 }
 
-// MARK: - JFCommentCellDelegate
+// MARK: - 评论相关
 extension JFNewsDetailViewController: JFCommentCellDelegate {
+    
+    /**
+     加载评论信息 - 只加载最新的10条
+     */
+    func loadCommentList(classid: String, id: String) {
+        
+        let parameters = [
+            "classid" : classid,
+            "id" : id,
+            "pageIndex" : 1,
+            "pageSize" : 10,
+        ]
+        
+        JFNetworkTool.shareNetworkTool.get(GET_COMMENT, parameters: parameters as? [String : AnyObject]) { (success, result, error) -> () in
+            
+            guard let successResult = result where success == true else {return}
+//            print(successResult)
+            
+            let data = successResult["data"].arrayValue
+            if data.count == 0 && self.commentList.count == 0 {
+                return
+            }
+            
+            self.commentList.removeAll()
+            for comment in data.reverse() {
+                let dict = [
+                    "plstep" : comment["plstep"].intValue,
+                    "plid" : comment["plid"].intValue,
+                    "plusername" : comment["plusername"].stringValue,
+                    "plnickname" : comment["plnickname"].stringValue,
+                    "id" : comment["id"].intValue,
+                    "classid" : comment["classid"].intValue,
+                    "saytext" : comment["saytext"].stringValue,
+                    "saytime" : comment["saytime"].stringValue,
+                    "userpic" : comment["userpic"].stringValue,
+                    "zcnum" : comment["zcnum"].stringValue
+                ]
+                
+                let commentModel = JFCommentModel(dict: dict as! [String : AnyObject])
+                self.commentList.insert(commentModel, atIndex: 0)
+            }
+            
+            self.tableView.reloadData()
+        }
+    }
     
     /**
      点击了评论cell上的赞按钮
@@ -944,6 +937,7 @@ extension JFNewsDetailViewController: JFCommentCellDelegate {
                 button.selected = true
                 
                 commentModel.zcnum += 1
+                commentModel.isStar = true
                 
                 // 刷新单行
                 let indexPath = NSIndexPath(forRow: self.commentList.indexOf(commentModel)!, inSection: 3)
@@ -954,5 +948,14 @@ extension JFNewsDetailViewController: JFCommentCellDelegate {
             
             jf_setupButtonSpringAnimation(button)
         }
+    }
+    
+    /**
+     点击更多评论按钮
+     */
+    func didTappedmoreCommentButton(button: UIButton) -> Void {
+        let commentVc = JFCommentTableViewController(style: UITableViewStyle.Plain)
+        commentVc.param = articleParam
+        navigationController?.pushViewController(commentVc, animated: true)
     }
 }

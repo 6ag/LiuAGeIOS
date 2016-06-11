@@ -20,7 +20,7 @@ class JFPhotoDetailViewController: UIViewController {
         }
     }
     
-    // 导航栏/背景颜色
+    // 导航栏/背景颜色 带透明的
     private let bgColor = UIColor(red:0.110,  green:0.102,  blue:0.110, alpha:0.7)
     
     /// 当前页显示的文字数据
@@ -54,9 +54,6 @@ class JFPhotoDetailViewController: UIViewController {
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
     }
     
-    deinit {
-        print("图库详情释放了")
-    }
     
     /**
      滚动停止后调用，判断当然显示的第一张图片
@@ -81,8 +78,8 @@ class JFPhotoDetailViewController: UIViewController {
     @objc private func loadPhotoDetail(classid: String, id: String) {
         
         photoModels.removeAll()
-        var parameters = [String : AnyObject]()
         
+        var parameters = [String : AnyObject]()
         if JFAccountModel.isLogin() {
             parameters = [
                 "table" : "news",
@@ -102,20 +99,26 @@ class JFPhotoDetailViewController: UIViewController {
         
         activityView.startAnimating()
         JFNetworkTool.shareNetworkTool.get(ARTICLE_DETAIL, parameters: parameters) { (success, result, error) -> () in
+            self.activityView.stopAnimating()
             
             guard let successResult = result where success == true else {return}
+            print(successResult)
+            
+            // 内容
+            let content = successResult["data"]["content"].dictionaryValue
+            
             // 标题url
-            self.titleurl = successResult["data"]["content"]["titleurl"].stringValue
+            self.titleurl = content["titleurl"]!.stringValue
             
             // 更新评论数量
-            if successResult["data"]["content"]["plnum"].stringValue != "0" {
-                self.bottomToolView.commentButton.setTitle(successResult["data"]["content"]["plnum"].stringValue, forState: UIControlState.Normal)
+            if content["plnum"]!.stringValue != "0" {
+                self.bottomToolView.commentButton.setTitle(content["plnum"]!.stringValue, forState: UIControlState.Normal)
             }
             
             // 更新收藏状态
-            self.bottomToolView.collectionButton.selected = successResult["data"]["content"]["havefava"].stringValue == "1"
+            self.bottomToolView.collectionButton.selected = content["havefava"]!.stringValue == "1"
             
-            let morepic = successResult["data"]["content"]["morepic"].arrayValue
+            let morepic = content["morepic"]!.arrayValue
             for picJSON in morepic {
                 let dict = [
                     "title" : picJSON["title"].stringValue, // 图片标题
@@ -129,7 +132,6 @@ class JFPhotoDetailViewController: UIViewController {
             
             self.scrollViewDidEndDecelerating(self.collectionView)
             self.collectionView.reloadData()
-            self.activityView.stopAnimating()
         }
         
     }
@@ -193,7 +195,7 @@ class JFPhotoDetailViewController: UIViewController {
     /**
      更新底部详情视图的高度
      */
-    @objc private func updatebottomScrollViewConstraint() {
+    private func updatebottomScrollViewConstraint() {
         
         view.layoutIfNeeded()
         // 如果文字高度超过50，就可以滑动
