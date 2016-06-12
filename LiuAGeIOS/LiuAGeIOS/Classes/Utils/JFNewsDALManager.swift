@@ -30,9 +30,9 @@ class JFNewsDALManager: NSObject {
         JFSQLiteManager.shareManager.dbQueue.inDatabase { (db) in
             
             if db.executeStatements(sql) {
-                print("清空表成功 classid = \(classid)")
+//                print("清空表成功 classid = \(classid)")
             } else {
-                print("清空表失败 classid = \(classid)")
+//                print("清空表失败 classid = \(classid)")
             }
         }
     }
@@ -53,7 +53,7 @@ class JFNewsDALManager: NSObject {
             // 本地有数据直接返回
             if success == true {
                 finished(result: result, error: nil)
-                print("加载了本地数据 \(result)")
+//                print("加载了本地数据 \(result)")
                 return
             }
             
@@ -68,7 +68,7 @@ class JFNewsDALManager: NSObject {
                 // 缓存数据到本地
                 self.saveNewsListData(classid, data: result!, type: type)
                 finished(result: result, error: nil)
-                print("加载了远程数据 \(result)")
+//                print("加载了远程数据 \(result)")
             }
         }
         

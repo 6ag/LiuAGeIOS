@@ -854,9 +854,9 @@
 			children = (
 				B2C0FE101D0C5EE000DACAC9 /* JFArticleListModel.swift */,
 				B264A3E41D018DC800C72E13 /* JFArticleDetailModel.swift */,
-				B264A3E51D018DC800C72E13 /* JFCommentModel.swift */,
 				B264A3E61D018DC800C72E13 /* JFOtherLinkModel.swift */,
 				B264A3E71D018DC800C72E13 /* JFPhotoDetailModel.swift */,
+				B264A3E51D018DC800C72E13 /* JFCommentModel.swift */,
 				B2FFDDEB1D06B98000C28DD1 /* JFArticleImageModel.swift */,
 			);
 			path = Model;

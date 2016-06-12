@@ -17,7 +17,7 @@ class JFPhotoDetailModel: NSObject {
     var text: String?
     
     /// 图片url
-    var picurl: String?
+    var bigpic: String?
 
     /**
      字典转模型构造方法

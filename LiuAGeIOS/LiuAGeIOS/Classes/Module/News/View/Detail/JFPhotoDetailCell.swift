@@ -63,7 +63,7 @@ class JFPhotoDetailCell: UICollectionViewCell {
     
     var model: JFPhotoDetailModel? {
         didSet {
-            guard let imageURL = model?.picurl else {
+            guard let imageURL = model?.bigpic else {
                 print("imageURL 为空")
                 return
             }

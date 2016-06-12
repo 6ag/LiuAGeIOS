@@ -148,45 +148,22 @@ class JFNewsDetailViewController: UIViewController {
             
             guard let successResult = result where success == true else {return}
             
+            print(successResult)
+            
             // 相关连接
             self.otherLinks.removeAll()
             let otherLinks = successResult["data"]["otherLink"].array
             if let others = otherLinks {
-                for other in others {
-                    let dict = [
-                        "id" : other["id"].stringValue,
-                        "classid" : other["classid"].stringValue,
-                        "title" : other["title"].stringValue,
-                        "onclick" : other["onclick"].stringValue,
-                        "classname" : other["classname"].stringValue,
-                        "titlepic" : other["titlepic"].stringValue,
-                        ]
-                    
-                    let otherModel = JFOtherLinkModel(dict: dict)
+                for dict in others {
+                    let otherModel = JFOtherLinkModel(dict: dict.dictionaryObject!)
                     self.otherLinks.append(otherModel)
                 }
             }
             
             // 正文数据
-            let content = successResult["data"]["content"].dictionaryValue
-            let dict: [String : AnyObject] = [
-                "title" : content["title"]!.stringValue,          // 文章标题
-                "newstime" : content["newstime"]!.stringValue,    // 时间戳
-                "newstext" : content["newstext"]!.stringValue,    // 文章内容
-                "smalltext" : content["smalltext"]!.stringValue,  // 文章简介
-                "titleurl" : content["titleurl"]!.stringValue,    // 文章url
-                "id" : content["id"]!.stringValue,                // 文章id
-                "classid" : content["classid"]!.stringValue,      // 当前子分类id
-                "plnum" : content["plnum"]!.stringValue,          // 评论数
-                "havefava" : content["havefava"]!.stringValue,    // 是否收藏  1 0
-                "titlepic" : content["titlepic"]!.stringValue,    // 标题图片
-                "befrom" : content["befrom"]!.stringValue,        // 文章来源
-                "allphoto" : content["allphoto"]!.arrayObject!,   // 所有文章图片
-                "top" : content["top"]!.stringValue,              // 顶贴数
-                "down" : content["down"]!.stringValue,            // 踩帖数
-            ]
+            let dict = successResult["data"]["content"].dictionaryObject
+            self.model = JFArticleDetailModel(dict: dict!)
             
-            self.model = JFArticleDetailModel(dict: dict)
             self.tableView.reloadData()
         }
     }
@@ -768,7 +745,7 @@ extension JFNewsDetailViewController: UIWebViewDelegate {
                 let imagePath = JFArticleStorage.getFilePathForKey(imageString)
                 // 发送图片占位标识和本地绝对路径给webView
                 bridge?.send("replaceimage\(imageString),\(imagePath)")
-                print("图片已有缓存，发送给js \(imagePath)")
+//                print("图片已有缓存，发送给js \(imagePath)")
             } else {
                 YYWebImageManager(cache: JFArticleStorage.getArticleImageCache(), queue: NSOperationQueue()).requestImageWithURL(NSURL(string: imageString)!, options: YYWebImageOptions.UseNSURLCache, progress: { (_, _) in
                     
@@ -782,7 +759,7 @@ extension JFNewsDetailViewController: UIWebViewDelegate {
                             let imagePath = JFArticleStorage.getFilePathForKey(imageString)
                             // 发送图片占位标识和本地绝对路径给webView
                             self.bridge?.send("replaceimage\(imageString),\(imagePath)")
-                            print("图片缓存完成，发送给js \(imagePath)")
+//                            print("图片缓存完成，发送给js \(imagePath)")
                         })
                 })
             }

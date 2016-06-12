@@ -121,7 +121,7 @@ class JFPhotoDetailViewController: UIViewController {
             for picJSON in morepic {
                 let dict = [
                     "title" : picJSON["title"].stringValue, // 图片标题
-                    "picurl" : picJSON["url"].stringValue,  // 图片url
+                    "bigpic" : picJSON["bigpic"].stringValue,  // 图片url
                     "text" : picJSON["caption"].stringValue // 图片文字描述
                 ]
                 
@@ -395,7 +395,7 @@ extension JFPhotoDetailViewController: JFCommentCommitViewDelegate, JFPhotoBotto
         
         // 从缓存中获取标题图片
         let currentModel = photoModels[page - 1]
-        var image = YYImageCache.sharedCache().getImageForKey(currentModel.picurl!)
+        var image = YYImageCache.sharedCache().getImageForKey(currentModel.bigpic!)
         
         if image != nil && (image?.size.width > 300 || image?.size.height > 300) {
             image = image?.resizeImageWithNewSize(CGSize(width: 300, height: 300 * image!.size.height / image!.size.width))
