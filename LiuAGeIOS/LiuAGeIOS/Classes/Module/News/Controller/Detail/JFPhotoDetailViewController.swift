@@ -54,7 +54,6 @@ class JFPhotoDetailViewController: UIViewController {
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
     }
     
-    
     /**
      滚动停止后调用，判断当然显示的第一张图片
      */

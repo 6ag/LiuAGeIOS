@@ -31,10 +31,7 @@ class JFArticleListModel: NSObject {
     /// 标题图片url
     var titlepic: String?
     
-    /// 标题图片数量
-    var piccount: Int = 0
-    
-    /// 多图数组 存储多张标题图片url的数组
+    /// 多图数组
     var morepic: [String]?
     
     /// 缓存行高

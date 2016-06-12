@@ -13,6 +13,7 @@ import pop
  手机型号枚举
  */
 enum iPhoneModel {
+    
     case iPhone4
     case iPhone5
     case iPhone6

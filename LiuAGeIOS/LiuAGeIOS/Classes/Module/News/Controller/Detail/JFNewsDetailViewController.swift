@@ -130,7 +130,6 @@ class JFNewsDetailViewController: UIViewController {
         var parameters = [String : AnyObject]()
         if JFAccountModel.isLogin() {
             parameters = [
-                "table" : "news",
                 "classid" : classid,
                 "id" : id,
                 "username" : JFAccountModel.shareAccount()!.username!,
@@ -139,7 +138,6 @@ class JFNewsDetailViewController: UIViewController {
             ]
         } else {
             parameters = [
-                "table" : "news",
                 "classid" : classid,
                 "id" : id,
             ]

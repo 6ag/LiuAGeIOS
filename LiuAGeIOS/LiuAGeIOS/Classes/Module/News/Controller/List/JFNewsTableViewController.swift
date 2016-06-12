@@ -105,7 +105,7 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
     private func jumpToDetailViewControllerWith(currentListModel: JFArticleListModel) {
         
         // 如果是多图就跳转到图片浏览器
-        if currentListModel.piccount == 3 {
+        if currentListModel.morepic?.count == 3 {
             let photoDetailVc = JFPhotoDetailViewController()
             photoDetailVc.photoParam = (currentListModel.classid!, currentListModel.id!)
             navigationController?.pushViewController(photoDetailVc, animated: true)
@@ -205,6 +205,8 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
             self.tableView.mj_footer.endRefreshing()
             
             guard let successResult = result where success == true else {return}
+            print(successResult)
+            
             var data = successResult["data"].arrayValue
             if method == 0 {
                 // 根据文章id从小到大排序 文章id小的最终后显示在列表后面，越大在越前面
@@ -217,46 +219,15 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
             let maxId = self.articleList.first?.id ?? "0"
             let minId = self.articleList.last?.id ?? "0"
             
-            // 遍历添加数据
+            // 遍历转模型添加数据
             for article in data {
-                var dict: [String : AnyObject] = [
-                    "title" : article["title"].stringValue,       // 文章标题
-                    "newstime" : article["newstime"].stringValue, // 创建文章时间戳
-                    "classid" : article["classid"].stringValue,   // 分类id
-                    "id" : article["id"].stringValue,             // 文章id
-                    "onclick" : article["onclick"].stringValue,   // 点击量
-                    "befrom" : article["befrom"].stringValue,     // 文章来源
-                ]
+                let postModel = JFArticleListModel(dict: article.dictionaryObject!)
                 
-                // 判断是否有标题图片 列表cell分为 无图、单图、三图
-                if article["titlepic"].string != "" {
-                    dict["titlepic"] = article["titlepic"].stringValue // 标题图片
-                    
-                    // 多图 - 取前面3张缩略图作为列表展示
-                    let morepics = article["morepic"].arrayValue
-                    if morepics.count >= 3 {
-                        var morepicArray = [String]()
-                        for index in 0..<3 {
-                            morepicArray.append(morepics[index]["smallpic"].stringValue)
-                        }
-                        dict["morepic"] = morepicArray
-                        dict["piccount"] = 3
-                    } else {
-                        dict["piccount"] = 1
-                    }
-                } else {
-                    dict["piccount"] = 0
-                }
-                
-                // 字典转模型
-                let postModel = JFArticleListModel(dict: dict)
-                
-                // 0下拉加载最新 1上拉加载更多
-                if method == 0 {
+                if method == 0 { // 0下拉加载最新
                     if Int(maxId) < Int(postModel.id!) {
                         self.articleList.insert(postModel, atIndex: 0)
                     }
-                } else {
+                } else { // 1上拉加载更多
                     if Int(minId) > Int(postModel.id!) {
                         self.articleList.append(postModel)
                     }
@@ -286,17 +257,16 @@ extension JFNewsTableViewController {
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         let postModel = articleList[indexPath.row]
-        if postModel.piccount == 0 {
+        if postModel.titlepic == "" { // 无图
             if postModel.rowHeight == 0 {
                 let cell = tableView.dequeueReusableCellWithIdentifier(newsNoPicCell) as! JFNewsNoPicCell
                 let height = cell.getRowHeight(postModel)
                 postModel.rowHeight = height
             }
             return postModel.rowHeight
-        } else if postModel.piccount == 1 {
-            // 单图的高度固定
+        } else if postModel.morepic?.count == 0 { // 单图
             return 96
-        } else if postModel.piccount == 3 {
+        } else { // 多图
             if postModel.rowHeight == 0 {
                 let cell = tableView.dequeueReusableCellWithIdentifier(newsThreePicCell) as! JFNewsThreePicCell
                 let height = cell.getRowHeight(postModel)
@@ -304,7 +274,6 @@ extension JFNewsTableViewController {
             }
             return postModel.rowHeight
         }
-        return 0
     }
     
     override func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -314,20 +283,20 @@ extension JFNewsTableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let postModel = articleList[indexPath.row]
-        if postModel.piccount == 0 {
+        
+        if postModel.titlepic == "" { // 无图
             let cell = tableView.dequeueReusableCellWithIdentifier(newsNoPicCell) as! JFNewsNoPicCell
             cell.postModel = postModel
             return cell
-        } else if postModel.piccount == 1 {
+        } else if postModel.morepic?.count == 0 { // 单图
             let cell = tableView.dequeueReusableCellWithIdentifier(newsOnePicCell) as! JFNewsOnePicCell
             cell.postModel = postModel
             return cell
-        } else if postModel.piccount == 3 {
+        } else { // 多图
             let cell = tableView.dequeueReusableCellWithIdentifier(newsThreePicCell) as! JFNewsThreePicCell
             cell.postModel = postModel
             return cell
         }
-        return UITableViewCell()
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
