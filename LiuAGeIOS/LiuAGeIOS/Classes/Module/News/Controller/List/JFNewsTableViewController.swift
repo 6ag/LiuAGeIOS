@@ -193,57 +193,31 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
      */
     private func loadNews(classid: Int, pageIndex: Int, method: Int) {
         
-        let parameters: [String : AnyObject] = [
-            "classid" : classid,
-            "pageIndex" : pageIndex,
-            "pageSize" : 10
-        ]
-        
-        JFNetworkTool.shareNetworkTool.get(ARTICLE_LIST, parameters: parameters) { (success, result, error) -> () in
+        JFArticleListModel.loadNews(classid, pageIndex: pageIndex) { (articleListModels, error) in
             
             self.tableView.mj_header.endRefreshing()
             self.tableView.mj_footer.endRefreshing()
             
-            guard let successResult = result where success == true else {return}
-            print(successResult)
-            
-            var data = successResult["data"].arrayValue
-            if method == 0 {
-                // 根据文章id从小到大排序 文章id小的最终后显示在列表后面，越大在越前面
-                data = data.sort({ (n1, n2) -> Bool in
-                    return n2["id"].intValue > n1["id"].intValue
-                })
+            guard let list = articleListModels where error != true else {
+                return
             }
             
-            // 用于做上下拉的
+            // id越大，文章越新
             let maxId = self.articleList.first?.id ?? "0"
             let minId = self.articleList.last?.id ?? "0"
             
-            // 记录老数据条数
-            let oldCount = self.articleList.count
-            
-            // 遍历转模型添加数据
-            for article in data {
-                let postModel = JFArticleListModel(dict: article.dictionaryObject!)
-                
-                if method == 0 { // 0下拉加载最新
-                    if Int(maxId) < Int(postModel.id!) {
-                        self.articleList.insert(postModel, atIndex: 0)
-                    }
-                } else { // 1上拉加载更多
-                    if Int(minId) > Int(postModel.id!) {
-                        self.articleList.append(postModel)
-                    }
+            if method == 0 {
+                // 0下拉加载最新 - 会直接覆盖数据，用最新的10条数据
+                if Int(maxId) < Int(list[0].id!) {
+                    self.articleList = list
                 }
-                
+            } else {
+                // 1上拉加载更多 - 拼接数据
+                if Int(minId) > Int(list[0].id!) {
+                    self.articleList = self.articleList + list
+                }
             }
             
-            // 还未判断
-            if classid == 0 && method == 0 {
-                self.showTipView(self.articleList.count - oldCount)
-            }
-            
-            // 添加完后刷新
             self.tableView.reloadData()
         }
         

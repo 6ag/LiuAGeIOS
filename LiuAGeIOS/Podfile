@@ -13,6 +13,7 @@ target 'LiuAGeIOS' do
     pod 'IQKeyboardManagerSwift'
     pod 'GRMustache.swift', '~> 1.0'
     pod 'CryptoSwift'
+    pod 'FMDB'
   use_frameworks!
 
   # Pods for LiuAGeIOS

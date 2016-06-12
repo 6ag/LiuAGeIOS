@@ -13,6 +13,7 @@
 		B20149591D07DBFA00ACE583 /* JFSetFontView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B20149571D07DBFA00ACE583 /* JFSetFontView.xib */; };
 		B2354A021D0BA84B0050AF13 /* JFNoHighlightedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B2354A011D0BA84A0050AF13 /* JFNoHighlightedButton.m */; };
 		B2354A101D0BD4080050AF13 /* loading.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B2354A0F1D0BD4080050AF13 /* loading.jpg */; };
+		B2526ACB1D0D43DD0024C84C /* JFSQLiteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2526ACA1D0D43DD0024C84C /* JFSQLiteManager.swift */; };
 		B264A36C1D016C0D00C72E13 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B264A2BF1D016C0D00C72E13 /* Assets.xcassets */; };
 		B264A36D1D016C0D00C72E13 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B264A2C01D016C0D00C72E13 /* LaunchScreen.storyboard */; };
 		B264A36E1D016C0D00C72E13 /* api.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A2C41D016C0D00C72E13 /* api.swift */; };
@@ -181,6 +182,7 @@
 		B2354A001D0BA84A0050AF13 /* JFNoHighlightedButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFNoHighlightedButton.h; sourceTree = "<group>"; };
 		B2354A011D0BA84A0050AF13 /* JFNoHighlightedButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFNoHighlightedButton.m; sourceTree = "<group>"; };
 		B2354A0F1D0BD4080050AF13 /* loading.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = loading.jpg; sourceTree = "<group>"; };
+		B2526ACA1D0D43DD0024C84C /* JFSQLiteManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFSQLiteManager.swift; sourceTree = "<group>"; };
 		B264A2BF1D016C0D00C72E13 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B264A2C11D016C0D00C72E13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B264A2C41D016C0D00C72E13 /* api.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = api.swift; sourceTree = "<group>"; };
@@ -652,6 +654,7 @@
 				B264A33F1D016C0D00C72E13 /* JFNetworkTool.swift */,
 				B264A3401D016C0D00C72E13 /* JFProgressHUD.swift */,
 				B20149541D07BA6200ACE583 /* JFArticleStorage.swift */,
+				B2526ACA1D0D43DD0024C84C /* JFSQLiteManager.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1293,6 +1296,7 @@
 				B264A3C41D016C0D00C72E13 /* JFNetworkTool.swift in Sources */,
 				B264A3B21D016C0D00C72E13 /* JFProfileCellGroupModel.swift in Sources */,
 				B2C866031D051C1900A5B1FD /* JFPopoverDismissAnimation.swift in Sources */,
+				B2526ACB1D0D43DD0024C84C /* JFSQLiteManager.swift in Sources */,
 				B2A877181D029A420061AC70 /* NSDate+Extension.swift in Sources */,
 				B264A4051D018DC800C72E13 /* JFPhotoDetailViewController.swift in Sources */,
 				B2F9EC5A1D03F42600FC7E48 /* JFPanGestureRecognizer.swift in Sources */,

@@ -52,4 +52,32 @@ class JFArticleListModel: NSObject {
     
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {}
     
+    /**
+     加载资讯数据
+     
+     - parameter classid:   资讯分类id
+     - parameter pageIndex: 加载分页
+     - parameter finished:  数据回调
+     */
+    class func loadNews(classid: Int, pageIndex: Int, finished: (articleListModels: [JFArticleListModel]?, error: NSError?) -> ()) {
+        
+        JFNetworkTool.shareNetworkTool.loadNews(classid, pageIndex: pageIndex) { (success, result, error) in
+            if success == false || error != nil || result == nil {
+                finished(articleListModels: nil, error: error)
+                return
+            }
+            
+            let data = result!.arrayValue
+            var articleListModels = [JFArticleListModel]()
+            
+            // 遍历转模型添加数据
+            for article in data {
+                let postModel = JFArticleListModel(dict: article.dictionaryObject!)
+                articleListModels.append(postModel)
+            }
+            
+            finished(articleListModels: articleListModels, error: nil)
+        }
+    }
+    
 }

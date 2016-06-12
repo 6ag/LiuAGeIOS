@@ -124,6 +124,32 @@ extension JFNetworkTool {
                 finished(success: false, result: nil, error: response.result.error)
             }
         }
+    }
+    
+    /**
+     加载资讯数据
+     
+     - parameter classid:   资讯分类id
+     - parameter pageIndex: 加载分页
+     - parameter finished:  数据回调
+     */
+    func loadNews(classid: Int, pageIndex: Int, finished: NetworkFinished) {
+        
+        let parameters: [String : AnyObject] = [
+            "classid" : classid,
+            "pageIndex" : pageIndex, // 页码
+            "pageSize" : 20          // 单页数量
+        ]
+        
+        JFNetworkTool.shareNetworkTool.get(ARTICLE_LIST, parameters: parameters) { (success, result, error) -> () in
+            
+            guard let successResult = result where success == true else {
+                finished(success: false, result: nil, error: error)
+                return
+            }
+            print(successResult)
+            finished(success: true, result: successResult["data"], error: nil)
+        }
         
     }
 }
