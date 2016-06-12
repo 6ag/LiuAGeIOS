@@ -226,7 +226,22 @@ extension JFNewsDALManager {
      */
     private func loadNewsDetailFromLocation(classid: Int, id: Int, finished: NetworkFinished) {
         
-        finished(success: false, result: nil, error: nil)
+        let sql = "SELECT * FROM \(NEWS_CONTENT) WHERE id=\(id) AND classid=\(classid) LIMIT 1;"
+        
+        JFSQLiteManager.shareManager.dbQueue.inDatabase { (db) in
+            
+            let result = try! db.executeQuery(sql, values: nil)
+            while result.next() {
+                let newsJson = result.stringForColumn("news")
+                let json = JSON.parse(newsJson)
+                finished(success: true, result: json, error: nil)
+                print("从缓存中取正文数据 \(json)")
+                result.close()
+                return
+            }
+            
+            finished(success: false, result: nil, error: nil)
+        }
     }
     
     /**
@@ -238,6 +253,26 @@ extension JFNewsDALManager {
      */
     private func saveNewsDetailData(classid: Int, id: Int, data: JSON) {
         
+        let sql = "INSERT INTO \(NEWS_CONTENT) (id, classid, news) VALUES (?, ?, ?)"
+        
+        JFSQLiteManager.shareManager.dbQueue.inTransaction { (db, rollback) in
+            
+            guard let dict = data.dictionaryObject else {
+                return
+            }
+            
+            // 单条资讯json数据
+            let newsData = try! NSJSONSerialization.dataWithJSONObject(dict, options: NSJSONWritingOptions(rawValue: 0))
+            let newsJson = String(data: newsData, encoding: NSUTF8StringEncoding)!
+            
+            if db.executeUpdate(sql, withArgumentsInArray: [id, classid, newsJson]) {
+                print("缓存数据成功 - \(classid)")
+            } else {
+                print("缓存数据失败 - \(classid)")
+                rollback.memory = true
+            }
+            
+        }
     }
     
 }

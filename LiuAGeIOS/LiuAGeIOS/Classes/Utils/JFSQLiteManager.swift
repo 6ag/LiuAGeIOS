@@ -35,25 +35,25 @@ class JFSQLiteManager: NSObject {
         super.init()
         
         // 创建数据表
-        createNewsDataTable(NEWS_LIST_HOME_TOP)
-        createNewsDataTable(NEWS_LIST_HOME_LIST)
-        createNewsDataTable(NEWS_LIST_OTHER_TOP)
-        createNewsDataTable(NEWS_LIST_OTHER_LIST)
-        createNewsDataTable(NEWS_CONTENT)
+        createNewsListTable(NEWS_LIST_HOME_TOP)
+        createNewsListTable(NEWS_LIST_HOME_LIST)
+        createNewsListTable(NEWS_LIST_OTHER_TOP)
+        createNewsListTable(NEWS_LIST_OTHER_LIST)
+        createNewsContentTable()
     }
     
     /**
-     创建资讯数据表 （列表和正文的表结构一样）
+     创建新闻列表的数据表
      
      - parameter tbname: 表名
      */
-    private func createNewsDataTable(tbname: String) {
+    private func createNewsListTable(tbname: String) {
         
         let sql = "CREATE TABLE IF NOT EXISTS \(tbname) ( \n" +
-            "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, \n" +                 // 列表是索引 正文是正文id
-            "classid INTEGER, \n" +                                               // 分类id
-            "news TEXT, \n" +                                                     // 资讯json字符串数据
-            "createTime VARCHAR(30) DEFAULT (datetime('now', 'localtime')) \n" +  // 创建时间，用于管理缓存清理
+            "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, \n" +
+            "classid INTEGER, \n" +
+            "news TEXT, \n" +
+            "createTime VARCHAR(30) DEFAULT (datetime('now', 'localtime')) \n" +
         ");"
         
         dbQueue.inDatabase { (db) in
@@ -65,4 +65,24 @@ class JFSQLiteManager: NSObject {
         }
     }
     
+    /**
+     创建资讯内容数据表
+     */
+    private func createNewsContentTable() {
+        
+        let sql = "CREATE TABLE IF NOT EXISTS \(NEWS_CONTENT) ( \n" +
+            "id INTEGER, \n" +
+            "classid INTEGER, \n" +
+            "news TEXT, \n" +
+            "createTime VARCHAR(30) DEFAULT (datetime('now', 'localtime')) \n" +
+        ");"
+        
+        dbQueue.inDatabase { (db) in
+            if db.executeStatements(sql) {
+                print("创建 \(NEWS_CONTENT) 表成功")
+            } else {
+                print("创建 \(NEWS_CONTENT) 表失败")
+            }
+        }
+    }
 }
