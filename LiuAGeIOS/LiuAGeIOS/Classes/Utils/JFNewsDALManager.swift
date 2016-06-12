@@ -13,9 +13,13 @@ import SwiftyJSON
 class JFNewsDALManager: NSObject {
     
     static let shareManager = JFNewsDALManager()
+}
+
+// MARK: - 资讯列表数据管理
+extension JFNewsDALManager {
     
     /**
-     清除缓存
+     清除资讯列表缓存
      
      - parameter classid: 要清除的分类id
      */
@@ -24,21 +28,21 @@ class JFNewsDALManager: NSObject {
         if classid == 0 {
             sql = "DELETE FROM \(NEWS_LIST_HOME_TOP); DELETE FROM \(NEWS_LIST_HOME_LIST);"
         } else {
-            sql = "DELETE FROM \(NEWS_LIST_OTHER_TOP) WHERE classid=\"\(classid)\"; DELETE FROM \(NEWS_LIST_OTHER_LIST) WHERE classid=\"\(classid)\";"
+            sql = "DELETE FROM \(NEWS_LIST_OTHER_TOP) WHERE classid=\(classid); DELETE FROM \(NEWS_LIST_OTHER_LIST) WHERE classid=\(classid);"
         }
         
         JFSQLiteManager.shareManager.dbQueue.inDatabase { (db) in
             
             if db.executeStatements(sql) {
-//                print("清空表成功 classid = \(classid)")
+                //                print("清空表成功 classid = \(classid)")
             } else {
-//                print("清空表失败 classid = \(classid)")
+                //                print("清空表失败 classid = \(classid)")
             }
         }
     }
     
     /**
-     加载资讯数据
+     加载资讯列表数据
      
      - parameter classid:   资讯分类id
      - parameter pageIndex: 加载分页
@@ -53,7 +57,7 @@ class JFNewsDALManager: NSObject {
             // 本地有数据直接返回
             if success == true {
                 finished(result: result, error: nil)
-//                print("加载了本地数据 \(result)")
+                //                print("加载了本地数据 \(result)")
                 return
             }
             
@@ -68,14 +72,14 @@ class JFNewsDALManager: NSObject {
                 // 缓存数据到本地
                 self.saveNewsListData(classid, data: result!, type: type)
                 finished(result: result, error: nil)
-//                print("加载了远程数据 \(result)")
+                //                print("加载了远程数据 \(result)")
             }
         }
         
     }
     
     /**
-     从本地加载资讯数据
+     从本地加载资讯列表数据
      
      - parameter classid:   资讯分类id
      - parameter pageIndex: 加载分页
@@ -92,13 +96,13 @@ class JFNewsDALManager: NSObject {
             if classid == 0 {
                 sql = "SELECT * FROM \(NEWS_LIST_HOME_LIST) ORDER BY id ASC LIMIT \(pre_count), \(oneCount)"
             } else {
-                sql = "SELECT * FROM \(NEWS_LIST_OTHER_LIST) WHERE classid=\"\(classid)\" ORDER BY id ASC LIMIT \(pre_count), \(oneCount)"
+                sql = "SELECT * FROM \(NEWS_LIST_OTHER_LIST) WHERE classid=\(classid) ORDER BY id ASC LIMIT \(pre_count), \(oneCount)"
             }
         } else {
             if classid == 0 {
                 sql = "SELECT * FROM \(NEWS_LIST_HOME_TOP) ORDER BY id ASC LIMIT 0, 3"
             } else {
-                sql = "SELECT * FROM \(NEWS_LIST_OTHER_TOP) WHERE classid=\"\(classid)\" ORDER BY id ASC LIMIT 0, 3"
+                sql = "SELECT * FROM \(NEWS_LIST_OTHER_TOP) WHERE classid=\(classid) ORDER BY id ASC LIMIT 0, 3"
             }
         }
         
@@ -124,7 +128,7 @@ class JFNewsDALManager: NSObject {
     }
     
     /**
-     缓存新闻列表数据到本地
+     缓存资讯列表数据到本地
      
      - parameter data: json数据
      */
@@ -155,7 +159,7 @@ class JFNewsDALManager: NSObject {
             for dict in array {
                 
                 // 资讯分类id
-                let classid = dict["classid"] as! String
+                let classid = Int(dict["classid"] as! String)!
                 
                 // 单条资讯json数据
                 let newsData = try! NSJSONSerialization.dataWithJSONObject(dict, options: NSJSONWritingOptions(rawValue: 0))
@@ -173,4 +177,67 @@ class JFNewsDALManager: NSObject {
         }
         
     }
+    
+}
+
+// MARK: - 资讯正文数据管理
+extension JFNewsDALManager {
+    
+    /**
+     加载资讯列表数据
+     
+     - parameter classid:   资讯分类id
+     - parameter pageIndex: 加载分页
+     - parameter type:      1为资讯列表 2为资讯幻灯片
+     - parameter finished:  数据回调
+     */
+    func loadNewsDetail(classid: Int, id: Int, finished: (result: JSON?, error: NSError?) -> ()) {
+        
+        loadNewsDetailFromLocation(classid, id: id) { (success, result, error) in
+            
+            // 本地有数据直接返回
+            if success == true {
+                finished(result: result, error: nil)
+                return
+            }
+            
+            JFNetworkTool.shareNetworkTool.loadNewsDetailFromNetwork(classid, id: id, finished: { (success, result, error) in
+                
+                if success == false || error != nil || result == nil {
+                    finished(result: nil, error: error)
+                    return
+                }
+                
+                // 缓存数据到本地
+                self.saveNewsDetailData(classid, id: id, data: result!)
+                finished(result: result, error: nil)
+            })
+            
+        }
+        
+    }
+    
+    /**
+     从本地加载（资讯正文）数据
+     
+     - parameter classid:  资讯分类id
+     - parameter id:       资讯id
+     - parameter finished: 数据回调
+     */
+    private func loadNewsDetailFromLocation(classid: Int, id: Int, finished: NetworkFinished) {
+        
+        finished(success: false, result: nil, error: nil)
+    }
+    
+    /**
+     缓存资讯正文数据到本地
+     
+     - parameter classid: 资讯分类id
+     - parameter id:      资讯id
+     - parameter data:    JSON数据 data = [content : ..., otherLink: [...]]
+     */
+    private func saveNewsDetailData(classid: Int, id: Int, data: JSON) {
+        
+    }
+    
 }

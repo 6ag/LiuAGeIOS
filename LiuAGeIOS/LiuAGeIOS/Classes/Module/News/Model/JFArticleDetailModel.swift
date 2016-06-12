@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// 资讯正文模型 - 图库通用
 class JFArticleDetailModel: NSObject {
     
     /// 顶贴数
@@ -19,10 +20,7 @@ class JFArticleDetailModel: NSObject {
     /// 文章标题
     var title: String?
     
-    /// 用户名
-    var username: String?
-    
-    /// 最后编辑时间戳
+    /// 发布时间戳
     var newstime: String?
     
     /// 文章内容
@@ -58,10 +56,117 @@ class JFArticleDetailModel: NSObject {
     /// 是否赞过
     var isStar = false
     
+    var morepics: [JFPhotoDetailModel]?
+    
+    var otherLinks: [JFOtherLinkModel]?
+    
     /**
      字典转模型构造方法
      */
     init(dict: [String : AnyObject]) {
+        super.init()
+        setValuesForKeysWithDictionary(dict)
+    }
+    
+    override func setValue(value: AnyObject?, forUndefinedKey key: String) {}
+    
+    
+    /**
+     KVC赋值每个属性的时候都会来，在这里手动转子模型
+     
+     - parameter value: 值
+     - parameter key:   键
+     */
+    override func setValue(value: AnyObject?, forKey key: String) {
+        if key == "morepic" {
+            if let array = value as? [[String: AnyObject]] {
+                var morepicModels = [JFPhotoDetailModel]()
+                for dict in array {
+                    let morepicModel = JFPhotoDetailModel(dict: dict)
+                    morepicModels.append(morepicModel)
+                }
+                morepics = morepicModels
+            }
+            return
+        } else if key == "otherLink" {
+            if let array = value as? [[String: AnyObject]] {
+                var otherModels = [JFOtherLinkModel]()
+                for dict in array {
+                    let otherModel = JFOtherLinkModel(dict: dict)
+                    otherModels.append(otherModel)
+                }
+                otherLinks = otherModels
+            }
+            return
+        }
+        return super.setValue(value, forKey: key)
+    }
+    
+    /**
+     加载资讯数据
+     
+     - parameter classid:   资讯分类id
+     - parameter pageIndex: 加载分页
+     - parameter type:      1为资讯列表 2为资讯幻灯片
+     - parameter finished:  数据回调
+     */
+    class func loadNewsDetail(classid: Int, id: Int, finished: (articleDetailModel: JFArticleDetailModel?, error: NSError?) -> ()) {
+        
+        JFNewsDALManager.shareManager.loadNewsDetail(classid, id: id) { (result, error) in
+            
+            // 请求失败
+            if error != nil || result == nil {
+                finished(articleDetailModel: nil, error: error)
+                return
+            }
+            
+            // 正文数据
+            let dict = result!.dictionaryObject
+            finished(articleDetailModel: JFArticleDetailModel(dict: dict!), error: nil)
+        }
+    }
+    
+}
+
+/// 相关链接模型
+class JFOtherLinkModel: NSObject {
+    
+    var classid: String?
+    
+    var id: String?
+    
+    var titlepic: String?
+    
+    var onclick: String?
+    
+    var title: String?
+    
+    var classname: String?
+    
+    init(dict: [String : AnyObject]) {
+        super.init()
+        setValuesForKeysWithDictionary(dict)
+    }
+    
+    override func setValue(value: AnyObject?, forUndefinedKey key: String) {}
+}
+
+/// 图库详情模型
+class JFPhotoDetailModel: NSObject {
+    
+    /// 图片标题
+    var title: String?
+    
+    /// 图片描述
+    var caption: String?
+    
+    /// 图片url
+    var bigpic: String?
+    
+    /**
+     字典转模型构造方法
+     */
+    init(dict: [String: AnyObject]) {
         super.init()
         setValuesForKeysWithDictionary(dict)
     }

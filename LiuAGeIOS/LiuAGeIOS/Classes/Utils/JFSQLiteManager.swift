@@ -13,6 +13,7 @@ let NEWS_LIST_HOME_TOP = "jf_newslist_hometop"     // 首页 列表页 的 幻�
 let NEWS_LIST_HOME_LIST = "jf_newslist_homelist"   // 首页 列表页 的 列表 数据表
 let NEWS_LIST_OTHER_TOP = "jf_newslist_othertop"   // 其他分类 列表页 的 幻灯片 数据表
 let NEWS_LIST_OTHER_LIST = "jf_newslist_otherlist" // 其他分类 列表页 的 列表 数据表
+let NEWS_CONTENT = "jf_news_content"               // 资讯/图库 正文 数据表
 
 class JFSQLiteManager: NSObject {
     
@@ -34,25 +35,25 @@ class JFSQLiteManager: NSObject {
         super.init()
         
         // 创建数据表
-        createNewsListTable(NEWS_LIST_HOME_TOP)
-        createNewsListTable(NEWS_LIST_HOME_LIST)
-        createNewsListTable(NEWS_LIST_OTHER_TOP)
-        createNewsListTable(NEWS_LIST_OTHER_LIST)
+        createNewsDataTable(NEWS_LIST_HOME_TOP)
+        createNewsDataTable(NEWS_LIST_HOME_LIST)
+        createNewsDataTable(NEWS_LIST_OTHER_TOP)
+        createNewsDataTable(NEWS_LIST_OTHER_LIST)
+        createNewsDataTable(NEWS_CONTENT)
     }
     
     /**
-     创建新闻列表的数据表
+     创建资讯数据表 （列表和正文的表结构一样）
      
      - parameter tbname: 表名
      */
-    private func createNewsListTable(tbname: String) {
+    private func createNewsDataTable(tbname: String) {
         
-        // 今日推荐列表
         let sql = "CREATE TABLE IF NOT EXISTS \(tbname) ( \n" +
-            "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, \n" +
-            "classid VARCHAR(20), \n" +
-            "news TEXT, \n" +
-            "createTime VARCHAR(30) DEFAULT (datetime('now', 'localtime')) \n" +
+            "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, \n" +                 // 列表是索引 正文是正文id
+            "classid INTEGER, \n" +                                               // 分类id
+            "news TEXT, \n" +                                                     // 资讯json字符串数据
+            "createTime VARCHAR(30) DEFAULT (datetime('now', 'localtime')) \n" +  // 创建时间，用于管理缓存清理
         ");"
         
         dbQueue.inDatabase { (db) in
@@ -64,10 +65,4 @@ class JFSQLiteManager: NSObject {
         }
     }
     
-    /**
-     创建资讯内容数据表
-     */
-    private func createNewsContentTable() {
-        
-    }
 }

@@ -162,4 +162,39 @@ extension JFNetworkTool {
         }
     }
     
+    /**
+     从网络加载（资讯正文）数据
+     
+     - parameter classid:  资讯分类id
+     - parameter id:       资讯id
+     - parameter finished: 数据回调
+     */
+    func loadNewsDetailFromNetwork(classid: Int, id: Int, finished: NetworkFinished) {
+        
+        var parameters = [String : AnyObject]()
+        if JFAccountModel.isLogin() {
+            parameters = [
+                "classid" : classid,
+                "id" : id,
+                "username" : JFAccountModel.shareAccount()!.username!,
+                "userid" : JFAccountModel.shareAccount()!.id,
+                "token" : JFAccountModel.shareAccount()!.token!,
+            ]
+        } else {
+            parameters = [
+                "classid" : classid,
+                "id" : id,
+            ]
+        }
+        
+        JFNetworkTool.shareNetworkTool.get(ARTICLE_DETAIL, parameters: parameters) { (success, result, error) -> () in
+            
+            guard let successResult = result where success == true else {
+                finished(success: false, result: nil, error: error)
+                return
+            }
+            finished(success: true, result: successResult["data"], error: nil)
+        }
+    }
+    
 }

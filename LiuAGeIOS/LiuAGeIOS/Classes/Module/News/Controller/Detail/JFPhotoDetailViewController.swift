@@ -16,12 +16,30 @@ class JFPhotoDetailViewController: UIViewController {
     /// 文章详情请求参数
     var photoParam: (classid: String, id: String)? {
         didSet {
-            loadPhotoDetail(photoParam!.classid, id: photoParam!.id)
+            loadPhotoDetail(Int(photoParam!.classid)!, id: Int(photoParam!.id)!)
         }
     }
     
-    // 导航栏/背景颜色 带透明的
-    private let bgColor = UIColor(red:0.110,  green:0.102,  blue:0.110, alpha:0.7)
+    /// 详情页面模型
+    var model: JFArticleDetailModel? {
+        didSet {
+            
+            // 图片模型数组
+            photoModels = model!.morepics!
+            
+            // 标题url
+            self.titleurl = model?.titleurl
+            
+            // 更新评论数量
+            if model?.plnum != "0" {
+                self.bottomToolView.commentButton.setTitle(model!.plnum!, forState: UIControlState.Normal)
+            }
+            
+            // 更新收藏状态
+            self.bottomToolView.collectionButton.selected = model?.havefava == "1"
+            
+        }
+    }
     
     /// 当前页显示的文字数据
     private var currentPageData: (page: Int, text: String)? {
@@ -32,11 +50,14 @@ class JFPhotoDetailViewController: UIViewController {
         }
     }
     
-    private let photoIdentifier = "photoDetail"
-    private var photoModels = [JFPhotoDetailModel]()
-    
     /// 用来做分享的标题连接
     var titleurl: String?
+    
+    // 导航栏/背景颜色 带透明的
+    private let bgColor = UIColor(red:0.110,  green:0.102,  blue:0.110, alpha:0.7)
+    
+    private let photoIdentifier = "photoDetail"
+    private var photoModels = [JFPhotoDetailModel]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,77 +83,30 @@ class JFPhotoDetailViewController: UIViewController {
         let page = Int(scrollView.contentOffset.x / SCREEN_WIDTH)
         let model = photoModels[page]
         
-        currentPageData = (page + 1, model.text!)
+        currentPageData = (page + 1, model.caption!)
         
         // 每次滚动，文字区域都滑动到最顶部
         bottomScrollView.setContentOffset(CGPoint(x: bottomScrollView.contentOffset.x, y: 0), animated: false)
     }
     
     /**
-     加载数据
+     加载正文数据
      
      - parameter classid: 当前子分类id
      - parameter id:      文章id
      */
-    @objc private func loadPhotoDetail(classid: String, id: String) {
-        
-        photoModels.removeAll()
-        
-        var parameters = [String : AnyObject]()
-        if JFAccountModel.isLogin() {
-            parameters = [
-                "table" : "news",
-                "classid" : classid,
-                "id" : id,
-                "username" : JFAccountModel.shareAccount()!.username!,
-                "userid" : JFAccountModel.shareAccount()!.id,
-                "token" : JFAccountModel.shareAccount()!.token!,
-            ]
-        } else {
-            parameters = [
-                "table" : "news",
-                "classid" : classid,
-                "id" : id,
-            ]
-        }
+    func loadPhotoDetail(classid: Int, id: Int) {
         
         activityView.startAnimating()
-        JFNetworkTool.shareNetworkTool.get(ARTICLE_DETAIL, parameters: parameters) { (success, result, error) -> () in
+        JFArticleDetailModel.loadNewsDetail(classid, id: id) { (articleDetailModel, error) in
             self.activityView.stopAnimating()
             
-            guard let successResult = result where success == true else {return}
-            print(successResult)
-            
-            // 内容
-            let content = successResult["data"]["content"].dictionaryValue
-            
-            // 标题url
-            self.titleurl = content["titleurl"]!.stringValue
-            
-            // 更新评论数量
-            if content["plnum"]!.stringValue != "0" {
-                self.bottomToolView.commentButton.setTitle(content["plnum"]!.stringValue, forState: UIControlState.Normal)
-            }
-            
-            // 更新收藏状态
-            self.bottomToolView.collectionButton.selected = content["havefava"]!.stringValue == "1"
-            
-            let morepic = content["morepic"]!.arrayValue
-            for picJSON in morepic {
-                let dict = [
-                    "title" : picJSON["title"].stringValue, // 图片标题
-                    "bigpic" : picJSON["bigpic"].stringValue,  // 图片url
-                    "text" : picJSON["caption"].stringValue // 图片文字描述
-                ]
-                
-                let model = JFPhotoDetailModel(dict: dict)
-                self.photoModels.append(model)
-            }
+            guard let model = articleDetailModel where error == nil else {return}
+            self.model = model
             
             self.scrollViewDidEndDecelerating(self.collectionView)
             self.collectionView.reloadData()
         }
-        
     }
     
     // MARK: - 各种tap事件
@@ -402,7 +376,7 @@ extension JFPhotoDetailViewController: JFCommentCommitViewDelegate, JFPhotoBotto
         }
         
         let shareParames = NSMutableDictionary()
-        shareParames.SSDKSetupShareParamsByText(currentModel.text,
+        shareParames.SSDKSetupShareParamsByText(currentModel.caption,
                                                 images : image,
                                                 url : NSURL(string: self.titleurl!.hasPrefix("http") ? self.titleurl! : "\(BASE_URL)\(self.titleurl!)"),
                                                 title : currentModel.title,
@@ -459,7 +433,7 @@ extension JFPhotoDetailViewController: JFCommentCommitViewDelegate, JFPhotoBotto
         
         JFNetworkTool.shareNetworkTool.get(SUBMIT_COMMENT, parameters: parameters) { (success, result, error) in
             if success {
-                self.loadPhotoDetail(self.photoParam!.classid, id: self.photoParam!.id)
+                self.loadPhotoDetail(Int(self.photoParam!.classid)!, id: Int(self.photoParam!.id)!)
             }
         }
     }

@@ -35,6 +35,12 @@ class JFNewsDetailViewController: UIViewController {
             
             // 更新收藏状态
             bottomBarView.collectionButton.selected = model!.havefava == "1"
+            
+            // 相关链接
+            if let links = model?.otherLinks {
+                otherLinks = links
+            }
+            
         }
     }
     
@@ -115,7 +121,7 @@ class JFNewsDetailViewController: UIViewController {
      */
     private func updateData() {
         
-        loadNewsDetail(articleParam!.classid, id: articleParam!.id)
+        loadNewsDetail(Int(articleParam!.classid)!, id: Int(articleParam!.id)!)
         loadCommentList(articleParam!.classid, id: articleParam!.id)
     }
     
@@ -125,45 +131,14 @@ class JFNewsDetailViewController: UIViewController {
      - parameter classid: 当前子分类id
      - parameter id:      文章id
      */
-    func loadNewsDetail(classid: String, id: String) {
-        
-        var parameters = [String : AnyObject]()
-        if JFAccountModel.isLogin() {
-            parameters = [
-                "classid" : classid,
-                "id" : id,
-                "username" : JFAccountModel.shareAccount()!.username!,
-                "userid" : JFAccountModel.shareAccount()!.id,
-                "token" : JFAccountModel.shareAccount()!.token!,
-            ]
-        } else {
-            parameters = [
-                "classid" : classid,
-                "id" : id,
-            ]
-        }
+    func loadNewsDetail(classid: Int, id: Int) {
         
         activityView.startAnimating()
-        JFNetworkTool.shareNetworkTool.get(ARTICLE_DETAIL, parameters: parameters) { (success, result, error) -> () in
+        JFArticleDetailModel.loadNewsDetail(classid, id: id) { (articleDetailModel, error) in
             
-            guard let successResult = result where success == true else {return}
+            guard let model = articleDetailModel where error == nil else {return}
             
-            print(successResult)
-            
-            // 相关连接
-            self.otherLinks.removeAll()
-            let otherLinks = successResult["data"]["otherLink"].array
-            if let others = otherLinks {
-                for dict in others {
-                    let otherModel = JFOtherLinkModel(dict: dict.dictionaryObject!)
-                    self.otherLinks.append(otherModel)
-                }
-            }
-            
-            // 正文数据
-            let dict = successResult["data"]["content"].dictionaryObject
-            self.model = JFArticleDetailModel(dict: dict!)
-            
+            self.model = model
             self.tableView.reloadData()
         }
     }

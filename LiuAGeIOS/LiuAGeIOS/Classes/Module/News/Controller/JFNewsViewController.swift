@@ -84,7 +84,7 @@ class JFNewsViewController: UIViewController {
         if let userInfo = notification.object as? NSDictionary {
             guard let classid = userInfo["classid"], let id = userInfo["id"] else {return}
             let detailVc = JFNewsDetailViewController()
-            detailVc.articleParam = (classid as! String,id as! String)
+            detailVc.articleParam = (classid as! String, id as! String)
             navigationController?.pushViewController(detailVc, animated: true)
         }
     }

@@ -82,8 +82,6 @@
 		B264A4071D018DC800C72E13 /* JFNewsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A3E11D018DC800C72E13 /* JFNewsTableViewController.swift */; };
 		B264A4091D018DC800C72E13 /* JFArticleDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A3E41D018DC800C72E13 /* JFArticleDetailModel.swift */; };
 		B264A40A1D018DC800C72E13 /* JFCommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A3E51D018DC800C72E13 /* JFCommentModel.swift */; };
-		B264A40B1D018DC800C72E13 /* JFOtherLinkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A3E61D018DC800C72E13 /* JFOtherLinkModel.swift */; };
-		B264A40C1D018DC800C72E13 /* JFPhotoDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A3E71D018DC800C72E13 /* JFPhotoDetailModel.swift */; };
 		B264A40D1D018DC800C72E13 /* JFColumnReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A3EA1D018DC800C72E13 /* JFColumnReusableView.swift */; };
 		B264A40E1D018DC800C72E13 /* JFEditColumnViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A3EB1D018DC800C72E13 /* JFEditColumnViewCell.swift */; };
 		B264A40F1D018DC800C72E13 /* JFCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A3ED1D018DC800C72E13 /* JFCommentCell.swift */; };
@@ -270,8 +268,6 @@
 		B264A3E11D018DC800C72E13 /* JFNewsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFNewsTableViewController.swift; sourceTree = "<group>"; };
 		B264A3E41D018DC800C72E13 /* JFArticleDetailModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFArticleDetailModel.swift; sourceTree = "<group>"; };
 		B264A3E51D018DC800C72E13 /* JFCommentModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFCommentModel.swift; sourceTree = "<group>"; };
-		B264A3E61D018DC800C72E13 /* JFOtherLinkModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFOtherLinkModel.swift; sourceTree = "<group>"; };
-		B264A3E71D018DC800C72E13 /* JFPhotoDetailModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFPhotoDetailModel.swift; sourceTree = "<group>"; };
 		B264A3EA1D018DC800C72E13 /* JFColumnReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFColumnReusableView.swift; sourceTree = "<group>"; };
 		B264A3EB1D018DC800C72E13 /* JFEditColumnViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFEditColumnViewCell.swift; sourceTree = "<group>"; };
 		B264A3ED1D018DC800C72E13 /* JFCommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFCommentCell.swift; sourceTree = "<group>"; };
@@ -854,8 +850,6 @@
 			children = (
 				B2C0FE101D0C5EE000DACAC9 /* JFArticleListModel.swift */,
 				B264A3E41D018DC800C72E13 /* JFArticleDetailModel.swift */,
-				B264A3E61D018DC800C72E13 /* JFOtherLinkModel.swift */,
-				B264A3E71D018DC800C72E13 /* JFPhotoDetailModel.swift */,
 				B264A3E51D018DC800C72E13 /* JFCommentModel.swift */,
 				B2FFDDEB1D06B98000C28DD1 /* JFArticleImageModel.swift */,
 			);
@@ -1253,7 +1247,6 @@
 				B264A3B81D016C0D00C72E13 /* JFProfileCell.swift in Sources */,
 				B264A3701D016C0D00C72E13 /* JFCommon.swift in Sources */,
 				B2F9EC631D0479F600FC7E48 /* JFSettingTableViewController.swift in Sources */,
-				B264A40B1D018DC800C72E13 /* JFOtherLinkModel.swift in Sources */,
 				B2EBCE3F1D0960F300A09BA2 /* JFFPSLabel.swift in Sources */,
 				B2FFDDEC1D06B98000C28DD1 /* JFArticleImageModel.swift in Sources */,
 				B264A4131D018DC800C72E13 /* JFDetailOtherCell.swift in Sources */,
@@ -1268,7 +1261,6 @@
 				B264A3B41D016C0D00C72E13 /* JFProfileCellModel.swift in Sources */,
 				B264A40A1D018DC800C72E13 /* JFCommentModel.swift in Sources */,
 				B264A3BB1D016C0D00C72E13 /* JFProfileTopButton.swift in Sources */,
-				B264A40C1D018DC800C72E13 /* JFPhotoDetailModel.swift in Sources */,
 				B264A4061D018DC800C72E13 /* JFNewsViewController.swift in Sources */,
 				B20149581D07DBFA00ACE583 /* JFSetFontView.swift in Sources */,
 				B264A3741D016C0D00C72E13 /* UIView+Extension.swift in Sources */,
