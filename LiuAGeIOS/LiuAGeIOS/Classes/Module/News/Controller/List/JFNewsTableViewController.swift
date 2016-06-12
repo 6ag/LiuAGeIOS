@@ -219,8 +219,8 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
             let maxId = self.articleList.first?.id ?? "0"
             let minId = self.articleList.last?.id ?? "0"
             
-            // 没有最新数据
-            
+            // 记录老数据条数
+            let oldCount = self.articleList.count
             
             // 遍历转模型添加数据
             for article in data {
@@ -240,7 +240,7 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
             
             // 还未判断
             if classid == 0 && method == 0 {
-                self.showTipView(self.articleList.count)
+                self.showTipView(self.articleList.count - oldCount)
             }
             
             // 添加完后刷新
@@ -249,6 +249,11 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
         
     }
     
+    /**
+     显示加载了多少条新数据
+     
+     - parameter count: 数据条数
+     */
     private func showTipView(count: Int) {
         let tipLabelHeight: CGFloat = 40
         let tipLabel = UILabel()
