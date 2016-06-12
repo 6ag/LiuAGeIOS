@@ -117,6 +117,6 @@
     <resources>
         <image name="channel_nav_plus" width="19" height="19"/>
         <image name="navigation_right_menu" width="20" height="20"/>
-        <image name="photoview_image_default_white" width="320" height="70"/>
+        <image name="photoview_image_default_white" width="75" height="40"/>
     </resources>
 </document>

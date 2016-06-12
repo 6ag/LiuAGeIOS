@@ -13,7 +13,7 @@ class JFTopLabel: UILabel {
     var scale : CGFloat? {
         didSet {
             // 通过scale的改变来改变各种参数
-            textColor = UIColor(red:0.896 * scale!,  green:0.716 * scale!,  blue:0.002 * scale!, alpha:1)
+            textColor = UIColor(red:0.9 * scale!,  green:0.6 * scale!,  blue:0.003 * scale!, alpha:1)
             let minScale : CGFloat = 0.9
             let trueScale = minScale + (1 - minScale) * scale!
             transform = CGAffineTransformMakeScale(trueScale, trueScale)

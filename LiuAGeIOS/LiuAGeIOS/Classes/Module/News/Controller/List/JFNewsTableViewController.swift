@@ -219,6 +219,9 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
             let maxId = self.articleList.first?.id ?? "0"
             let minId = self.articleList.last?.id ?? "0"
             
+            // 没有最新数据
+            
+            
             // 遍历转模型添加数据
             for article in data {
                 let postModel = JFArticleListModel(dict: article.dictionaryObject!)
@@ -235,10 +238,44 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
                 
             }
             
+            // 还未判断
+            if classid == 0 && method == 0 {
+                self.showTipView(self.articleList.count)
+            }
+            
             // 添加完后刷新
             self.tableView.reloadData()
         }
         
+    }
+    
+    private func showTipView(count: Int) {
+        let tipLabelHeight: CGFloat = 40
+        let tipLabel = UILabel()
+        tipLabel.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: tipLabelHeight)
+        tipLabel.textColor = UIColor(red:0.231,  green:0.514,  blue:0.796, alpha:1)
+        tipLabel.font = UIFont.systemFontOfSize(14)
+        tipLabel.textAlignment = NSTextAlignment.Center
+        tipLabel.text = count == 0 ? "没有新的内容" : "加载了 \(count) 条新内容"
+        
+        let tipBgView = UIView(frame: CGRect(x: 0, y: 104, width: SCREEN_WIDTH, height: tipLabelHeight))
+        tipBgView.backgroundColor = UIColor(red:0.902,  green:0.925,  blue:0.949, alpha:1)
+        tipBgView.alpha = 0
+        tipBgView.addSubview(tipLabel)
+        UIApplication.sharedApplication().keyWindow?.addSubview(tipBgView)
+        
+        let duration = 0.75
+        UIView.animateWithDuration(duration, animations: { () -> Void in
+            tipBgView.alpha = 1
+            jf_setupButtonSpringAnimation(tipLabel)
+        }) { (_) -> Void in
+            UIView.animateWithDuration(duration, delay: 1.25, options: UIViewAnimationOptions(rawValue: 0), animations: { () -> Void in
+                tipBgView.alpha = 0
+                }, completion: { (_) -> Void in
+                    tipLabel.removeFromSuperview()
+                    tipBgView.removeFromSuperview()
+            })
+        }
     }
     
 }

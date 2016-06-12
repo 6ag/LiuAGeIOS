@@ -75,15 +75,15 @@ func jf_getContentFont() -> (fontPath: String, fontName: String) {
 }
 
 /**
- 给按钮添加弹簧动画
+ 给控件添加弹簧动画
  */
-func jf_setupButtonSpringAnimation(button: UIButton) {
+func jf_setupButtonSpringAnimation(view: UIView) {
     let sprintAnimation = POPSpringAnimation(propertyNamed: kPOPViewScaleXY)
     sprintAnimation.fromValue = NSValue(CGPoint: CGPoint(x: 0.8, y: 0.8))
     sprintAnimation.toValue = NSValue(CGPoint: CGPoint(x: 1, y: 1))
     sprintAnimation.velocity = NSValue(CGPoint: CGPoint(x: 30, y: 30))
     sprintAnimation.springBounciness = 20
-    button.pop_addAnimation(sprintAnimation, forKey: "springAnimation")
+    view.pop_addAnimation(sprintAnimation, forKey: "springAnimation")
 }
 
 /// 保存夜间模式的状态的key
@@ -102,7 +102,7 @@ let PUSH_KEY = "push"
 let APPLE_ID = "1120896924"
 
 /// 导航栏背景颜色 - （屎黄色）
-let NAVIGATIONBAR_COLOR = UIColor(red:0.996,  green:0.816,  blue:0.012, alpha:1)
+let NAVIGATIONBAR_COLOR = UIColor(red:1,  green:0.792,  blue:0.027, alpha:1)
 
 /// 比导航栏背景色更深一点的颜色
 let NAVIGATIONBAR_COLOR_DARK = UIColor(red:0.896,  green:0.716,  blue:0.002, alpha:1)
