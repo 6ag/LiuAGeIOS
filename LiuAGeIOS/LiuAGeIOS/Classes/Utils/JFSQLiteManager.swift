@@ -7,7 +7,9 @@
 //
 
 import UIKit
+import FMDB
 
 class JFSQLiteManager: NSObject {
-
+    
+    
 }

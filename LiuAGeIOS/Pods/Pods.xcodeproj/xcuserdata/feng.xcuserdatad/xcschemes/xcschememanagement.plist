@@ -14,6 +14,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>FMDB.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>GRMustache.swift.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -92,12 +97,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0EB7CC5DED5B35BF66E2F1863E4DE946</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>10D4870D6555946E471F6550A8257075</key>
+		<key>06455F2195DFD3366521730A65114E20</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -107,7 +107,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>34C073D448A23CA3A97EA55CC489BD6F</key>
+		<key>1C1A2F8583F38D28B0A18D8AEC7CB726</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>23CF27B2BA6AC7125EFFEDA8C5AA819F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>30943B25F0DEC51D0012EB94E0670356</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5B0B8B07F153CD9778BA7AAF4E065FC1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -117,17 +132,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6FBE07BBD526466158BA13138A72AAFB</key>
+		<key>7490BC25ECCF36894C0CA86EECD8FB4E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7054B9A23A68B22E322A21A509F2D944</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>7622D02629F9D3689B88CF55253C6950</key>
+		<key>7652F4580B0394A608B3C1F8CCAE2748</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -147,12 +157,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9A70F29D39D5B65B824DA3383C6D87FC</key>
+		<key>9FA47036368DEADB7CEF6BE598A39B4E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A02DC8C442D3E55587E17E00BD9DE133</key>
+		<key>AA84460459587631170320586E3252B1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -162,17 +172,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C8DB895C337D7A1C15100F076A26381F</key>
+		<key>C0414EF15B1ACBDF2ACDBE27694D167C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D8B190676EE0C3C9BE65C3790054D5EF</key>
+		<key>D39E9B3677935DE4B001EEC1A8B38CC6</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F4CCE140C81F72D7102C7DAE9F1BCA78</key>
+		<key>FC7FD6B1ED3607B0BD3D2F0344F74CF6</key>
 		<dict>
 			<key>primary</key>
 			<true/>
