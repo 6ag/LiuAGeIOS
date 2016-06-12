@@ -141,9 +141,9 @@ class JFProfileViewController: JFBaseTableViewController {
         group2CellModel1.operation = { () -> Void in
             self.viewDismiss()
             JFProgressHUD.showWithStatus("正在清理")
-            let cache = CGFloat((YYImageCache.sharedCache().diskCache.totalCost() + JFArticleStorage.getArticleImageCache().diskCache.totalCost())) / 1024.0 / 1024.0
+            let cache = CGFloat(YYImageCache.sharedCache().diskCache.totalCost()) / 1024.0 / 1024.0
             YYImageCache.sharedCache().diskCache.removeAllObjectsWithBlock({
-                JFArticleStorage.getArticleImageCache().diskCache.removeAllObjectsWithBlock({
+                dispatch_async(dispatch_get_main_queue(), {
                     JFProgressHUD.showSuccessWithStatus("清除了\(String(format: "%.2f", cache))M缓存")
                 })
             })

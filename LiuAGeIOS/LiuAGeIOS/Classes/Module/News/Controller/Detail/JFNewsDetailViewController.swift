@@ -728,10 +728,10 @@ extension JFNewsDetailViewController: UIWebViewDelegate {
                 }
                 
                 // 加载中的占位图
-                let loading = NSBundle.mainBundle().pathForResource("loading", ofType: "jpg")
+                let loading = NSBundle.mainBundle().pathForResource("loading", ofType: "jpg")!
                 
                 // img标签
-                let imgTag = "<img onclick='didTappedImage(\(index));' src='\(loading!)' id='\(dict["url"] as! String)' width='\(width)' height='\(height)' />"
+                let imgTag = "<img onclick='didTappedImage(\(index));' src='\(loading)' id='\(dict["url"] as! String)' width='\(width)' height='\(height)' />"
                 tempNewstext = (tempNewstext as NSString).stringByReplacingOccurrencesOfString(dict["ref"] as! String, withString: imgTag, options: NSStringCompareOptions.CaseInsensitiveSearch, range: range)
             }
             
@@ -770,6 +770,7 @@ extension JFNewsDetailViewController: UIWebViewDelegate {
                 let imagePath = JFArticleStorage.getFilePathForKey(imageString)
                 // 发送图片占位标识和本地绝对路径给webView
                 bridge?.send("replaceimage\(imageString),\(imagePath)")
+                print("图片已有缓存，发送给js \(imagePath)")
             } else {
                 YYWebImageManager(cache: JFArticleStorage.getArticleImageCache(), queue: NSOperationQueue()).requestImageWithURL(NSURL(string: imageString)!, options: YYWebImageOptions.UseNSURLCache, progress: { (_, _) in
                     
@@ -777,13 +778,13 @@ extension JFNewsDetailViewController: UIWebViewDelegate {
                         return image
                     }, completion: { (image, url, type, stage, error) in
                         dispatch_sync(dispatch_get_main_queue(), {
-                            
                             // 确保已经下载完成并没有出错 - 这样做其实已经修改了YYWebImage的磁盘缓存策略。默认YYWebImage缓存文件时超过20kb的文件才会存储为文件，所以需要在 YYDiskCache.m的171行修改
                             guard let _ = image where error == nil else {return}
                             
                             let imagePath = JFArticleStorage.getFilePathForKey(imageString)
                             // 发送图片占位标识和本地绝对路径给webView
                             self.bridge?.send("replaceimage\(imageString),\(imagePath)")
+                            print("图片缓存完成，发送给js \(imagePath)")
                         })
                 })
             }

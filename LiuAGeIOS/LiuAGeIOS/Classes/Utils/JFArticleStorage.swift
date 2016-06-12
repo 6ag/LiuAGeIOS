@@ -23,22 +23,17 @@ class JFArticleStorage: NSObject {
         
         // 文件名是key的md5
         let fileName = key.md5()
-        return "\(JFArticleStorage.getArticleImageCache().diskCache.path)/data/\(fileName)"
+        return "\(YYImageCache.sharedCache().diskCache.path)/data/\(fileName)"
     }
     
     /**
-     获取自定义的文章图片缓存对象
+     获取自定义的文章图片缓存对象 - (换成系统默认的缓存了)
      
      - returns: 返回自定义缓存对象
      */
     class func getArticleImageCache() -> YYImageCache {
-        
-        // 存储文章图片的目录
-        var path = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true).last
-        path?.appendContentsOf("/article.image.cache")
-        
         // 返回自定义缓存对象
-        return YYImageCache(path: path!)!
+        return YYImageCache.sharedCache()
     }
     
     
