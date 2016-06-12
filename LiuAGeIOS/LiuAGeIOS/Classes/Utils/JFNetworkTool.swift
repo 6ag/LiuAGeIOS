@@ -10,10 +10,10 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
+/// 网络请求回调闭包 success:是否成功  flag:预留参数  result:字典数据 error:错误信息
+typealias NetworkFinished = (success: Bool, result: JSON?, error: NSError?) -> ()
+
 class JFNetworkTool: NSObject {
-    
-    /// 网络请求回调闭包 success:是否成功  flag:预留参数  result:字典数据 error:错误信息
-    typealias NetworkFinished = (success: Bool, result: JSON?, error: NSError?) -> ()
     
     /// 网络工具类单例
     static let shareNetworkTool = JFNetworkTool()
@@ -127,19 +127,30 @@ extension JFNetworkTool {
     }
     
     /**
-     加载资讯数据
+     从网络加载（资讯列表）数据
      
      - parameter classid:   资讯分类id
      - parameter pageIndex: 加载分页
+     - parameter type:      1为资讯列表 2为资讯幻灯片
      - parameter finished:  数据回调
      */
-    func loadNews(classid: Int, pageIndex: Int, finished: NetworkFinished) {
+    func loadNewsListFromNetwork(classid: Int, pageIndex: Int, type: Int, finished: NetworkFinished) {
         
-        let parameters: [String : AnyObject] = [
+        var parameters = [String : AnyObject]()
+        
+        if type == 1 {
+            parameters = [
             "classid" : classid,
             "pageIndex" : pageIndex, // 页码
             "pageSize" : 20          // 单页数量
-        ]
+            ]
+        } else {
+            parameters = [
+            "classid" : classid,
+            "query" : "isgood",
+            "pageSize" : 3
+            ]
+        }
         
         JFNetworkTool.shareNetworkTool.get(ARTICLE_LIST, parameters: parameters) { (success, result, error) -> () in
             
@@ -147,9 +158,8 @@ extension JFNetworkTool {
                 finished(success: false, result: nil, error: error)
                 return
             }
-            print(successResult)
             finished(success: true, result: successResult["data"], error: nil)
         }
-        
     }
+    
 }

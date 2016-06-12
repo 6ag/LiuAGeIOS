@@ -16,7 +16,8 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
     /// 分类数据
     var classid: Int? {
         didSet {
-            tableView.mj_header.beginRefreshing()
+            loadNews(classid!, pageIndex: 1, method: 0)
+            loadIsGood(classid!)
         }
     }
     
@@ -121,6 +122,11 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
      下拉加载最新数据
      */
     @objc private func updateNewData() {
+        // 有网络的时候下拉会自动清除缓存
+        if true {
+            JFArticleListModel.cleanCache(classid!)
+        }
+        
         loadNews(classid!, pageIndex: 1, method: 0)
         
         // 只有下拉的时候才去加载幻灯片数据
@@ -142,46 +148,18 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
      */
     private func loadIsGood(classid: Int) {
         
-        let parameters: [String : AnyObject] = [
-            "classid" : classid,
-            "query" : "isgood",
-            "pageSize" : 3
-        ]
-        
-        JFNetworkTool.shareNetworkTool.get(ARTICLE_LIST, parameters: parameters) { (success, result, error) -> () in
+        JFArticleListModel.loadNewsList(classid, pageIndex: pageIndex, type: 2) { (articleListModels, error) in
             
-            guard let successResult = result where success == true else {return}
-            
-            // 如果有数据则清空原来的数据
-            self.isGoodList.removeAll()
-            let data = successResult["data"].arrayValue.reverse()
-            for article in data {
-                var dict: [String : AnyObject] = [
-                    "title" : article["title"].stringValue,     // 文章标题
-                    "classid" : article["classid"].stringValue, // 文章栏目id
-                    "id" : article["id"].stringValue,           // 文章id
-                ]
-                
-                // 判断是否有标题图片 幻灯片必须要有图片
-                if article["titlepic"].string != "" {
-                    dict["titlepic"] = article["titlepic"].stringValue // 标题图片
-                    
-                    // 判断是否是多图
-                    if let _ = article["morepic"].array {
-                        dict["piccount"] = 3
-                    } else {
-                        dict["piccount"] = 1
-                    }
-                    
-                    // 字典转模型
-                    let postModel = JFArticleListModel(dict: dict)
-                    self.isGoodList.append(postModel)
-                }
+            guard let list = articleListModels where error != true else {
+                return
             }
+            
+            self.isGoodList = list
             
             // 更新幻灯片
             self.prepareScrollView()
         }
+        
     }
     
     /**
@@ -193,7 +171,7 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
      */
     private func loadNews(classid: Int, pageIndex: Int, method: Int) {
         
-        JFArticleListModel.loadNews(classid, pageIndex: pageIndex) { (articleListModels, error) in
+        JFArticleListModel.loadNewsList(classid, pageIndex: pageIndex, type: 1) { (articleListModels, error) in
             
             self.tableView.mj_header.endRefreshing()
             self.tableView.mj_footer.endRefreshing()

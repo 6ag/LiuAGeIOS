@@ -15,6 +15,7 @@
 		B2354A021D0BA84B0050AF13 /* JFNoHighlightedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B2354A011D0BA84A0050AF13 /* JFNoHighlightedButton.m */; };
 		B2354A101D0BD4080050AF13 /* loading.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B2354A0F1D0BD4080050AF13 /* loading.jpg */; };
 		B2526ACB1D0D43DD0024C84C /* JFSQLiteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2526ACA1D0D43DD0024C84C /* JFSQLiteManager.swift */; };
+		B2526ACD1D0D56FB0024C84C /* JFNewsDALManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2526ACC1D0D56FB0024C84C /* JFNewsDALManager.swift */; };
 		B264A36C1D016C0D00C72E13 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B264A2BF1D016C0D00C72E13 /* Assets.xcassets */; };
 		B264A36D1D016C0D00C72E13 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B264A2C01D016C0D00C72E13 /* LaunchScreen.storyboard */; };
 		B264A36E1D016C0D00C72E13 /* api.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A2C41D016C0D00C72E13 /* api.swift */; };
@@ -186,6 +187,7 @@
 		B2354A011D0BA84A0050AF13 /* JFNoHighlightedButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFNoHighlightedButton.m; sourceTree = "<group>"; };
 		B2354A0F1D0BD4080050AF13 /* loading.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = loading.jpg; sourceTree = "<group>"; };
 		B2526ACA1D0D43DD0024C84C /* JFSQLiteManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFSQLiteManager.swift; sourceTree = "<group>"; };
+		B2526ACC1D0D56FB0024C84C /* JFNewsDALManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFNewsDALManager.swift; sourceTree = "<group>"; };
 		B264A2BF1D016C0D00C72E13 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B264A2C11D016C0D00C72E13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B264A2C41D016C0D00C72E13 /* api.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = api.swift; sourceTree = "<group>"; };
@@ -663,6 +665,7 @@
 				B264A3401D016C0D00C72E13 /* JFProgressHUD.swift */,
 				B20149541D07BA6200ACE583 /* JFArticleStorage.swift */,
 				B2526ACA1D0D43DD0024C84C /* JFSQLiteManager.swift */,
+				B2526ACC1D0D56FB0024C84C /* JFNewsDALManager.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1279,6 +1282,7 @@
 				B264A41D1D018DC800C72E13 /* JFNewsOnePicCell.swift in Sources */,
 				B264A41B1D018DC800C72E13 /* JFNewsNoPicCell.swift in Sources */,
 				B264A36E1D016C0D00C72E13 /* api.swift in Sources */,
+				B2526ACD1D0D56FB0024C84C /* JFNewsDALManager.swift in Sources */,
 				B264A4191D018DC800C72E13 /* JFStarAndShareCell.swift in Sources */,
 				B264A40E1D018DC800C72E13 /* JFEditColumnViewCell.swift in Sources */,
 				B264A3731D016C0D00C72E13 /* UIImage+Extension.swift in Sources */,

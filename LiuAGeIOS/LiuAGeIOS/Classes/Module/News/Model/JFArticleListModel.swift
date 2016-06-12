@@ -53,17 +53,36 @@ class JFArticleListModel: NSObject {
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {}
     
     /**
+     清除缓存
+     
+     - parameter classid: 要清除的分类id
+     */
+    class func cleanCache(classid: Int) {
+        JFNewsDALManager.shareManager.cleanCache(classid)
+    }
+    
+    /**
      加载资讯数据
      
      - parameter classid:   资讯分类id
      - parameter pageIndex: 加载分页
+     - parameter type:      1为资讯列表 2为资讯幻灯片
      - parameter finished:  数据回调
      */
-    class func loadNews(classid: Int, pageIndex: Int, finished: (articleListModels: [JFArticleListModel]?, error: NSError?) -> ()) {
+    class func loadNewsList(classid: Int, pageIndex: Int, type: Int, finished: (articleListModels: [JFArticleListModel]?, error: NSError?) -> ()) {
         
-        JFNetworkTool.shareNetworkTool.loadNews(classid, pageIndex: pageIndex) { (success, result, error) in
-            if success == false || error != nil || result == nil {
+        // 模型找数据访问层请求数据 - 然后处理数据回调给调用者直接使用
+        JFNewsDALManager.shareManager.loadNewsList(classid, pageIndex: pageIndex, type: type) { (result, error) in
+            
+            // 请求失败
+            if error != nil || result == nil {
                 finished(articleListModels: nil, error: error)
+                return
+            }
+            
+            // 没有数据了
+            if result?.count == 0 {
+                finished(articleListModels: nil, error: nil)
                 return
             }
             
@@ -78,6 +97,7 @@ class JFArticleListModel: NSObject {
             
             finished(articleListModels: articleListModels, error: nil)
         }
+        
     }
     
 }
