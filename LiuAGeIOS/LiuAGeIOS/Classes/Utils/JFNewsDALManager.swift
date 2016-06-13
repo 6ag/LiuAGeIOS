@@ -13,6 +13,37 @@ import SwiftyJSON
 class JFNewsDALManager: NSObject {
     
     static let shareManager = JFNewsDALManager()
+    
+    /// 过期时间间隔 从缓存开始计时，单位秒 7天
+    private let timeInterval: NSTimeInterval = 86400 * 7
+    
+    /**
+     在退出到后台的时候，根据缓存时间自动清除过期的缓存数据
+     */
+    func clearCacheData() {
+        
+        // 计算过期时间
+        let overDate = NSDate(timeIntervalSinceNow: -timeInterval)
+        print("时间低于 \(overDate) 的都清除")
+        
+        // 记录时间格式 2016-06-13 02:29:37
+        let df = NSDateFormatter()
+        df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let overString = df.stringFromDate(overDate)
+        
+        // 生成sql语句
+        let sql = "DELETE FROM \(NEWS_LIST_HOME_TOP) WHERE createTime < '\(overString)';" +
+            "DELETE FROM \(NEWS_LIST_HOME_LIST) WHERE createTime < '\(overString)';" +
+            "DELETE FROM \(NEWS_LIST_OTHER_TOP) WHERE createTime < '\(overString)';" +
+            "DELETE FROM \(NEWS_LIST_OTHER_LIST) WHERE createTime < '\(overString)';" +
+            "DELETE FROM \(NEWS_CONTENT) WHERE createTime < '\(overString)';"
+        
+        JFSQLiteManager.shareManager.dbQueue.inDatabase { (db) -> Void in
+            if db.executeStatements(sql) {
+                print("清除缓存数据成功")
+            }
+        }
+    }
 }
 
 // MARK: - 资讯列表数据管理

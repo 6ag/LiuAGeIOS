@@ -204,7 +204,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationDidEnterBackground(application: UIApplication) {
-        
+        JFNewsDALManager.shareManager.clearCacheData()
     }
     
     func applicationWillEnterForeground(application: UIApplication) {
