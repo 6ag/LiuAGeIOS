@@ -6,37 +6,37 @@
                 padding:0px;
                 margin:0px;
             }
-            .container {
-                width: 92%;
-                margin-left: 4%;
-                margin-top: 10px
-            }
-            .title {
-                text-align: left;
-                font-size: 20px;
-                color: #3c3c3c;
-                font-weight: bold;
-                margin-top: 5px;
-            }
-            .time {
-                text-align: left;
-                font-size: 13px;
-                color: #BDBDBD;
-                margin-top: 5px;
-                margin-bottom: 10px
-            }
-            .content {
-                color: #3c3c3c;
-                letter-spacing: 1px;
-            }
-            .content p {
-                margin: 0px 0px 15px 0px;
-            }
-            .content img {
-                display: block;
-                margin: 20px auto;
-            }
-            </style>
+        .container {
+            width: 92%;
+            margin-left: 4%;
+            margin-top: 10px
+        }
+        .title {
+            text-align: left;
+            font-size: 20px;
+            color: #3c3c3c;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        .time {
+            text-align: left;
+            font-size: 13px;
+            color: #BDBDBD;
+            margin-top: 5px;
+            margin-bottom: 10px
+        }
+        .content {
+            color: #3c3c3c;
+            letter-spacing: 1px;
+        }
+        .content p {
+            margin: 0px 0px 15px 0px;
+        }
+        .content img {
+            display: block;
+            margin: 20px auto;
+        }
+        </style>
     </head>
     <script>
         
@@ -67,7 +67,7 @@
                                       }, false)
         }
     }
-
+    
     connectWebViewJavascriptBridge(function (bridge) {
                                    
                                    self.bridge = bridge
@@ -76,25 +76,22 @@
                                    bridge.init(function (message, responseCallback) {
                                                
                                                if (message.match("replaceimage")) {
-                                               var index = message.indexOf(",")
-                                               // 截取图片占位标识 replaceimagehttp://photo.6ag.cn/2016-06-06/3fydk38dkdfy34u34ijdfffdf.jpg
-                                               var messagereplace = message.substring(0, index)
-                                               //截取到本地图片的路径 /var/.....
-                                               var messagepath = message.substring(index + 1)
                                                
-                                               messagereplace = messagereplace.replace(/replaceimage/, "")
-                                               element = document.getElementById(messagereplace)
+                                                   var index = message.indexOf(",")
+                                                   // 截取占位标识
+                                                   var messagereplace = message.substring(0, index)
+                                                   // 截取到图片路径
+                                                   var messagepath = message.substring(index + 1)
+                                                   messagereplace = messagereplace.replace(/replaceimage/, "")
                                                
-                                               if (element.src.match("loading")) {
-                                               element.src = messagepath
-                                               } else {
-                                               element.src = messagepath
-                                               }
+                                                   element = document.getElementById(messagereplace)
+                                               
+                                                   // 保证只替换一次
+                                                   if (element.src.match("loading")) {
+                                                        element.src = messagepath
+                                                   }
                                                }
                                                
-                                               if (responseCallback) {
-                                               responseCallback("send Right back atcha")
-                                               }
                                                })
                                    
                                    })

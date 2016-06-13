@@ -11,7 +11,6 @@ import YYWebImage
 import SnapKit
 
 protocol JFPhotoDetailCellDelegate {
-    
     func didOneTappedPhotoDetailView(scrollView: UIScrollView)
     func didDoubleTappedPhotoDetailView(scrollView: UIScrollView, touchPoint: CGPoint)
     func didLongPressPhotoDetailView(scrollView: UIScrollView, currentImage: UIImage?)

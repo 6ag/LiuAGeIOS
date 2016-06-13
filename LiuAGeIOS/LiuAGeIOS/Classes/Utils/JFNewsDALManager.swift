@@ -266,7 +266,7 @@ extension JFNewsDALManager {
                 let newsJson = result.stringForColumn("news")
                 let json = JSON.parse(newsJson)
                 finished(success: true, result: json, error: nil)
-                print("从缓存中取正文数据 \(json)")
+//                print("从缓存中取正文数据 \(json)")
                 result.close()
                 return
             }

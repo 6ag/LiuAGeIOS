@@ -117,7 +117,7 @@ class JFNewsDetailViewController: UIViewController {
     }
     
     /**
-      请求页面数据和评论数据
+     请求页面数据和评论数据
      */
     private func updateData() {
         
@@ -558,7 +558,7 @@ extension JFNewsDetailViewController: JFSetFontViewDelegate {
         let html = webView.stringByEvaluatingJavaScriptFromString("getHtml();")!
         return (html as NSString).stringByReplacingOccurrencesOfString("<iframe src=\"wvjbscheme://__WVJB_QUEUE_MESSAGE__\" style=\"display: none;\"></iframe>", withString: "")
     }
-
+    
     /**
      修改了正文字体大小，需要重新显示 添加图片缓存后，目前还有问题
      */
@@ -573,7 +573,7 @@ extension JFNewsDetailViewController: JFSetFontViewDelegate {
         
         NSUserDefaults.standardUserDefaults().setInteger(fontSize, forKey: CONTENT_FONT_SIZE_KEY)
     }
-
+    
     /**
      修改了正文字体
      
@@ -720,21 +720,19 @@ extension JFNewsDetailViewController: UIWebViewDelegate {
                 let imagePath = JFArticleStorage.getFilePathForKey(imageString)
                 // 发送图片占位标识和本地绝对路径给webView
                 bridge?.send("replaceimage\(imageString),\(imagePath)")
-//                print("图片已有缓存，发送给js \(imagePath)")
+                // print("图片已有缓存，发送给js \(imagePath)")
             } else {
                 YYWebImageManager(cache: JFArticleStorage.getArticleImageCache(), queue: NSOperationQueue()).requestImageWithURL(NSURL(string: imageString)!, options: YYWebImageOptions.UseNSURLCache, progress: { (_, _) in
-                    
                     }, transform: { (image, url) -> UIImage? in
                         return image
                     }, completion: { (image, url, type, stage, error) in
                         dispatch_sync(dispatch_get_main_queue(), {
                             // 确保已经下载完成并没有出错 - 这样做其实已经修改了YYWebImage的磁盘缓存策略。默认YYWebImage缓存文件时超过20kb的文件才会存储为文件，所以需要在 YYDiskCache.m的171行修改
                             guard let _ = image where error == nil else {return}
-                            
                             let imagePath = JFArticleStorage.getFilePathForKey(imageString)
                             // 发送图片占位标识和本地绝对路径给webView
                             self.bridge?.send("replaceimage\(imageString),\(imagePath)")
-//                            print("图片缓存完成，发送给js \(imagePath)")
+                            // print("图片缓存完成，发送给js \(imagePath)")
                         })
                 })
             }
@@ -832,12 +830,12 @@ extension JFNewsDetailViewController: JFCommentCellDelegate {
             "id" : id,
             "pageIndex" : 1,
             "pageSize" : 10,
-        ]
+            ]
         
         JFNetworkTool.shareNetworkTool.get(GET_COMMENT, parameters: parameters as? [String : AnyObject]) { (success, result, error) -> () in
             
             guard let successResult = result where success == true else {return}
-//            print(successResult)
+            //            print(successResult)
             
             let data = successResult["data"].arrayValue
             if data.count == 0 && self.commentList.count == 0 {
