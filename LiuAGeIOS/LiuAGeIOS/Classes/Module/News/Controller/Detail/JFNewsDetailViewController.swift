@@ -686,7 +686,7 @@ extension JFNewsDetailViewController: UIWebViewDelegate {
             }
             
             // 加载图片 - 从缓存中获取图片的本地绝对路径，发送给webView显示
-//            getImageFromDownloaderOrDiskByImageUrlArray(model.allphoto!)
+            getImageFromDownloaderOrDiskByImageUrlArray(model.allphoto!)
         }
         
         html.appendContentsOf("<div class=\"content\">\(tempNewstext)</div>")

@@ -18,8 +18,6 @@ class JFLoginViewController: UIViewController, JFRegisterViewControllerDelegate 
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var loginButton: JFLoginButton!
     
-    var avatarString: String?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -68,7 +66,6 @@ class JFLoginViewController: UIViewController, JFRegisterViewControllerDelegate 
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(3.0 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
             
             var parameters: [String : AnyObject]
-            
             parameters = [
                 "username" : self.usernameField.text!,
                 "password" : self.passwordField.text!
@@ -154,8 +151,7 @@ class JFLoginViewController: UIViewController, JFRegisterViewControllerDelegate 
      - parameter uid:      唯一标识
      */
     func SDKLoginHandle(nickname: String, avatar: String, uid: String, type: Int) {
-            
-        avatarString = avatar
+        
         let string = uid.characters.count >= 12 ? (uid as NSString).substringToIndex(12) : uid
         var lowerString = string.lowercaseString
         lowerString = type == 1 ? "qq_\(lowerString)" : "wb_\(lowerString)"
