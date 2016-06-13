@@ -110,6 +110,7 @@
 		B2C866031D051C1900A5B1FD /* JFPopoverDismissAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C866001D051C1900A5B1FD /* JFPopoverDismissAnimation.swift */; };
 		B2C866041D051C1900A5B1FD /* JFPopoverModalAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C866011D051C1900A5B1FD /* JFPopoverModalAnimation.swift */; };
 		B2C866051D051C1900A5B1FD /* JFPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C866021D051C1900A5B1FD /* JFPresentationController.swift */; };
+		B2CB2D1C1D0EB030002C73A5 /* JFScanWeixinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CB2D1B1D0EB030002C73A5 /* JFScanWeixinViewController.swift */; };
 		B2DD3FA31CB7BDF60092C717 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B2DD3FA21CB7BDF60092C717 /* libz.tbd */; };
 		B2EBCE3F1D0960F300A09BA2 /* JFFPSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2EBCE3E1D0960F300A09BA2 /* JFFPSLabel.swift */; };
 		B2F9EC561D03CBC800FC7E48 /* JFNewFeatureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F9EC551D03CBC800FC7E48 /* JFNewFeatureCell.swift */; };
@@ -296,6 +297,7 @@
 		B2C866001D051C1900A5B1FD /* JFPopoverDismissAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFPopoverDismissAnimation.swift; sourceTree = "<group>"; };
 		B2C866011D051C1900A5B1FD /* JFPopoverModalAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFPopoverModalAnimation.swift; sourceTree = "<group>"; };
 		B2C866021D051C1900A5B1FD /* JFPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFPresentationController.swift; sourceTree = "<group>"; };
+		B2CB2D1B1D0EB030002C73A5 /* JFScanWeixinViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFScanWeixinViewController.swift; sourceTree = "<group>"; };
 		B2DD3F9A1CB7BDC20092C717 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		B2DD3F9C1CB7BDCF0092C717 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		B2DD3F9E1CB7BDDB0092C717 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -545,6 +547,7 @@
 				B2F9EC621D0479F600FC7E48 /* JFSettingTableViewController.swift */,
 				B264A3181D016C0D00C72E13 /* JFProfileViewController.swift */,
 				B264A3141D016C0D00C72E13 /* JFBaseTableViewController.swift */,
+				B2CB2D1B1D0EB030002C73A5 /* JFScanWeixinViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1302,6 +1305,7 @@
 				B2C866031D051C1900A5B1FD /* JFPopoverDismissAnimation.swift in Sources */,
 				B2526ACB1D0D43DD0024C84C /* JFSQLiteManager.swift in Sources */,
 				B2A877181D029A420061AC70 /* NSDate+Extension.swift in Sources */,
+				B2CB2D1C1D0EB030002C73A5 /* JFScanWeixinViewController.swift in Sources */,
 				B264A4051D018DC800C72E13 /* JFPhotoDetailViewController.swift in Sources */,
 				B2F9EC5A1D03F42600FC7E48 /* JFPanGestureRecognizer.swift in Sources */,
 				B2C866051D051C1900A5B1FD /* JFPresentationController.swift in Sources */,

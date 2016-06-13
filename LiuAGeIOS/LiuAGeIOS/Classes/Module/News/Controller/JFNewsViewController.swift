@@ -522,7 +522,7 @@ extension JFNewsViewController: JFProfileViewControllerDelegate {
      扫描微信二维码
      */
     func didTappedScanWeixin() {
-        print("扫描微信二维码")
+        navigationController?.pushViewController(JFScanWeixinViewController(), animated: true)
     }
     
     /**
