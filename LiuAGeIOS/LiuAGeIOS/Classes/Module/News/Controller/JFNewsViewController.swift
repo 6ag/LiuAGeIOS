@@ -237,12 +237,15 @@ class JFNewsViewController: UIViewController {
                     "classname": "震惊事件"
                 ],
                 [
-                    "classid" : "8",
-                    "classname": "迷案追踪"
-                ],
-                [
                     "classid" : "9",
                     "classname": "灵异恐怖"
+                ]
+            ]
+            
+            optionalArray = [
+                [
+                    "classid" : "8",
+                    "classname": "迷案追踪"
                 ],
                 [
                     "classid" : "10",
@@ -251,10 +254,7 @@ class JFNewsViewController: UIViewController {
                 [
                     "classid" : "11",
                     "classname": "军事秘闻"
-                ]
-            ]
-            
-            optionalArray = [
+                ],
                 [
                     "classid" : "12",
                     "classname": "科学探秘"
@@ -295,7 +295,7 @@ class JFNewsViewController: UIViewController {
         // 布局用的左边距
         var leftMargin: CGFloat = 0
         
-        for i in 0..<selectedArray!.count {
+        for i in 0 ..< selectedArray!.count {
             let label = JFTopLabel()
             label.text = selectedArray![i]["classname"]
             label.tag = i
