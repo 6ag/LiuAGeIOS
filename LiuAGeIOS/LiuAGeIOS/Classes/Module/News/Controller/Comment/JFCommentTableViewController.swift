@@ -28,10 +28,15 @@ class JFCommentTableViewController: UITableViewController {
         title = "评论列表"
         tableView.registerNib(UINib(nibName: "JFCommentCell", bundle: nil), forCellReuseIdentifier: "commentCell")
         
+        // 配置MJRefresh
         let headerRefresh = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: #selector(updateNewData))
         headerRefresh.lastUpdatedTimeLabel.hidden = true
+        headerRefresh.stateLabel.hidden = true
         tableView.mj_header = headerRefresh
-        tableView.mj_footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: #selector(loadMoreData))
+        
+        let footerRefresh = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: #selector(loadMoreData))
+        footerRefresh.automaticallyHidden = true
+        tableView.mj_footer = footerRefresh
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -65,7 +70,6 @@ class JFCommentTableViewController: UITableViewController {
      */
     func loadCommentList(classid: String, id: String, pageIndex: Int, method: Int) {
         let parameters = [
-//            "table" : "news",
             "classid" : classid,
             "id" : id,
             "pageIndex" : pageIndex
@@ -90,7 +94,7 @@ class JFCommentTableViewController: UITableViewController {
                     }
                     
                     if data.count == 0 {
-                        JFProgressHUD.showInfoWithStatus("没有更多评论")
+                        self.tableView.mj_footer.endRefreshingWithNoMoreData()
                         return
                     }
                     

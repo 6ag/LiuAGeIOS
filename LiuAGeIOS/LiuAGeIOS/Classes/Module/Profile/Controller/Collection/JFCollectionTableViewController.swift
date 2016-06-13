@@ -20,10 +20,10 @@ class JFCollectionTableViewController: UITableViewController {
         
         title = "收藏"
         tableView.registerClass(UITableViewCell.classForCoder(), forCellReuseIdentifier: identifier)
-        let headerRefresh = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: #selector(updateNewData))
-        headerRefresh.lastUpdatedTimeLabel.hidden = true
-        tableView.mj_header = headerRefresh
-        tableView.mj_footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: #selector(loadMoreData))
+        
+        // 配置上下拉刷新控件
+        tableView.mj_header = setupHeaderRefresh(self, action: #selector(updateNewData))
+        tableView.mj_footer = setupFooterRefresh(self, action: #selector(loadMoreData))
         
         tableView.mj_header.beginRefreshing()
     }

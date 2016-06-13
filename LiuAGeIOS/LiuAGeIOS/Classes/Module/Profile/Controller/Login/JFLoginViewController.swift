@@ -17,6 +17,7 @@ class JFLoginViewController: UIViewController, JFRegisterViewControllerDelegate 
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var loginButton: JFLoginButton!
+    
     var avatarString: String?
     
     override func viewDidLoad() {
@@ -53,7 +54,9 @@ class JFLoginViewController: UIViewController, JFRegisterViewControllerDelegate 
         }
     }
     
-    // 测试账号密码都是：bbsbaokan
+    /**
+     登录按钮点击事件
+     */
     @IBAction func didTappedLoginButton(button: JFLoginButton) {
         
         view.userInteractionEnabled = false
@@ -64,7 +67,9 @@ class JFLoginViewController: UIViewController, JFRegisterViewControllerDelegate 
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(3.0 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
             
-            let parameters = [
+            var parameters: [String : AnyObject]
+            
+            parameters = [
                 "username" : self.usernameField.text!,
                 "password" : self.passwordField.text!
             ]
@@ -124,7 +129,7 @@ class JFLoginViewController: UIViewController, JFRegisterViewControllerDelegate 
     @IBAction func didTappedQQLoginButton(sender: UIButton) {
         ShareSDK.getUserInfo(SSDKPlatformType.TypeQQ, conditional: nil) { (state, user, error) in
             if state == SSDKResponseState.Success {
-                self.SDKLoginHandle(user.nickname, avatar: user.rawData["figureurl_qq_2"] != nil ? user.rawData["figureurl_qq_2"]! as! String : user.icon, uid: user.uid)
+                self.SDKLoginHandle(user.nickname, avatar: user.rawData["figureurl_qq_2"] != nil ? user.rawData["figureurl_qq_2"]! as! String : user.icon, uid: user.uid, type: 1)
             } else {
                 self.didTappedBackButton()
             }
@@ -134,7 +139,7 @@ class JFLoginViewController: UIViewController, JFRegisterViewControllerDelegate 
     @IBAction func didTappedSinaLoginButton(sender: UIButton) {
         ShareSDK.getUserInfo(SSDKPlatformType.TypeSinaWeibo, conditional: nil) { (state, user, error) in
             if state == SSDKResponseState.Success {
-                self.SDKLoginHandle(user.nickname, avatar: user.rawData["avatar_hd"] != nil ? user.rawData["avatar_hd"]! as! String : user.icon, uid: user.uid)
+                self.SDKLoginHandle(user.nickname, avatar: user.rawData["avatar_hd"] != nil ? user.rawData["avatar_hd"]! as! String : user.icon, uid: user.uid, type: 2)
             } else {
                 self.didTappedBackButton()
             }
@@ -148,16 +153,19 @@ class JFLoginViewController: UIViewController, JFRegisterViewControllerDelegate 
      - parameter avatar:   头像url
      - parameter uid:      唯一标识
      */
-    func SDKLoginHandle(nickname: String, avatar: String, uid: String) -> Void {
-        
+    func SDKLoginHandle(nickname: String, avatar: String, uid: String, type: Int) {
+            
         avatarString = avatar
         let string = uid.characters.count >= 12 ? (uid as NSString).substringToIndex(12) : uid
-        let lowerString = string.lowercaseString
+        var lowerString = string.lowercaseString
+        lowerString = type == 1 ? "qq_\(lowerString)" : "wb_\(lowerString)"
         
         let parameters = [
             "username" : lowerString,
             "password" : string,
-            "email" : "\(lowerString)@baokan.name"
+            "email" : "\(lowerString)@6ag.com",
+            "userpic" : avatar,
+            "nickname" : nickname,
         ]
         
         JFNetworkTool.shareNetworkTool.post(REGISTER, parameters: parameters) { (success, result, error) in

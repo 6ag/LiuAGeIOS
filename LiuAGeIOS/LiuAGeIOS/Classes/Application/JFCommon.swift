@@ -8,6 +8,7 @@
 
 import UIKit
 import pop
+import MJRefresh
 
 /**
  手机型号枚举
@@ -84,6 +85,22 @@ func jf_setupButtonSpringAnimation(view: UIView) {
     sprintAnimation.velocity = NSValue(CGPoint: CGPoint(x: 30, y: 30))
     sprintAnimation.springBounciness = 20
     view.pop_addAnimation(sprintAnimation, forKey: "springAnimation")
+}
+
+func setupFooterRefresh(target: AnyObject, action: Selector) -> MJRefreshAutoNormalFooter {
+    let footerRefresh = MJRefreshAutoNormalFooter(refreshingTarget: target, refreshingAction: action)
+    footerRefresh.automaticallyHidden = true
+    footerRefresh.setTitle("正在为您加载更多资讯...", forState: MJRefreshState.Refreshing)
+    footerRefresh.setTitle("上拉即可加载更多资讯...", forState: MJRefreshState.Idle)
+    footerRefresh.setTitle("没有更多数据啦...", forState: MJRefreshState.NoMoreData)
+    return footerRefresh
+}
+
+func setupHeaderRefresh(target: AnyObject, action: Selector) -> MJRefreshNormalHeader {
+    let headerRefresh = MJRefreshNormalHeader(refreshingTarget: target, refreshingAction: action)
+    headerRefresh.lastUpdatedTimeLabel.hidden = true
+    headerRefresh.stateLabel.hidden = true
+    return headerRefresh
 }
 
 /// 保存夜间模式的状态的key

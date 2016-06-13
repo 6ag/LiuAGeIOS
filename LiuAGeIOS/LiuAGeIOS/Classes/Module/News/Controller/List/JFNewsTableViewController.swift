@@ -16,8 +16,8 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
     /// 分类数据
     var classid: Int? {
         didSet {
-            loadNews(classid!, pageIndex: 1, method: 0)
             loadIsGood(classid!)
+            loadNews(classid!, pageIndex: 1, method: 0)
         }
     }
     
@@ -54,11 +54,9 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
         // 分割线颜色
         tableView.separatorColor = UIColor(red:0.9,  green:0.9,  blue:0.9, alpha:1)
         
-        // 配置MJRefresh
-        let headerRefresh = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: #selector(updateNewData))
-        headerRefresh.lastUpdatedTimeLabel.hidden = true
-        tableView.mj_header = headerRefresh
-        tableView.mj_footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: #selector(loadMoreData))
+        // 配置上下拉刷新控件
+        tableView.mj_header = setupHeaderRefresh(self, action: #selector(updateNewData))
+        tableView.mj_footer = setupFooterRefresh(self, action: #selector(loadMoreData))
     }
     
     /**
@@ -122,6 +120,7 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
      下拉加载最新数据
      */
     @objc private func updateNewData() {
+        
         // 有网络的时候下拉会自动清除缓存
         if true {
             JFArticleListModel.cleanCache(classid!)
@@ -193,6 +192,8 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
                 // 1上拉加载更多 - 拼接数据
                 if Int(minId) > Int(list[0].id!) {
                     self.articleList = self.articleList + list
+                } else {
+                    self.tableView.mj_footer.endRefreshingWithNoMoreData()
                 }
             }
             
