@@ -115,7 +115,10 @@ class JFAccountModel: NSObject, NSCoding {
     /**
      注销
      */
-    class func logout() -> Void {
+    class func logout() {
+        ShareSDK.cancelAuthorize(SSDKPlatformType.TypeQQ)
+        ShareSDK.cancelAuthorize(SSDKPlatformType.TypeSinaWeibo)
+        
         // 清除内存中的账号对象和归档
         JFAccountModel.userAccount = nil
         do {
@@ -128,7 +131,7 @@ class JFAccountModel: NSObject, NSCoding {
     /**
      登录
      */
-    func updateUserInfo() -> Void {
+    func updateUserInfo() {
         // 保存到内存中
         JFAccountModel.userAccount = self
         // 归档用户信息
