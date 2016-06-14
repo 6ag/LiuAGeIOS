@@ -53,4 +53,41 @@ class JFCommentModel: NSObject {
     
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {}
     
+    /**
+     加载（评论列表）数据
+     
+     - parameter classid:   资讯分类id
+     - parameter id:        资讯id
+     - parameter pageIndex: 当前页
+     - parameter pageSize:  每页条数
+     - parameter finished:  数据回调
+     */
+    class func loadCommentList(classid: Int, id: Int, pageIndex: Int, pageSize: Int, finished: (commentModels: [JFCommentModel]?, error: NSError?) -> ()) {
+        
+        JFNewsDALManager.shareManager.loadCommentList(classid, id: id, pageIndex: pageIndex, pageSize: pageSize) { (result, error) in
+            
+            // 请求失败
+            if error != nil || result == nil {
+                finished(commentModels: nil, error: error)
+                return
+            }
+            
+            // 没有数据了
+            if result?.count == 0 {
+                finished(commentModels: [JFCommentModel](), error: nil)
+                return
+            }
+            
+            let data = result!.arrayValue
+            var commentModels = [JFCommentModel]()
+            
+            // 遍历转模型添加数据
+            for article in data {
+                let postModel = JFCommentModel(dict: article.dictionaryObject!)
+                commentModels.append(postModel)
+            }
+            
+            finished(commentModels: commentModels, error: nil)
+        }
+    }
 }

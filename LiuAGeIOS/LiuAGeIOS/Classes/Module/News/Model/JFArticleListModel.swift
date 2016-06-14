@@ -82,7 +82,7 @@ class JFArticleListModel: NSObject {
             
             // 没有数据了
             if result?.count == 0 {
-                finished(articleListModels: nil, error: nil)
+                finished(articleListModels: [JFArticleListModel](), error: nil)
                 return
             }
             

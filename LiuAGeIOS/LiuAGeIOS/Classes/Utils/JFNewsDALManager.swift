@@ -307,3 +307,20 @@ extension JFNewsDALManager {
     }
     
 }
+
+// MARK: - 评论数据管理
+extension JFNewsDALManager {
+    
+    func loadCommentList(classid: Int, id: Int, pageIndex: Int, pageSize: Int, finished: (result: JSON?, error: NSError?) -> ()) {
+        
+        // 评论不做数据缓存，直接从网络请求
+        JFNetworkTool.shareNetworkTool.loadCommentListFromNetwork(classid, id: id, pageIndex: pageIndex, pageSize: pageSize) { (success, result, error) in
+            
+            if success == false || error != nil || result == nil {
+                finished(result: nil, error: error)
+                return
+            }
+            finished(result: result, error: nil)
+        }
+    }
+}

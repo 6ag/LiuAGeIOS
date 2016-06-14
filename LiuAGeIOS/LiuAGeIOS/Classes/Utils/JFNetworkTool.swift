@@ -197,4 +197,32 @@ extension JFNetworkTool {
         }
     }
     
+    /**
+     从网络加载（评论列表）数据
+     
+     - parameter classid:   资讯分类id
+     - parameter id:        资讯id
+     - parameter pageIndex: 当前页
+     - parameter pageSize:  每页条数
+     - parameter finished:  数据回调
+     */
+    func loadCommentListFromNetwork(classid: Int, id: Int, pageIndex: Int, pageSize: Int, finished: NetworkFinished) {
+        
+        let parameters: [String : AnyObject] = [
+            "classid" : classid,
+            "id" : id,
+            "pageIndex" : pageIndex,
+            "pageSize" : pageSize
+            ]
+        
+        JFNetworkTool.shareNetworkTool.get(GET_COMMENT, parameters: parameters) { (success, result, error) -> () in
+            
+            guard let successResult = result where success == true else {
+                finished(success: false, result: nil, error: error)
+                return
+            }
+            finished(success: true, result: successResult["data"], error: nil)
+        }
+    }
+    
 }

@@ -116,7 +116,7 @@ class JFNewsDetailViewController: UIViewController {
     private func updateData() {
         
         loadNewsDetail(Int(articleParam!.classid)!, id: Int(articleParam!.id)!)
-        loadCommentList(articleParam!.classid, id: articleParam!.id)
+        loadCommentList(Int(articleParam!.classid)!, id: Int(articleParam!.id)!)
     }
     
     /**
@@ -535,7 +535,7 @@ extension JFNewsDetailViewController: JFNewsBottomBarDelegate, JFCommentCommitVi
         JFNetworkTool.shareNetworkTool.get(SUBMIT_COMMENT, parameters: parameters) { (success, result, error) in
             if success {
                 // 加载数据
-                self.loadCommentList(self.articleParam!.classid, id: self.articleParam!.id)
+                self.loadCommentList(Int(self.articleParam!.classid)!, id: Int(self.articleParam!.id)!)
             }
         }
     }
@@ -698,14 +698,12 @@ extension JFNewsDetailViewController: UIWebViewDelegate {
                     }, transform: { (image, url) -> UIImage? in
                         return image
                     }, completion: { (image, url, type, stage, error) in
-                        dispatch_sync(dispatch_get_main_queue(), {
-                            // 确保已经下载完成并没有出错 - 这样做其实已经修改了YYWebImage的磁盘缓存策略。默认YYWebImage缓存文件时超过20kb的文件才会存储为文件，所以需要在 YYDiskCache.m的171行修改
-                            guard let _ = image where error == nil else {return}
-                            let imagePath = JFArticleStorage.getFilePathForKey(imageString)
-                            // 发送图片占位标识和本地绝对路径给webView
-                            self.bridge?.send("replaceimage\(imageString)~\(imagePath)")
-                            print("图片缓存完成，发送给js \(imagePath)")
-                        })
+                        // 确保已经下载完成并没有出错 - 这样做其实已经修改了YYWebImage的磁盘缓存策略。默认YYWebImage缓存文件时超过20kb的文件才会存储为文件，所以需要在 YYDiskCache.m的171行修改
+                        guard let _ = image where error == nil else {return}
+                        let imagePath = JFArticleStorage.getFilePathForKey(imageString)
+                        // 发送图片占位标识和本地绝对路径给webView
+                        self.bridge?.send("replaceimage\(imageString)~\(imagePath)")
+                        print("图片缓存完成，发送给js \(imagePath)")
                 })
             }
             
@@ -795,44 +793,13 @@ extension JFNewsDetailViewController: JFCommentCellDelegate {
     /**
      加载评论信息 - 只加载最新的10条
      */
-    func loadCommentList(classid: String, id: String) {
+    func loadCommentList(classid: Int, id: Int) {
         
-        let parameters = [
-            "classid" : classid,
-            "id" : id,
-            "pageIndex" : 1,
-            "pageSize" : 10,
-            ]
-        
-        JFNetworkTool.shareNetworkTool.get(GET_COMMENT, parameters: parameters as? [String : AnyObject]) { (success, result, error) -> () in
+        JFCommentModel.loadCommentList(classid, id: id, pageIndex: 1, pageSize: 10) { (commentModels, error) in
             
-            guard let successResult = result where success == true else {return}
-            //            print(successResult)
+            guard let models = commentModels where error == nil else {return}
             
-            let data = successResult["data"].arrayValue
-            if data.count == 0 && self.commentList.count == 0 {
-                return
-            }
-            
-            self.commentList.removeAll()
-            for comment in data.reverse() {
-                let dict = [
-                    "plstep" : comment["plstep"].intValue,
-                    "plid" : comment["plid"].intValue,
-                    "plusername" : comment["plusername"].stringValue,
-                    "plnickname" : comment["plnickname"].stringValue,
-                    "id" : comment["id"].intValue,
-                    "classid" : comment["classid"].intValue,
-                    "saytext" : comment["saytext"].stringValue,
-                    "saytime" : comment["saytime"].stringValue,
-                    "userpic" : comment["userpic"].stringValue,
-                    "zcnum" : comment["zcnum"].stringValue
-                ]
-                
-                let commentModel = JFCommentModel(dict: dict as! [String : AnyObject])
-                self.commentList.insert(commentModel, atIndex: 0)
-            }
-            
+            self.commentList = models
             self.tableView.reloadData()
         }
     }
