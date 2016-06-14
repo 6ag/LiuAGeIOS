@@ -13,7 +13,6 @@
 		B20149581D07DBFA00ACE583 /* JFSetFontView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20149561D07DBFA00ACE583 /* JFSetFontView.swift */; };
 		B20149591D07DBFA00ACE583 /* JFSetFontView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B20149571D07DBFA00ACE583 /* JFSetFontView.xib */; };
 		B2354A021D0BA84B0050AF13 /* JFNoHighlightedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B2354A011D0BA84A0050AF13 /* JFNoHighlightedButton.m */; };
-		B2354A101D0BD4080050AF13 /* loading.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B2354A0F1D0BD4080050AF13 /* loading.jpg */; };
 		B2526ACB1D0D43DD0024C84C /* JFSQLiteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2526ACA1D0D43DD0024C84C /* JFSQLiteManager.swift */; };
 		B2526ACD1D0D56FB0024C84C /* JFNewsDALManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2526ACC1D0D56FB0024C84C /* JFNewsDALManager.swift */; };
 		B264A36C1D016C0D00C72E13 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B264A2BF1D016C0D00C72E13 /* Assets.xcassets */; };
@@ -118,6 +117,8 @@
 		B2F9EC5C1D041A6B00FC7E48 /* JFProfileFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F9EC5B1D041A6B00FC7E48 /* JFProfileFooterView.swift */; };
 		B2F9EC631D0479F600FC7E48 /* JFSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F9EC621D0479F600FC7E48 /* JFSettingTableViewController.swift */; };
 		B2FA0E7F1D01C0A900EDBF53 /* JFNewsViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2FA0E7E1D01C0A900EDBF53 /* JFNewsViewController.storyboard */; };
+		B2FDC7DD1D0F901300025646 /* www in Resources */ = {isa = PBXBuildFile; fileRef = B2FDC7DC1D0F901300025646 /* www */; };
+		B2FDC7E11D0F941E00025646 /* WebViewJavascriptBridge.js in Resources */ = {isa = PBXBuildFile; fileRef = B2FDC7E01D0F941E00025646 /* WebViewJavascriptBridge.js */; };
 		B2FE1C331CB9F71F001CCF99 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2DD3F9A1CB7BDC20092C717 /* CFNetwork.framework */; };
 		B2FE1C341CB9F728001CCF99 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2DD3F9C1CB7BDCF0092C717 /* CoreFoundation.framework */; };
 		B2FE1C351CB9F733001CCF99 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2DD3F9E1CB7BDDB0092C717 /* CoreTelephony.framework */; };
@@ -128,10 +129,7 @@
 		B2FFCACE1CE48D0000ADC54C /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B2FFCACD1CE48D0000ADC54C /* libstdc++.tbd */; };
 		B2FFCACF1CE48DA800ADC54C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2FD9A011CB95F6C0005B8AF /* CoreGraphics.framework */; };
 		B2FFCAD11CE48ED600ADC54C /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2FFCAD01CE48ED600ADC54C /* ImageIO.framework */; };
-		B2FFDDDD1D06552D00C28DD1 /* HYQiHei-50J.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B2FFDDD91D06552D00C28DD1 /* HYQiHei-50J.ttf */; };
-		B2FFDDE01D06552D00C28DD1 /* WebViewJavascriptBridge.js in Resources */ = {isa = PBXBuildFile; fileRef = B2FFDDDC1D06552D00C28DD1 /* WebViewJavascriptBridge.js */; };
 		B2FFDDE41D06555D00C28DD1 /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FFDDE31D06555D00C28DD1 /* WebViewJavascriptBridge.m */; };
-		B2FFDDE61D065A8A00C28DD1 /* article.html in Resources */ = {isa = PBXBuildFile; fileRef = B2FFDDE51D065A8A00C28DD1 /* article.html */; };
 		B2FFDDEA1D06B82200C28DD1 /* JFNewsPhotoBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FFDDE91D06B82200C28DD1 /* JFNewsPhotoBrowserViewController.swift */; };
 		B2FFDDEC1D06B98000C28DD1 /* JFArticleImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FFDDEB1D06B98000C28DD1 /* JFArticleImageModel.swift */; };
 		DE47C2D2369AA9CF6893F251 /* Pods_LiuAGeIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98B70C3D9D0370EA79CFF7D7 /* Pods_LiuAGeIOS.framework */; };
@@ -184,7 +182,6 @@
 		B20149571D07DBFA00ACE583 /* JFSetFontView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JFSetFontView.xib; sourceTree = "<group>"; };
 		B2354A001D0BA84A0050AF13 /* JFNoHighlightedButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFNoHighlightedButton.h; sourceTree = "<group>"; };
 		B2354A011D0BA84A0050AF13 /* JFNoHighlightedButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFNoHighlightedButton.m; sourceTree = "<group>"; };
-		B2354A0F1D0BD4080050AF13 /* loading.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = loading.jpg; sourceTree = "<group>"; };
 		B2526ACA1D0D43DD0024C84C /* JFSQLiteManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFSQLiteManager.swift; sourceTree = "<group>"; };
 		B2526ACC1D0D56FB0024C84C /* JFNewsDALManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFNewsDALManager.swift; sourceTree = "<group>"; };
 		B264A2BF1D016C0D00C72E13 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -314,15 +311,14 @@
 		B2FD9A031CB95F760005B8AF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B2FD9A051CB95F7F0005B8AF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B2FD9A081CB95F900005B8AF /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		B2FDC7DC1D0F901300025646 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
+		B2FDC7E01D0F941E00025646 /* WebViewJavascriptBridge.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = WebViewJavascriptBridge.js; sourceTree = "<group>"; };
 		B2FFCAC91CE48CBF00ADC54C /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		B2FFCACB1CE48CDA00ADC54C /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
 		B2FFCACD1CE48D0000ADC54C /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		B2FFCAD01CE48ED600ADC54C /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
-		B2FFDDD91D06552D00C28DD1 /* HYQiHei-50J.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HYQiHei-50J.ttf"; sourceTree = "<group>"; };
-		B2FFDDDC1D06552D00C28DD1 /* WebViewJavascriptBridge.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = WebViewJavascriptBridge.js; sourceTree = "<group>"; };
 		B2FFDDE21D06555D00C28DD1 /* WebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge.h; sourceTree = "<group>"; };
 		B2FFDDE31D06555D00C28DD1 /* WebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridge.m; sourceTree = "<group>"; };
-		B2FFDDE51D065A8A00C28DD1 /* article.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = article.html; sourceTree = "<group>"; };
 		B2FFDDE91D06B82200C28DD1 /* JFNewsPhotoBrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFNewsPhotoBrowserViewController.swift; sourceTree = "<group>"; };
 		B2FFDDEB1D06B98000C28DD1 /* JFArticleImageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFArticleImageModel.swift; sourceTree = "<group>"; };
 		DF4DA7B147DBE031E1CC0FEC /* Pods-LiuAGeIOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LiuAGeIOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-LiuAGeIOS/Pods-LiuAGeIOS.release.xcconfig"; sourceTree = "<group>"; };
@@ -781,10 +777,7 @@
 		B264A3691D016C0D00C72E13 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				B2354A0F1D0BD4080050AF13 /* loading.jpg */,
-				B2FFDDD91D06552D00C28DD1 /* HYQiHei-50J.ttf */,
-				B2FFDDDC1D06552D00C28DD1 /* WebViewJavascriptBridge.js */,
-				B2FFDDE51D065A8A00C28DD1 /* article.html */,
+				B2FDC7DC1D0F901300025646 /* www */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -946,6 +939,7 @@
 		B2FFDDE11D06555D00C28DD1 /* WebViewJavascriptBridge */ = {
 			isa = PBXGroup;
 			children = (
+				B2FDC7E01D0F941E00025646 /* WebViewJavascriptBridge.js */,
 				B2FFDDE21D06555D00C28DD1 /* WebViewJavascriptBridge.h */,
 				B2FFDDE31D06555D00C28DD1 /* WebViewJavascriptBridge.m */,
 			);
@@ -1072,28 +1066,26 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B2354A101D0BD4080050AF13 /* loading.jpg in Resources */,
 				B20149591D07DBFA00ACE583 /* JFSetFontView.xib in Resources */,
 				B264A36C1D016C0D00C72E13 /* Assets.xcassets in Resources */,
 				B264A4151D018DC800C72E13 /* JFNewsBottomBar.xib in Resources */,
 				B264A3AE1D016C0D00C72E13 /* JFRegisterViewController.xib in Resources */,
 				B264A41C1D018DC800C72E13 /* JFNewsNoPicCell.xib in Resources */,
 				B264A3D51D016C0D00C72E13 /* LaunchScreen.strings in Resources */,
-				B2FFDDE01D06552D00C28DD1 /* WebViewJavascriptBridge.js in Resources */,
 				B264A3AC1D016C0D00C72E13 /* JFLoginViewController.xib in Resources */,
 				B264A4101D018DC800C72E13 /* JFCommentCell.xib in Resources */,
 				B264A3A21D016C0D00C72E13 /* JFForgotViewController.xib in Resources */,
 				B264A41E1D018DC800C72E13 /* JFNewsOnePicCell.xib in Resources */,
 				B264A3D41D016C0D00C72E13 /* Info.plist in Resources */,
 				B2FA0E7F1D01C0A900EDBF53 /* JFNewsViewController.storyboard in Resources */,
+				B2FDC7E11D0F941E00025646 /* WebViewJavascriptBridge.js in Resources */,
 				B264A3CE1D016C0D00C72E13 /* WeiboSDK.bundle in Resources */,
-				B2FFDDE61D065A8A00C28DD1 /* article.html in Resources */,
+				B2FDC7DD1D0F901300025646 /* www in Resources */,
 				B264A41A1D018DC800C72E13 /* JFStarAndShareCell.xib in Resources */,
 				B20149531D071CD100ACE583 /* JFDetailOtherCell.xib in Resources */,
 				B264A3D21D016C0D00C72E13 /* ShareSDK.bundle in Resources */,
 				B264A3C91D016C0D00C72E13 /* ShareSDKUI.bundle in Resources */,
 				B264A4201D018DC800C72E13 /* JFNewsThreePicCell.xib in Resources */,
-				B2FFDDDD1D06552D00C28DD1 /* HYQiHei-50J.ttf in Resources */,
 				B264A3BA1D016C0D00C72E13 /* JFProfileHeaderView.xib in Resources */,
 				B264A3CC1D016C0D00C72E13 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				B264A3D01D016C0D00C72E13 /* README.txt in Resources */,

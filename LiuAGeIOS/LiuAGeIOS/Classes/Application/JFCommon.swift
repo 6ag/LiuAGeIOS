@@ -60,22 +60,6 @@ func isPush() -> Bool {
 }
 
 /**
- 获取正文字体的字体文件名和类型名称
- 
- - returns: 返回字体文件路径和字体名称 比如 ("HYQiHei-50J.ttf", "汉仪旗黑")
- */
-func jf_getContentFont() -> (fontPath: String, fontName: String) {
-    
-    // 用一些数字来判断字体，默认0就是系统默认，1是汉仪旗黑。其他有需求，再加
-    let fontNumber = NSUserDefaults.standardUserDefaults().integerForKey(CONTENT_FONT_TYPE_KEY)
-    if fontNumber == 1 {
-        return (NSBundle.mainBundle().pathForResource("HYQiHei-50J.ttf", ofType: nil)!, "汉仪旗黑")
-    } else {
-        return ("", "")
-    }
-}
-
-/**
  给控件添加弹簧动画
  */
 func jf_setupButtonSpringAnimation(view: UIView) {

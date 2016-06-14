@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<meta name="viewport" content="width=device-width, initial-scale=1" />
+        <style type="text/css">
+        	@font-face {
+			    font-family: '汉仪旗黑';
+			    src: url('../HYQiHei-50J.ttf');
+			}
+			* {
+			    padding:0px;
+			    margin:0px;
+			}
+			#container {
+			    width: 92%;
+			    margin-left: 4%;
+			    margin-top: 10px
+			}
+			.title {
+			    text-align: left;
+			    font-size: 20px;
+			    color: #3c3c3c;
+			    font-weight: bold;
+			    margin-top: 5px;
+			}
+			.time {
+			    text-align: left;
+			    font-size: 13px;
+			    color: #BDBDBD;
+			    margin-top: 5px;
+			    margin-bottom: 10px
+			}
+			#content {
+			    color: #3c3c3c;
+			    letter-spacing: 1px;
+			}
+			#content p {
+			    margin: 0px 0px 15px 0px;
+			}
+			#content img {
+			    display: block;
+			    margin: 20px auto;
+			}
+        </style>
+        <script type="text/javascript">
+	        // 桥接对象
+	        var bridge
+
+	        function connectWebViewJavascriptBridge(callback) {
+		        if (window.WebViewJavascriptBridge) {
+		            callback(WebViewJavascriptBridge)
+		        } else {
+		            document.addEventListener('WebViewJavascriptBridgeReady', function () {
+		                                      callback(WebViewJavascriptBridge)
+		                                      }, false)
+		        }
+		    }
+
+		    connectWebViewJavascriptBridge(function (bridge) {
+                                   
+                                   self.bridge = bridge
+                                   
+                                   // 从iOS  bridge.send 方法过来的 就会调用到这个方法
+                                   bridge.init(function (message, responseCallback) {
+                                               
+                                               if (message.match("replaceimage")) {
+                                               
+                                                   var index = message.indexOf("~")
+                                                   // 截取占位标识
+                                                   var messagereplace = message.substring(0, index)
+                                                   // 截取到图片路径
+                                                   var messagepath = message.substring(index + 1)
+                                                   messagereplace = messagereplace.replace(/replaceimage/, "")
+                                               
+                                                   element = document.getElementById(messagereplace)
+                                               
+                                                   // 保证只替换一次
+                                                   if (element.src.match("loading")) {
+                                                        element.src = messagepath
+                                                   }
+                                               }
+                                               
+                                               })
+                                   
+                                   })
+
+
+	        
+	        // 图片点击事件
+	        function didTappedImage(index) {
+	            bridge.send(index)
+	        }
+
+        	// 设置字体
+        	function setFontName(name) {
+				var content = document.getElementById('content');
+				content.style.fontFamily = name;
+			}
+
+        	// 设置字体大小
+        	function setFontSize(size) {
+				var content = document.getElementById('content');
+				content.style.fontSize = size + "px";
+			}
+
+			// 获取整个界面的html代码
+			function getHtml() {
+			    return document.documentElement.outerHTML
+			}
+
+			// 获取网页高度
+			function getHtmlHeight() {
+			    return document.body.scrollHeight
+			}
+
+        </script>
+    </head>
+    
+    <body id="container">
+        <p>mainnews</p>
+    </body>
+</html>

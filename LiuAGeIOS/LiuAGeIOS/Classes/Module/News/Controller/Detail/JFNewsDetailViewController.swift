@@ -22,13 +22,7 @@ class JFNewsDetailViewController: UIViewController {
     /// 详情页面模型
     var model: JFArticleDetailModel? {
         didSet {
-            if isLoaded {
-                // 获取当前显示的整个html代码
-                let html = getArticleHtml()
-                let templatePath = NSBundle.mainBundle().pathForResource("article", ofType: "html")!
-                let baseURL = NSURL(fileURLWithPath: templatePath)
-                webView.loadHTMLString(html, baseURL: baseURL)
-            } else {
+            if !isLoaded {
                 // 没有加载过，才去初始化webView - 保证只初始化一次
                 loadWebViewContent(model!)
             }
@@ -552,11 +546,17 @@ extension JFNewsDetailViewController: JFNewsBottomBarDelegate, JFCommentCommitVi
 extension JFNewsDetailViewController: JFSetFontViewDelegate {
     
     /**
-     获取文章html代码
+     自动布局webView
      */
-    func getArticleHtml() -> String {
-        let html = webView.stringByEvaluatingJavaScriptFromString("getHtml();")!
-        return (html as NSString).stringByReplacingOccurrencesOfString("<iframe src=\"wvjbscheme://__WVJB_QUEUE_MESSAGE__\" style=\"display: none;\"></iframe>", withString: "")
+    func autolayoutWebView() {
+        
+        let result = webView.stringByEvaluatingJavaScriptFromString("getHtmlHeight();")
+        
+        if let height = result {
+            webView.frame = CGRectMake(0, 0, SCREEN_WIDTH, CGFloat((height as NSString).floatValue))
+            tableView.tableHeaderView = webView
+            self.activityView.stopAnimating()
+        }
     }
     
     /**
@@ -564,14 +564,9 @@ extension JFNewsDetailViewController: JFSetFontViewDelegate {
      */
     func didChangeFontSize(fontSize: Int) {
         
-        // 获取整个html代码
-        var html = getArticleHtml()
-        html = (html as NSString).stringByReplacingOccurrencesOfString(".content {font-size: \(NSUserDefaults.standardUserDefaults().integerForKey(CONTENT_FONT_SIZE_KEY))px;", withString: ".content {font-size: \(fontSize)px;")
-        let templatePath = NSBundle.mainBundle().pathForResource("article", ofType: "html")!
-        let baseURL = NSURL(fileURLWithPath: templatePath)
-        webView.loadHTMLString(html, baseURL: baseURL)
-        
+        webView.stringByEvaluatingJavaScriptFromString("setFontSize(\"\(fontSize)\");")
         NSUserDefaults.standardUserDefaults().setInteger(fontSize, forKey: CONTENT_FONT_SIZE_KEY)
+        autolayoutWebView()
     }
     
     /**
@@ -581,18 +576,11 @@ extension JFNewsDetailViewController: JFSetFontViewDelegate {
      - parameter fontPath:   字体路径
      - parameter fontName:   字体名称
      */
-    func didChangedFont(fontNumber: Int, fontPath: String, fontName: String) {
+    func didChangedFontName(fontName: String) {
         
-        // 获取整个html代码
-        var html = getArticleHtml()
-        html = (html as NSString).stringByReplacingOccurrencesOfString("font-family: '\(jf_getContentFont().fontName)';", withString: "font-family: '\(fontName)';")
-        html = (html as NSString).stringByReplacingOccurrencesOfString("src: url('\(jf_getContentFont().fontPath)');", withString: "src: url('\(fontPath)');")
-        
-        let templatePath = NSBundle.mainBundle().pathForResource("article", ofType: "html")!
-        let baseURL = NSURL(fileURLWithPath: templatePath)
-        webView.loadHTMLString(html, baseURL: baseURL)
-        
-        NSUserDefaults.standardUserDefaults().setInteger(fontNumber, forKey: CONTENT_FONT_TYPE_KEY)
+        webView.stringByEvaluatingJavaScriptFromString("setFontName(\"\(fontName)\");")
+        NSUserDefaults.standardUserDefaults().setObject(fontName, forKey: CONTENT_FONT_TYPE_KEY)
+        autolayoutWebView()
     }
     
     /**
@@ -616,13 +604,10 @@ extension JFNewsDetailViewController: UIWebViewDelegate {
      */
     func webViewDidFinishLoad(webView: UIWebView) {
         
-        let result = webView.stringByEvaluatingJavaScriptFromString("getHtmlHeight();")
+        autolayoutWebView()
         
-        if let height = result {
-            webView.frame = CGRectMake(0, 0, SCREEN_WIDTH, CGFloat((height as NSString).floatValue))
-            tableView.tableHeaderView = webView
-            self.activityView.stopAnimating()
-        }
+        // 加载图片 - 从缓存中获取图片的本地绝对路径，发送给webView显示
+        self.getImageFromDownloaderOrDiskByImageUrlArray(self.model!.allphoto!)
     }
     
     /**
@@ -634,20 +619,8 @@ extension JFNewsDetailViewController: UIWebViewDelegate {
         
         // 如果不熟悉网页，可以换成GRMutache模板更配哦
         var html = ""
-        let css = "<style type=\"text/css\">" +
-            "@font-face {" +
-            "font-family: '\(jf_getContentFont().fontName)';" +
-            "src: url('\(jf_getContentFont().fontPath)');" +
-            "}" +
-            ".content {" +
-            "font-size: \(NSUserDefaults.standardUserDefaults().integerForKey(CONTENT_FONT_SIZE_KEY))px;" +
-            "font-family: '\(jf_getContentFont().fontName)';" +
-            "}" +
-        "</style>"
-        
-        html.appendContentsOf(css)
-        html.appendContentsOf("<div class=\"title\">\(model.title!)</div>")
-        html.appendContentsOf("<div class=\"time\">\(model.befrom!)&nbsp;&nbsp;&nbsp;&nbsp;\(model.newstime!.timeStampToString())</div>")
+        html += "<div class=\"title\">\(model.title!)</div>"
+        html += "<div class=\"time\">\(model.befrom!)&nbsp;&nbsp;&nbsp;&nbsp;\(model.newstime!.timeStampToString())</div>"
         
         // 临时正文 - 这样做的目的是不修改模型
         var tempNewstext = model.newstext!
@@ -678,21 +651,22 @@ extension JFNewsDetailViewController: UIWebViewDelegate {
                 }
                 
                 // 加载中的占位图
-                let loading = NSBundle.mainBundle().pathForResource("loading", ofType: "jpg")!
+                let loading = NSBundle.mainBundle().pathForResource("www/images/loading.jpg", ofType: nil)!
                 
                 // img标签
                 let imgTag = "<img onclick='didTappedImage(\(index));' src='\(loading)' id='\(dict["url"] as! String)' width='\(width)' height='\(height)' />"
                 tempNewstext = (tempNewstext as NSString).stringByReplacingOccurrencesOfString(dict["ref"] as! String, withString: imgTag, options: NSStringCompareOptions.CaseInsensitiveSearch, range: range)
             }
             
-            // 加载图片 - 从缓存中获取图片的本地绝对路径，发送给webView显示
-            getImageFromDownloaderOrDiskByImageUrlArray(model.allphoto!)
         }
         
-        html.appendContentsOf("<div class=\"content\">\(tempNewstext)</div>")
+        let fontSize = NSUserDefaults.standardUserDefaults().integerForKey(CONTENT_FONT_SIZE_KEY)
+        let fontName = NSUserDefaults.standardUserDefaults().stringForKey(CONTENT_FONT_TYPE_KEY)!
+        
+        html += "<div id=\"content\" style=\"font-size: \(fontSize)px; font-family: '\(fontName)';\">\(tempNewstext)</div>"
         
         // 从本地加载网页模板，替换新闻主页
-        let templatePath = NSBundle.mainBundle().pathForResource("article", ofType: "html")!
+        let templatePath = NSBundle.mainBundle().pathForResource("www/html/article.html", ofType: nil)!
         let template = (try! String(contentsOfFile: templatePath, encoding: NSUTF8StringEncoding)) as NSString
         html = template.stringByReplacingOccurrencesOfString("<p>mainnews</p>", withString: html, options: NSStringCompareOptions.CaseInsensitiveSearch, range: template.rangeOfString("<p>mainnews</p>"))
         let baseURL = NSURL(fileURLWithPath: templatePath)
@@ -700,7 +674,6 @@ extension JFNewsDetailViewController: UIWebViewDelegate {
         
         // 已经加载过就修改标记
         isLoaded = true
-        
     }
     
     /**
@@ -719,7 +692,7 @@ extension JFNewsDetailViewController: UIWebViewDelegate {
                 
                 let imagePath = JFArticleStorage.getFilePathForKey(imageString)
                 // 发送图片占位标识和本地绝对路径给webView
-                bridge?.send("replaceimage\(imageString),\(imagePath)")
+                bridge?.send("replaceimage\(imageString)~\(imagePath)")
                 // print("图片已有缓存，发送给js \(imagePath)")
             } else {
                 YYWebImageManager(cache: JFArticleStorage.getArticleImageCache(), queue: NSOperationQueue()).requestImageWithURL(NSURL(string: imageString)!, options: YYWebImageOptions.UseNSURLCache, progress: { (_, _) in
@@ -731,7 +704,7 @@ extension JFNewsDetailViewController: UIWebViewDelegate {
                             guard let _ = image where error == nil else {return}
                             let imagePath = JFArticleStorage.getFilePathForKey(imageString)
                             // 发送图片占位标识和本地绝对路径给webView
-                            self.bridge?.send("replaceimage\(imageString),\(imagePath)")
+                            self.bridge?.send("replaceimage\(imageString)~\(imagePath)")
                             // print("图片缓存完成，发送给js \(imagePath)")
                         })
                 })

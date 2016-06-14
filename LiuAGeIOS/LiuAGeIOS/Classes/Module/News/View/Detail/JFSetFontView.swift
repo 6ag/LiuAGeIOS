@@ -10,7 +10,7 @@ import UIKit
 
 protocol JFSetFontViewDelegate: NSObjectProtocol {
     func didChangeFontSize(fontSize: Int)
-    func didChangedFont(fontNumber: Int, fontPath: String, fontName: String)
+    func didChangedFontName(fontName: String)
     func didChangedNightMode(on: Bool)
 }
 
@@ -32,8 +32,11 @@ class JFSetFontView: UIView {
         // 夜间模式
         nightModeSwitch.on = isNight()
         
-        // 字体
-        fontSegment.selectedSegmentIndex = NSUserDefaults.standardUserDefaults().integerForKey(CONTENT_FONT_TYPE_KEY)
+        if NSUserDefaults.standardUserDefaults().stringForKey(CONTENT_FONT_TYPE_KEY) == "" {
+            fontSegment.selectedSegmentIndex = 0
+        } else {
+            fontSegment.selectedSegmentIndex = 1
+        }
         
         // 字体大小
         let fontSize = NSUserDefaults.standardUserDefaults().integerForKey(CONTENT_FONT_SIZE_KEY)
@@ -55,10 +58,10 @@ class JFSetFontView: UIView {
      */
     @IBAction func didChangedFontSegment(sender: UISegmentedControl) {
         
-        if sender.selectedSegmentIndex == 1 {
-            delegate?.didChangedFont(sender.selectedSegmentIndex, fontPath: NSBundle.mainBundle().pathForResource("HYQiHei-50J.ttf", ofType: nil)!, fontName: "汉仪旗黑")
+        if sender.selectedSegmentIndex == 0 {
+            delegate?.didChangedFontName("")
         } else {
-            delegate?.didChangedFont(sender.selectedSegmentIndex, fontPath: "", fontName: "")
+            delegate?.didChangedFontName("汉仪旗黑")
         }
     }
     
