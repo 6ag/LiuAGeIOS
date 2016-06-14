@@ -70,7 +70,7 @@ class JFLoginViewController: UIViewController, JFRegisterViewControllerDelegate 
                 "username" : self.usernameField.text!,
                 "password" : self.passwordField.text!
             ]
-            
+
             // 发送登录请求
             JFNetworkTool.shareNetworkTool.post(LOGIN, parameters: parameters) { (success, result, error) in
                 print(result)
@@ -81,7 +81,7 @@ class JFLoginViewController: UIViewController, JFRegisterViewControllerDelegate 
                     
                     if let successResult = result {
                        let account = JFAccountModel(dict: successResult["data"].dictionaryObject!)
-                        // 更新用户信息
+                        // 更新用户本地数据
                         account.updateUserInfo()
                         self.didTappedBackButton()
                     }

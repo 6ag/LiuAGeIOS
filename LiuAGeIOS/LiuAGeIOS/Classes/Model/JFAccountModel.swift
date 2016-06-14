@@ -12,68 +12,47 @@ class JFAccountModel: NSObject, NSCoding {
     
     /// 令牌
     var token: String?
-    
+
     /// 用户id
     var id: Int = 0
-    
+
     /// 用户名
     var username: String?
-    
+
+    /// 昵称
+    var nickname: String?
+
     /// 注册时间
     var registerTime: String?
-    
+
     /// 邮箱
     var email: String?
-    
+
     /// 头像路径
     var avatarUrl: String?
-    
-    /// 用户组id
-    var groupId: String?
-    
+
     /// 用户组
     var groupName: String?
-    
+
     /// 积分
     var points: String?
-    
-    /// 签到时间
-    var checkingTime: String?
-    
-    /// 签到日期
-    var checkingDate: String?
-    
-    /// 签到月份
-    var checkingMoth: String?
-    
-    /// 签到天数
-    var CheckingToday: String?
-    
+
     /// 个性签名
     var saytext: String?
-    
+
     /// 电话号码
     var phone: String?
     
     /// qq号码
     var qq: String?
-    
-    /// 昵称
-    var nickname: String?
-    
+
     // KVC 字典转模型
     init(dict: [String: AnyObject]) {
         super.init()
-        // 将字典里面的每一个key的值赋值给对应的模型属性
         setValuesForKeysWithDictionary(dict)
     }
-    
-    /**
-     是否已经登录
-     */
-    class func isLogin() -> Bool {
-        return JFAccountModel.shareAccount() != nil
-    }
+
+    override func setValue(value: AnyObject?, forUndefinedKey key: String) {}
     
     /**
      每次打开app就检查一次用户是否有效
@@ -108,12 +87,14 @@ class JFAccountModel: NSObject, NSCoding {
     }
     
     /**
-     防止kvc崩溃
+     是否已经登录
      */
-    override func setValue(value: AnyObject?, forUndefinedKey key: String) {}
+    class func isLogin() -> Bool {
+        return JFAccountModel.shareAccount() != nil
+    }
     
     /**
-     注销
+     注销清理
      */
     class func logout() {
         ShareSDK.cancelAuthorize(SSDKPlatformType.TypeQQ)
@@ -129,7 +110,7 @@ class JFAccountModel: NSObject, NSCoding {
     }
     
     /**
-     登录
+     登录保存
      */
     func updateUserInfo() {
         // 保存到内存中
@@ -138,26 +119,29 @@ class JFAccountModel: NSObject, NSCoding {
         saveAccount()
     }
     
-    /// 归档账号的路径
-    static let accountPath = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).last! + "/Account.plist"
-    
     // MARK: - 保存对象
     func saveAccount() {
         NSKeyedArchiver.archiveRootObject(self, toFile: JFAccountModel.accountPath)
     }
     
-    // 保存到内存中
+    // 持久保存到内存中
     private static var userAccount: JFAccountModel?
     
+    /// 归档账号的路径
+    static let accountPath = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).last! + "/Account.plist"
+    
+    /**
+     获取用户对象 （这可不是单例哦，只是对象静态化了，保证在内存中不释放）
+     */
     static func shareAccount() -> JFAccountModel? {
         if userAccount == nil {
             userAccount = NSKeyedUnarchiver.unarchiveObjectWithFile(accountPath) as? JFAccountModel
         }
         if userAccount == nil {
-            // 说明没有登录
+            // 没有则说明没有登录
             return nil
         } else {
-            // 这里还需要验证账号是否有效
+            // 有则说明已经登录
             return userAccount
         }
     }
@@ -170,19 +154,14 @@ class JFAccountModel: NSObject, NSCoding {
         aCoder.encodeObject(registerTime, forKey: "registerTime")
         aCoder.encodeObject(email, forKey: "email")
         aCoder.encodeObject(avatarUrl, forKey: "avatarUrl")
-        aCoder.encodeObject(groupId, forKey: "groupId")
         aCoder.encodeObject(groupName, forKey: "groupName")
         aCoder.encodeObject(points, forKey: "points")
-        aCoder.encodeObject(checkingTime, forKey: "checkingTime")
-        aCoder.encodeObject(checkingDate, forKey: "checkingDate")
-        aCoder.encodeObject(checkingMoth, forKey: "checkingMoth")
-        aCoder.encodeObject(CheckingToday, forKey: "CheckingToday")
         aCoder.encodeObject(saytext, forKey: "saytext")
         aCoder.encodeObject(phone, forKey: "phone")
         aCoder.encodeObject(qq, forKey: "qq")
         aCoder.encodeObject(nickname, forKey: "nickname")
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         token = aDecoder.decodeObjectForKey("token") as? String
         id = Int(aDecoder.decodeIntForKey("id"))
@@ -190,13 +169,8 @@ class JFAccountModel: NSObject, NSCoding {
         registerTime = aDecoder.decodeObjectForKey("registerTime") as? String
         email = aDecoder.decodeObjectForKey("email") as? String
         avatarUrl = aDecoder.decodeObjectForKey("avatarUrl") as? String
-        groupId = aDecoder.decodeObjectForKey("groupId") as? String
         groupName = aDecoder.decodeObjectForKey("groupName") as? String
         points = aDecoder.decodeObjectForKey("points") as? String
-        checkingTime = aDecoder.decodeObjectForKey("checkingTime") as? String
-        checkingDate = aDecoder.decodeObjectForKey("checkingDate") as? String
-        checkingMoth = aDecoder.decodeObjectForKey("checkingMoth") as? String
-        CheckingToday = aDecoder.decodeObjectForKey("CheckingToday") as? String
         saytext = aDecoder.decodeObjectForKey("saytext") as? String
         phone = aDecoder.decodeObjectForKey("phone") as? String
         qq = aDecoder.decodeObjectForKey("qq") as? String
