@@ -19,49 +19,8 @@ class JFNetworkTool: NSObject {
     static let shareNetworkTool = JFNetworkTool()
 }
 
-// MARK: - 各种网络请求
+// MARK: - 基础请求方法
 extension JFNetworkTool {
-    
-    /**
-     上传用户头像
-     
-     - parameter APIString:  api接口
-     - parameter image:      图片对象
-     - parameter parameters: 绑定参数
-     - parameter finished:   完成回调
-     */
-    func uploadUserAvatar(APIString: String, imagePath: NSURL, parameters: [String : AnyObject]?, finished: NetworkFinished) {
-        
-        var urlString = ""
-        if APIString.hasPrefix("http") {
-            urlString = APIString
-        } else {
-            urlString = "\(API_URL)\(APIString)"
-        }
-        
-        Alamofire.upload(.POST, urlString, multipartFormData: { multipartFormData in
-            
-            for (key, value) in parameters! {
-                assert(value is String, "参数必须能够转换为NSData的类型，比如String")
-                multipartFormData.appendBodyPart(data: value.dataUsingEncoding(NSUTF8StringEncoding)!, name: key)
-            }
-            multipartFormData.appendBodyPart(fileURL: imagePath, name: "file")
-            
-            },encodingCompletion: { encodingResult in
-                switch encodingResult {
-                case .Success(let upload, _, _):
-                    upload.responseJSON { response in
-                        debugPrint(response)
-                        finished(success: true, result: nil, error: nil)
-                    }
-                case .Failure(let encodingError):
-                    print(encodingError)
-                    finished(success: false, result: nil, error: nil)
-                }
-            }
-        )
-        
-    }
     
     /**
      GET请求
@@ -124,6 +83,51 @@ extension JFNetworkTool {
                 finished(success: false, result: nil, error: response.result.error)
             }
         }
+    }
+}
+
+// MARK: - 各种网络请求
+extension JFNetworkTool {
+    
+    /**
+     上传用户头像
+     
+     - parameter APIString:  api接口
+     - parameter image:      图片对象
+     - parameter parameters: 绑定参数
+     - parameter finished:   完成回调
+     */
+    func uploadUserAvatar(APIString: String, imagePath: NSURL, parameters: [String : AnyObject]?, finished: NetworkFinished) {
+        
+        var urlString = ""
+        if APIString.hasPrefix("http") {
+            urlString = APIString
+        } else {
+            urlString = "\(API_URL)\(APIString)"
+        }
+        
+        Alamofire.upload(.POST, urlString, multipartFormData: { multipartFormData in
+            
+            for (key, value) in parameters! {
+                multipartFormData.appendBodyPart(data: value.dataUsingEncoding(NSUTF8StringEncoding)!, name: key)
+            }
+            // 文件流方式上传图片 - 后端根据tempName进行操作上传文件
+            multipartFormData.appendBodyPart(fileURL: imagePath, name: "file")
+            
+            },encodingCompletion: { encodingResult in
+                switch encodingResult {
+                case .Success(let upload, _, _):
+                    upload.responseJSON { response in
+                        debugPrint(response)
+                        finished(success: true, result: nil, error: nil)
+                    }
+                case .Failure(let encodingError):
+                    print(encodingError)
+                    finished(success: false, result: nil, error: nil)
+                }
+            }
+        )
+        
     }
     
     /**
