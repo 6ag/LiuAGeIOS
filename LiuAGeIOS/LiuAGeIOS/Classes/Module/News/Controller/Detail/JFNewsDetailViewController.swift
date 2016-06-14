@@ -605,9 +605,6 @@ extension JFNewsDetailViewController: UIWebViewDelegate {
     func webViewDidFinishLoad(webView: UIWebView) {
         
         autolayoutWebView()
-        
-        // 加载图片 - 从缓存中获取图片的本地绝对路径，发送给webView显示
-        self.getImageFromDownloaderOrDiskByImageUrlArray(self.model!.allphoto!)
     }
     
     /**
@@ -658,6 +655,8 @@ extension JFNewsDetailViewController: UIWebViewDelegate {
                 tempNewstext = (tempNewstext as NSString).stringByReplacingOccurrencesOfString(dict["ref"] as! String, withString: imgTag, options: NSStringCompareOptions.CaseInsensitiveSearch, range: range)
             }
             
+            // 加载图片 - 从缓存中获取图片的本地绝对路径，发送给webView显示
+            getImageFromDownloaderOrDiskByImageUrlArray(model.allphoto!)
         }
         
         let fontSize = NSUserDefaults.standardUserDefaults().integerForKey(CONTENT_FONT_SIZE_KEY)
@@ -693,7 +692,7 @@ extension JFNewsDetailViewController: UIWebViewDelegate {
                 let imagePath = JFArticleStorage.getFilePathForKey(imageString)
                 // 发送图片占位标识和本地绝对路径给webView
                 bridge?.send("replaceimage\(imageString)~\(imagePath)")
-                // print("图片已有缓存，发送给js \(imagePath)")
+                print("图片已有缓存，发送给js \(imagePath)")
             } else {
                 YYWebImageManager(cache: JFArticleStorage.getArticleImageCache(), queue: NSOperationQueue()).requestImageWithURL(NSURL(string: imageString)!, options: YYWebImageOptions.UseNSURLCache, progress: { (_, _) in
                     }, transform: { (image, url) -> UIImage? in
@@ -705,7 +704,7 @@ extension JFNewsDetailViewController: UIWebViewDelegate {
                             let imagePath = JFArticleStorage.getFilePathForKey(imageString)
                             // 发送图片占位标识和本地绝对路径给webView
                             self.bridge?.send("replaceimage\(imageString)~\(imagePath)")
-                            // print("图片缓存完成，发送给js \(imagePath)")
+                            print("图片缓存完成，发送给js \(imagePath)")
                         })
                 })
             }

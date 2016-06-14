@@ -36,6 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if NSUserDefaults.standardUserDefaults().integerForKey(CONTENT_FONT_SIZE_KEY) == 0 {
             // 字体  16小   18中   20大   22超大  24巨大   26极大  共6个等级，可以用枚举列举使用
             NSUserDefaults.standardUserDefaults().setInteger(18, forKey: CONTENT_FONT_SIZE_KEY)
+            NSUserDefaults.standardUserDefaults().setObject("", forKey: CONTENT_FONT_TYPE_KEY)
         }
         
         // 验证缓存的账号是否有效
