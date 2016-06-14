@@ -65,9 +65,9 @@ extension JFNewsDALManager {
         JFSQLiteManager.shareManager.dbQueue.inDatabase { (db) in
             
             if db.executeStatements(sql) {
-                //                print("清空表成功 classid = \(classid)")
+                // print("清空表成功 classid = \(classid)")
             } else {
-                //                print("清空表失败 classid = \(classid)")
+                // print("清空表失败 classid = \(classid)")
             }
         }
     }
@@ -88,7 +88,7 @@ extension JFNewsDALManager {
             // 本地有数据直接返回
             if success == true {
                 finished(result: result, error: nil)
-                //                print("加载了本地数据 \(result)")
+                print("加载了本地数据 \(result)")
                 return
             }
             
@@ -103,7 +103,7 @@ extension JFNewsDALManager {
                 // 缓存数据到本地
                 self.saveNewsListData(classid, data: result!, type: type)
                 finished(result: result, error: nil)
-                //                print("加载了远程数据 \(result)")
+                print("加载了远程数据 \(result)")
             }
         }
         
