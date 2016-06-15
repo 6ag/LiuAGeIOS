@@ -608,6 +608,17 @@ extension JFNewsDetailViewController: UIWebViewDelegate {
     }
     
     /**
+     过滤html，有需要过滤的直接写到这个方法
+     
+     - parameter string: 过滤前的html
+     
+     - returns: 过滤后的html
+     */
+    func filterHTML(string: String) -> String {
+        return (string as NSString).stringByReplacingOccurrencesOfString("<p>&nbsp;</p>", withString: "")
+    }
+    
+    /**
      加载webView内容
      
      - parameter model: 新闻模型
@@ -669,7 +680,7 @@ extension JFNewsDetailViewController: UIWebViewDelegate {
         let template = (try! String(contentsOfFile: templatePath, encoding: NSUTF8StringEncoding)) as NSString
         html = template.stringByReplacingOccurrencesOfString("<p>mainnews</p>", withString: html, options: NSStringCompareOptions.CaseInsensitiveSearch, range: template.rangeOfString("<p>mainnews</p>"))
         let baseURL = NSURL(fileURLWithPath: templatePath)
-        webView.loadHTMLString(html, baseURL: baseURL)
+        webView.loadHTMLString(filterHTML(html), baseURL: baseURL)
         
         // 已经加载过就修改标记
         isLoaded = true
