@@ -11,6 +11,7 @@
 #import "MJRefreshConst.h"
 #import "UIView+MJExtension.h"
 #import "UIScrollView+MJRefresh.h"
+#import "NSBundle+MJRefresh.h"
 
 @interface MJRefreshComponent()
 @property (strong, nonatomic) UIPanGestureRecognizer *pan;
@@ -140,26 +141,26 @@
 - (NSString *)localizedStringForKey:(NSString *)key withDefault:(NSString *)defaultString
 {
     static NSBundle *bundle = nil;
-    if (bundle == nil)
-    {
-        NSString *bundlePath = [[NSBundle mainBundle] pathForResource:@"MJRefresh" ofType:@"bundle"];
-        
-        bundle = [NSBundle bundleWithPath:bundlePath];
-        NSString *language = [[NSLocale preferredLanguages] count]? [NSLocale preferredLanguages][0]: @"en";
+    if (bundle == nil) {
+        // 获得设备的语言
+        NSString *language = [NSLocale preferredLanguages].firstObject;
+        // 如果是iOS9以上，截取前面的语言标识
         if ([UIDevice currentDevice].systemVersion.floatValue >= 9.0) {
             NSRange range = [language rangeOfString:@"-" options:NSBackwardsSearch];
-            language = [language substringToIndex:range.location];
+            if (range.location != NSNotFound) {
+                language = [language substringToIndex:range.location];
+            }
         }
-        if (![[bundle localizations] containsObject:language])
-        {
-            language = [language componentsSeparatedByString:@"-"][0];
+        
+        if (language.length == 0) {
+            language = @"zh-Hans";
         }
-        if ([[bundle localizations] containsObject:language])
-        {
-            bundlePath = [bundle pathForResource:language ofType:@"lproj"];
+        
+        // 先从MJRefresh.bundle中查找资源
+        NSBundle *refreshBundle = [NSBundle mj_refreshBundle];
+        if ([refreshBundle.localizations containsObject:language]) {
+            bundle = [NSBundle bundleWithPath:[refreshBundle pathForResource:language ofType:@"lproj"]];
         }
-
-        bundle = [NSBundle bundleWithPath:bundlePath] ?: [NSBundle mainBundle];
     }
     defaultString = [bundle localizedStringForKey:key value:defaultString table:nil];
     return [[NSBundle mainBundle] localizedStringForKey:key value:defaultString table:nil];
@@ -169,7 +170,9 @@
 {
     _state = state;
     
-    [self setNeedsLayout];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self setNeedsLayout];
+    });
 }
 
 #pragma mark 进入刷新状态

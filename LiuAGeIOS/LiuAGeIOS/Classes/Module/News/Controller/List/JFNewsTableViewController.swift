@@ -179,6 +179,11 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
                 return
             }
             
+            if list.count == 0 {
+                self.tableView.mj_footer.endRefreshingWithNoMoreData()
+                return
+            }
+            
             // id越大，文章越新
             let maxId = self.articleList.first?.id ?? "0"
             let minId = self.articleList.last?.id ?? "0"

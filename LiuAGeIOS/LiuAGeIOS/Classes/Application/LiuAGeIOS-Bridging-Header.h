@@ -16,6 +16,5 @@
 #import "WXApi.h"
 
 #import "WebViewJavascriptBridge.h"
-
 #import "JFNoHighlightedButton.h"
-
+#import "JFObjcTool.h"

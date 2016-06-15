@@ -8,7 +8,6 @@
 
 import UIKit
 import YYWebImage
-import CryptoSwift
 
 class JFArticleStorage: NSObject {
     
@@ -20,10 +19,7 @@ class JFArticleStorage: NSObject {
      - returns: 返回文件的路径
      */
     class func getFilePathForKey(key: String) -> String {
-        
-        // 文件名是key的md5
-        let fileName = key.md5()
-        return "\(YYImageCache.sharedCache().diskCache.path)/data/\(fileName)"
+        return "\(getArticleImageCache().diskCache.path)/data/\(JFObjcTool.jf_md5(key))"
     }
     
     /**

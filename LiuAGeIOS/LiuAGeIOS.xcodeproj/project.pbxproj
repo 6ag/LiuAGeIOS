@@ -110,6 +110,7 @@
 		B2C866041D051C1900A5B1FD /* JFPopoverModalAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C866011D051C1900A5B1FD /* JFPopoverModalAnimation.swift */; };
 		B2C866051D051C1900A5B1FD /* JFPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C866021D051C1900A5B1FD /* JFPresentationController.swift */; };
 		B2CB2D1C1D0EB030002C73A5 /* JFScanWeixinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CB2D1B1D0EB030002C73A5 /* JFScanWeixinViewController.swift */; };
+		B2CC1BD51D10FA7700B48048 /* JFObjcTool.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CC1BD41D10FA7700B48048 /* JFObjcTool.m */; };
 		B2DD3FA31CB7BDF60092C717 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B2DD3FA21CB7BDF60092C717 /* libz.tbd */; };
 		B2EBCE3F1D0960F300A09BA2 /* JFFPSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2EBCE3E1D0960F300A09BA2 /* JFFPSLabel.swift */; };
 		B2F9EC561D03CBC800FC7E48 /* JFNewFeatureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F9EC551D03CBC800FC7E48 /* JFNewFeatureCell.swift */; };
@@ -295,6 +296,8 @@
 		B2C866011D051C1900A5B1FD /* JFPopoverModalAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFPopoverModalAnimation.swift; sourceTree = "<group>"; };
 		B2C866021D051C1900A5B1FD /* JFPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFPresentationController.swift; sourceTree = "<group>"; };
 		B2CB2D1B1D0EB030002C73A5 /* JFScanWeixinViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFScanWeixinViewController.swift; sourceTree = "<group>"; };
+		B2CC1BD31D10FA7700B48048 /* JFObjcTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFObjcTool.h; sourceTree = "<group>"; };
+		B2CC1BD41D10FA7700B48048 /* JFObjcTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFObjcTool.m; sourceTree = "<group>"; };
 		B2DD3F9A1CB7BDC20092C717 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		B2DD3F9C1CB7BDCF0092C717 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		B2DD3F9E1CB7BDDB0092C717 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -661,6 +664,8 @@
 				B20149541D07BA6200ACE583 /* JFArticleStorage.swift */,
 				B2526ACA1D0D43DD0024C84C /* JFSQLiteManager.swift */,
 				B2526ACC1D0D56FB0024C84C /* JFNewsDALManager.swift */,
+				B2CC1BD31D10FA7700B48048 /* JFObjcTool.h */,
+				B2CC1BD41D10FA7700B48048 /* JFObjcTool.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1278,6 +1283,7 @@
 				B264A39F1D016C0D00C72E13 /* JFCollectionTableViewController.swift in Sources */,
 				B264A3AA1D016C0D00C72E13 /* JFProfileViewController.swift in Sources */,
 				B264A3751D016C0D00C72E13 /* JFAccountModel.swift in Sources */,
+				B2CC1BD51D10FA7700B48048 /* JFObjcTool.m in Sources */,
 				B264A4091D018DC800C72E13 /* JFArticleDetailModel.swift in Sources */,
 				B264A3A71D016C0D00C72E13 /* JFDutyViewController.swift in Sources */,
 				B2F9EC5C1D041A6B00FC7E48 /* JFProfileFooterView.swift in Sources */,
