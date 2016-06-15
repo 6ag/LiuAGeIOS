@@ -552,7 +552,6 @@ extension JFNewsDetailViewController: JFSetFontViewDelegate {
     func autolayoutWebView() {
         
         let result = webView.stringByEvaluatingJavaScriptFromString("getHtmlHeight();")
-        
         if let height = result {
             webView.frame = CGRectMake(0, 0, SCREEN_WIDTH, CGFloat((height as NSString).floatValue))
             tableView.tableHeaderView = webView

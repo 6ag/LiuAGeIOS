@@ -19,7 +19,7 @@ function setFontSize(size) {
 
 // 获取网页高度
 function getHtmlHeight() {
-    return document.body.scrollHeight;
+    return document.body.offsetHeight;
 }
        
 function connectWebViewJavascriptBridge(callback) {

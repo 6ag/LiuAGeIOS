@@ -41,7 +41,7 @@ class JFCommentCommitView: UIView, UITextViewDelegate {
     /**
      弹出评论视图
      */
-    func show() -> Void {
+    func show() {
         
         bgView.backgroundColor = UIColor(white: 0, alpha: 0)
         bgView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTappedBgView(_:))))

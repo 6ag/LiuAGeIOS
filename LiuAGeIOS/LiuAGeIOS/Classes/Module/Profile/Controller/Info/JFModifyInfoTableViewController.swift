@@ -52,6 +52,7 @@ class JFModifyInfoTableViewController: JFBaseTableViewController {
             alertC.addAction(cancelAction)
             self.presentViewController(alertC, animated: true, completion: {})
         }
+        
         let group1CellModel2 = JFProfileCellModel(title: "用户名:")
         let group1CellModel3 = JFProfileCellModel(title: "昵称:")
         let group1CellModel4 = JFProfileCellModel(title: "联系电话:")

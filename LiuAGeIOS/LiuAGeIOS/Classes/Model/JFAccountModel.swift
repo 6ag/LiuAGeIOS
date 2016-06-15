@@ -157,7 +157,7 @@ class JFAccountModel: NSObject, NSCoding {
         aCoder.encodeObject(qq, forKey: "qq")
         aCoder.encodeObject(nickname, forKey: "nickname")
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         token = aDecoder.decodeObjectForKey("token") as? String
         id = Int(aDecoder.decodeIntForKey("id"))
