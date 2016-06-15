@@ -19,9 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var launchOptions: [NSObject: AnyObject]?
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        setupRootViewController() // 配置控制器
         setupGlobalStyle()        // 配置全局样式
         setupGlobalData()         // 配置全局数据
-        setupRootViewController() // 配置控制器
         setupKeyBoardManager()    // 配置键盘管理
         setupShareSDK()           // 配置shareSDK
         self.launchOptions = launchOptions
@@ -98,11 +98,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         let newsVc = UIStoryboard.init(name: "JFNewsViewController", bundle: nil).instantiateInitialViewController()
         window?.rootViewController = newsVc
+        
+        // 这段代码是为了清除本地用户缓存，因为修改了字段，不清除会崩
+        if isNewVersion() {
+            JFAccountModel.logout()
+        }
+        
 //        window?.rootViewController =  isNewVersion() ? JFNewFeatureViewController() : newsVc
         window?.makeKeyAndVisible()
         
         // 添加帧数到窗口左下角
-//        window?.addSubview(JFFPSLabel(frame: CGRect(x: SCREEN_WIDTH - 60, y: 26, width: 50, height: 30)))
+        window?.addSubview(JFFPSLabel(frame: CGRect(x: SCREEN_WIDTH - 60, y: 26, width: 50, height: 30)))
     }
     
     /**

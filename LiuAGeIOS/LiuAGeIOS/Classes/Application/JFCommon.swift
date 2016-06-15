@@ -71,6 +71,9 @@ func jf_setupButtonSpringAnimation(view: UIView) {
     view.pop_addAnimation(sprintAnimation, forKey: "springAnimation")
 }
 
+/**
+ 快速创建上拉加载更多控件
+ */
 func setupFooterRefresh(target: AnyObject, action: Selector) -> MJRefreshAutoNormalFooter {
     let footerRefresh = MJRefreshAutoNormalFooter(refreshingTarget: target, refreshingAction: action)
     footerRefresh.automaticallyHidden = true
@@ -80,6 +83,9 @@ func setupFooterRefresh(target: AnyObject, action: Selector) -> MJRefreshAutoNor
     return footerRefresh
 }
 
+/**
+ 快速创建下拉加载最新控件
+ */
 func setupHeaderRefresh(target: AnyObject, action: Selector) -> MJRefreshNormalHeader {
     let headerRefresh = MJRefreshNormalHeader(refreshingTarget: target, refreshingAction: action)
     headerRefresh.lastUpdatedTimeLabel.hidden = true

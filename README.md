@@ -6,6 +6,12 @@
 
 **提示：** 项目正在开发阶段，接口修改可能比较频繁。如果发现项目是因为接口修改报错，请重新 `clone` 项目即可。
 
+### AppStore
+
+<a target='_blank' href='https://itunes.apple.com/app/id1120896924'>
+<img src='http://ww2.sinaimg.cn/large/0060lm7Tgw1f1hgrs1ebwj308102q0sp.jpg' width='144' height='49' />
+</a>
+
 ### 主要技术
 
 + `tableView` / `scrollView` 手势冲突处理

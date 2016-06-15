@@ -136,12 +136,8 @@ class JFAccountModel: NSObject, NSCoding {
     static func shareAccount() -> JFAccountModel? {
         if userAccount == nil {
             userAccount = NSKeyedUnarchiver.unarchiveObjectWithFile(accountPath) as? JFAccountModel
-        }
-        if userAccount == nil {
-            // 没有则说明没有登录
-            return nil
+            return userAccount
         } else {
-            // 有则说明已经登录
             return userAccount
         }
     }

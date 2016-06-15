@@ -24,7 +24,7 @@ class JFNewsDALManager: NSObject {
         
         // 计算过期时间
         let overDate = NSDate(timeIntervalSinceNow: -timeInterval)
-        print("时间低于 \(overDate) 的都清除")
+//        print("时间低于 \(overDate) 的都清除")
         
         // 记录时间格式 2016-06-13 02:29:37
         let df = NSDateFormatter()
@@ -40,7 +40,7 @@ class JFNewsDALManager: NSObject {
         
         JFSQLiteManager.shareManager.dbQueue.inDatabase { (db) -> Void in
             if db.executeStatements(sql) {
-                print("清除缓存数据成功")
+//                print("清除缓存数据成功")
             }
         }
     }
@@ -88,7 +88,7 @@ extension JFNewsDALManager {
             // 本地有数据直接返回
             if success == true {
                 finished(result: result, error: nil)
-                print("加载了本地数据 \(result)")
+//                print("加载了本地数据 \(result)")
                 return
             }
             
@@ -103,7 +103,7 @@ extension JFNewsDALManager {
                 // 缓存数据到本地
                 self.saveNewsListData(classid, data: result!, type: type)
                 finished(result: result, error: nil)
-                print("加载了远程数据 \(result)")
+//                print("加载了远程数据 \(result)")
             }
         }
         
@@ -197,9 +197,9 @@ extension JFNewsDALManager {
                 let newsJson = String(data: newsData, encoding: NSUTF8StringEncoding)!
                 
                 if db.executeUpdate(sql, withArgumentsInArray: [classid, newsJson]) {
-                    print("缓存数据成功 - \(classid)")
+//                    print("缓存数据成功 - \(classid)")
                 } else {
-                    print("缓存数据失败 - \(classid)")
+//                    print("缓存数据失败 - \(classid)")
                     rollback.memory = true
                     break
                 }
@@ -297,9 +297,9 @@ extension JFNewsDALManager {
             let newsJson = String(data: newsData, encoding: NSUTF8StringEncoding)!
             
             if db.executeUpdate(sql, withArgumentsInArray: [id, classid, newsJson]) {
-                print("缓存数据成功 - \(classid)")
+//                print("缓存数据成功 - \(classid)")
             } else {
-                print("缓存数据失败 - \(classid)")
+//                print("缓存数据失败 - \(classid)")
                 rollback.memory = true
             }
             

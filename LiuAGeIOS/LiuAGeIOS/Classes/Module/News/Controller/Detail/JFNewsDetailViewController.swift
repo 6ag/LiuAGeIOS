@@ -502,6 +502,7 @@ extension JFNewsDetailViewController: JFNewsBottomBarDelegate, JFCommentCommitVi
                 break
             }
         }
+        
     }
     
     /**
@@ -692,7 +693,7 @@ extension JFNewsDetailViewController: UIWebViewDelegate {
                 let imagePath = JFArticleStorage.getFilePathForKey(imageString)
                 // 发送图片占位标识和本地绝对路径给webView
                 bridge?.send("replaceimage\(imageString)~\(imagePath)")
-                print("图片已有缓存，发送给js \(imagePath)")
+//                print("图片已有缓存，发送给js \(imagePath)")
             } else {
                 YYWebImageManager(cache: JFArticleStorage.getArticleImageCache(), queue: NSOperationQueue()).requestImageWithURL(NSURL(string: imageString)!, options: YYWebImageOptions.UseNSURLCache, progress: { (_, _) in
                     }, transform: { (image, url) -> UIImage? in
@@ -703,7 +704,7 @@ extension JFNewsDetailViewController: UIWebViewDelegate {
                         let imagePath = JFArticleStorage.getFilePathForKey(imageString)
                         // 发送图片占位标识和本地绝对路径给webView
                         self.bridge?.send("replaceimage\(imageString)~\(imagePath)")
-                        print("图片缓存完成，发送给js \(imagePath)")
+//                        print("图片缓存完成，发送给js \(imagePath)")
                 })
             }
             

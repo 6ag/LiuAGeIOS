@@ -276,6 +276,7 @@ class JFProfileViewController: JFBaseTableViewController {
      更新头部数据
      */
     private func updateHeaderData() {
+        
         if JFAccountModel.isLogin() {
             headerView.avatarButton.yy_setBackgroundImageWithURL(NSURL(string: JFAccountModel.shareAccount()!.avatarUrl!), forState: UIControlState.Normal, options: YYWebImageOptions.AllowBackgroundTask)
             if JFAccountModel.shareAccount()!.nickname == nil || JFAccountModel.shareAccount()!.nickname == "" {
