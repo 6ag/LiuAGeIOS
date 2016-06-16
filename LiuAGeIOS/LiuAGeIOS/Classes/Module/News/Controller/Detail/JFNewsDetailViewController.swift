@@ -151,6 +151,7 @@ class JFNewsDetailViewController: UIViewController {
     /// webView - 显示正文的
     private lazy var webView: UIWebView = {
         let webView = UIWebView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT))
+        webView.dataDetectorTypes = .None
         webView.delegate = self
         webView.scrollView.scrollEnabled = false
         return webView

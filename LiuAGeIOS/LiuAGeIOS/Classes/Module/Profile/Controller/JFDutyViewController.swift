@@ -39,6 +39,7 @@ class JFDutyViewController: UIViewController {
         "</html>"
         
         let webView = UIWebView(frame: SCREEN_BOUNDS)
+        webView.dataDetectorTypes = .None
         view.addSubview(webView)
         
         let template = try! Template(string: html)
