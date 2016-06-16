@@ -101,10 +101,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // 这段代码是为了清除本地用户缓存，因为修改了字段，不清除会崩
         if isNewVersion() {
+//            window?.rootViewController =  JFNewFeatureViewController()
+            window?.rootViewController = newsVc
             JFAccountModel.logout()
+        } else {
+            window?.rootViewController = newsVc
         }
         
-//        window?.rootViewController =  isNewVersion() ? JFNewFeatureViewController() : newsVc
         window?.makeKeyAndVisible()
         
         // 添加帧数到窗口左下角
@@ -117,7 +120,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func isNewVersion() -> Bool {
         // 获取当前的版本号
         let versionString = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"] as! String
-        
         let currentVersion = Double(versionString)!
         
         // 获取到之前的版本号
@@ -126,9 +128,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // 保存当前版本号
         NSUserDefaults.standardUserDefaults().setDouble(currentVersion, forKey: sandboxVersionKey)
-        NSUserDefaults.standardUserDefaults().synchronize()
         
-        // 对比
         return currentVersion > sandboxVersion
     }
     
