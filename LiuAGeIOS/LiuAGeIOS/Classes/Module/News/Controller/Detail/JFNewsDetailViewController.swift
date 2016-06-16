@@ -94,7 +94,6 @@ class JFNewsDetailViewController: UIViewController {
         tableView.registerNib(UINib(nibName: "JFCommentCell", bundle: nil), forCellReuseIdentifier: detailCommentIdentifier)
         tableView.tableHeaderView = webView
         
-        view.backgroundColor = UIColor.whiteColor()
         view.addSubview(tableView)
         view.addSubview(topBarView)
         view.addSubview(bottomBarView)
@@ -143,7 +142,6 @@ class JFNewsDetailViewController: UIViewController {
         let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT), style: UITableViewStyle.Grouped)
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.backgroundColor = UIColor.whiteColor()
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         return tableView
     }()
@@ -312,11 +310,6 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
         }
     }
     
-    // 预估高度
-    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 120
-    }
-    
     // 组头高度
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         switch section {
@@ -359,6 +352,7 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
             self.navigationController?.pushViewController(detailVc, animated: true)
         }
     }
+    
 }
 
 // MARK: - 底部浮动工具条相关
@@ -377,19 +371,12 @@ extension JFNewsDetailViewController: JFNewsBottomBarDelegate, JFCommentCommitVi
         if (scrollView.dragging) {
             if scrollView.contentOffset.y - contentOffsetY > 5.0 {
                 // 向上拖拽 隐藏
-                bottomBarView.snp_updateConstraints(closure: { (make) in
-                    make.bottom.equalTo(44)
-                })
                 UIView.animateWithDuration(0.25, animations: {
-                    self.view.layoutIfNeeded()
+                    self.bottomBarView.transform = CGAffineTransformMakeTranslation(0, 44)
                 })
             } else if contentOffsetY - scrollView.contentOffset.y > 5.0 {
-                // 向下拖拽 显示
-                bottomBarView.snp_updateConstraints(closure: { (make) in
-                    make.bottom.equalTo(0)
-                })
                 UIView.animateWithDuration(0.25, animations: {
-                    self.view.layoutIfNeeded()
+                    self.bottomBarView.transform = CGAffineTransformIdentity
                 })
             }
             
@@ -403,11 +390,8 @@ extension JFNewsDetailViewController: JFNewsBottomBarDelegate, JFCommentCommitVi
         
         // 滚动到底部后 显示
         if case let space = scrollView.contentOffset.y + SCREEN_HEIGHT - scrollView.contentSize.height where space > -5 && space < 5 {
-            bottomBarView.snp_updateConstraints(closure: { (make) in
-                make.bottom.equalTo(0)
-            })
             UIView.animateWithDuration(0.25, animations: {
-                self.view.layoutIfNeeded()
+                self.bottomBarView.transform = CGAffineTransformIdentity
             })
         }
     }
@@ -553,7 +537,7 @@ extension JFNewsDetailViewController: JFSetFontViewDelegate {
         
         let result = webView.stringByEvaluatingJavaScriptFromString("getHtmlHeight();")
         if let height = result {
-            webView.frame = CGRectMake(0, 0, SCREEN_WIDTH, CGFloat((height as NSString).floatValue))
+            webView.frame = CGRectMake(0, 0, SCREEN_WIDTH, CGFloat((height as NSString).floatValue) + 20)
             tableView.tableHeaderView = webView
             self.activityView.stopAnimating()
         }
