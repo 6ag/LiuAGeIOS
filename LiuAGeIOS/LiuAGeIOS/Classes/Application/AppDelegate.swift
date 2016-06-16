@@ -101,9 +101,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // 这段代码是为了清除本地用户缓存，因为修改了字段，不清除会崩
         if isNewVersion() {
+            JFAccountModel.logout()
 //            window?.rootViewController =  JFNewFeatureViewController()
             window?.rootViewController = newsVc
-            JFAccountModel.logout()
         } else {
             window?.rootViewController = newsVc
         }
