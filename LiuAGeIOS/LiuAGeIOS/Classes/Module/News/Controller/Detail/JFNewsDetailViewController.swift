@@ -94,6 +94,7 @@ class JFNewsDetailViewController: UIViewController {
         tableView.registerNib(UINib(nibName: "JFCommentCell", bundle: nil), forCellReuseIdentifier: detailCommentIdentifier)
         tableView.tableHeaderView = webView
         
+        view.backgroundColor = UIColor.whiteColor()
         view.addSubview(tableView)
         view.addSubview(topBarView)
         view.addSubview(bottomBarView)
@@ -142,6 +143,7 @@ class JFNewsDetailViewController: UIViewController {
         let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT), style: UITableViewStyle.Grouped)
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.backgroundColor = UIColor.whiteColor()
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         return tableView
     }()
@@ -561,7 +563,6 @@ extension JFNewsDetailViewController: JFSetFontViewDelegate {
      - parameter fontName:   字体名称
      */
     func didChangedFontName(fontName: String) {
-        
         webView.stringByEvaluatingJavaScriptFromString("setFontName(\"\(fontName)\");")
         NSUserDefaults.standardUserDefaults().setObject(fontName, forKey: CONTENT_FONT_TYPE_KEY)
         autolayoutWebView()
