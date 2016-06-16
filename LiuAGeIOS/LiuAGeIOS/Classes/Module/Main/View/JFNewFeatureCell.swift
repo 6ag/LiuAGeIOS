@@ -14,7 +14,7 @@ class JFNewFeatureCell: UICollectionViewCell {
     var imageIndex: Int = 0 {
         didSet {
             backgroundImageView.image = UIImage(named: "new_feature_\(imageIndex + 1)")
-            startButton.hidden = true
+            startButton.alpha = 0
         }
     }
     
@@ -30,10 +30,9 @@ class JFNewFeatureCell: UICollectionViewCell {
     
     // MARK: - 开始按钮动画
     func startButtonAnimation() {
-        startButton.hidden = false
-        // 把按钮的 transform 缩放设置为0
         startButton.transform = CGAffineTransformMakeScale(0, 0)
         UIView.animateWithDuration(1, delay: 0.1, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: UIViewAnimationOptions(rawValue: 0), animations: { () -> Void in
+            self.startButton.alpha = 1
             self.startButton.transform = CGAffineTransformIdentity
         }) { (_) -> Void in
             
@@ -42,23 +41,11 @@ class JFNewFeatureCell: UICollectionViewCell {
     
     // MARK: - 准备UI
     private func prepareUI() {
-        // 添加子控件
         contentView.addSubview(backgroundImageView)
         contentView.addSubview(startButton)
         
-        // 添加约束
-        backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
-        startButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        backgroundImageView.snp_makeConstraints { (make) in
-            make.edges.equalTo(contentView)
-        }
-        
-        startButton.snp_makeConstraints { (make) in
-            make.centerX.equalTo(contentView)
-            make.bottom.equalTo(-100)
-            make.size.equalTo(CGSize(width: 140, height: 40))
-        }
+        backgroundImageView.frame = SCREEN_BOUNDS
+        startButton.frame = CGRect(x: (SCREEN_WIDTH - 140) * 0.5, y: SCREEN_HEIGHT * 0.8, width: 140, height: 40)
     }
     
     /**
@@ -76,11 +63,9 @@ class JFNewFeatureCell: UICollectionViewCell {
     private lazy var startButton: UIButton = {
         let button = UIButton()
         button.layer.cornerRadius = 20
-        button.layer.masksToBounds = true
-        button.setBackgroundImage(UIImage(named: "new_feature_finish_button"), forState: UIControlState.Normal)
-        button.setBackgroundImage(UIImage(named: "new_feature_finish_button_highlighted"), forState: UIControlState.Highlighted)
+        button.backgroundColor = UIColor.orangeColor()
         button.setTitle("开始体验", forState: UIControlState.Normal)
-        button.addTarget(self, action: #selector(JFNewFeatureCell.startButtonClick), forControlEvents: UIControlEvents.TouchUpInside)
+        button.addTarget(self, action: #selector(startButtonClick), forControlEvents: UIControlEvents.TouchUpInside)
         return button
     }()
 }

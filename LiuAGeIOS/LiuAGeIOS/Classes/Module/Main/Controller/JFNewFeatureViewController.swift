@@ -44,16 +44,16 @@ class JFNewFeatureViewController: UICollectionViewController {
      准备collectionView
      */
     private func prepareCollectionView() {
-        collectionView?.showsHorizontalScrollIndicator = false
+        
         self.collectionView!.registerClass(JFNewFeatureCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         
-        // 设置layout的参数
-        layout.itemSize = UIScreen.mainScreen().bounds.size
+        layout.itemSize = SCREEN_BOUNDS.size
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
         layout.scrollDirection = UICollectionViewScrollDirection.Horizontal
         collectionView?.pagingEnabled = true
         collectionView?.bounces = false
+        collectionView?.showsHorizontalScrollIndicator = false
     }
     
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -66,19 +66,12 @@ class JFNewFeatureViewController: UICollectionViewController {
         return cell
     }
     
-    // collectionView显示完毕cell
-    // collectionView分页滚动完毕cell看不到的时候调用
     override func collectionView(collectionView: UICollectionView, didEndDisplayingCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
         
-        // 正在显示的cell的indexPath
-        let showIndexPath = collectionView.indexPathsForVisibleItems().first!
-        
-        // 获取collectionView正在显示的cell
+        let showIndexPath = collectionView.indexPathsForVisibleItems().last!
         let cell = collectionView.cellForItemAtIndexPath(showIndexPath) as! JFNewFeatureCell
         
-        // 最后一页动画
         if showIndexPath.item == itemCount - 1 {
-            // 开始按钮动画
             cell.startButtonAnimation()
         }
     }
