@@ -35,8 +35,6 @@ function connectWebViewJavascriptBridge(callback) {
 connectWebViewJavascriptBridge(function (bridge) {
                                
                                self.bridge = bridge;
-                               
-                               // 从iOS  bridge.send 方法过来的 就会调用到这个方法
                                bridge.init(function (message, responseCallback) {
                                            
                                            if (message.match("replaceimage")) {

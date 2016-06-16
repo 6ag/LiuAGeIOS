@@ -694,12 +694,17 @@ extension JFNewsDetailViewController: UIWebViewDelegate {
                     }, transform: { (image, url) -> UIImage? in
                         return image
                     }, completion: { (image, url, type, stage, error) in
-                        // 确保已经下载完成并没有出错 - 这样做其实已经修改了YYWebImage的磁盘缓存策略。默认YYWebImage缓存文件时超过20kb的文件才会存储为文件，所以需要在 YYDiskCache.m的171行修改
-                        guard let _ = image where error == nil else {return}
-                        let imagePath = JFArticleStorage.getFilePathForKey(imageString)
-                        // 发送图片占位标识和本地绝对路径给webView
-                        self.bridge?.send("replaceimage\(imageString)~\(imagePath)")
-                        //                        print("图片缓存完成，发送给js \(imagePath)")
+                        
+                        // 当刚缓存完成的图片，还没来得及存储到本地，所以有时候会从本地加载不到图片。需要延迟
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+                            // 确保已经下载完成并没有出错 - 这样做其实已经修改了YYWebImage的磁盘缓存策略。默认YYWebImage缓存文件时超过20kb的文件才会存储为文件，所以需要在 YYDiskCache.m的171行修改
+                            guard let _ = image where error == nil else {return}
+                            let imagePath = JFArticleStorage.getFilePathForKey(imageString)
+                            // 发送图片占位标识和本地绝对路径给webView
+                            self.bridge?.send("replaceimage\(imageString)~\(imagePath)")
+//                            print("图片缓存完成，发送给js \(imagePath)")
+                        }
+                        
                 })
             }
             
