@@ -12,6 +12,9 @@
 		B20149551D07BA6200ACE583 /* JFArticleStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20149541D07BA6200ACE583 /* JFArticleStorage.swift */; };
 		B20149581D07DBFA00ACE583 /* JFSetFontView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20149561D07DBFA00ACE583 /* JFSetFontView.swift */; };
 		B20149591D07DBFA00ACE583 /* JFSetFontView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B20149571D07DBFA00ACE583 /* JFSetFontView.xib */; };
+		B21B9B771D16C8F8000E8304 /* JFNewsPhotoDismissAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21B9B741D16C8F8000E8304 /* JFNewsPhotoDismissAnimation.swift */; };
+		B21B9B781D16C8F8000E8304 /* JFNewsPhotoModalAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21B9B751D16C8F8000E8304 /* JFNewsPhotoModalAnimation.swift */; };
+		B21B9B791D16C8F8000E8304 /* JFNewsPhotoPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21B9B761D16C8F8000E8304 /* JFNewsPhotoPresentationController.swift */; };
 		B2354A021D0BA84B0050AF13 /* JFNoHighlightedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B2354A011D0BA84A0050AF13 /* JFNoHighlightedButton.m */; };
 		B2526ACB1D0D43DD0024C84C /* JFSQLiteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2526ACA1D0D43DD0024C84C /* JFSQLiteManager.swift */; };
 		B2526ACD1D0D56FB0024C84C /* JFNewsDALManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2526ACC1D0D56FB0024C84C /* JFNewsDALManager.swift */; };
@@ -181,6 +184,9 @@
 		B20149541D07BA6200ACE583 /* JFArticleStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFArticleStorage.swift; sourceTree = "<group>"; };
 		B20149561D07DBFA00ACE583 /* JFSetFontView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFSetFontView.swift; sourceTree = "<group>"; };
 		B20149571D07DBFA00ACE583 /* JFSetFontView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JFSetFontView.xib; sourceTree = "<group>"; };
+		B21B9B741D16C8F8000E8304 /* JFNewsPhotoDismissAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFNewsPhotoDismissAnimation.swift; sourceTree = "<group>"; };
+		B21B9B751D16C8F8000E8304 /* JFNewsPhotoModalAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFNewsPhotoModalAnimation.swift; sourceTree = "<group>"; };
+		B21B9B761D16C8F8000E8304 /* JFNewsPhotoPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFNewsPhotoPresentationController.swift; sourceTree = "<group>"; };
 		B2354A001D0BA84A0050AF13 /* JFNoHighlightedButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFNoHighlightedButton.h; sourceTree = "<group>"; };
 		B2354A011D0BA84A0050AF13 /* JFNoHighlightedButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFNoHighlightedButton.m; sourceTree = "<group>"; };
 		B2526ACA1D0D43DD0024C84C /* JFSQLiteManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFSQLiteManager.swift; sourceTree = "<group>"; };
@@ -925,6 +931,9 @@
 		B2C865FF1D051C1900A5B1FD /* Transition */ = {
 			isa = PBXGroup;
 			children = (
+				B21B9B741D16C8F8000E8304 /* JFNewsPhotoDismissAnimation.swift */,
+				B21B9B751D16C8F8000E8304 /* JFNewsPhotoModalAnimation.swift */,
+				B21B9B761D16C8F8000E8304 /* JFNewsPhotoPresentationController.swift */,
 				B2C866001D051C1900A5B1FD /* JFPopoverDismissAnimation.swift */,
 				B2C866011D051C1900A5B1FD /* JFPopoverModalAnimation.swift */,
 				B2C866021D051C1900A5B1FD /* JFPresentationController.swift */,
@@ -1253,6 +1262,7 @@
 				B264A3B91D016C0D00C72E13 /* JFProfileHeaderView.swift in Sources */,
 				B264A3A61D016C0D00C72E13 /* JFBaseTableViewController.swift in Sources */,
 				B264A3AF1D016C0D00C72E13 /* JFCollectionModel.swift in Sources */,
+				B21B9B791D16C8F8000E8304 /* JFNewsPhotoPresentationController.swift in Sources */,
 				B2354A021D0BA84B0050AF13 /* JFNoHighlightedButton.m in Sources */,
 				B264A4141D018DC800C72E13 /* JFNewsBottomBar.swift in Sources */,
 				B20149551D07BA6200ACE583 /* JFArticleStorage.swift in Sources */,
@@ -1296,11 +1306,13 @@
 				B264A3AD1D016C0D00C72E13 /* JFRegisterViewController.swift in Sources */,
 				B264A3B11D016C0D00C72E13 /* JFProfileCellArrowModel.swift in Sources */,
 				B264A4021D018DC800C72E13 /* JFEditColumnViewController.swift in Sources */,
+				B21B9B781D16C8F8000E8304 /* JFNewsPhotoModalAnimation.swift in Sources */,
 				B2C0FE111D0C5EE000DACAC9 /* JFArticleListModel.swift in Sources */,
 				B264A40D1D018DC800C72E13 /* JFColumnReusableView.swift in Sources */,
 				B264A3C41D016C0D00C72E13 /* JFNetworkTool.swift in Sources */,
 				B264A3B21D016C0D00C72E13 /* JFProfileCellGroupModel.swift in Sources */,
 				B2C866031D051C1900A5B1FD /* JFPopoverDismissAnimation.swift in Sources */,
+				B21B9B771D16C8F8000E8304 /* JFNewsPhotoDismissAnimation.swift in Sources */,
 				B2526ACB1D0D43DD0024C84C /* JFSQLiteManager.swift in Sources */,
 				B2A877181D029A420061AC70 /* NSDate+Extension.swift in Sources */,
 				B2CB2D1C1D0EB030002C73A5 /* JFScanWeixinViewController.swift in Sources */,

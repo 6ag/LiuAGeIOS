@@ -1,8 +1,16 @@
 var bridge
 
 // 图片点击事件
-function didTappedImage(index) {
-   bridge.send(index);
+function didTappedImage(index, url) {
+    var image = document.getElementById(url);
+    var width = image.width;
+    var height = image.height;
+    var x = image.getBoundingClientRect().left;
+    var y = image.getBoundingClientRect().top;
+    x = x + document.documentElement.scrollLeft;
+    y = y + document.documentElement.scrollTop;
+    
+    bridge.send({'index' : index, 'x' : x, 'y' : y, 'width' : width, 'height' : height, 'url' : url});
 }
 
 // 设置字体
@@ -21,7 +29,7 @@ function setFontSize(size) {
 function getHtmlHeight() {
     return document.body.offsetHeight;
 }
-       
+
 function connectWebViewJavascriptBridge(callback) {
     if (window.WebViewJavascriptBridge) {
         callback(WebViewJavascriptBridge);
@@ -50,7 +58,7 @@ connectWebViewJavascriptBridge(function (bridge) {
                                            
                                            // 保证只替换一次
                                            if (element.src.match("loading")) {
-                                          element.src = messagepath;
+                                           element.src = messagepath;
                                            }
                                            }
                                            

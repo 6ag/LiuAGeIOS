@@ -76,10 +76,35 @@ class JFNewsDetailViewController: UIViewController {
         bridge = WebViewJavascriptBridge(forWebView: webView, webViewDelegate: self, handler: { (data, responseCallback) in
             responseCallback("Response for message from ObjC")
             
-            // 接收js发送过来的图片点击事件
+            guard let dict = data as! [String : AnyObject]! else {return}
+            
+            let index = Int(dict["index"] as! NSNumber)
+            let x = CGFloat(dict["x"] as! NSNumber)
+            let y = CGFloat(dict["y"] as! NSNumber) - self.tableView.contentOffset.y
+            let width = CGFloat(dict["width"] as! NSNumber)
+            let height = CGFloat(dict["height"] as! NSNumber)
+            let url = dict["url"] as! String
+            
+            let tempImageView = UIImageView(frame: CGRect(x: x, y: y, width: width, height: height))
+            tempImageView.yy_setImageWithURL(NSURL(string: url), placeholder: UIImage(contentsOfFile: NSBundle.mainBundle().pathForResource("www/images/loading.jpg", ofType: nil)!))
+            self.view.addSubview(tempImageView)
+            
+            // 显示出图片浏览器
             let newsPhotoBrowserVc = JFNewsPhotoBrowserViewController()
-            newsPhotoBrowserVc.photoParam = (self.model!.allphoto!, Int(data as! NSNumber))
+            newsPhotoBrowserVc.transitioningDelegate = self
+            newsPhotoBrowserVc.modalPresentationStyle = .Custom
+            newsPhotoBrowserVc.photoParam = (self.model!.allphoto!, index)
             self.presentViewController(newsPhotoBrowserVc, animated: true, completion: {})
+            
+            UIView.animateWithDuration(0.25, animations: {
+                tempImageView.frame = CGRect(x: 0, y: (SCREEN_HEIGHT - height * (SCREEN_WIDTH / width)) * 0.5, width: SCREEN_WIDTH, height: height * (SCREEN_WIDTH / width))
+                }, completion: { (_) in
+                    
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+                        tempImageView.removeFromSuperview()
+                    }
+            })
+            
         })
     }
     
@@ -647,8 +672,11 @@ extension JFNewsDetailViewController: UIWebViewDelegate {
                 // 加载中的占位图
                 let loading = NSBundle.mainBundle().pathForResource("www/images/loading.jpg", ofType: nil)!
                 
+                // 图片URL
+                let imgUrl = dict["url"] as! String
+                
                 // img标签
-                let imgTag = "<img onclick='didTappedImage(\(index));' src='\(loading)' id='\(dict["url"] as! String)' width='\(width)' height='\(height)' />"
+                let imgTag = "<img onclick='didTappedImage(\(index), \"\(imgUrl)\");' src='\(loading)' id='\(imgUrl)' width='\(width)' height='\(height)' />"
                 tempNewstext = (tempNewstext as NSString).stringByReplacingOccurrencesOfString(dict["ref"] as! String, withString: imgTag, options: NSStringCompareOptions.CaseInsensitiveSearch, range: range)
             }
             
@@ -848,4 +876,30 @@ extension JFNewsDetailViewController: JFCommentCellDelegate {
         commentVc.param = articleParam
         navigationController?.pushViewController(commentVc, animated: true)
     }
+}
+
+// MARK: - 栏目管理自定义转场动画事件
+extension JFNewsDetailViewController: UIViewControllerTransitioningDelegate {
+    
+    /**
+     返回一个控制modal视图大小的对象
+     */
+    func presentationControllerForPresentedViewController(presented: UIViewController, presentingViewController presenting: UIViewController, sourceViewController source: UIViewController) -> UIPresentationController? {
+        return JFNewsPhotoPresentationController(presentedViewController: presented, presentingViewController: presenting)
+    }
+    
+    /**
+     返回一个控制器modal动画效果的对象
+     */
+    func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return JFNewsPhotoModalAnimation()
+    }
+    
+    /**
+     返回一个控制dismiss动画效果的对象
+     */
+    func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return JFNewsPhotoDismissAnimation()
+    }
+    
 }
