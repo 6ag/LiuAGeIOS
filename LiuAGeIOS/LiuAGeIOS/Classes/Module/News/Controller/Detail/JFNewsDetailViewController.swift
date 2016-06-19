@@ -96,11 +96,11 @@ class JFNewsDetailViewController: UIViewController {
             newsPhotoBrowserVc.photoParam = (self.model!.allphoto!, index)
             self.presentViewController(newsPhotoBrowserVc, animated: true, completion: {})
             
-            UIView.animateWithDuration(0.25, animations: {
+            UIView.animateWithDuration(0.3, animations: {
                 tempImageView.frame = CGRect(x: 0, y: (SCREEN_HEIGHT - height * (SCREEN_WIDTH / width)) * 0.5, width: SCREEN_WIDTH, height: height * (SCREEN_WIDTH / width))
                 }, completion: { (_) in
                     
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
                         tempImageView.removeFromSuperview()
                     }
             })

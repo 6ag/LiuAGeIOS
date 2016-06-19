@@ -12,7 +12,7 @@ class JFNewsPhotoDismissAnimation: NSObject, UIViewControllerAnimatedTransitioni
     
     // 动画时间
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
-        return 0.5
+        return 0.25
     }
     
     // dismiss动画
