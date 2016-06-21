@@ -81,7 +81,7 @@ class JFNewsViewController: UIViewController {
      */
     func didReceiveRemoteNotificationOfJPush(notification: NSNotification) {
         
-        if let userInfo = notification.object as? NSDictionary {
+        if let userInfo = notification.userInfo {
             guard let classid = userInfo["classid"], let id = userInfo["id"] else {return}
             let detailVc = JFNewsDetailViewController()
             detailVc.articleParam = (classid as! String, id as! String)
