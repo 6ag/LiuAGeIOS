@@ -85,6 +85,10 @@ class JFNewsDetailViewController: UIViewController {
             let height = CGFloat(dict["height"] as! NSNumber)
             let url = dict["url"] as! String
             
+            let bgView = UIView(frame: SCREEN_BOUNDS)
+            bgView.backgroundColor = UIColor(red:0.110,  green:0.102,  blue:0.110, alpha:1)
+            self.view.addSubview(bgView)
+            
             let tempImageView = UIImageView(frame: CGRect(x: x, y: y, width: width, height: height))
             tempImageView.yy_setImageWithURL(NSURL(string: url), placeholder: UIImage(contentsOfFile: NSBundle.mainBundle().pathForResource("www/images/loading.jpg", ofType: nil)!))
             self.view.addSubview(tempImageView)
@@ -99,8 +103,8 @@ class JFNewsDetailViewController: UIViewController {
             UIView.animateWithDuration(0.3, animations: {
                 tempImageView.frame = CGRect(x: 0, y: (SCREEN_HEIGHT - height * (SCREEN_WIDTH / width)) * 0.5, width: SCREEN_WIDTH, height: height * (SCREEN_WIDTH / width))
                 }, completion: { (_) in
-                    
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+                        bgView.removeFromSuperview()
                         tempImageView.removeFromSuperview()
                     }
             })
