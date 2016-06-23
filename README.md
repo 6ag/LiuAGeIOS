@@ -55,29 +55,29 @@
 
 ### 主流控制器切换
 
-![image](https://github.com/6ag/LiuAGeIOS/Show/blob/master/1.gif)
+![image](https://github.com/6ag/LiuAGeIOS/blob/master/Show/1.gif)
 
 ### 自定义栏目管理
 
-![image](https://github.com/6ag/LiuAGeIOS/Show/blob/master/2.gif)
+![image](https://github.com/6ag/LiuAGeIOS/blob/master/Show/2.gif)
 
 ### 性感的侧栏，无手势冲突
 
-![image](https://github.com/6ag/LiuAGeIOS/Show/blob/master/3.gif)
+![image](https://github.com/6ag/LiuAGeIOS/blob/master/Show/3.gif)
 
 ### 支持各种手势的图片浏览器
 
-![image](https://github.com/6ag/LiuAGeIOS/Show/blob/master/4.gif)
+![image](https://github.com/6ag/LiuAGeIOS/blob/master/Show/4.gif)
 
 ### 模仿网易新闻的内容正文
 
-![image](https://github.com/6ag/LiuAGeIOS/Show/blob/master/5.gif)
+![image](https://github.com/6ag/LiuAGeIOS/blob/master/Show/5.gif)
 
 ### 便捷修改字体
 
-![image](https://github.com/6ag/LiuAGeIOS/Show/blob/master/6.gif)
+![image](https://github.com/6ag/LiuAGeIOS/blob/master/Show/6.gif)
 
 ### 上拉退出详情
 
-![image](https://github.com/6ag/LiuAGeIOS/Show/blob/master/7.gif)
+![image](https://github.com/6ag/LiuAGeIOS/blob/master/Show/7.gif)
 
