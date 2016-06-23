@@ -4,8 +4,6 @@
 
 这个项目基于我写的另一个项目 [BaoKanIOS](https://github.com/6ag/BaoKanIOS) 代码基础上进行开发的。经过测试后的代码会逐步更新到 [BaoKanIOS](https://github.com/6ag/BaoKanIOS) ，所以学习建议参考这个项目。数据来源我的个人网站 [六阿哥网](http://www.6ag.cn)  。
 
-**提示：** 项目正在开发阶段，接口修改可能比较频繁。如果发现项目是因为接口修改报错，请重新 `clone` 项目即可。
-
 ## AppStore
 
 <a target='_blank' href='https://itunes.apple.com/app/id1120896924'>
@@ -81,3 +79,6 @@
 
 ![image](https://github.com/6ag/LiuAGeIOS/blob/master/Show/7.gif)
 
+## 许可
+
+[MIT](https://raw.githubusercontent.com/Finb/V2ex-Swift/master/LICENSE) © [六阿哥](https://github.com/6ag)
