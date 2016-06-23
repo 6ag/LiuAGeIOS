@@ -97,11 +97,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func setupRootViewController() {
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         let newsVc = UIStoryboard.init(name: "JFNewsViewController", bundle: nil).instantiateInitialViewController()
-        window?.rootViewController = newsVc
         
         // 这段代码是为了清除本地用户缓存，因为修改了字段，不清除会崩
         if isNewVersion() {
-            JFAccountModel.logout()
 //            window?.rootViewController =  JFNewFeatureViewController()
             window?.rootViewController = newsVc
         } else {

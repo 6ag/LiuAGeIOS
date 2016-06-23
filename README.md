@@ -71,8 +71,10 @@
 
 ![image](https://github.com/6ag/LiuAGeIOS/blob/master/5.gif)
 
-### 便捷修改字体，提高用户体验
+### 便捷修改字体
 
 ![image](https://github.com/6ag/LiuAGeIOS/blob/master/6.gif)
 
+### 上拉退出详情
 
+![image](https://github.com/6ag/LiuAGeIOS/blob/master/7.gif)

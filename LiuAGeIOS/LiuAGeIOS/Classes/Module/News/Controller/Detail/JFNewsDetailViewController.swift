@@ -409,7 +409,7 @@ extension JFNewsDetailViewController: JFNewsBottomBarDelegate, JFCommentCommitVi
         contentOffsetY = scrollView.contentOffset.y
     }
     
-    // 松手后出发
+    // 松手后触发
     func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         
         if (scrollView.contentOffset.y + SCREEN_HEIGHT) > scrollView.contentSize.height {
