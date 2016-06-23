@@ -122,7 +122,7 @@ class JFNewsDetailViewController: UIViewController {
         tableView.registerNib(UINib(nibName: "JFDetailOtherCell", bundle: nil), forCellReuseIdentifier: detailOtherLinkIdentifier)
         tableView.registerNib(UINib(nibName: "JFCommentCell", bundle: nil), forCellReuseIdentifier: detailCommentIdentifier)
         tableView.tableHeaderView = webView
-        
+        tableView.tableFooterView = closeDetailView
         view.backgroundColor = UIColor.whiteColor()
         view.addSubview(tableView)
         view.addSubview(topBarView)
@@ -218,6 +218,20 @@ class JFNewsDetailViewController: UIViewController {
         let footerView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 44))
         footerView.addSubview(moreCommentButton)
         return footerView
+    }()
+    
+    /// 尾部关闭视图
+    private lazy var closeDetailView: JFCloseDetailView = {
+        let closeDetailView = JFCloseDetailView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 26))
+        closeDetailView.titleLabel?.font = UIFont.systemFontOfSize(15)
+        closeDetailView.setTitleColor(UIColor(white: 0.2, alpha: 1), forState: UIControlState.Normal)
+        closeDetailView.setTitleColor(UIColor(white: 0.2, alpha: 1), forState: UIControlState.Selected)
+        closeDetailView.selected = false
+        closeDetailView.setTitle("上拉关闭当前页", forState: UIControlState.Normal)
+        closeDetailView.setImage(UIImage(named: "newscontent_drag_arrow"), forState: UIControlState.Normal)
+        closeDetailView.setTitle("释放关闭当前页", forState: UIControlState.Selected)
+        closeDetailView.setImage(UIImage(named: "newscontent_drag_return"), forState: UIControlState.Selected)
+        return closeDetailView
     }()
 }
 
@@ -364,11 +378,11 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
         case 0:
             return 1
         case 1:
-            return 20
+            return 15
         case 2:
-            return otherLinks.count == 0 ? 1 : 20
+            return otherLinks.count == 0 ? 1 : 15
         case 3:
-            return commentList.count == 10 ? 120 : 50
+            return commentList.count == 10 ? 100 : 20
         default:
             return 1
         }
@@ -395,6 +409,29 @@ extension JFNewsDetailViewController: JFNewsBottomBarDelegate, JFCommentCommitVi
         contentOffsetY = scrollView.contentOffset.y
     }
     
+    // 松手后出发
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        
+        if (scrollView.contentOffset.y + SCREEN_HEIGHT) > scrollView.contentSize.height {
+            if (scrollView.contentOffset.y + SCREEN_HEIGHT) - scrollView.contentSize.height >= 50 {
+                
+                UIGraphicsBeginImageContext(SCREEN_BOUNDS.size)
+                UIApplication.sharedApplication().keyWindow?.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+                let tempImageView = UIImageView(image: UIGraphicsGetImageFromCurrentImageContext())
+                UIApplication.sharedApplication().keyWindow?.addSubview(tempImageView)
+                
+                navigationController?.popViewControllerAnimated(false)
+                UIView.animateWithDuration(0.3, animations: { 
+                    tempImageView.alpha = 0
+                    tempImageView.frame = CGRect(x: 0, y: SCREEN_HEIGHT * 0.5, width: SCREEN_WIDTH, height: 0)
+                    }, completion: { (_) in
+                        tempImageView.removeFromSuperview()
+                })
+                
+            }
+        }
+    }
+    
     /**
      手指滑动屏幕开始滚动
      */
@@ -412,6 +449,14 @@ extension JFNewsDetailViewController: JFNewsBottomBarDelegate, JFCommentCommitVi
                 })
             }
             
+        }
+        
+        if (scrollView.contentOffset.y + SCREEN_HEIGHT) > scrollView.contentSize.height {
+            if (scrollView.contentOffset.y + SCREEN_HEIGHT) - scrollView.contentSize.height >= 50 {
+                closeDetailView.selected = true
+            } else {
+                closeDetailView.selected = false
+            }
         }
     }
     

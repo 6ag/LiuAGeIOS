@@ -105,6 +105,7 @@
 		B264A41F1D018DC800C72E13 /* JFNewsThreePicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A3FF1D018DC800C72E13 /* JFNewsThreePicCell.swift */; };
 		B264A4201D018DC800C72E13 /* JFNewsThreePicCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B264A4001D018DC800C72E13 /* JFNewsThreePicCell.xib */; };
 		B264A4211D018DC800C72E13 /* JFTopLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A4011D018DC800C72E13 /* JFTopLabel.swift */; };
+		B26EA8C41D1BB82200C0D27E /* JFCloseDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26EA8C31D1BB82200C0D27E /* JFCloseDetailView.swift */; };
 		B29D53EE1CF45DCB00CD3F0D /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B29D53ED1CF45DCB00CD3F0D /* JavaScriptCore.framework */; };
 		B29D53F01CF45DD500CD3F0D /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B29D53EF1CF45DD500CD3F0D /* libicucore.tbd */; };
 		B2A877181D029A420061AC70 /* NSDate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A877171D029A420061AC70 /* NSDate+Extension.swift */; };
@@ -294,6 +295,7 @@
 		B264A3FF1D018DC800C72E13 /* JFNewsThreePicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFNewsThreePicCell.swift; sourceTree = "<group>"; };
 		B264A4001D018DC800C72E13 /* JFNewsThreePicCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JFNewsThreePicCell.xib; sourceTree = "<group>"; };
 		B264A4011D018DC800C72E13 /* JFTopLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFTopLabel.swift; sourceTree = "<group>"; };
+		B26EA8C31D1BB82200C0D27E /* JFCloseDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFCloseDetailView.swift; sourceTree = "<group>"; };
 		B29D53ED1CF45DCB00CD3F0D /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		B29D53EF1CF45DD500CD3F0D /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
 		B2A877171D029A420061AC70 /* NSDate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Extension.swift"; sourceTree = "<group>"; };
@@ -910,6 +912,7 @@
 				B264A3F91D018DC800C72E13 /* JFStarAndShareCell.xib */,
 				B2354A001D0BA84A0050AF13 /* JFNoHighlightedButton.h */,
 				B2354A011D0BA84A0050AF13 /* JFNoHighlightedButton.m */,
+				B26EA8C31D1BB82200C0D27E /* JFCloseDetailView.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -1283,6 +1286,7 @@
 				B264A41F1D018DC800C72E13 /* JFNewsThreePicCell.swift in Sources */,
 				B264A41D1D018DC800C72E13 /* JFNewsOnePicCell.swift in Sources */,
 				B264A41B1D018DC800C72E13 /* JFNewsNoPicCell.swift in Sources */,
+				B26EA8C41D1BB82200C0D27E /* JFCloseDetailView.swift in Sources */,
 				B264A36E1D016C0D00C72E13 /* api.swift in Sources */,
 				B2526ACD1D0D56FB0024C84C /* JFNewsDALManager.swift in Sources */,
 				B264A4191D018DC800C72E13 /* JFStarAndShareCell.swift in Sources */,
