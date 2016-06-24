@@ -50,12 +50,7 @@ class JFNewsOnePicCell: UITableViewCell {
         setNeedsLayout()
         layoutIfNeeded()
         
-        // sizeclass布局后这里计算不准确，正在找更好的解决办法
-        if iPhoneModel.getCurrentModel() == .iPad && CGRectGetMaxY(iconView.frame) < 132 {
-            return CGRectGetMaxY(timeLabel.frame) + 15 + 66
-        } else {
-            return CGRectGetMaxY(timeLabel.frame) + 15
-        }
+        return CGRectGetMaxY(timeLabel.frame) + 15
     }
     
     @IBOutlet weak var iconView: UIImageView!

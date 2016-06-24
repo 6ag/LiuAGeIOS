@@ -7,11 +7,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="259" id="p3O-7f-KGG" customClass="JFNewsThreePicCell" customModule="LiuAGeIOS" customModuleProvider="target">
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="357" id="p3O-7f-KGG" customClass="JFNewsThreePicCell" customModule="LiuAGeIOS" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="375" height="178"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="p3O-7f-KGG" id="BbC-Je-Lyz">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="177.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="378" height="275.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="标题标题标题标题标题标题" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="swU-jX-mpa">
@@ -29,13 +29,16 @@
                         </variation>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xSg-Yp-hNB">
-                        <rect key="frame" x="133" y="51" width="110" height="82"/>
+                        <rect key="frame" x="134" y="51" width="111" height="82"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                         </userDefinedRuntimeAttributes>
+                        <variation key="heightClass=regular-widthClass=regular" misplaced="YES">
+                            <rect key="frame" x="133" y="51" width="110" height="164"/>
+                        </variation>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MfJ-Ft-v2C">
-                        <rect key="frame" x="15" y="51" width="109.5" height="82"/>
+                        <rect key="frame" x="15" y="51" width="110.5" height="82"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="82" id="Axx-Re-xat">
                                 <variation key="heightClass=regular-widthClass=regular" constant="164"/>
@@ -44,12 +47,18 @@
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                         </userDefinedRuntimeAttributes>
+                        <variation key="heightClass=regular-widthClass=regular" misplaced="YES">
+                            <rect key="frame" x="15" y="51" width="109.5" height="164"/>
+                        </variation>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8lG-72-axZ">
-                        <rect key="frame" x="251" y="51" width="109" height="82"/>
+                        <rect key="frame" x="253" y="51" width="110" height="82"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                         </userDefinedRuntimeAttributes>
+                        <variation key="heightClass=regular-widthClass=regular" misplaced="YES">
+                            <rect key="frame" x="251" y="51" width="109" height="164"/>
+                        </variation>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2小时前" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1PF-wN-vxs">
                         <rect key="frame" x="15" y="148" width="44" height="15"/>
@@ -110,7 +119,7 @@
                 <outlet property="showNumLabel" destination="3jk-bI-6ra" id="78S-V8-TWc"/>
                 <outlet property="timeLabel" destination="1PF-wN-vxs" id="lNa-NZ-Y3P"/>
             </connections>
-            <point key="canvasLocation" x="396.5" y="348"/>
+            <point key="canvasLocation" x="398" y="397"/>
         </tableViewCell>
     </objects>
     <resources>

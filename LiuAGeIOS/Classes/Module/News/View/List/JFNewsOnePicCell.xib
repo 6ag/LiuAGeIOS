@@ -7,11 +7,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="182" id="lzo-76-Q89" customClass="JFNewsOnePicCell" customModule="LiuAGeIOS" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="205" id="lzo-76-Q89" customClass="JFNewsOnePicCell" customModule="LiuAGeIOS" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="434" height="123"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lzo-76-Q89" id="nFq-QU-nZv">
-                <rect key="frame" x="0.0" y="0.0" width="433" height="152.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="434" height="122.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="标题标题标题标题标题标题" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RYk-WJ-NF0">
@@ -21,7 +21,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QAF-yw-dZD">
-                        <rect key="frame" x="330" y="43.5" width="88" height="66"/>
+                        <rect key="frame" x="331" y="28" width="88" height="66"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="66" id="MZ8-J0-4om">
                                 <variation key="heightClass=regular-widthClass=regular" constant="132"/>
@@ -35,26 +35,26 @@
                         </userDefinedRuntimeAttributes>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2小时前" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WPL-37-vDz">
-                        <rect key="frame" x="15" y="94.5" width="44" height="15"/>
+                        <rect key="frame" x="15" y="79" width="44" height="15"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="0.74117647058823533" green="0.74117647058823533" blue="0.74117647058823533" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="news_list_look" translatesAutoresizingMaskIntoConstraints="NO" id="QpZ-PS-d0h">
-                        <rect key="frame" x="141" y="94.5" width="14" height="14"/>
+                        <rect key="frame" x="141" y="80" width="14" height="14"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="14" id="762-qB-hM1"/>
                             <constraint firstAttribute="width" constant="14" id="JH3-cD-kW1"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="321" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FVr-TH-vRX">
-                        <rect key="frame" x="158" y="94.5" width="21" height="15"/>
+                        <rect key="frame" x="158" y="79" width="21" height="15"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="0.74117647060000003" green="0.74117647060000003" blue="0.74117647060000003" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="未解之谜网" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IP6-W1-mcs" userLabel="befrom">
-                        <rect key="frame" x="73" y="94.5" width="60" height="15"/>
+                        <rect key="frame" x="73" y="79" width="60" height="15"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="0.74117647060000003" green="0.74117647060000003" blue="0.74117647060000003" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -109,7 +109,7 @@
                 <outlet property="smalltextLabel" destination="ofO-8U-Rfz" id="R0Y-95-Uyy"/>
                 <outlet property="timeLabel" destination="WPL-37-vDz" id="7JG-z6-hjd"/>
             </connections>
-            <point key="canvasLocation" x="515.5" y="357.5"/>
+            <point key="canvasLocation" x="505" y="290.5"/>
         </tableViewCell>
     </objects>
     <resources>
