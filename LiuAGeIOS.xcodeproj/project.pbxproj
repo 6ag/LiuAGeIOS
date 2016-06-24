@@ -105,6 +105,7 @@
 		B264A41F1D018DC800C72E13 /* JFNewsThreePicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A3FF1D018DC800C72E13 /* JFNewsThreePicCell.swift */; };
 		B264A4201D018DC800C72E13 /* JFNewsThreePicCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B264A4001D018DC800C72E13 /* JFNewsThreePicCell.xib */; };
 		B264A4211D018DC800C72E13 /* JFTopLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A4011D018DC800C72E13 /* JFTopLabel.swift */; };
+		B26C50871D1CE28800A1B856 /* JFSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26C50861D1CE28800A1B856 /* JFSearchViewController.swift */; };
 		B26EA8C41D1BB82200C0D27E /* JFCloseDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26EA8C31D1BB82200C0D27E /* JFCloseDetailView.swift */; };
 		B29D53EE1CF45DCB00CD3F0D /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B29D53ED1CF45DCB00CD3F0D /* JavaScriptCore.framework */; };
 		B29D53F01CF45DD500CD3F0D /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B29D53EF1CF45DD500CD3F0D /* libicucore.tbd */; };
@@ -295,6 +296,7 @@
 		B264A3FF1D018DC800C72E13 /* JFNewsThreePicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFNewsThreePicCell.swift; sourceTree = "<group>"; };
 		B264A4001D018DC800C72E13 /* JFNewsThreePicCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JFNewsThreePicCell.xib; sourceTree = "<group>"; };
 		B264A4011D018DC800C72E13 /* JFTopLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFTopLabel.swift; sourceTree = "<group>"; };
+		B26C50861D1CE28800A1B856 /* JFSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFSearchViewController.swift; sourceTree = "<group>"; };
 		B26EA8C31D1BB82200C0D27E /* JFCloseDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFCloseDetailView.swift; sourceTree = "<group>"; };
 		B29D53ED1CF45DCB00CD3F0D /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		B29D53EF1CF45DD500CD3F0D /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
@@ -808,6 +810,7 @@
 		B264A3D71D018DC800C72E13 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				B26C50851D1CE25700A1B856 /* Search */,
 				B2C865FF1D051C1900A5B1FD /* Transition */,
 				B264A3D81D018DC800C72E13 /* Column */,
 				B264A3E01D018DC800C72E13 /* List */,
@@ -929,6 +932,14 @@
 				B264A4011D018DC800C72E13 /* JFTopLabel.swift */,
 			);
 			path = List;
+			sourceTree = "<group>";
+		};
+		B26C50851D1CE25700A1B856 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				B26C50861D1CE28800A1B856 /* JFSearchViewController.swift */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 		B2C865FF1D051C1900A5B1FD /* Transition */ = {
@@ -1274,6 +1285,7 @@
 				B264A3B41D016C0D00C72E13 /* JFProfileCellModel.swift in Sources */,
 				B264A40A1D018DC800C72E13 /* JFCommentModel.swift in Sources */,
 				B264A3BB1D016C0D00C72E13 /* JFProfileTopButton.swift in Sources */,
+				B26C50871D1CE28800A1B856 /* JFSearchViewController.swift in Sources */,
 				B264A4061D018DC800C72E13 /* JFNewsViewController.swift in Sources */,
 				B20149581D07DBFA00ACE583 /* JFSetFontView.swift in Sources */,
 				B264A3741D016C0D00C72E13 /* UIView+Extension.swift in Sources */,
@@ -1530,7 +1542,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "LiuAGeIOS/Classes/Application/LiuAGeIOS-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
@@ -1592,7 +1604,7 @@
 				PRODUCT_NAME = LiuAGeIOS;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "LiuAGeIOS/Classes/Application/LiuAGeIOS-Bridging-Header.h";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;

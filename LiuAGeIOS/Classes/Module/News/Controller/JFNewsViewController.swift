@@ -126,10 +126,17 @@ class JFNewsViewController: UIViewController {
     }
     
     /**
-     点击左边导航按钮
+     点击左边导航按钮  侧栏
      */
     @IBAction func didTappedLeftButton(sender: UIButton) {
         profileVc.viewShow()
+    }
+    
+    /**
+     点击右边导航按钮  搜索
+     */
+    @IBAction func didTappedRightButton(sender: UIButton) {
+        navigationController?.pushViewController(JFSearchViewController(), animated: true)
     }
     
     /**

@@ -84,6 +84,16 @@
                                 </connections>
                             </button>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="oK6-GY-yFg">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="5Yd-E8-xQs">
+                                <rect key="frame" x="560" y="11" width="20" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="top_navigation_search"/>
+                                <connections>
+                                    <action selector="didTappedRightButton:" destination="mqn-Xd-dLs" eventType="touchUpInside" id="jXb-I5-rOn"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="arrowButton" destination="fNF-2X-T8b" id="fpG-Zv-nwo"/>
@@ -118,5 +128,6 @@
         <image name="channel_nav_plus" width="19" height="19"/>
         <image name="navigation_right_menu" width="20" height="20"/>
         <image name="photoview_image_default_white" width="75" height="40"/>
+        <image name="top_navigation_search" width="20" height="20"/>
     </resources>
 </document>

@@ -19,13 +19,27 @@ class JFNewsOnePicCell: UITableViewCell {
             timeLabel.text = postModel?.newstimeString
             befromLabel.text = postModel?.befrom!
             showNumLabel.text = postModel?.onclick!
+            
+            if iPhoneModel.getCurrentModel() == .iPad {
+                smalltextLabel.hidden = false
+                smalltextLabel.text = postModel?.smalltext!
+            } else {
+                smalltextLabel.hidden = true
+            }
         }
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        // 图片宽度固定
-        articleTitleLabel.preferredMaxLayoutWidth = SCREEN_WIDTH - 133
+        
+        if iPhoneModel.getCurrentModel() == .iPad {
+            articleTitleLabel.preferredMaxLayoutWidth = SCREEN_WIDTH - 221
+            smalltextLabel.preferredMaxLayoutWidth = SCREEN_WIDTH - 221
+        } else {
+            // 133 = 15(间隔) * 3(间隔数) + 88(图片宽度)
+            articleTitleLabel.preferredMaxLayoutWidth = SCREEN_WIDTH - 133
+        }
+        
     }
     
     /**
@@ -35,7 +49,13 @@ class JFNewsOnePicCell: UITableViewCell {
         self.postModel = postModel
         setNeedsLayout()
         layoutIfNeeded()
-        return CGRectGetMaxY(timeLabel.frame) + 15
+        
+        // sizeclass布局后这里计算不准确，正在找更好的解决办法
+        if iPhoneModel.getCurrentModel() == .iPad && CGRectGetMaxY(iconView.frame) < 132 {
+            return CGRectGetMaxY(timeLabel.frame) + 15 + 66
+        } else {
+            return CGRectGetMaxY(timeLabel.frame) + 15
+        }
     }
     
     @IBOutlet weak var iconView: UIImageView!
@@ -43,5 +63,6 @@ class JFNewsOnePicCell: UITableViewCell {
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var befromLabel: UILabel!
     @IBOutlet weak var showNumLabel: UILabel!
+    @IBOutlet weak var smalltextLabel: UILabel!
     
 }

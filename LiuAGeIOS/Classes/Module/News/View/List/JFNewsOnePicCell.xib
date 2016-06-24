@@ -7,11 +7,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="129" id="lzo-76-Q89" customClass="JFNewsOnePicCell" customModule="LiuAGeIOS" customModuleProvider="target">
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="182" id="lzo-76-Q89" customClass="JFNewsOnePicCell" customModule="LiuAGeIOS" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lzo-76-Q89" id="nFq-QU-nZv">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="433" height="152.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="标题标题标题标题标题标题" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RYk-WJ-NF0">
@@ -21,38 +21,48 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QAF-yw-dZD">
-                        <rect key="frame" x="272" y="17" width="88" height="66"/>
+                        <rect key="frame" x="330" y="43.5" width="88" height="66"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="66" id="MZ8-J0-4om"/>
-                            <constraint firstAttribute="width" constant="88" id="PcU-Wl-f4U"/>
+                            <constraint firstAttribute="height" constant="66" id="MZ8-J0-4om">
+                                <variation key="heightClass=regular-widthClass=regular" constant="132"/>
+                            </constraint>
+                            <constraint firstAttribute="width" constant="88" id="PcU-Wl-f4U">
+                                <variation key="heightClass=regular-widthClass=regular" constant="176"/>
+                            </constraint>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                         </userDefinedRuntimeAttributes>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2小时前" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WPL-37-vDz">
-                        <rect key="frame" x="15" y="68" width="44" height="15"/>
+                        <rect key="frame" x="15" y="94.5" width="44" height="15"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="0.74117647058823533" green="0.74117647058823533" blue="0.74117647058823533" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="news_list_look" translatesAutoresizingMaskIntoConstraints="NO" id="QpZ-PS-d0h">
-                        <rect key="frame" x="141" y="68" width="14" height="14"/>
+                        <rect key="frame" x="141" y="94.5" width="14" height="14"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="14" id="762-qB-hM1"/>
                             <constraint firstAttribute="width" constant="14" id="JH3-cD-kW1"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="321" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FVr-TH-vRX">
-                        <rect key="frame" x="158" y="68" width="21" height="15"/>
+                        <rect key="frame" x="158" y="94.5" width="21" height="15"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="0.74117647060000003" green="0.74117647060000003" blue="0.74117647060000003" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="未解之谜网" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IP6-W1-mcs" userLabel="befrom">
-                        <rect key="frame" x="73" y="68" width="60" height="15"/>
+                        <rect key="frame" x="73" y="94.5" width="60" height="15"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="0.74117647060000003" green="0.74117647060000003" blue="0.74117647060000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ofO-8U-Rfz">
+                        <rect key="frame" x="-42" y="-21" width="42" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
@@ -60,6 +70,7 @@
                     <constraint firstItem="WPL-37-vDz" firstAttribute="bottom" secondItem="QAF-yw-dZD" secondAttribute="bottom" id="GEQ-00-bwv"/>
                     <constraint firstItem="FVr-TH-vRX" firstAttribute="leading" secondItem="QpZ-PS-d0h" secondAttribute="trailing" constant="3" id="GFi-gI-Fjq"/>
                     <constraint firstItem="QpZ-PS-d0h" firstAttribute="centerY" secondItem="IP6-W1-mcs" secondAttribute="centerY" id="J6O-dv-cgO"/>
+                    <constraint firstItem="ofO-8U-Rfz" firstAttribute="leading" secondItem="nFq-QU-nZv" secondAttribute="leading" constant="15" id="MCP-4w-wyq"/>
                     <constraint firstItem="IP6-W1-mcs" firstAttribute="leading" secondItem="WPL-37-vDz" secondAttribute="trailing" constant="14" id="S53-yf-vW8"/>
                     <constraint firstAttribute="trailing" secondItem="QAF-yw-dZD" secondAttribute="trailing" constant="15" id="STF-ea-kd5"/>
                     <constraint firstItem="RYk-WJ-NF0" firstAttribute="leading" secondItem="nFq-QU-nZv" secondAttribute="leading" constant="15" id="T3x-Z6-KdE"/>
@@ -67,18 +78,38 @@
                     <constraint firstItem="FVr-TH-vRX" firstAttribute="centerY" secondItem="QpZ-PS-d0h" secondAttribute="centerY" id="TaM-71-L0C"/>
                     <constraint firstItem="RYk-WJ-NF0" firstAttribute="top" secondItem="nFq-QU-nZv" secondAttribute="top" constant="15" id="epd-3y-oFk"/>
                     <constraint firstItem="QpZ-PS-d0h" firstAttribute="leading" secondItem="IP6-W1-mcs" secondAttribute="trailing" constant="8" id="iHV-dx-hcM"/>
+                    <constraint firstItem="ofO-8U-Rfz" firstAttribute="top" secondItem="RYk-WJ-NF0" secondAttribute="bottom" constant="15" id="qWV-04-LId"/>
                     <constraint firstItem="WPL-37-vDz" firstAttribute="leading" secondItem="nFq-QU-nZv" secondAttribute="leading" constant="15" id="sIo-Tp-zW1"/>
                     <constraint firstItem="QAF-yw-dZD" firstAttribute="centerY" secondItem="nFq-QU-nZv" secondAttribute="centerY" id="wDc-ar-BpJ"/>
                 </constraints>
+                <variation key="default">
+                    <mask key="subviews">
+                        <exclude reference="ofO-8U-Rfz"/>
+                    </mask>
+                    <mask key="constraints">
+                        <exclude reference="MCP-4w-wyq"/>
+                        <exclude reference="qWV-04-LId"/>
+                    </mask>
+                </variation>
+                <variation key="heightClass=regular-widthClass=regular">
+                    <mask key="subviews">
+                        <include reference="ofO-8U-Rfz"/>
+                    </mask>
+                    <mask key="constraints">
+                        <include reference="MCP-4w-wyq"/>
+                        <include reference="qWV-04-LId"/>
+                    </mask>
+                </variation>
             </tableViewCellContentView>
             <connections>
                 <outlet property="articleTitleLabel" destination="RYk-WJ-NF0" id="IEj-eS-ykf"/>
                 <outlet property="befromLabel" destination="IP6-W1-mcs" id="u42-nT-QXD"/>
                 <outlet property="iconView" destination="QAF-yw-dZD" id="xjm-fP-lhi"/>
                 <outlet property="showNumLabel" destination="FVr-TH-vRX" id="zwO-q3-rJs"/>
+                <outlet property="smalltextLabel" destination="ofO-8U-Rfz" id="R0Y-95-Uyy"/>
                 <outlet property="timeLabel" destination="WPL-37-vDz" id="7JG-z6-hjd"/>
             </connections>
-            <point key="canvasLocation" x="558.5" y="417"/>
+            <point key="canvasLocation" x="515.5" y="357.5"/>
         </tableViewCell>
     </objects>
     <resources>

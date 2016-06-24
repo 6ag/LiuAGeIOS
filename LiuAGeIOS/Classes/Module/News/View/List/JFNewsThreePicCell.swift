@@ -44,6 +44,13 @@ class JFNewsThreePicCell: UITableViewCell {
         self.postModel = postModel
         setNeedsLayout()
         layoutIfNeeded()
-        return CGRectGetMaxY(timeLabel.frame) + 15
+        
+        // sizeclass布局后这里计算不准确，正在找更好的解决办法
+        if iPhoneModel.getCurrentModel() == .iPad && CGRectGetMaxY(iconView1.frame) < 164 {
+            return CGRectGetMaxY(timeLabel.frame) + 15 + 82
+        } else {
+            return CGRectGetMaxY(timeLabel.frame) + 15
+        }
+        
     }
 }

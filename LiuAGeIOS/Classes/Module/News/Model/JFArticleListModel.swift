@@ -34,6 +34,9 @@ class JFArticleListModel: NSObject {
     /// 多图数组
     var morepic: [String]?
     
+    /// 简介
+    var smalltext: String?
+    
     /// 缓存行高
     var rowHeight: CGFloat = 0.0
     

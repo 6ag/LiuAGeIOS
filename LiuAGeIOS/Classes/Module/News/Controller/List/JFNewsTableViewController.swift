@@ -64,7 +64,7 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
      */
     private func prepareScrollView() {
         
-        topScrollView = SDCycleScrollView(frame: CGRect(x:0, y:0, width: SCREEN_WIDTH, height:150), delegate:self, placeholderImage:UIImage(named: "photoview_image_default_white"))
+        topScrollView = SDCycleScrollView(frame: CGRect(x:0, y:0, width: SCREEN_WIDTH, height:iPhoneModel.getCurrentModel() == .iPad ? 250 : 150), delegate:self, placeholderImage:UIImage(named: "photoview_image_default_white"))
         topScrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight
         topScrollView.pageDotColor = NAVIGATIONBAR_COLOR
         topScrollView.currentPageDotColor = UIColor.blackColor()
@@ -265,7 +265,11 @@ extension JFNewsTableViewController {
             }
             return postModel.rowHeight
         } else if postModel.morepic?.count == 0 { // 单图
-            return 96
+            if iPhoneModel.getCurrentModel() == .iPad {
+                return 162
+            } else {
+                return 96
+            }
         } else { // 多图
             if postModel.rowHeight == 0 {
                 let cell = tableView.dequeueReusableCellWithIdentifier(newsThreePicCell) as! JFNewsThreePicCell

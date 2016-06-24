@@ -19,6 +19,7 @@ enum iPhoneModel {
     case iPhone5
     case iPhone6
     case iPhone6p
+    case iPad
     
     /**
      获取当前手机型号
@@ -36,7 +37,7 @@ enum iPhoneModel {
         case 736:
             return .iPhone6p
         default:
-            return .iPhone6
+            return .iPad
         }
     }
 }

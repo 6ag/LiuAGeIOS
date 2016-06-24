@@ -79,6 +79,18 @@
 
 ![image](https://github.com/6ag/LiuAGeIOS/blob/master/Show/7.gif)
 
+### iPad列表页
+
+![image](https://github.com/6ag/LiuAGeIOS/blob/master/Show/8.jpg)
+
+### iPad正文
+
+![image](https://github.com/6ag/LiuAGeIOS/blob/master/Show/9.jpg)
+
+### iPad图库
+
+![image](https://github.com/6ag/LiuAGeIOS/blob/master/Show/10.jpg)
+
 ## 许可
 
 [MIT](https://raw.githubusercontent.com/Finb/V2ex-Swift/master/LICENSE) © [六阿哥](https://github.com/6ag)

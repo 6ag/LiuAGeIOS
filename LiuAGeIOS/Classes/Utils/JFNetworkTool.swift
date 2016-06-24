@@ -162,6 +162,7 @@ extension JFNetworkTool {
                 finished(success: false, result: nil, error: error)
                 return
             }
+            print(successResult)
             finished(success: true, result: successResult["data"], error: nil)
         }
     }
