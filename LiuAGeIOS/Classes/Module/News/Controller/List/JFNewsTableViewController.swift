@@ -55,9 +55,6 @@ class JFNewsTableViewController: UIViewController, SDCycleScrollViewDelegate {
         tableView.registerNib(UINib(nibName: "JFNewsOnePicCell", bundle: nil), forCellReuseIdentifier: newsOnePicCell)
         tableView.registerNib(UINib(nibName: "JFNewsThreePicCell", bundle: nil), forCellReuseIdentifier: newsThreePicCell)
         
-        // 分割线颜色
-        tableView.separatorColor = UIColor(red:0.9,  green:0.9,  blue:0.9, alpha:1)
-        
         // 配置上下拉刷新控件
         tableView.mj_header = setupHeaderRefresh(self, action: #selector(updateNewData))
         tableView.mj_footer = setupFooterRefresh(self, action: #selector(loadMoreData))
@@ -257,7 +254,7 @@ class JFNewsTableViewController: UIViewController, SDCycleScrollViewDelegate {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.backgroundColor = UIColor.whiteColor()
-        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        tableView.separatorColor = UIColor(red:0.9,  green:0.9,  blue:0.9, alpha:1)
         return tableView
     }()
     
