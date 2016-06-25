@@ -13,8 +13,14 @@ class JFNewsOnePicCell: UITableViewCell {
     
     var postModel: JFArticleListModel? {
         didSet {
-            iconView.image = nil
-            iconView.yy_setImageWithURL(NSURL(string: postModel!.titlepic!), placeholder: UIImage(named: "list_placeholder"))
+            
+            if postModel!.titlepic!.hasSuffix("gif") {
+                iconView.image = UIImage(named: "list_placeholder")
+                iconView.yy_imageURL = NSURL(string: postModel!.titlepic!)
+            } else {
+                iconView.yy_setImageWithURL(NSURL(string: postModel!.titlepic!), placeholder: UIImage(named: "list_placeholder"), options: YYWebImageOptions.Progressive, completion: nil)
+            }
+            
             articleTitleLabel.text = postModel?.title!
             timeLabel.text = postModel?.newstimeString
             befromLabel.text = postModel?.befrom!

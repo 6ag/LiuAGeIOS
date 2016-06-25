@@ -52,17 +52,12 @@ class JFNewsPhotoBrowserViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: true)
+        UIApplication.sharedApplication().statusBarHidden = true
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
-    }
-    
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        UIApplication.sharedApplication().statusBarHidden = false
     }
     
     /**
@@ -194,7 +189,7 @@ extension JFNewsPhotoBrowserViewController: UICollectionViewDelegate, UICollecti
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(photoIdentifier, forIndexPath: indexPath) as! JFPhotoDetailCell
         cell.delegate = self
-        cell.articleModel = photoModels[indexPath.item]
+        cell.urlString = photoModels[indexPath.item].url
         return cell
     }
 }

@@ -13,9 +13,27 @@ class JFNewsThreePicCell: UITableViewCell {
     
     var postModel: JFArticleListModel? {
         didSet {
-            iconView1.yy_setImageWithURL(NSURL(string: postModel!.morepic![0]), placeholder: UIImage(named: "list_placeholder"))
-            iconView2.yy_setImageWithURL(NSURL(string: postModel!.morepic![1]), placeholder: UIImage(named: "list_placeholder"))
-            iconView3.yy_setImageWithURL(NSURL(string: postModel!.morepic![2]), placeholder: UIImage(named: "list_placeholder"))
+            
+            if postModel!.titlepic!.hasSuffix("gif") {
+                iconView1.image = UIImage(named: "list_placeholder")
+                iconView1.yy_imageURL = NSURL(string: postModel!.morepic![0])
+            } else {
+                iconView1.yy_setImageWithURL(NSURL(string: postModel!.morepic![0]), placeholder: UIImage(named: "list_placeholder"), options: YYWebImageOptions.Progressive, completion: nil)
+            }
+            
+            if postModel!.titlepic!.hasSuffix("gif") {
+                iconView2.image = UIImage(named: "list_placeholder")
+                iconView2.yy_imageURL = NSURL(string: postModel!.morepic![1])
+            } else {
+                iconView2.yy_setImageWithURL(NSURL(string: postModel!.morepic![1]), placeholder: UIImage(named: "list_placeholder"), options: YYWebImageOptions.Progressive, completion: nil)
+            }
+            
+            if postModel!.titlepic!.hasSuffix("gif") {
+                iconView3.image = UIImage(named: "list_placeholder")
+                iconView3.yy_imageURL = NSURL(string: postModel!.morepic![2])
+            } else {
+                iconView3.yy_setImageWithURL(NSURL(string: postModel!.morepic![2]), placeholder: UIImage(named: "list_placeholder"), options: YYWebImageOptions.Progressive, completion: nil)
+            }
             
             articleTitleLabel.text = postModel?.title!
             timeLabel.text = postModel?.newstimeString

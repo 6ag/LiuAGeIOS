@@ -269,7 +269,7 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
         case 1: // 广告
             let cell = UITableViewCell()
             cell.selectionStyle = .None
-            let adImageView = UIImageView(frame: CGRect(x: 12, y: 0, width: SCREEN_WIDTH - 24, height: 160))
+            let adImageView = UIImageView(frame: CGRect(x: 12, y: 0, width: SCREEN_WIDTH - 24, height: SCREEN_HEIGHT * 0.2))
             adImageView.image = UIImage(named: "temp_ad")
             cell.contentView.addSubview(adImageView)
             return cell
@@ -339,7 +339,7 @@ extension JFNewsDetailViewController: UITableViewDataSource, UITableViewDelegate
         case 0: // 分享
             return 160
         case 1: // 广告
-            return 160
+            return SCREEN_HEIGHT * 0.2
         case 2: // 相关阅读
             return 100
         case 3: // 评论
@@ -458,6 +458,7 @@ extension JFNewsDetailViewController: JFNewsBottomBarDelegate, JFCommentCommitVi
                 closeDetailView.selected = false
             }
         }
+        
     }
     
     /**
@@ -504,6 +505,7 @@ extension JFNewsDetailViewController: JFNewsBottomBarDelegate, JFCommentCommitVi
     func didTappedCollectButton(button: UIButton) {
         
         if JFAccountModel.isLogin() {
+            
             let parameters: [String : AnyObject] = [
                 "username" : JFAccountModel.shareAccount()!.username!,
                 "userid" : JFAccountModel.shareAccount()!.id,
@@ -921,7 +923,7 @@ extension JFNewsDetailViewController: JFCommentCellDelegate {
      点击更多评论按钮
      */
     func didTappedmoreCommentButton(button: UIButton) -> Void {
-        let commentVc = JFCommentTableViewController(style: UITableViewStyle.Plain)
+        let commentVc = JFCommentViewController()
         commentVc.param = articleParam
         navigationController?.pushViewController(commentVc, animated: true)
     }

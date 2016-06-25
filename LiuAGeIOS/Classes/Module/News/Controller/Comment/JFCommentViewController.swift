@@ -1,5 +1,5 @@
 //
-//  JFCommentTableViewController.swift
+//  JFCommentViewController.swift
 //  BaoKanIOS
 //
 //  Created by zhoujianfeng on 16/5/18.
@@ -9,10 +9,13 @@
 import UIKit
 import MJRefresh
 
-class JFCommentTableViewController: UITableViewController {
+class JFCommentViewController: UIViewController {
     
     var param: (classid: String, id: String)? {
         didSet {
+            view.addSubview(tableView)
+            view.addSubview(placeholderView)
+            placeholderView.startAnimation()
             updateNewData()
         }
     }
@@ -26,6 +29,7 @@ class JFCommentTableViewController: UITableViewController {
         super.viewDidLoad()
         
         title = "评论列表"
+        
         tableView.registerNib(UINib(nibName: "JFCommentCell", bundle: nil), forCellReuseIdentifier: "commentCell")
         
         // 配置上下拉刷新控件
@@ -73,6 +77,10 @@ class JFCommentTableViewController: UITableViewController {
             
             if models.count == 0 {
                 self.tableView.mj_footer.endRefreshingWithNoMoreData()
+                
+                if self.commentList.count == 0 {
+                    self.placeholderView.noAnyData("还没有任何评论信息")
+                }
                 return
             }
             
@@ -89,41 +97,59 @@ class JFCommentTableViewController: UITableViewController {
                 }
             }
             
+            self.placeholderView.removeAnimation()
             self.tableView.reloadData()
         }
         
     }
     
+    /// 内容区域
+    lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: self.view.bounds, style: UITableViewStyle.Plain)
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.backgroundColor = UIColor.whiteColor()
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        return tableView
+    }()
+    
+    /// 没有内容的时候的占位图
+    private lazy var placeholderView: JFPlaceholderView = {
+        let placeholderView = JFPlaceholderView(frame: self.view.bounds)
+        placeholderView.backgroundColor = UIColor.whiteColor()
+        return placeholderView
+    }()
+    
 }
 
 // MARK: - tableView
-extension JFCommentTableViewController {
+extension JFCommentViewController: UITableViewDelegate, UITableViewDataSource {
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return commentList.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("commentCell") as! JFCommentCell
         cell.delegate = self
         cell.commentModel = commentList[indexPath.row]
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         // 回复指定评论，下一版实现
     }
     
-    override func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 80
     }
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         var rowHeight = commentList[indexPath.row].rowHeight
         if rowHeight < 1 {
             let cell = tableView.dequeueReusableCellWithIdentifier("commentCell") as! JFCommentCell
@@ -136,7 +162,7 @@ extension JFCommentTableViewController {
 }
 
 // MARK: - JFCommentCellDelegate
-extension JFCommentTableViewController: JFCommentCellDelegate {
+extension JFCommentViewController: JFCommentCellDelegate {
     
     func didTappedStarButton(button: UIButton, commentModel: JFCommentModel) {
         

@@ -5,7 +5,7 @@
 #import "JPUSHService.h"
 
 #import <ShareSDK/ShareSDK.h>
-#import <ShareSDKUI/ShareSDK+SSUI.h>
+#import <ShareSDKUI/ShareSDKUI.h>
 #import <ShareSDKConnector/ShareSDKConnector.h>
 
 //腾讯SDK头文件

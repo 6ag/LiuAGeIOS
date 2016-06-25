@@ -11,11 +11,12 @@ import SDCycleScrollView
 import MJRefresh
 import SwiftyJSON
 
-class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegate {
+class JFNewsTableViewController: UIViewController, SDCycleScrollViewDelegate {
     
     /// 分类数据
     var classid: Int? {
         didSet {
+            prepareTableView()
             loadIsGood(classid!)
             loadNews(classid!, pageIndex: 1, method: 0)
         }
@@ -38,13 +39,16 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        prepareTableView()
     }
     
     /**
      准备tableView
      */
     private func prepareTableView() {
+        
+        view.addSubview(tableView)
+        view.addSubview(placeholderView)
+        placeholderView.startAnimation()
         
         // 注册cell
         tableView.registerNib(UINib(nibName: "JFNewsNoPicCell", bundle: nil), forCellReuseIdentifier: newsNoPicCell)
@@ -64,7 +68,7 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
      */
     private func prepareScrollView() {
         
-        topScrollView = SDCycleScrollView(frame: CGRect(x:0, y:0, width: SCREEN_WIDTH, height:iPhoneModel.getCurrentModel() == .iPad ? 250 : 150), delegate:self, placeholderImage:UIImage(named: "photoview_image_default_white"))
+        topScrollView = SDCycleScrollView(frame: CGRect(x:0, y:0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT * 0.25), delegate:self, placeholderImage:UIImage(named: "photoview_image_default_white"))
         topScrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight
         topScrollView.pageDotColor = NAVIGATIONBAR_COLOR
         topScrollView.currentPageDotColor = UIColor.blackColor()
@@ -175,12 +179,17 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
             self.tableView.mj_header.endRefreshing()
             self.tableView.mj_footer.endRefreshing()
             
+            
             guard let list = articleListModels where error != true else {
                 return
             }
             
             if list.count == 0 {
                 self.tableView.mj_footer.endRefreshingWithNoMoreData()
+                
+                if self.articleList.count == 0 {
+                    self.placeholderView.noAnyData("还没有任何资讯")
+                }
                 return
             }
             
@@ -202,6 +211,7 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
                 }
             }
             
+            self.placeholderView.removeAnimation()
             self.tableView.reloadData()
         }
         
@@ -241,20 +251,37 @@ class JFNewsTableViewController: UITableViewController, SDCycleScrollViewDelegat
         }
     }
     
+    /// 内容区域
+    lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: self.view.bounds, style: UITableViewStyle.Plain)
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.backgroundColor = UIColor.whiteColor()
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        return tableView
+    }()
+    
+    /// 没有内容的时候的占位图
+    private lazy var placeholderView: JFPlaceholderView = {
+        let placeholderView = JFPlaceholderView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT - 104))
+        placeholderView.backgroundColor = UIColor.whiteColor()
+        return placeholderView
+    }()
+    
 }
 
 // MARK: - Table view data source
-extension JFNewsTableViewController {
+extension JFNewsTableViewController: UITableViewDataSource, UITableViewDelegate {
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return articleList.count
     }
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         let postModel = articleList[indexPath.row]
         if postModel.titlepic == "" { // 无图
@@ -280,11 +307,11 @@ extension JFNewsTableViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 100
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let postModel = articleList[indexPath.row]
         
@@ -303,7 +330,7 @@ extension JFNewsTableViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         // 取消cell选中状态
         tableView.deselectRowAtIndexPath(indexPath, animated: true)

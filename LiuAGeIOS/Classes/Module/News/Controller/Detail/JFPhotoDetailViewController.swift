@@ -16,6 +16,7 @@ class JFPhotoDetailViewController: UIViewController {
     /// 文章详情请求参数
     var photoParam: (classid: String, id: String)? {
         didSet {
+            prepareUI()
             loadPhotoDetail(Int(photoParam!.classid)!, id: Int(photoParam!.id)!)
         }
     }
@@ -62,7 +63,6 @@ class JFPhotoDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        prepareUI()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -291,7 +291,7 @@ extension JFPhotoDetailViewController: UICollectionViewDelegate, UICollectionVie
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(photoIdentifier, forIndexPath: indexPath) as! JFPhotoDetailCell
         cell.delegate = self
-        cell.model = photoModels[indexPath.item]
+        cell.urlString = photoModels[indexPath.item].bigpic
         return cell
     }
 }
@@ -319,7 +319,7 @@ extension JFPhotoDetailViewController: JFCommentCommitViewDelegate, JFPhotoBotto
      评论列表
      */
     func didTappedCommentButton(button: UIButton) {
-        let commentVc = JFCommentTableViewController(style: UITableViewStyle.Plain)
+        let commentVc = JFCommentViewController()
         commentVc.param = photoParam
         navigationController?.pushViewController(commentVc, animated: true)
     }

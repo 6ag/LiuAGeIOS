@@ -77,7 +77,7 @@
 		B264A3D41D016C0D00C72E13 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B264A3681D016C0D00C72E13 /* Info.plist */; };
 		B264A3D51D016C0D00C72E13 /* LaunchScreen.strings in Resources */ = {isa = PBXBuildFile; fileRef = B264A36A1D016C0D00C72E13 /* LaunchScreen.strings */; };
 		B264A4021D018DC800C72E13 /* JFEditColumnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A3D91D018DC800C72E13 /* JFEditColumnViewController.swift */; };
-		B264A4031D018DC800C72E13 /* JFCommentTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A3DB1D018DC800C72E13 /* JFCommentTableViewController.swift */; };
+		B264A4031D018DC800C72E13 /* JFCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A3DB1D018DC800C72E13 /* JFCommentViewController.swift */; };
 		B264A4041D018DC800C72E13 /* JFNewsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A3DD1D018DC800C72E13 /* JFNewsDetailViewController.swift */; };
 		B264A4051D018DC800C72E13 /* JFPhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A3DE1D018DC800C72E13 /* JFPhotoDetailViewController.swift */; };
 		B264A4061D018DC800C72E13 /* JFNewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A3DF1D018DC800C72E13 /* JFNewsViewController.swift */; };
@@ -118,6 +118,8 @@
 		B2CC1BD51D10FA7700B48048 /* JFObjcTool.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CC1BD41D10FA7700B48048 /* JFObjcTool.m */; };
 		B2DD3FA31CB7BDF60092C717 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B2DD3FA21CB7BDF60092C717 /* libz.tbd */; };
 		B2EBCE3F1D0960F300A09BA2 /* JFFPSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2EBCE3E1D0960F300A09BA2 /* JFFPSLabel.swift */; };
+		B2F122C91D1EC14F007ADBD1 /* JFPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F122C81D1EC14F007ADBD1 /* JFPlaceholderView.swift */; };
+		B2F122CB1D1EC837007ADBD1 /* loading in Resources */ = {isa = PBXBuildFile; fileRef = B2F122CA1D1EC837007ADBD1 /* loading */; };
 		B2F9EC561D03CBC800FC7E48 /* JFNewFeatureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F9EC551D03CBC800FC7E48 /* JFNewFeatureCell.swift */; };
 		B2F9EC5A1D03F42600FC7E48 /* JFPanGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F9EC591D03F42600FC7E48 /* JFPanGestureRecognizer.swift */; };
 		B2F9EC5C1D041A6B00FC7E48 /* JFProfileFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F9EC5B1D041A6B00FC7E48 /* JFProfileFooterView.swift */; };
@@ -268,7 +270,7 @@
 		B264A3681D016C0D00C72E13 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B264A36B1D016C0D00C72E13 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		B264A3D91D018DC800C72E13 /* JFEditColumnViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFEditColumnViewController.swift; sourceTree = "<group>"; };
-		B264A3DB1D018DC800C72E13 /* JFCommentTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFCommentTableViewController.swift; sourceTree = "<group>"; };
+		B264A3DB1D018DC800C72E13 /* JFCommentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFCommentViewController.swift; sourceTree = "<group>"; };
 		B264A3DD1D018DC800C72E13 /* JFNewsDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFNewsDetailViewController.swift; sourceTree = "<group>"; };
 		B264A3DE1D018DC800C72E13 /* JFPhotoDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFPhotoDetailViewController.swift; sourceTree = "<group>"; };
 		B264A3DF1D018DC800C72E13 /* JFNewsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFNewsViewController.swift; sourceTree = "<group>"; };
@@ -315,6 +317,8 @@
 		B2DD3FA21CB7BDF60092C717 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		B2DD3FA41CB7BE050092C717 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		B2EBCE3E1D0960F300A09BA2 /* JFFPSLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFFPSLabel.swift; sourceTree = "<group>"; };
+		B2F122C81D1EC14F007ADBD1 /* JFPlaceholderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFPlaceholderView.swift; sourceTree = "<group>"; };
+		B2F122CA1D1EC837007ADBD1 /* loading */ = {isa = PBXFileReference; lastKnownFileType = folder; path = loading; sourceTree = "<group>"; };
 		B2F9EC551D03CBC800FC7E48 /* JFNewFeatureCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFNewFeatureCell.swift; sourceTree = "<group>"; };
 		B2F9EC591D03F42600FC7E48 /* JFPanGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFPanGestureRecognizer.swift; sourceTree = "<group>"; };
 		B2F9EC5B1D041A6B00FC7E48 /* JFProfileFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFProfileFooterView.swift; sourceTree = "<group>"; };
@@ -792,6 +796,7 @@
 		B264A3691D016C0D00C72E13 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				B2F122CA1D1EC837007ADBD1 /* loading */,
 				B2FDC7DC1D0F901300025646 /* www */,
 			);
 			path = Resource;
@@ -834,7 +839,7 @@
 		B264A3DA1D018DC800C72E13 /* Comment */ = {
 			isa = PBXGroup;
 			children = (
-				B264A3DB1D018DC800C72E13 /* JFCommentTableViewController.swift */,
+				B264A3DB1D018DC800C72E13 /* JFCommentViewController.swift */,
 			);
 			path = Comment;
 			sourceTree = "<group>";
@@ -930,6 +935,7 @@
 				B264A3FF1D018DC800C72E13 /* JFNewsThreePicCell.swift */,
 				B264A4001D018DC800C72E13 /* JFNewsThreePicCell.xib */,
 				B264A4011D018DC800C72E13 /* JFTopLabel.swift */,
+				B2F122C81D1EC14F007ADBD1 /* JFPlaceholderView.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -1100,6 +1106,7 @@
 				B264A3AE1D016C0D00C72E13 /* JFRegisterViewController.xib in Resources */,
 				B264A41C1D018DC800C72E13 /* JFNewsNoPicCell.xib in Resources */,
 				B264A3D51D016C0D00C72E13 /* LaunchScreen.strings in Resources */,
+				B2F122CB1D1EC837007ADBD1 /* loading in Resources */,
 				B264A3AC1D016C0D00C72E13 /* JFLoginViewController.xib in Resources */,
 				B264A4101D018DC800C72E13 /* JFCommentCell.xib in Resources */,
 				B264A3A21D016C0D00C72E13 /* JFForgotViewController.xib in Resources */,
@@ -1290,7 +1297,7 @@
 				B20149581D07DBFA00ACE583 /* JFSetFontView.swift in Sources */,
 				B264A3741D016C0D00C72E13 /* UIView+Extension.swift in Sources */,
 				B264A4211D018DC800C72E13 /* JFTopLabel.swift in Sources */,
-				B264A4031D018DC800C72E13 /* JFCommentTableViewController.swift in Sources */,
+				B264A4031D018DC800C72E13 /* JFCommentViewController.swift in Sources */,
 				B2FFDDE41D06555D00C28DD1 /* WebViewJavascriptBridge.m in Sources */,
 				B264A3B01D016C0D00C72E13 /* JFUserCommentModel.swift in Sources */,
 				B264A3B51D016C0D00C72E13 /* JFProfileCellSwitchModel.swift in Sources */,
@@ -1312,6 +1319,7 @@
 				B2CC1BD51D10FA7700B48048 /* JFObjcTool.m in Sources */,
 				B264A4091D018DC800C72E13 /* JFArticleDetailModel.swift in Sources */,
 				B264A3A71D016C0D00C72E13 /* JFDutyViewController.swift in Sources */,
+				B2F122C91D1EC14F007ADBD1 /* JFPlaceholderView.swift in Sources */,
 				B2F9EC5C1D041A6B00FC7E48 /* JFProfileFooterView.swift in Sources */,
 				B264A3A01D016C0D00C72E13 /* JFCommentListTableViewController.swift in Sources */,
 				B264A4181D018DC800C72E13 /* JFPhotoDetailCell.swift in Sources */,

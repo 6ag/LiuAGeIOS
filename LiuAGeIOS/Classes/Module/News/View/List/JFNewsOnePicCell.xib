@@ -20,7 +20,7 @@
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QAF-yw-dZD">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QAF-yw-dZD" customClass="YYAnimatedImageView">
                         <rect key="frame" x="331" y="28" width="88" height="66"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="66" id="MZ8-J0-4om">
