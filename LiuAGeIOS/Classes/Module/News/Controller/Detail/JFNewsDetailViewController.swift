@@ -17,11 +17,18 @@ class JFNewsDetailViewController: UIViewController {
     var contentOffsetY: CGFloat = 0.0
     
     /// 文章详情请求参数
-    var articleParam: (classid: String, id: String)?
+    var articleParam: (classid: String, id: String)? {
+        didSet {
+            prepareUI()
+            setupWebViewJavascriptBridge()
+            updateData()
+        }
+    }
     
     /// 详情页面模型
     var model: JFArticleDetailModel? {
         didSet {
+            
             if !isLoaded {
                 // 没有加载过，才去初始化webView - 保证只初始化一次
                 loadWebViewContent(model!)
@@ -56,9 +63,7 @@ class JFNewsDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupWebViewJavascriptBridge()
-        prepareUI()
-        updateData()
+        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -128,7 +133,11 @@ class JFNewsDetailViewController: UIViewController {
         view.addSubview(topBarView)
         view.addSubview(bottomBarView)
         view.addSubview(activityView)
+        activityView.startAnimating()
         
+        activityView.snp_makeConstraints { (make) in
+            make.center.equalTo(view)
+        }
         topBarView.snp_makeConstraints { (make) in
             make.left.right.top.equalTo(0)
             make.height.equalTo(20)
@@ -156,7 +165,6 @@ class JFNewsDetailViewController: UIViewController {
      */
     func loadNewsDetail(classid: Int, id: Int) {
         
-        activityView.startAnimating()
         JFArticleDetailModel.loadNewsDetail(classid, id: id) { (articleDetailModel, error) in
             
             guard let model = articleDetailModel where error == nil else {return}
@@ -189,7 +197,6 @@ class JFNewsDetailViewController: UIViewController {
     /// 活动指示器 - 页面正在加载时显示
     private lazy var activityView: UIActivityIndicatorView = {
         let activityView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
-        activityView.center = self.view.center
         return activityView
     }()
     

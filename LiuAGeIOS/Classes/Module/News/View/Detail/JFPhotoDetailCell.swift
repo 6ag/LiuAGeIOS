@@ -31,6 +31,7 @@ class JFPhotoDetailCell: UICollectionViewCell {
             // 将imageView图片设置为nil,防止cell重用
             picImageView.image = nil
             resetProperties()
+            indicator.startAnimating()
             
             // 判断本地磁盘是否已经缓存
             if JFArticleStorage.getArticleImageCache().containsImageForKey(imageURL, withType: YYImageCacheType.Disk) {
@@ -38,9 +39,10 @@ class JFPhotoDetailCell: UICollectionViewCell {
                 let image = UIImage(contentsOfFile: JFArticleStorage.getFilePathForKey(imageURL))!
                 self.picImageView.yy_imageURL = NSURL(string: imageURL)
                 self.layoutImageView(image)
+                self.indicator.stopAnimating()
                 
             } else {
-                indicator.startAnimating()
+                
                 YYWebImageManager(cache: JFArticleStorage.getArticleImageCache(), queue: NSOperationQueue()).requestImageWithURL(NSURL(string: imageURL)!, options: YYWebImageOptions.UseNSURLCache, progress: { (_, _) in
                     }, transform: { (image, url) -> UIImage? in
                         return image
@@ -50,15 +52,19 @@ class JFPhotoDetailCell: UICollectionViewCell {
                             
                             guard let _ = image where error == nil else {return}
                             
-                            let image = UIImage(contentsOfFile: JFArticleStorage.getFilePathForKey(imageURL))!
-                            self.layoutImageView(image)
-                            self.picImageView.yy_imageURL = NSURL(string: imageURL)
+                            // 刚缓存的图片会有一点处理时间保存到本地
+                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+                                let image = UIImage(contentsOfFile: JFArticleStorage.getFilePathForKey(imageURL))!
+                                self.layoutImageView(image)
+                                self.picImageView.yy_imageURL = NSURL(string: imageURL)
+                            }
+                            
                         })
                 })
             }
         }
     }
-        
+    
     /**
      清除属性,防止cell复用
      */

@@ -97,9 +97,7 @@ class JFPhotoDetailViewController: UIViewController {
      */
     func loadPhotoDetail(classid: Int, id: Int) {
         
-        activityView.startAnimating()
         JFArticleDetailModel.loadNewsDetail(classid, id: id) { (articleDetailModel, error) in
-            self.activityView.stopAnimating()
             
             guard let model = articleDetailModel where error == nil else {return}
             self.model = model
@@ -130,7 +128,6 @@ class JFPhotoDetailViewController: UIViewController {
         view.addSubview(bottomScrollView)
         bottomScrollView.addSubview(captionLabel)
         navigationBarView.addSubview(topTitleLabel)
-        view.addSubview(activityView)
         
         topTitleLabel.snp_makeConstraints { (make) in
             make.centerX.equalTo(navigationBarView)
@@ -229,13 +226,6 @@ class JFPhotoDetailViewController: UIViewController {
         rightButton.frame = CGRect(x: SCREEN_WIDTH - 60, y: 20, width: 40, height: 40)
         navigationBarView.addSubview(rightButton)
         return navigationBarView
-    }()
-    
-    /// 活动指示器
-    private lazy var activityView: UIActivityIndicatorView = {
-        let activityView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.White)
-        activityView.center = self.view.center
-        return activityView
     }()
     
     /// 底部文字透明滚动视图
