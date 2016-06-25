@@ -128,7 +128,7 @@ class JFModifySafeTableViewController: JFBaseTableViewController {
     }()
     
     private lazy var oldPasswordField: UITextField = {
-        let field = UITextField(frame: CGRect(x: 100, y: 0, width: SCREEN_WIDTH - 120, height: 44))
+        let field = UITextField(frame: CGRect(x: SCREEN_WIDTH * 0.25, y: 0, width: SCREEN_WIDTH * 0.7, height: 44))
         field.addTarget(self, action: #selector(didChangeTextField(_:)), forControlEvents: UIControlEvents.EditingChanged)
         field.font = UIFont.systemFontOfSize(14)
         field.placeholder = "原密码"
@@ -138,7 +138,7 @@ class JFModifySafeTableViewController: JFBaseTableViewController {
     }()
     
     private lazy var newPasswordField: UITextField = {
-        let field = UITextField(frame: CGRect(x: 100, y: 0, width: SCREEN_WIDTH - 120, height: 44))
+        let field = UITextField(frame: CGRect(x: SCREEN_WIDTH * 0.25, y: 0, width: SCREEN_WIDTH * 0.7, height: 44))
         field.addTarget(self, action: #selector(didChangeTextField(_:)), forControlEvents: UIControlEvents.EditingChanged)
         field.font = UIFont.systemFontOfSize(14)
         field.placeholder = "新密码（不修改请留空）"
@@ -148,7 +148,7 @@ class JFModifySafeTableViewController: JFBaseTableViewController {
     }()
     
     private lazy var reNewPasswordField: UITextField = {
-        let field = UITextField(frame: CGRect(x: 100, y: 0, width: SCREEN_WIDTH - 120, height: 44))
+        let field = UITextField(frame: CGRect(x: SCREEN_WIDTH * 0.25, y: 0, width: SCREEN_WIDTH * 0.7, height: 44))
         field.addTarget(self, action: #selector(didChangeTextField(_:)), forControlEvents: UIControlEvents.EditingChanged)
         field.font = UIFont.systemFontOfSize(14)
         field.placeholder = "确认新密码（不修改请留空）"
@@ -158,7 +158,7 @@ class JFModifySafeTableViewController: JFBaseTableViewController {
     }()
     
     private lazy var emailField: UITextField = {
-        let field = UITextField(frame: CGRect(x: 100, y: 0, width: SCREEN_WIDTH - 120, height: 44))
+        let field = UITextField(frame: CGRect(x: SCREEN_WIDTH * 0.25, y: 0, width: SCREEN_WIDTH * 0.7, height: 44))
         field.addTarget(self, action: #selector(didChangeTextField(_:)), forControlEvents: UIControlEvents.EditingChanged)
         field.font = UIFont.systemFontOfSize(14)
         field.placeholder = "邮箱"

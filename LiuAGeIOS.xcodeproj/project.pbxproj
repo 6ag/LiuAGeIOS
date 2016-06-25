@@ -547,9 +547,9 @@
 			children = (
 				B264A3191D016C0D00C72E13 /* Login */,
 				B264A31C1D016C0D00C72E13 /* Register */,
+				B264A30D1D016C0D00C72E13 /* Forgot */,
 				B264A3091D016C0D00C72E13 /* Collection */,
 				B264A30B1D016C0D00C72E13 /* Comment */,
-				B264A30D1D016C0D00C72E13 /* Forgot */,
 				B264A3101D016C0D00C72E13 /* Info */,
 				B264A3151D016C0D00C72E13 /* JFDutyViewController.swift */,
 				B264A3161D016C0D00C72E13 /* JFProfileFeedbackViewController.swift */,

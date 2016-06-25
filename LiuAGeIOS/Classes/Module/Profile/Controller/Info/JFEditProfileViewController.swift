@@ -64,11 +64,17 @@ class JFEditProfileViewController: JFBaseTableViewController {
             JFProgressHUD.showSuccessWithStatus("退出成功")
             self.navigationController?.popViewControllerAnimated(true)
         }
-        let action2 = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel) { (action) in
-            
+        let action2 = UIAlertAction(title: "取消", style: iPhoneModel.getCurrentModel() == .iPad ? UIAlertActionStyle.Default : UIAlertActionStyle.Cancel) { (action) in
         }
         alertC.addAction(action1)
         alertC.addAction(action2)
+        
+        if iPhoneModel.getCurrentModel() == .iPad {
+            let popover = alertC.popoverPresentationController
+            popover?.sourceView = button
+            popover?.sourceRect = button.bounds
+        }
+        
         presentViewController(alertC, animated: true) {}
     }
     

@@ -495,7 +495,10 @@ extension JFNewsViewController: JFProfileViewControllerDelegate {
         if JFAccountModel.isLogin() {
             navigationController?.pushViewController(JFCollectionTableViewController(style: UITableViewStyle.Plain), animated: true)
         } else {
-            presentViewController(JFNavigationController(rootViewController: JFLoginViewController(nibName: "JFLoginViewController", bundle: nil)), animated: true, completion: {
+            
+            let loginVc = JFNavigationController(rootViewController: JFLoginViewController(nibName: "JFLoginViewController", bundle: nil))
+            presentViewController(loginVc, animated: true, completion: {
+                
             })
         }
     }

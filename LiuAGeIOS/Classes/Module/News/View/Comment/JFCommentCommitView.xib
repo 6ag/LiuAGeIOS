@@ -52,7 +52,9 @@
                     <rect key="frame" x="15" y="53" width="345" height="120"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="120" id="esP-8h-73k"/>
+                        <constraint firstAttribute="height" constant="120" id="esP-8h-73k">
+                            <variation key="heightClass=regular-widthClass=regular" constant="240"/>
+                        </constraint>
                     </constraints>
                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -76,7 +78,7 @@
                 <outlet property="sendButton" destination="0eK-8H-DIX" id="Rub-ey-tR6"/>
                 <outlet property="textView" destination="86M-wp-sxa" id="JDs-MJ-H8J"/>
             </connections>
-            <point key="canvasLocation" x="588.5" y="404"/>
+            <point key="canvasLocation" x="575.5" y="313"/>
         </view>
     </objects>
 </document>

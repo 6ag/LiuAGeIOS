@@ -42,6 +42,7 @@ class JFNewsThreePicCell: UITableViewCell {
      */
     func getRowHeight(postModel: JFArticleListModel) -> CGFloat {
         self.postModel = postModel
+        
         setNeedsLayout()
         layoutIfNeeded()
         

@@ -50,6 +50,13 @@ class JFModifyInfoTableViewController: JFBaseTableViewController {
             alertC.addAction(photoLibraryAction)
             alertC.addAction(albumAction)
             alertC.addAction(cancelAction)
+            
+            if iPhoneModel.getCurrentModel() == .iPad {
+                let popover = alertC.popoverPresentationController
+                popover?.sourceView = self.avatarImageView
+                popover?.sourceRect = self.avatarImageView.bounds
+            }
+            
             self.presentViewController(alertC, animated: true, completion: {})
         }
         
@@ -118,7 +125,7 @@ class JFModifyInfoTableViewController: JFBaseTableViewController {
     }()
 
     private lazy var usernameField: UITextField = {
-        let field = UITextField(frame: CGRect(x: 100, y: 0, width: SCREEN_WIDTH - 120, height: 44))
+        let field = UITextField(frame: CGRect(x: SCREEN_WIDTH * 0.25, y: 0, width: SCREEN_WIDTH * 0.7, height: 44))
         field.enabled = false
         field.font = UIFont.systemFontOfSize(14)
         field.textColor = UIColor.grayColor()
@@ -126,7 +133,7 @@ class JFModifyInfoTableViewController: JFBaseTableViewController {
     }()
     
     private lazy var nicknameField: UITextField = {
-        let field = UITextField(frame: CGRect(x: 100, y: 0, width: SCREEN_WIDTH - 120, height: 44))
+        let field = UITextField(frame: CGRect(x: SCREEN_WIDTH * 0.25, y: 0, width: SCREEN_WIDTH * 0.7, height: 44))
         field.font = UIFont.systemFontOfSize(14)
         field.placeholder = "昵称"
         field.clearButtonMode = .WhileEditing
@@ -134,7 +141,7 @@ class JFModifyInfoTableViewController: JFBaseTableViewController {
     }()
     
     private lazy var phoneNumberField: UITextField = {
-        let field = UITextField(frame: CGRect(x: 100, y: 0, width: SCREEN_WIDTH - 120, height: 44))
+        let field = UITextField(frame: CGRect(x: SCREEN_WIDTH * 0.25, y: 0, width: SCREEN_WIDTH * 0.7, height: 44))
         field.font = UIFont.systemFontOfSize(14)
         field.placeholder = "联系电话"
         field.clearButtonMode = .WhileEditing
@@ -142,7 +149,7 @@ class JFModifyInfoTableViewController: JFBaseTableViewController {
     }()
     
     private lazy var qqField: UITextField = {
-        let field = UITextField(frame: CGRect(x: 100, y: 0, width: SCREEN_WIDTH - 120, height: 44))
+        let field = UITextField(frame: CGRect(x: SCREEN_WIDTH * 0.25, y: 0, width: SCREEN_WIDTH * 0.7, height: 44))
         field.font = UIFont.systemFontOfSize(14)
         field.placeholder = "QQ号"
         field.clearButtonMode = .WhileEditing
@@ -150,7 +157,7 @@ class JFModifyInfoTableViewController: JFBaseTableViewController {
     }()
     
     private lazy var signField: UITextField = {
-        let field = UITextField(frame: CGRect(x: 100, y: 0, width: SCREEN_WIDTH - 120, height: 44))
+        let field = UITextField(frame: CGRect(x: SCREEN_WIDTH * 0.25, y: 0, width: SCREEN_WIDTH * 0.7, height: 44))
         field.font = UIFont.systemFontOfSize(14)
         field.placeholder = "个性签名"
         field.clearButtonMode = .WhileEditing

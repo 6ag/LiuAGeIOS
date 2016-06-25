@@ -53,7 +53,7 @@ class JFCommentCommitView: UIView, UITextViewDelegate {
         textView.becomeFirstResponder()
         
         UIView.animateWithDuration(0.25, animations: {
-            self.transform = CGAffineTransformMakeTranslation(0, -480)
+            self.transform = CGAffineTransformMakeTranslation(0, -SCREEN_HEIGHT * 0.7)
             self.bgView.backgroundColor = UIColor(white: 0, alpha: GLOBAL_SHADOW_ALPHA)
         }) { (_) in
             self.textView.delegate = self
