@@ -92,7 +92,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     /**
-     根控制器
+     添加根控制器
      */
     private func setupRootViewController() {
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
@@ -110,6 +110,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // 添加帧数到窗口左下角
 //        window?.addSubview(JFFPSLabel(frame: CGRect(x: SCREEN_WIDTH - 60, y: 26, width: 50, height: 30)))
+        
+        // 启动图动画
+        let launchVc = UIStoryboard(name: "LaunchScreen", bundle: nil).instantiateInitialViewController()!
+        launchVc.view.frame = SCREEN_BOUNDS
+        window?.addSubview(launchVc.view)
+        
+        UIView.animateWithDuration(0.6, delay: 0.5, options: UIViewAnimationOptions.BeginFromCurrentState, animations: { 
+            launchVc.view.alpha = 0
+            launchVc.view.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.5, 1.5)
+            }) { (_) in
+                launchVc.view.removeFromSuperview()
+        }
     }
     
     /**
