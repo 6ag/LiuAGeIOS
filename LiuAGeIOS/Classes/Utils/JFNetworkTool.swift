@@ -125,8 +125,7 @@ extension JFNetworkTool {
                     print(encodingError)
                     finished(success: false, result: nil, error: nil)
                 }
-            }
-        )
+        })
         
     }
     
@@ -140,10 +139,10 @@ extension JFNetworkTool {
     func loadSearchResultFromNetwork(keyboard: String, pageIndex: Int, finished: NetworkFinished) {
         
         let parameters: [String : AnyObject] = [
-                "keyboard" : keyboard,   // 搜索关键字
-                "pageIndex" : pageIndex, // 页码
-                "pageSize" : 20          // 单页数量
-            ]
+            "keyboard" : keyboard,   // 搜索关键字
+            "pageIndex" : pageIndex, // 页码
+            "pageSize" : 20          // 单页数量
+        ]
         
         JFNetworkTool.shareNetworkTool.get(SEARCH, parameters: parameters) { (success, result, error) -> () in
             
@@ -169,15 +168,15 @@ extension JFNetworkTool {
         
         if type == 1 {
             parameters = [
-            "classid" : classid,
-            "pageIndex" : pageIndex, // 页码
-            "pageSize" : 20          // 单页数量
+                "classid" : classid,
+                "pageIndex" : pageIndex, // 页码
+                "pageSize" : 20          // 单页数量
             ]
         } else {
             parameters = [
-            "classid" : classid,
-            "query" : "isgood",
-            "pageSize" : 3
+                "classid" : classid,
+                "query" : "isgood",
+                "pageSize" : 3
             ]
         }
         
@@ -242,7 +241,7 @@ extension JFNetworkTool {
             "id" : id,
             "pageIndex" : pageIndex,
             "pageSize" : pageSize
-            ]
+        ]
         
         JFNetworkTool.shareNetworkTool.get(GET_COMMENT, parameters: parameters) { (success, result, error) -> () in
             
