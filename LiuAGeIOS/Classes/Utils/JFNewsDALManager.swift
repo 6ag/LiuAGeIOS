@@ -78,21 +78,37 @@ extension JFNewsDALManager {
      - parameter classid:   资讯分类id
      - parameter pageIndex: 加载分页
      - parameter type:      1为资讯列表 2为资讯幻灯片
+     - parameter cache:     是否需要使用缓存
      - parameter finished:  数据回调
      */
-    func loadNewsList(classid: Int, pageIndex: Int, type: Int, finished: (result: JSON?, error: NSError?) -> ()) {
+    func loadNewsList(classid: Int, pageIndex: Int, type: Int, cache: Bool, finished: (result: JSON?, error: NSError?) -> ()) {
         
-        // 先从本地加载数据
-        loadNewsListFromLocation(classid, pageIndex: pageIndex, type: type) { (success, result, error) in
-            
-            // 本地有数据直接返回
-            if success == true {
-                finished(result: result, error: nil)
-//                print("加载了本地数据 \(result)")
-                return
+        if cache {
+            // 先从本地加载数据
+            loadNewsListFromLocation(classid, pageIndex: pageIndex, type: type) { (success, result, error) in
+                
+                // 本地有数据直接返回
+                if success == true {
+                    finished(result: result, error: nil)
+                    //                print("加载了本地数据 \(result)")
+                    return
+                }
+                
+                // 本地没有数据才从网络中加载
+                JFNetworkTool.shareNetworkTool.loadNewsListFromNetwork(classid, pageIndex: pageIndex, type: type) { (success, result, error) in
+                    
+                    if success == false || error != nil || result == nil {
+                        finished(result: nil, error: error)
+                        return
+                    }
+                    
+                    // 缓存数据到本地
+                    self.saveNewsListData(classid, data: result!, type: type)
+                    finished(result: result, error: nil)
+                    //                print("加载了远程数据 \(result)")
+                }
             }
-            
-            // 本地没有数据才从网络中加载
+        } else {
             JFNetworkTool.shareNetworkTool.loadNewsListFromNetwork(classid, pageIndex: pageIndex, type: type) { (success, result, error) in
                 
                 if success == false || error != nil || result == nil {
@@ -100,10 +116,7 @@ extension JFNewsDALManager {
                     return
                 }
                 
-                // 缓存数据到本地
-                self.saveNewsListData(classid, data: result!, type: type)
                 finished(result: result, error: nil)
-//                print("加载了远程数据 \(result)")
             }
         }
         
@@ -215,23 +228,39 @@ extension JFNewsDALManager {
 extension JFNewsDALManager {
     
     /**
-     加载资讯列表数据
+     加载资讯详情数据
      
      - parameter classid:   资讯分类id
      - parameter pageIndex: 加载分页
      - parameter type:      1为资讯列表 2为资讯幻灯片
+     - parameter cache:     是否需要使用缓存
      - parameter finished:  数据回调
      */
-    func loadNewsDetail(classid: Int, id: Int, finished: (result: JSON?, error: NSError?) -> ()) {
+    func loadNewsDetail(classid: Int, id: Int, cache: Bool, finished: (result: JSON?, error: NSError?) -> ()) {
         
-        loadNewsDetailFromLocation(classid, id: id) { (success, result, error) in
-            
-            // 本地有数据直接返回
-            if success == true {
-                finished(result: result, error: nil)
-                return
+        if cache {
+            loadNewsDetailFromLocation(classid, id: id) { (success, result, error) in
+                
+                // 本地有数据直接返回
+                if success == true {
+                    finished(result: result, error: nil)
+                    return
+                }
+                
+                JFNetworkTool.shareNetworkTool.loadNewsDetailFromNetwork(classid, id: id, finished: { (success, result, error) in
+                    
+                    if success == false || error != nil || result == nil {
+                        finished(result: nil, error: error)
+                        return
+                    }
+                    
+                    // 缓存数据到本地
+                    self.saveNewsDetailData(classid, id: id, data: result!)
+                    finished(result: result, error: nil)
+                })
+                
             }
-            
+        } else {
             JFNetworkTool.shareNetworkTool.loadNewsDetailFromNetwork(classid, id: id, finished: { (success, result, error) in
                 
                 if success == false || error != nil || result == nil {
@@ -239,11 +268,8 @@ extension JFNewsDALManager {
                     return
                 }
                 
-                // 缓存数据到本地
-                self.saveNewsDetailData(classid, id: id, data: result!)
                 finished(result: result, error: nil)
             })
-            
         }
         
     }

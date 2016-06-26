@@ -108,11 +108,12 @@ class JFArticleDetailModel: NSObject {
      - parameter classid:   资讯分类id
      - parameter pageIndex: 加载分页
      - parameter type:      1为资讯列表 2为资讯幻灯片
+     - parameter cache:     是否需要使用缓存
      - parameter finished:  数据回调
      */
-    class func loadNewsDetail(classid: Int, id: Int, finished: (articleDetailModel: JFArticleDetailModel?, error: NSError?) -> ()) {
+    class func loadNewsDetail(classid: Int, id: Int, cache: Bool, finished: (articleDetailModel: JFArticleDetailModel?, error: NSError?) -> ()) {
         
-        JFNewsDALManager.shareManager.loadNewsDetail(classid, id: id) { (result, error) in
+        JFNewsDALManager.shareManager.loadNewsDetail(classid, id: id, cache: cache) { (result, error) in
             
             // 请求失败
             if error != nil || result == nil {

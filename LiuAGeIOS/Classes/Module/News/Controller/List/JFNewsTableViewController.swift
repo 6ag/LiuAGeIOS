@@ -148,7 +148,7 @@ class JFNewsTableViewController: UIViewController, SDCycleScrollViewDelegate {
      */
     private func loadIsGood(classid: Int) {
         
-        JFArticleListModel.loadNewsList(classid, pageIndex: pageIndex, type: 2) { (articleListModels, error) in
+        JFArticleListModel.loadNewsList(classid, pageIndex: pageIndex, type: 2, cache: true) { (articleListModels, error) in
             
             guard let list = articleListModels where error != true else {
                 return
@@ -171,11 +171,10 @@ class JFNewsTableViewController: UIViewController, SDCycleScrollViewDelegate {
      */
     private func loadNews(classid: Int, pageIndex: Int, method: Int) {
         
-        JFArticleListModel.loadNewsList(classid, pageIndex: pageIndex, type: 1) { (articleListModels, error) in
+        JFArticleListModel.loadNewsList(classid, pageIndex: pageIndex, type: 1, cache: true) { (articleListModels, error) in
             
             self.tableView.mj_header.endRefreshing()
             self.tableView.mj_footer.endRefreshing()
-            
             
             guard let list = articleListModels where error != true else {
                 return
@@ -215,7 +214,7 @@ class JFNewsTableViewController: UIViewController, SDCycleScrollViewDelegate {
     }
     
     /**
-     显示加载了多少条新数据
+     显示加载了多少条新数据 - 暂时没用
      
      - parameter count: 数据条数
      */

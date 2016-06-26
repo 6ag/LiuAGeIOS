@@ -56,4 +56,7 @@ let MODIFY_ACCOUNT_INFO = "publicActions.php"
 /// 获取用户评论列表
 let GET_USER_COMMENT = "getUserComment.php"
 
+/// 搜索
+let SEARCH = "search.php"
+
 

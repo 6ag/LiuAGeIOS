@@ -131,6 +131,31 @@ extension JFNetworkTool {
     }
     
     /**
+     从网络加载（搜索结果）列表
+     
+     - parameter keyboard:  搜索关键词
+     - parameter pageIndex: 加载分页
+     - parameter finished:  数据回调
+     */
+    func loadSearchResultFromNetwork(keyboard: String, pageIndex: Int, finished: NetworkFinished) {
+        
+        let parameters: [String : AnyObject] = [
+                "keyboard" : keyboard,   // 搜索关键字
+                "pageIndex" : pageIndex, // 页码
+                "pageSize" : 20          // 单页数量
+            ]
+        
+        JFNetworkTool.shareNetworkTool.get(SEARCH, parameters: parameters) { (success, result, error) -> () in
+            
+            guard let successResult = result where success == true else {
+                finished(success: false, result: nil, error: error)
+                return
+            }
+            finished(success: true, result: successResult["data"], error: nil)
+        }
+    }
+    
+    /**
      从网络加载（资讯列表）数据
      
      - parameter classid:   资讯分类id
@@ -162,7 +187,6 @@ extension JFNetworkTool {
                 finished(success: false, result: nil, error: error)
                 return
             }
-            print(successResult)
             finished(success: true, result: successResult["data"], error: nil)
         }
     }

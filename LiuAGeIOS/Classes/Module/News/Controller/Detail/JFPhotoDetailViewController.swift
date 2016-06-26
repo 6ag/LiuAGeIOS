@@ -97,7 +97,7 @@ class JFPhotoDetailViewController: UIViewController {
      */
     func loadPhotoDetail(classid: Int, id: Int) {
         
-        JFArticleDetailModel.loadNewsDetail(classid, id: id) { (articleDetailModel, error) in
+        JFArticleDetailModel.loadNewsDetail(classid, id: id, cache: true) { (articleDetailModel, error) in
             
             guard let model = articleDetailModel where error == nil else {return}
             self.model = model

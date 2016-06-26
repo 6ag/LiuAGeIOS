@@ -65,17 +65,18 @@ class JFArticleListModel: NSObject {
     }
     
     /**
-     加载资讯数据
+     加载资讯列表数据
      
      - parameter classid:   资讯分类id
      - parameter pageIndex: 加载分页
      - parameter type:      1为资讯列表 2为资讯幻灯片
+     - parameter cache:     是否需要使用缓存
      - parameter finished:  数据回调
      */
-    class func loadNewsList(classid: Int, pageIndex: Int, type: Int, finished: (articleListModels: [JFArticleListModel]?, error: NSError?) -> ()) {
+    class func loadNewsList(classid: Int, pageIndex: Int, type: Int, cache: Bool, finished: (articleListModels: [JFArticleListModel]?, error: NSError?) -> ()) {
         
         // 模型找数据访问层请求数据 - 然后处理数据回调给调用者直接使用
-        JFNewsDALManager.shareManager.loadNewsList(classid, pageIndex: pageIndex, type: type) { (result, error) in
+        JFNewsDALManager.shareManager.loadNewsList(classid, pageIndex: pageIndex, type: type, cache: cache) { (result, error) in
             
             // 请求失败
             if error != nil || result == nil {
@@ -101,6 +102,43 @@ class JFArticleListModel: NSObject {
             finished(articleListModels: articleListModels, error: nil)
         }
         
+    }
+    
+    /**
+     加载搜索结果
+     
+     - parameter keyboard:  搜索关键词
+     - parameter pageIndex: 加载分页
+     - parameter finished:  数据回调
+     */
+    class func loadSearchResult(keyboard: String, pageIndex: Int, finished: (searchResultModels: [JFArticleListModel]?, error: NSError?) -> ()) {
+        
+        // 搜索不需要缓存，所以直接从网络加载
+        JFNetworkTool.shareNetworkTool.loadSearchResultFromNetwork(keyboard, pageIndex: pageIndex) { (success, result, error) in
+            
+            // 请求失败
+            if error != nil || result == nil {
+                finished(searchResultModels: nil, error: error)
+                return
+            }
+            
+            // 没有数据了
+            if result?.count == 0 {
+                finished(searchResultModels: [JFArticleListModel](), error: nil)
+                return
+            }
+            
+            let data = result!.arrayValue
+            var searchResultModels = [JFArticleListModel]()
+            
+            // 遍历转模型添加数据
+            for article in data {
+                let postModel = JFArticleListModel(dict: article.dictionaryObject!)
+                searchResultModels.append(postModel)
+            }
+            
+            finished(searchResultModels: searchResultModels, error: nil)
+        }
     }
     
 }
