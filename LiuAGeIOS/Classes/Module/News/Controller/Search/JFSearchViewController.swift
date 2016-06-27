@@ -37,6 +37,7 @@ class JFSearchViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
+        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -46,8 +47,14 @@ class JFSearchViewController: UIViewController {
     
     override func viewWillDisappear(animated: Bool) {
         searchTextField.endEditing(true)
-        searchKeyboardTableView.removeFromSuperview()
+        self.searchKeyboardTableView.snp_updateConstraints(closure: { (make) in
+            make.height.equalTo(0)
+        })
         super.viewWillDisappear(animated)
+    }
+    
+    deinit {
+        searchKeyboardTableView.removeFromSuperview()
     }
 
     /**
@@ -209,6 +216,10 @@ extension JFSearchViewController: UISearchBarDelegate {
         articleList = [JFArticleListModel]()
         pageIndex = 1
         loadSearchResult(searchBar.text!, pageIndex: pageIndex)
+        
+        self.searchKeyboardTableView.snp_updateConstraints(closure: { (make) in
+            make.height.equalTo(0)
+        })
     }
     
 }
