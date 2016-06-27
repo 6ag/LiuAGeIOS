@@ -79,6 +79,10 @@
 
 ![image](https://github.com/6ag/LiuAGeIOS/blob/master/Show/7.gif)
 
+### 关键词模糊关联查询
+
+![image](https://github.com/6ag/LiuAGeIOS/blob/master/Show/11.gif)
+
 ### iPad列表页
 
 ![image](https://github.com/6ag/LiuAGeIOS/blob/master/Show/8.jpg)

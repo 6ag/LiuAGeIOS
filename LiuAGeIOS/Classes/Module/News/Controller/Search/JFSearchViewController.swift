@@ -201,8 +201,6 @@ extension JFSearchViewController: UISearchBarDelegate {
     
     // 已经改变搜索文字
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-        print(searchBar.text!)
-        
         loadSearchKeyboardList(searchBar.text!)
     }
     
@@ -217,6 +215,7 @@ extension JFSearchViewController: UISearchBarDelegate {
         pageIndex = 1
         loadSearchResult(searchBar.text!, pageIndex: pageIndex)
         
+        // 更新关联视图高度
         self.searchKeyboardTableView.snp_updateConstraints(closure: { (make) in
             make.height.equalTo(0)
         })

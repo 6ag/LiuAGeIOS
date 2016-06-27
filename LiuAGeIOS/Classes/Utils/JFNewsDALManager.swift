@@ -97,11 +97,10 @@ extension JFNewsDALManager {
         JFSQLiteManager.shareManager.dbQueue.inDatabase { (db) in
             
             if db.executeStatements("DELETE FROM \(SEARCH_KEYBOARD);") {
-                print("清空表成功")
+                // print("清空表成功")
                 
                 JFNetworkTool.shareNetworkTool.loadSearchKeyListFromNetwork { (success, result, error) in
                     
-                    print(result)
                     guard let successResult = result where error == nil && success == true else {
                         return
                     }
@@ -118,9 +117,9 @@ extension JFNewsDALManager {
                             let num = Int(dict["num"] as! String)!
                             
                             if db.executeUpdate(sql, withArgumentsInArray: [keyboard, pinyin, num]) {
-                                print("缓存数据成功 - \(keyboard)")
+                                // print("缓存数据成功 - \(keyboard)")
                             } else {
-                                print("缓存数据失败 - \(keyboard)")
+                                // print("缓存数据失败 - \(keyboard)")
                                 rollback.memory = true
                                 break
                             }
