@@ -130,6 +130,46 @@ extension JFNetworkTool {
     }
     
     /**
+     获取更新搜索关键词列表的开关
+     
+     - parameter finished: 数据回调
+     */
+    func shouldUpdateKeyboardList(finished: (update: Bool) -> ()) {
+        
+        JFNetworkTool.shareNetworkTool.get(UPDATE_SEARCH_KEY_LIST, parameters: nil) { (success, result, error) in
+            guard let successResult = result where success == true else {
+                finished(update: false)
+                return
+            }
+            
+            let updateNum = successResult["data"].intValue
+            if NSUserDefaults.standardUserDefaults().integerForKey(UPDATE_SEARCH_KEYBOARD) == updateNum {
+                finished(update: false)
+            } else {
+                NSUserDefaults.standardUserDefaults().setInteger(updateNum, forKey: UPDATE_SEARCH_KEYBOARD)
+                finished(update: true)
+            }
+            
+        }
+    }
+    
+    /**
+     从网络加载（搜索关键词列表）数据
+     
+     - parameter finished: 数据回调
+     */
+    func loadSearchKeyListFromNetwork(finished: NetworkFinished) {
+        
+        JFNetworkTool.shareNetworkTool.get(SEARCH_KEY_LIST, parameters: nil) { (success, result, error) in
+            guard let successResult = result where success == true else {
+                finished(success: false, result: nil, error: error)
+                return
+            }
+            finished(success: true, result: successResult["data"], error: nil)
+        }
+    }
+    
+    /**
      从网络加载（搜索结果）列表
      
      - parameter keyboard:  搜索关键词

@@ -25,6 +25,13 @@ class JFSearchViewController: UIViewController {
         
         view.backgroundColor = BACKGROUND_COLOR
         navigationItem.titleView = searchTextField
+        UIApplication.sharedApplication().keyWindow?.addSubview(searchKeyboardTableView)
+        searchKeyboardTableView.snp_makeConstraints { (make) in
+            make.left.equalTo(70)
+            make.top.equalTo(57)
+            make.right.equalTo(-SCREEN_WIDTH * 0.05)
+            make.height.equalTo(0)
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -39,6 +46,7 @@ class JFSearchViewController: UIViewController {
     
     override func viewWillDisappear(animated: Bool) {
         searchTextField.endEditing(true)
+        searchKeyboardTableView.removeFromSuperview()
         super.viewWillDisappear(animated)
     }
 
@@ -101,6 +109,31 @@ class JFSearchViewController: UIViewController {
     }
     
     /**
+     加载关键词列表
+     
+     - parameter keyboard: 关键词
+     */
+    private func loadSearchKeyboardList(keyboard: String) {
+        
+        JFSearchKeyboardModel.loadSearchKeyList(keyboard) { (searchKeyboardModels, error) in
+            
+            guard let list = searchKeyboardModels where error != true else {
+                self.searchKeyboardTableView.snp_updateConstraints(closure: { (make) in
+                    make.height.equalTo(0)
+                })
+                return
+            }
+            self.searchKeyboardTableView.searchKeyboardmodels = list
+            
+            // 更新高度
+            self.searchKeyboardTableView.snp_updateConstraints(closure: { (make) in
+                make.height.equalTo(list.count * 44)
+            })
+            
+        }
+    }
+    
+    /**
      根据当前列表模型跳转到指定控制器
      
      - parameter currentListModel: 模型
@@ -147,6 +180,13 @@ class JFSearchViewController: UIViewController {
         placeholderView.backgroundColor = UIColor.whiteColor()
         return placeholderView
     }()
+    
+    /// 搜索关键词关联列表
+    private lazy var searchKeyboardTableView: JFSearchKeyboardTableView = {
+        let searchKeyboardTableView = JFSearchKeyboardTableView()
+        searchKeyboardTableView.keyboardDelegate = self
+        return searchKeyboardTableView
+    }()
 }
 
 // MARK: - UISearchBarDelegate
@@ -154,7 +194,9 @@ extension JFSearchViewController: UISearchBarDelegate {
     
     // 已经改变搜索文字
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        print(searchBar.text!)
         
+        loadSearchKeyboardList(searchBar.text!)
     }
     
     // 点击了搜索按钮
@@ -169,6 +211,25 @@ extension JFSearchViewController: UISearchBarDelegate {
         loadSearchResult(searchBar.text!, pageIndex: pageIndex)
     }
     
+}
+
+// MARK: - JFSearchKeyboardTableViewDelegate
+extension JFSearchViewController: JFSearchKeyboardTableViewDelegate {
+    
+    /**
+     点击了关联搜索列表里的关键词
+     
+     - parameter keyboard: 关键词
+     */
+    func didSelectedKeyboard(keyboard: String) {
+        searchKeyboardTableView.snp_updateConstraints { (make) in
+            make.height.equalTo(0)
+        }
+        
+        // 搜索
+        searchTextField.text = keyboard
+        searchBarSearchButtonClicked(searchTextField)
+    }
 }
 
 // MARK: - UITableViewDataSource, UITableViewDelegate

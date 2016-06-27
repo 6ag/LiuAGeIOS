@@ -106,6 +106,9 @@ let CONTENT_FONT_SIZE_KEY = "contentFontSize"
 /// 推送开关
 let PUSH_KEY = "push"
 
+/// 更新搜索关键词列表的key
+let UPDATE_SEARCH_KEYBOARD = "updateSearchKeyboard"
+
 /// appStore中的应用id
 let APPLE_ID = "1120896924"
 
