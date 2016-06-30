@@ -307,6 +307,8 @@ class JFNewsViewController: UIViewController {
         // 初始化栏目
         setupColumn()
         
+        contentScrollView.pagingEnabled = true
+        
         // 布局用的左边距
         var leftMargin: CGFloat = 0
         
@@ -349,7 +351,6 @@ class JFNewsViewController: UIViewController {
         
         // 内容区域滚动范围
         contentScrollView.contentSize = CGSize(width: CGFloat(childViewControllers.count) * SCREEN_WIDTH, height: 0)
-        contentScrollView.pagingEnabled = true
         
         let lastLabel = topScrollView.subviews.last as! JFTopLabel
         // 设置顶部标签区域滚动范围
@@ -374,10 +375,9 @@ class JFNewsViewController: UIViewController {
             return
         }
         
-        // 传递分类数据
-        newsVc.classid = Int(selectedArray![index]["classid"]!)
-        newsVc.view.frame = CGRect(x: CGFloat(index) * SCREEN_WIDTH, y: 0, width: contentScrollView.bounds.width, height: contentScrollView.frame.height)
+        newsVc.view.frame = CGRect(x: CGFloat(index) * SCREEN_WIDTH, y: 0, width: contentScrollView.bounds.width, height: contentScrollView.bounds.height)
         contentScrollView.addSubview(newsVc.view)
+        newsVc.classid = Int(selectedArray![index]["classid"]!)
     }
     
 }

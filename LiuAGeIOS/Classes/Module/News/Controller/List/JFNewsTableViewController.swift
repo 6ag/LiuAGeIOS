@@ -16,7 +16,6 @@ class JFNewsTableViewController: UIViewController, SDCycleScrollViewDelegate {
     /// 分类数据
     var classid: Int? {
         didSet {
-            prepareTableView()
             loadIsGood(classid!)
             loadNews(classid!, pageIndex: 1, method: 0)
         }
@@ -38,7 +37,7 @@ class JFNewsTableViewController: UIViewController, SDCycleScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        prepareTableView()
     }
     
     /**
@@ -249,7 +248,7 @@ class JFNewsTableViewController: UIViewController, SDCycleScrollViewDelegate {
     
     /// 内容区域
     lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: self.view.bounds, style: UITableViewStyle.Plain)
+        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT - 104), style: UITableViewStyle.Plain)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.backgroundColor = UIColor.whiteColor()
