@@ -30,7 +30,9 @@ class JFInfoHeaderView: UIView {
         addSubview(avatarImageView)
         addSubview(usernameLabel)
         addSubview(levelLabel)
-        addSubview(pointsLabel)
+        addSubview(pointsView)
+        addSubview(topLineView)
+        addSubview(bottomLineView)
         
         avatarImageView.snp_makeConstraints { (make) in
             make.left.equalTo(MARGIN)
@@ -48,15 +50,26 @@ class JFInfoHeaderView: UIView {
             make.bottom.equalTo(avatarImageView).offset(-2)
         }
         
-        pointsLabel.snp_makeConstraints { (make) in
-            make.top.equalTo(avatarImageView)
+        pointsView.snp_makeConstraints { (make) in
+            make.centerY.equalTo(self)
             make.right.equalTo(-MARGIN)
+            make.size.equalTo(CGSize(width: 70, height: 20))
+        }
+        
+        topLineView.snp_makeConstraints { (make) in
+            make.left.top.right.equalTo(0)
+            make.height.equalTo(0.5)
+        }
+        
+        bottomLineView.snp_makeConstraints { (make) in
+            make.left.bottom.right.equalTo(0)
+            make.height.equalTo(0.5)
         }
         
         avatarImageView.yy_setImageWithURL(NSURL(string: JFAccountModel.shareAccount()!.avatarUrl!), options: YYWebImageOptions.AllowBackgroundTask)
         usernameLabel.text = JFAccountModel.shareAccount()!.username!
         levelLabel.text = "等级：\(JFAccountModel.shareAccount()!.groupName!)"
-        pointsLabel.text = "\(JFAccountModel.shareAccount()!.points!)积分"
+        pointsView.setTitle("积分 : \(JFAccountModel.shareAccount()!.points!)", forState: UIControlState.Normal)
     }
     
     // MARK: - 懒加载
@@ -79,11 +92,28 @@ class JFInfoHeaderView: UIView {
         return levelLabel
     }()
     
-    private lazy var pointsLabel: UILabel = {
-        let pointsLabel = UILabel()
-        pointsLabel.font = UIFont.systemFontOfSize(13)
-        pointsLabel.textColor = UIColor.grayColor()
-        return pointsLabel
+    private lazy var pointsView: UIButton = {
+        let pointsView = UIButton(type: .Custom)
+        pointsView.setImage(UIImage(named: "profile_point_icon"), forState: UIControlState.Normal)
+        pointsView.imageEdgeInsets = UIEdgeInsets(top: 0, left: -5, bottom: 0, right: 0)
+        pointsView.setTitleColor(NAVIGATIONBAR_COLOR_DARK, forState: UIControlState.Normal)
+        pointsView.titleLabel?.font = UIFont.systemFontOfSize(12)
+        pointsView.layer.cornerRadius = 4
+        pointsView.layer.borderColor = NAVIGATIONBAR_COLOR_DARK.CGColor
+        pointsView.layer.borderWidth = 0.8
+        pointsView.enabled = false
+        return pointsView
     }()
     
+    private lazy var topLineView: UIView = {
+        let topLineView = UIView()
+        topLineView.backgroundColor = SETTING_SEPARATOR_COLOR
+        return topLineView
+    }()
+    
+    private lazy var bottomLineView: UIView = {
+        let bottomLineView = UIView()
+        bottomLineView.backgroundColor = SETTING_SEPARATOR_COLOR
+        return bottomLineView
+    }()
 }

@@ -10,13 +10,6 @@ import UIKit
 import pop
 
 class JFProfileCell: UITableViewCell {
-
-    /// 是否显示分割线
-    var showLineView: Bool = false {
-        didSet {
-            settingLineView.hidden = !showLineView
-        }
-    }
     
     /// cell模型
     var cellModel: JFProfileCellModel? {
@@ -64,11 +57,6 @@ class JFProfileCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        let lineX = textLabel!.frame.origin.x
-        let lineH: CGFloat = 0.5
-        let lineY = frame.size.height - lineH
-        let lineW = frame.size.width - lineX
-        settingLineView.frame = CGRect(x: lineX, y: lineY, width: lineW, height: lineH)
     }
     
     override func setHighlighted(highlighted: Bool, animated: Bool) {
@@ -95,8 +83,6 @@ class JFProfileCell: UITableViewCell {
         
         detailTextLabel?.font = UIFont.systemFontOfSize(11)
         detailTextLabel?.textColor = UIColor.blackColor()
-        
-        contentView.addSubview(settingLineView)
     }
     
     @objc private func didChangedSwitch(settingSwitch: UISwitch) {
@@ -125,13 +111,6 @@ class JFProfileCell: UITableViewCell {
         let settingSwitchView = UISwitch()
         settingSwitchView.addTarget(self, action: #selector(didChangedSwitch(_:)), forControlEvents: .ValueChanged)
         return settingSwitchView
-    }()
-    
-    lazy var settingLineView: UIView = {
-        let settingLineView = UIView()
-        settingLineView.backgroundColor = UIColor.blackColor()
-        settingLineView.alpha = 0.1
-        return settingLineView
     }()
 
 }

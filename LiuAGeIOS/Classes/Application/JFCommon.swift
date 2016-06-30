@@ -112,17 +112,23 @@ let UPDATE_SEARCH_KEYBOARD = "updateSearchKeyboard"
 /// appStore中的应用id
 let APPLE_ID = "1120896924"
 
-/// 导航栏背景颜色 - （屎黄色）
-let NAVIGATIONBAR_COLOR = UIColor(red:1,  green:0.792,  blue:0.027, alpha:1)
+/// 导航栏背景颜色
+let NAVIGATIONBAR_COLOR = UIColor(red:1,  green:1,  blue:1, alpha:1)
 
-/// 比导航栏背景色更深一点的颜色
-let NAVIGATIONBAR_COLOR_DARK = UIColor(red:0.896,  green:0.716,  blue:0.002, alpha:1)
+/// 橙色
+let NAVIGATIONBAR_COLOR_DARK = UIColor.colorWithRGB(231, g: 129, b: 112)
+
+/// 按钮不能点的时候的颜色
+let DISENABLED_BUTTON_COLOR = UIColor.colorWithRGB(178, g: 178, b: 178)
 
 /// 控制器背景颜色
-let BACKGROUND_COLOR = UIColor(red:0.933,  green:0.933,  blue:0.933, alpha:1)
+let BACKGROUND_COLOR = UIColor.colorWithRGB(252, g: 252, b: 252)
 
 /// 侧栏背景色
 let LEFT_BACKGROUND_COLOR = UIColor(red:0.133,  green:0.133,  blue:0.133, alpha:1)
+
+/// 设置界面分割线颜色
+let SETTING_SEPARATOR_COLOR = UIColor(white: 0.5, alpha: 0.3)
 
 /// 全局边距
 let MARGIN: CGFloat = 12

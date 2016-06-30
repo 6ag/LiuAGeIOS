@@ -25,6 +25,7 @@ class JFModifySafeTableViewController: JFBaseTableViewController {
         
         tableView.allowsSelection = false
         tableView.tableFooterView = footerView
+        tableView.backgroundColor = BACKGROUND_COLOR
         
         let group1CellModel1 = JFProfileCellModel(title: "原密码:")
         let group1CellModel2 = JFProfileCellModel(title: "新密码:")
@@ -40,7 +41,7 @@ class JFModifySafeTableViewController: JFBaseTableViewController {
             saveButton.backgroundColor = NAVIGATIONBAR_COLOR_DARK
         } else {
             saveButton.enabled = false
-            saveButton.backgroundColor = UIColor.grayColor()
+            saveButton.backgroundColor = DISENABLED_BUTTON_COLOR
         }
     }
     
@@ -122,7 +123,7 @@ class JFModifySafeTableViewController: JFBaseTableViewController {
         saveButton.addTarget(self, action: #selector(didTappedSaveButton(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         saveButton.setTitle("保存修改", forState: UIControlState.Normal)
         saveButton.enabled = false
-        saveButton.backgroundColor = UIColor.grayColor()
+        saveButton.backgroundColor = DISENABLED_BUTTON_COLOR
         saveButton.layer.cornerRadius = CORNER_RADIUS
         return saveButton
     }()

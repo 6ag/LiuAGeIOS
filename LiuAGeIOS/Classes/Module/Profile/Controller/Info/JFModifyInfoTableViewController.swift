@@ -27,6 +27,7 @@ class JFModifyInfoTableViewController: JFBaseTableViewController {
         super.viewDidLoad()
         
         tableView.tableFooterView = footerView
+        tableView.backgroundColor = BACKGROUND_COLOR
         
         let group1CellModel1 = JFProfileCellModel(title: "头像")
         group1CellModel1.operation = {() -> Void in

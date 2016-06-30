@@ -14,6 +14,7 @@ class JFEditProfileViewController: JFBaseTableViewController {
         super.viewDidLoad()
         
         title = "账号管理"
+        tableView.backgroundColor = BACKGROUND_COLOR
         
         let group1CellModel1 = JFProfileCellArrowModel(title: "修改资料", destinationVc: JFModifyInfoTableViewController.classForCoder())
         let group1CellModel2 = JFProfileCellArrowModel(title: "修改安全信息", destinationVc: JFModifySafeTableViewController.classForCoder())

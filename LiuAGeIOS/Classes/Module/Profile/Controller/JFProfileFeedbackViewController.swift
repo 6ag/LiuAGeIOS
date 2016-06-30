@@ -100,12 +100,12 @@ class JFProfileFeedbackViewController: JFBaseTableViewController {
      */
     private func changeCommitState() {
         
-        if contentTextView.text.characters.count >= 10 && contactTextField.text?.characters.count >= 5 {
+        if contentTextView.text.characters.count >= 5 && contactTextField.text?.characters.count >= 5 {
             commitButton.enabled = true
-            commitButton.backgroundColor = UIColor(red:0.871,  green:0.259,  blue:0.294, alpha:1)
+            commitButton.backgroundColor = NAVIGATIONBAR_COLOR_DARK
         } else {
             commitButton.enabled = false
-            commitButton.backgroundColor = UIColor(red:0.733,  green:0.733,  blue:0.733, alpha:1)
+            commitButton.backgroundColor = DISENABLED_BUTTON_COLOR
         }
         
     }
@@ -114,7 +114,8 @@ class JFProfileFeedbackViewController: JFBaseTableViewController {
     lazy var contentTextView: UITextView = {
         let contentTextView = UITextView(frame: CGRect(x: MARGIN, y: 10, width: SCREEN_WIDTH - MARGIN * 2, height: 200))
         contentTextView.layer.cornerRadius = CORNER_RADIUS
-        
+        contentTextView.layer.borderColor = UIColor(white: 0.3, alpha: 0.2).CGColor
+        contentTextView.layer.borderWidth = 0.5
         return contentTextView
     }()
     
@@ -124,6 +125,8 @@ class JFProfileFeedbackViewController: JFBaseTableViewController {
         contactTextField.layer.cornerRadius = CORNER_RADIUS
         contactTextField.backgroundColor = UIColor.whiteColor()
         contactTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: MARGIN, height: 0))
+        contactTextField.layer.borderColor = UIColor(white: 0.3, alpha: 0.2).CGColor
+        contactTextField.layer.borderWidth = 0.5
         contactTextField.attributedPlaceholder = NSAttributedString(string: "请输入您的联系方式 QQ/Email/手机", attributes: [
             NSForegroundColorAttributeName : UIColor(red:0.833,  green:0.833,  blue:0.833, alpha:1),
             NSFontAttributeName : UIFont.systemFontOfSize(14)
@@ -141,7 +144,7 @@ class JFProfileFeedbackViewController: JFBaseTableViewController {
         commitButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         commitButton.layer.cornerRadius = CORNER_RADIUS
         commitButton.enabled = false
-        commitButton.backgroundColor = UIColor(red:0.733,  green:0.733,  blue:0.733, alpha:1)
+        commitButton.backgroundColor = DISENABLED_BUTTON_COLOR
         commitButton.addTarget(self, action: #selector(didTappedCommitButton(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         return commitButton
     }()

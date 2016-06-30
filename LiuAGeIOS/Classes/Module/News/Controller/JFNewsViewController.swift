@@ -335,13 +335,15 @@ class JFNewsViewController: UIViewController {
             let newsVc = JFNewsTableViewController()
             addChildViewController(newsVc)
             
-            // 默认控制器
-            if i == 0 {
-                newsVc.classid = Int(selectedArray![0]["classid"]!)
-                newsVc.view.frame = CGRect(x: 0, y: 0, width: contentScrollView.bounds.width, height: contentScrollView.bounds.height)
-                contentScrollView.addSubview(newsVc.view)
-                // 给第一个列表控制器的视图添加手势 - 然后在手势代理里面处理手势冲突（tableView默认自带pan手势，如果不处理，我们添加的手势会覆盖默认手势）
-                newsVc.tableView.addGestureRecognizer(onePagePanGesture)
+            // 默认控制器 和 预加载的一个控制器
+            if i <= 1 {
+                
+                addContentViewController(i)
+                
+                if i == 0 {
+                    // 给第一个列表控制器的视图添加手势 - 然后在手势代理里面处理手势冲突（tableView默认自带pan手势，如果不处理，我们添加的手势会覆盖默认手势）
+                    newsVc.tableView.addGestureRecognizer(onePagePanGesture)
+                }
             }
         }
         
@@ -355,6 +357,27 @@ class JFNewsViewController: UIViewController {
         
         // 视图滚动到第一个位置
         contentScrollView.setContentOffset(CGPoint(x: 0, y: contentScrollView.contentOffset.y), animated: true)
+    }
+    
+    /**
+     添加内容控制器
+     
+     - parameter index: 控制器角标
+     */
+    private func addContentViewController(index: Int) {
+        
+        // 获取需要展示的控制器
+        let newsVc = childViewControllers[index] as! JFNewsTableViewController
+        
+        // 如果已经展示则直接返回
+        if newsVc.view.superview != nil {
+            return
+        }
+        
+        // 传递分类数据
+        newsVc.classid = Int(selectedArray![index]["classid"]!)
+        newsVc.view.frame = CGRect(x: CGFloat(index) * SCREEN_WIDTH, y: 0, width: contentScrollView.bounds.width, height: contentScrollView.frame.height)
+        contentScrollView.addSubview(newsVc.view)
     }
     
 }
@@ -388,6 +411,35 @@ extension JFNewsViewController: UIScrollViewDelegate {
             }
         }
         
+        // 添加控制器 - 并预加载控制器  左滑预加载下下个 右滑预加载上上个 保证滑动流畅
+        let value = (scrollView.contentOffset.x / scrollView.frame.width)
+        
+        var index1 = Int(value)
+        var index2 = Int(value)
+        
+        // 根据滑动方向计算下标
+        if scrollView.contentOffset.x - contentOffsetX > 2.0 {
+            index1 = (value - CGFloat(Int(value))) > 0 ? Int(value) + 1 : Int(value)
+            index2 = index1 + 1
+        } else if contentOffsetX - scrollView.contentOffset.x > 2.0 {
+            index1 = (value - CGFloat(Int(value))) < 0 ? Int(value) - 1 : Int(value)
+            index2 = index1 - 1
+        }
+        
+        // 控制器角标范围
+        if index1 > childViewControllers.count - 1 {
+            index1 = childViewControllers.count - 1
+        } else if index1 < 0 {
+            index1 = 0
+        }
+        if index2 > childViewControllers.count - 1 {
+            index2 = childViewControllers.count - 1
+        } else if index2 < 0 {
+            index2 = 0
+        }
+        
+        addContentViewController(index1)
+        addContentViewController(index2)
     }
     
     // 滚动结束 手势导致
@@ -417,36 +469,6 @@ extension JFNewsViewController: UIScrollViewDelegate {
             let labelRight = topScrollView.subviews[rightIndex] as! JFTopLabel
             labelRight.scale = scaleRight
         }
-        
-        var index = Int(value)
-        
-        // 根据滑动方向计算下标
-        if scrollView.contentOffset.x - contentOffsetX > 2.0 {
-            index = (value - CGFloat(Int(value))) > 0 ? Int(value) + 1 : Int(value)
-        } else if contentOffsetX - scrollView.contentOffset.x > 2.0 {
-            index = (value - CGFloat(Int(value))) < 0 ? Int(value) - 1 : Int(value)
-        }
-        
-        // 控制器角标范围
-        if index > childViewControllers.count - 1 {
-            index = childViewControllers.count - 1
-        } else if index < 0 {
-            index = 0
-        }
-        
-        // 获取需要展示的控制器
-        let newsVc = childViewControllers[index] as! JFNewsTableViewController
-        
-        // 如果已经展示则直接返回
-        if newsVc.view.superview != nil {
-            return
-        }
-        
-        contentScrollView.addSubview(newsVc.view)
-        newsVc.view.frame = CGRect(x: CGFloat(index) * SCREEN_WIDTH, y: 0, width: SCREEN_WIDTH, height: contentScrollView.frame.height)
-        
-        // 传递分类数据
-        newsVc.classid = Int(selectedArray![index]["classid"]!)
     }
     
 }
@@ -495,10 +517,8 @@ extension JFNewsViewController: JFProfileViewControllerDelegate {
         if JFAccountModel.isLogin() {
             navigationController?.pushViewController(JFCollectionTableViewController(style: UITableViewStyle.Plain), animated: true)
         } else {
-            
             let loginVc = JFNavigationController(rootViewController: JFLoginViewController(nibName: "JFLoginViewController", bundle: nil))
             presentViewController(loginVc, animated: true, completion: {
-                
             })
         }
     }

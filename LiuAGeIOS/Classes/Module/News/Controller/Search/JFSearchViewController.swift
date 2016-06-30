@@ -161,7 +161,8 @@ class JFSearchViewController: UIViewController {
     
     /// 搜索框
     private lazy var searchTextField: UISearchBar = {
-        let searchTextField = UISearchBar(frame: CGRect(x: 20, y: 0, width: SCREEN_WIDTH - 40, height: 44))
+        let searchTextField = UISearchBar(frame: CGRect(x: 20, y: 5, width: SCREEN_WIDTH - 40, height: 34))
+        searchTextField.searchBarStyle = .Minimal
         searchTextField.delegate = self
         searchTextField.placeholder = "请输入关键词..."
         return searchTextField

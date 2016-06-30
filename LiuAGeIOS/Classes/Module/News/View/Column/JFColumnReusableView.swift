@@ -64,13 +64,13 @@ class JFColumnReusableView: UICollectionReusableView {
         let clickButton = UIButton(frame: CGRect(x: SCREEN_WIDTH - 100, y: 10, width: 60, height: 20))
         clickButton.backgroundColor = UIColor.whiteColor()
         clickButton.layer.masksToBounds = true
-        clickButton.layer.cornerRadius = 10
-        clickButton.layer.borderColor = UIColor.colorWithRGB(214, g: 39, b: 48) .CGColor;
+        clickButton.layer.cornerRadius = 4
+        clickButton.layer.borderColor = NAVIGATIONBAR_COLOR_DARK.CGColor;
         clickButton.layer.borderWidth = 0.7;
         clickButton.setTitle("排序删除", forState: UIControlState.Normal)
         clickButton.setTitle("完成", forState: UIControlState.Selected)
         clickButton.titleLabel!.font = UIFont.systemFontOfSize(13)
-        clickButton.setTitleColor(UIColor.colorWithRGB(214, g: 39, b: 48), forState: UIControlState.Normal)
+        clickButton.setTitleColor(NAVIGATIONBAR_COLOR_DARK, forState: UIControlState.Normal)
         clickButton.addTarget(self, action: #selector(didTappedClickButton(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         return clickButton
     }()

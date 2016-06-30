@@ -17,7 +17,7 @@ class JFBaseTableViewController: UITableViewController {
         super.viewDidLoad()
         
         tableView.sectionHeaderHeight = 0.01
-        tableView.separatorStyle = .None
+        tableView.separatorColor = SETTING_SEPARATOR_COLOR
         tableView.registerClass(JFProfileCell.self, forCellReuseIdentifier: "profileCell")
     }
     
@@ -36,7 +36,6 @@ class JFBaseTableViewController: UITableViewController {
         let groupModel = groupModels![indexPath.section]
         let cellModel = groupModel.cells![indexPath.row]
         cell.cellModel = cellModel
-        cell.showLineView = !(indexPath.row == groupModel.cells!.count - 1)
         return cell
     }
     

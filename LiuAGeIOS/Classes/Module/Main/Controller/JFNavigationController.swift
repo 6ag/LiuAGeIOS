@@ -20,8 +20,8 @@ class JFNavigationController: UINavigationController, UIGestureRecognizerDelegat
         navBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
         navBar.shadowImage = UIImage()
         navBar.titleTextAttributes = [
-            NSForegroundColorAttributeName : UIColor(red:0.173,  green:0.173,  blue:0.173, alpha:1),
-            NSFontAttributeName : UIFont.systemFontOfSize(18)
+            NSForegroundColorAttributeName : UIColor.colorWithRGB(47, g: 47, b: 47),
+            NSFontAttributeName : UIFont.systemFontOfSize(16)
         ]
         
         // 全屏返回手势

@@ -45,7 +45,7 @@ class JFEditColumnViewCell: UICollectionViewCell {
         contentLabel.text = dataArray[indexPath.row]["classname"] as? String
         
         if (indexPath.section == 0 && indexPath.row == 0) {
-            contentLabel.textColor = UIColor.colorWithRGB(214, g: 39, b: 48)
+            contentLabel.textColor = NAVIGATIONBAR_COLOR_DARK
             contentLabel.layer.masksToBounds = true
             contentLabel.layer.borderColor = UIColor.clearColor().CGColor
             contentLabel.layer.borderWidth = 0.0
