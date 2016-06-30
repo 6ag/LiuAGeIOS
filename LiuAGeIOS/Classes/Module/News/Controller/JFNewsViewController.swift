@@ -64,11 +64,12 @@ class JFNewsViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
+        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
+        
     }
     
     deinit {
