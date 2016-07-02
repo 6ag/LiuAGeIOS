@@ -40,7 +40,7 @@ class JFPlaceholderView: UIView {
     func startAnimation() {
         
         var imageArray = [UIImage]()
-        for index in 0..<24 {
+        for index in 0..<17 {
             let imageName = String(format: "loading%02d.jpg", arguments: [index])
             let image = UIImage(contentsOfFile: NSBundle.mainBundle().pathForResource("loading/\(imageName)", ofType: nil)!)!
             imageArray.append(image)
