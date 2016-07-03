@@ -40,14 +40,14 @@ class JFPlaceholderView: UIView {
     func startAnimation() {
         
         var imageArray = [UIImage]()
-        for index in 0..<17 {
+        for index in 0..<25 {
             let imageName = String(format: "loading%02d.jpg", arguments: [index])
             let image = UIImage(contentsOfFile: NSBundle.mainBundle().pathForResource("loading/\(imageName)", ofType: nil)!)!
             imageArray.append(image)
         }
         
         imageView.animationImages = imageArray
-        imageView.animationDuration = 1
+        imageView.animationDuration = 2
         imageView.animationRepeatCount = Int.max
         imageView.startAnimating()
     }
@@ -63,7 +63,9 @@ class JFPlaceholderView: UIView {
     
     /// 图片区域
     lazy var imageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(contentsOfFile: NSBundle.mainBundle().pathForResource("loading/loading00.jpg", ofType: nil)!)!)
+        let image = UIImage(contentsOfFile: NSBundle.mainBundle().pathForResource("loading/loading00.jpg", ofType: nil)!)!
+        let imageView = UIImageView(image: image)
+        imageView.frame = CGRect(origin: CGPointZero, size: CGSize(width: image.size.width * 0.5, height: image.size.height * 0.5))
         imageView.center = CGPoint(x: SCREEN_WIDTH * 0.5, y: (SCREEN_HEIGHT - 104) * 0.49)
         return imageView
     }()

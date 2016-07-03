@@ -112,8 +112,9 @@ extension JFNewsDALManager {
                         
                         for dict in array {
                             
+                            // 拼音有可能转换失败
+                            guard let pinyin = dict["pinyin"] as? String else {continue}
                             let keyboard = dict["keyboard"] as! String
-                            let pinyin = dict["pinyin"] as! String
                             let num = Int(dict["num"] as! String)!
                             
                             if db.executeUpdate(sql, withArgumentsInArray: [keyboard, pinyin, num]) {

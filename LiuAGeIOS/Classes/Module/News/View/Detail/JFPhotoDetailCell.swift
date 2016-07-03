@@ -212,3 +212,5 @@ extension JFPhotoDetailCell: UIScrollViewDelegate {
     }
     
 }
+
+
