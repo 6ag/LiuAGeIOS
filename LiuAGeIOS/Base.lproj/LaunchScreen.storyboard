@@ -17,25 +17,46 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchimage" translatesAutoresizingMaskIntoConstraints="NO" id="Lkr-do-EWw">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchimageipad" translatesAutoresizingMaskIntoConstraints="NO" id="yOM-T4-GHT">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Lkr-do-EWw" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="iWI-OB-UNa"/>
-                            <constraint firstAttribute="trailing" secondItem="Lkr-do-EWw" secondAttribute="trailing" id="mFc-ZC-kGz"/>
-                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="Lkr-do-EWw" secondAttribute="bottom" id="skS-HK-Qk2"/>
-                            <constraint firstItem="Lkr-do-EWw" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="tfc-8z-Fkd"/>
+                            <constraint firstItem="yOM-T4-GHT" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="5pE-oI-LTK"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="yOM-T4-GHT" secondAttribute="bottom" id="BbP-Z9-CpW"/>
+                            <constraint firstAttribute="trailing" secondItem="yOM-T4-GHT" secondAttribute="trailing" id="Bjz-b8-MoE"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="yOM-T4-GHT" secondAttribute="bottom" id="aJw-Td-JrC"/>
+                            <constraint firstItem="yOM-T4-GHT" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" id="jMc-nP-RS6"/>
+                            <constraint firstAttribute="trailing" secondItem="yOM-T4-GHT" secondAttribute="trailing" id="kUF-RX-wtA"/>
+                            <constraint firstItem="yOM-T4-GHT" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="sYk-Ys-mm7"/>
+                            <constraint firstItem="yOM-T4-GHT" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="yAk-XF-n5K"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="jMc-nP-RS6"/>
+                                <exclude reference="kUF-RX-wtA"/>
+                                <exclude reference="sYk-Ys-mm7"/>
+                                <exclude reference="aJw-Td-JrC"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=regular">
+                            <mask key="constraints">
+                                <exclude reference="jMc-nP-RS6"/>
+                                <include reference="kUF-RX-wtA"/>
+                                <include reference="sYk-Ys-mm7"/>
+                                <exclude reference="yAk-XF-n5K"/>
+                                <include reference="aJw-Td-JrC"/>
+                            </mask>
+                        </variation>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="262" y="400"/>
+            <point key="canvasLocation" x="0.75" y="196.5"/>
         </scene>
     </scenes>
     <resources>
-        <image name="launchimage" width="375" height="667"/>
+        <image name="launchimageipad" width="768" height="1024"/>
     </resources>
 </document>

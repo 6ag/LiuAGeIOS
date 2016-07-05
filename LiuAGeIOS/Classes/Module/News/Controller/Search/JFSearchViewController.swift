@@ -32,6 +32,7 @@ class JFSearchViewController: UIViewController {
             make.right.equalTo(-SCREEN_WIDTH * 0.05)
             make.height.equalTo(0)
         }
+        
     }
     
     override func viewWillAppear(animated: Bool) {
