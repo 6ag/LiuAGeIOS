@@ -149,7 +149,7 @@ class JFNewsTableViewController: UIViewController, SDCycleScrollViewDelegate {
         
         JFArticleListModel.loadNewsList(classid, pageIndex: pageIndex, type: 2, cache: true) { (articleListModels, error) in
             
-            guard let list = articleListModels where error != true else {
+            guard let list = articleListModels where error == nil else {
                 return
             }
             
