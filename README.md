@@ -2,6 +2,8 @@
 
 ## 项目介绍
 
+[![Codewake](https://www.codewake.com/badges/ask_question.svg)](https://www.codewake.com/p/liuageios)   
+
 这个项目基于我写的另一个项目 [BaoKanIOS](https://github.com/6ag/BaoKanIOS) 代码基础上进行开发的。经过测试后的代码会逐步更新到 [BaoKanIOS](https://github.com/6ag/BaoKanIOS) ，所以学习建议参考这个项目。数据来源我的个人网站 [六阿哥网](http://www.6ag.cn)  。
 
 ## AppStore
@@ -98,3 +100,5 @@
 ## 许可
 
 [MIT](https://raw.githubusercontent.com/Finb/V2ex-Swift/master/LICENSE) © [六阿哥](https://github.com/6ag)
+
+
