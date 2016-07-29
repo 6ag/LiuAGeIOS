@@ -115,6 +115,14 @@ class JFNewsViewController: UIViewController {
                 
                 // 咋判断啥时候需要刷新？咋刷新呢
                 self.prepareUI()
+                
+                // 如果是直接点击的分类，则跳转到指定分类
+                if let userInfo = notification.userInfo as? [String : Int] {
+                    
+                    
+                    
+                    self.contentScrollView.setContentOffset(CGPoint(x: CGFloat(userInfo["index"]!) * self.contentScrollView.frame.size.width, y: self.contentScrollView.contentOffset.y), animated: true)
+                }
         })
     }
     
