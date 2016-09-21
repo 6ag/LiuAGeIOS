@@ -18,7 +18,7 @@ class JFNewsOnePicCell: UITableViewCell {
                 iconView.image = UIImage(named: "list_placeholder")
                 iconView.yy_imageURL = NSURL(string: postModel!.titlepic!)
             } else {
-                iconView.yy_setImageWithURL(NSURL(string: postModel!.titlepic!), placeholder: UIImage(named: "list_placeholder"), options: YYWebImageOptions.Progressive, completion: nil)
+                iconView.yy_setImageWithURL(NSURL(string: postModel!.titlepic!), placeholder: UIImage(named: "list_placeholder"), options: YYWebImageOptions.ProgressiveBlur, completion: nil)
             }
             
             articleTitleLabel.text = postModel?.title!

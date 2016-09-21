@@ -195,10 +195,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         completionHandler(UIBackgroundFetchResult.NewData)
         
         if application.applicationState == .Background || application.applicationState == .Inactive {
-            application.applicationIconBadgeNumber = 0
             NSNotificationCenter.defaultCenter().postNotificationName("didReceiveRemoteNotificationOfJPush", object: nil, userInfo: userInfo)
         } else if application.applicationState == .Active {
-            application.applicationIconBadgeNumber = 0
             
             let message = userInfo["aps"]!["alert"] as! String
             let alertC = UIAlertController(title: "收到新的消息", message: message, preferredStyle: UIAlertControllerStyle.Alert)

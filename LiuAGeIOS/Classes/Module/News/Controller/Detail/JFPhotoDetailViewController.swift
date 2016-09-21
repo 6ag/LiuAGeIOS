@@ -435,7 +435,7 @@ extension JFPhotoDetailViewController: JFPhotoDetailCellDelegate {
     /**
      单击事件
      */
-    func didOneTappedPhotoDetailView(scrollView: UIScrollView) -> Void {
+    func didOneTappedPhotoDetailView(scrollView: UIScrollView) {
         
         let alpha: CGFloat = UIApplication.sharedApplication().statusBarHidden == false ? 0 : 1
         

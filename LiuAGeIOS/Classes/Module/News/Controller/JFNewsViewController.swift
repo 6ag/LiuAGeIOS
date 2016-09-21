@@ -82,6 +82,9 @@ class JFNewsViewController: UIViewController {
      */
     func didReceiveRemoteNotificationOfJPush(notification: NSNotification) {
         
+        JPUSHService.resetBadge()
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+        
         if let userInfo = notification.userInfo {
             guard let classid = userInfo["classid"] as? String, let id = userInfo["id"] as? String, let type = userInfo["type"] as? String else {return}
             
