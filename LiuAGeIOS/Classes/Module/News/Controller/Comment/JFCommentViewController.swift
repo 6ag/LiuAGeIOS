@@ -30,30 +30,30 @@ class JFCommentViewController: UIViewController {
         
         title = "评论列表"
         
-        tableView.registerNib(UINib(nibName: "JFCommentCell", bundle: nil), forCellReuseIdentifier: "commentCell")
+        tableView.register(UINib(nibName: "JFCommentCell", bundle: nil), forCellReuseIdentifier: "commentCell")
         
         // 配置上下拉刷新控件
         tableView.mj_header = setupHeaderRefresh(self, action: #selector(updateNewData))
         tableView.mj_footer = setupFooterRefresh(self, action: #selector(loadMoreData))
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
+        UIApplication.shared.statusBarStyle = UIStatusBarStyle.default
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
     /**
      下拉加载最新数据
      */
-    @objc private func updateNewData() {
+    @objc fileprivate func updateNewData() {
         loadCommentList(Int(param!.classid)!, id: Int(param!.id)!, pageIndex: 1, method: 0)
     }
     
     /**
      上拉加载更多数据
      */
-    @objc private func loadMoreData() {
+    @objc fileprivate func loadMoreData() {
         pageIndex += 1
         loadCommentList(Int(param!.classid)!, id: Int(param!.id)!, pageIndex: pageIndex, method: 1)
     }
@@ -66,14 +66,14 @@ class JFCommentViewController: UIViewController {
      - parameter pageIndex:  当前页码
      - parameter method:     加载方式 0下拉加载最新 1上拉加载更多
      */
-    func loadCommentList(classid: Int, id: Int, pageIndex: Int, method: Int) {
+    func loadCommentList(_ classid: Int, id: Int, pageIndex: Int, method: Int) {
         
         JFCommentModel.loadCommentList(classid, id: id, pageIndex: pageIndex, pageSize: 20) { (commentModels, error) in
             
             self.tableView.mj_header.endRefreshing()
             self.tableView.mj_footer.endRefreshing()
             
-            guard let models = commentModels where error == nil else {return}
+            guard let models = commentModels, error == nil else {return}
             
             if models.count == 0 {
                 self.tableView.mj_footer.endRefreshingWithNoMoreData()
@@ -105,18 +105,18 @@ class JFCommentViewController: UIViewController {
     
     /// 内容区域
     lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: self.view.bounds, style: UITableViewStyle.Plain)
+        let tableView = UITableView(frame: self.view.bounds, style: UITableViewStyle.plain)
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.backgroundColor = UIColor.whiteColor()
-        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        tableView.backgroundColor = UIColor.white
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.none
         return tableView
     }()
     
     /// 没有内容的时候的占位图
-    private lazy var placeholderView: JFPlaceholderView = {
+    fileprivate lazy var placeholderView: JFPlaceholderView = {
         let placeholderView = JFPlaceholderView(frame: self.view.bounds)
-        placeholderView.backgroundColor = UIColor.whiteColor()
+        placeholderView.backgroundColor = UIColor.white
         return placeholderView
     }()
     
@@ -125,34 +125,34 @@ class JFCommentViewController: UIViewController {
 // MARK: - tableView
 extension JFCommentViewController: UITableViewDelegate, UITableViewDataSource {
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return commentList.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("commentCell") as! JFCommentCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "commentCell") as! JFCommentCell
         cell.delegate = self
         cell.commentModel = commentList[indexPath.row]
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         // 回复指定评论，下一版实现
     }
     
-    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         var rowHeight = commentList[indexPath.row].rowHeight
         if rowHeight < 1 {
-            let cell = tableView.dequeueReusableCellWithIdentifier("commentCell") as! JFCommentCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "commentCell") as! JFCommentCell
             commentList[indexPath.row].rowHeight = cell.getCellHeight(commentList[indexPath.row])
             rowHeight = commentList[indexPath.row].rowHeight
         }
@@ -164,7 +164,7 @@ extension JFCommentViewController: UITableViewDelegate, UITableViewDataSource {
 // MARK: - JFCommentCellDelegate
 extension JFCommentViewController: JFCommentCellDelegate {
     
-    func didTappedStarButton(button: UIButton, commentModel: JFCommentModel) {
+    func didTappedStarButton(_ button: UIButton, commentModel: JFCommentModel) {
         
         let parameters = [
             "classid" : commentModel.classid,
@@ -172,22 +172,22 @@ extension JFCommentViewController: JFCommentCellDelegate {
             "plid" : commentModel.plid,
             "dopl" : "1",
             "action" : "DoForPl"
-        ]
+        ] as [String : Any]
         
-        JFNetworkTool.shareNetworkTool.get(TOP_DOWN, parameters: parameters as? [String : AnyObject]) { (success, result, error) in
+        JFNetworkTool.shareNetworkTool.get(TOP_DOWN, parameters: parameters) { (success, result, error) in
             
             if success {
                 JFProgressHUD.showInfoWithStatus("谢谢支持")
                 
                 // 只要顶成功才选中
-                button.selected = true
+                button.isSelected = true
                 
                 commentModel.zcnum += 1
                 commentModel.isStar = true
                 
                 // 刷新单行
-                let indexPath = NSIndexPath(forRow: self.commentList.indexOf(commentModel)!, inSection: 0)
-                self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+                let indexPath = IndexPath(row: self.commentList.index(of: commentModel)!, section: 0)
+                self.tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.fade)
             } else {
                 JFProgressHUD.showInfoWithStatus("不能重复顶哦")
             }

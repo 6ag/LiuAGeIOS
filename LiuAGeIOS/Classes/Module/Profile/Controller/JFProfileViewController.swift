@@ -42,16 +42,16 @@ class JFProfileViewController: JFBaseTableViewController {
     
     // MARK: - 初始化侧边栏控制器
     init(mainVc: UIViewController) {
-        super.init(style: UITableViewStyle.Grouped)
+        super.init(style: UITableViewStyle.grouped)
         self.mainVc = mainVc
         
         tableView.showsVerticalScrollIndicator = false
-        tableView.separatorStyle = .None
+        tableView.separatorStyle = .none
         tableView.backgroundColor = LEFT_BACKGROUND_COLOR
         tableView.frame = SCREEN_BOUNDS
         tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH * 0.55, height: 160))
         tableView.addSubview(headerView)
-        UIApplication.sharedApplication().keyWindow?.insertSubview(tableView, belowSubview: mainVc.view)
+        UIApplication.shared.keyWindow?.insertSubview(tableView, belowSubview: mainVc.view)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -61,22 +61,22 @@ class JFProfileViewController: JFBaseTableViewController {
     /**
      点击遮罩手势
      */
-    @objc private func didTappedRightShadowView(tap: UIGestureRecognizer) {
+    @objc fileprivate func didTappedRightShadowView(_ tap: UIGestureRecognizer) {
         viewDismiss()
     }
     
     /**
      滑动遮罩手势
      */
-    @objc private func didPanRightShadowView(gesture: UIPanGestureRecognizer) {
+    @objc fileprivate func didPanRightShadowView(_ gesture: UIPanGestureRecognizer) {
         
-        let currentPoint = gesture.translationInView(view)
-        if gesture.state == .Changed {
+        let currentPoint = gesture.translation(in: view)
+        if gesture.state == .changed {
             if currentPoint.x > -SCREEN_WIDTH * 0.55 && currentPoint.x < 0 {
-                self.mainVc?.view.transform = CGAffineTransformMakeTranslation(SCREEN_WIDTH - self.mainVcViewWidth + currentPoint.x, 0)
+                self.mainVc?.view.transform = CGAffineTransform(translationX: SCREEN_WIDTH - self.mainVcViewWidth + currentPoint.x, y: 0)
             }
-        } else if gesture.state == .Ended {
-            if self.mainVc?.view.transform.tx < SCREEN_WIDTH * 0.45 {
+        } else if gesture.state == .ended {
+            if self.mainVc?.view.transform.tx ?? 0 < SCREEN_WIDTH * 0.45 {
                 viewDismiss()
             } else {
                 viewShow()
@@ -91,12 +91,12 @@ class JFProfileViewController: JFBaseTableViewController {
         // 每次显示都更新数据
         updateHeaderData()
         
-        view.userInteractionEnabled = true
-        UIView.animateWithDuration(0.25, animations: {
-            self.mainVc?.view.transform = CGAffineTransformMakeTranslation(SCREEN_WIDTH - self.mainVcViewWidth, 0)
-        }) { (_) in
+        view.isUserInteractionEnabled = true
+        UIView.animate(withDuration: 0.25, animations: {
+            self.mainVc?.view.transform = CGAffineTransform(translationX: SCREEN_WIDTH - self.mainVcViewWidth, y: 0)
+        }, completion: { (_) in
             self.mainVc?.view.addSubview(self.rightShadowView)
-        }
+        }) 
     }
     
     /**
@@ -104,12 +104,12 @@ class JFProfileViewController: JFBaseTableViewController {
      */
     func viewDismiss() {
         
-        view.userInteractionEnabled = false
-        UIView.animateWithDuration(0.25, animations: {
-            self.mainVc?.view.transform = CGAffineTransformIdentity
-        }) { (_) in
+        view.isUserInteractionEnabled = false
+        UIView.animate(withDuration: 0.25, animations: {
+            self.mainVc?.view.transform = CGAffineTransform.identity
+        }, completion: { (_) in
             self.rightShadowView.removeFromSuperview()
-        }
+        }) 
     }
     
     override func viewDidLoad() {
@@ -121,7 +121,7 @@ class JFProfileViewController: JFBaseTableViewController {
     /**
      准备数据
      */
-    private func prepareData() {
+    fileprivate func prepareData() {
         
         // 第一组
         let group1CellModel1 = JFProfileCellModel(title: "我的收藏", icon: "profile_collection_icon")
@@ -141,9 +141,9 @@ class JFProfileViewController: JFBaseTableViewController {
         group2CellModel1.operation = { () -> Void in
             self.viewDismiss()
             JFProgressHUD.showWithStatus("正在清理")
-            let cache = CGFloat(YYImageCache.sharedCache().diskCache.totalCost()) / 1024.0 / 1024.0
-            YYImageCache.sharedCache().diskCache.removeAllObjectsWithBlock({
-                dispatch_async(dispatch_get_main_queue(), {
+            let cache = CGFloat(YYImageCache.shared().diskCache.totalCost()) / 1024.0 / 1024.0
+            YYImageCache.shared().diskCache.removeAllObjects({
+                DispatchQueue.main.async(execute: {
                     JFProgressHUD.showSuccessWithStatus("清除了\(String(format: "%.2f", cache))M缓存")
                 })
             })
@@ -186,11 +186,11 @@ class JFProfileViewController: JFBaseTableViewController {
     /**
      分享给好友
      */
-    private func shareToGoodFriend() {
+    fileprivate func shareToGoodFriend() {
         
         viewDismiss()
         
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.25 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(0.25 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) {
             self.shareToFriend()
         }
         
@@ -199,62 +199,37 @@ class JFProfileViewController: JFBaseTableViewController {
     /**
      分享给朋友
      */
-    private func shareToFriend() {
-        // 宣传图
-        var image = UIImage(named: "shareapp")
-        if image != nil && (image?.size.width > 300 || image?.size.height > 300) {
-            image = image?.resizeImageWithNewSize(CGSize(width: 300, height: 300 * image!.size.height / image!.size.width))
+    fileprivate func shareToFriend() {
+        
+        if JFShareItemModel.loadShareItems().count == 0 {
+            JFProgressHUD.showInfoWithStatus("没有可分享内容")
+            return
         }
         
-        let shareParames = NSMutableDictionary()
-        shareParames.SSDKSetupShareParamsByText("六阿哥网是国内最大的以奇闻异事探索为主题的网站之一，为广大探索爱好者提供丰富的探索资讯内容。进入app下载界面...",
-                                                images : image,
-                                                url : NSURL(string:"https://itunes.apple.com/app/id1120896924"),
-                                                title : "六阿哥",
-                                                type : SSDKContentType.Auto)
-        
-        let items = [
-            SSDKPlatformType.TypeQQ.rawValue,
-            SSDKPlatformType.TypeWechat.rawValue,
-            SSDKPlatformType.TypeSinaWeibo.rawValue
-        ]
-        
-        ShareSDK.showShareActionSheet(nil, items: items, shareParams: shareParames) { (state : SSDKResponseState, platform: SSDKPlatformType, userData : [NSObject : AnyObject]!, contentEntity :SSDKContentEntity!, error : NSError!, end: Bool) in
-            switch state {
-                
-            case SSDKResponseState.Success:
-                print("分享成功")
-            case SSDKResponseState.Fail:
-                print("分享失败,错误描述:\(error)")
-            case SSDKResponseState.Cancel:
-                print("取消分享")
-            default:
-                break
-            }
-        }
+        shareView.showShareView()
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = super.tableView(tableView, cellForRowAtIndexPath: indexPath) as! JFProfileCell
+        let cell = super.tableView(tableView, cellForRowAt: indexPath) as! JFProfileCell
         cell.backgroundColor = LEFT_BACKGROUND_COLOR
-        cell.selectionStyle = .None
-        cell.textLabel?.textColor = UIColor.whiteColor()
+        cell.selectionStyle = .none
+        cell.textLabel?.textColor = UIColor.white
         return cell
     }
     
-    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 5
     }
     
-    override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         if section == 2 {
             return 80
         }
         return 5
     }
     
-    override func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         
         let contentView = UIView()
         if section == 0 || section == 1 {
@@ -275,29 +250,83 @@ class JFProfileViewController: JFBaseTableViewController {
     /**
      更新头部数据
      */
-    private func updateHeaderData() {
+    fileprivate func updateHeaderData() {
         
         if JFAccountModel.isLogin() {
-            headerView.avatarButton.yy_setBackgroundImageWithURL(NSURL(string: JFAccountModel.shareAccount()!.avatarUrl!), forState: UIControlState.Normal, options: YYWebImageOptions.AllowBackgroundTask)
+            headerView.avatarButton.yy_setBackgroundImage(with: URL(string: JFAccountModel.shareAccount()!.avatarUrl!), for: UIControlState(), options: YYWebImageOptions.allowBackgroundTask)
             if JFAccountModel.shareAccount()!.nickname == nil || JFAccountModel.shareAccount()!.nickname == "" {
                 headerView.nameLabel.text = "点击设置昵称"
             } else {
                 headerView.nameLabel.text = JFAccountModel.shareAccount()!.nickname!
             }
         } else {
-            headerView.avatarButton.setBackgroundImage(UIImage(named: "default－portrait"), forState: UIControlState.Normal)
+            headerView.avatarButton.setBackgroundImage(UIImage(named: "default－portrait"), for: UIControlState())
             headerView.nameLabel.text = "登录账号"
         }
     }
     
     lazy var headerView: JFProfileHeaderView = {
-        let headerView = NSBundle.mainBundle().loadNibNamed("JFProfileHeaderView", owner: nil, options: nil).last as! JFProfileHeaderView
+        let headerView = Bundle.main.loadNibNamed("JFProfileHeaderView", owner: nil, options: nil)?.last as! JFProfileHeaderView
         headerView.delegate = self
         headerView.frame = CGRect(x: 0, y: -SCREEN_HEIGHT * 2 + 150, width: SCREEN_WIDTH * 0.55, height: SCREEN_HEIGHT * 2)
         return headerView
     }()
     
+    /// 分享视图
+    fileprivate lazy var shareView: JFShareView = {
+        let shareView = JFShareView()
+        shareView.delegate = self
+        return shareView
+    }()
+    
 }
+
+// MARK: - JFShareViewDelegate
+extension JFProfileViewController: JFShareViewDelegate {
+    
+    func share(type: JFShareType) {
+        
+        let platformType: SSDKPlatformType!
+        switch type {
+        case .qqFriend:
+            platformType = SSDKPlatformType.subTypeQZone // 尼玛，这竟然是反的。。ShareSDK bug
+        case .qqQzone:
+            platformType = SSDKPlatformType.subTypeQQFriend // 尼玛，这竟然是反的。。
+        case .weixinFriend:
+            platformType = SSDKPlatformType.subTypeWechatSession
+        case .friendCircle:
+            platformType = SSDKPlatformType.subTypeWechatTimeline
+        }
+        
+        // 宣传图
+        var image = UIImage(named: "shareapp")
+        if image != nil && (image?.size.width ?? 0 > CGFloat(300) || image?.size.height ?? 0 > CGFloat(300)) {
+            image = image?.resizeImageWithNewSize(CGSize(width: 300, height: 300 * image!.size.height / image!.size.width))
+        }
+        
+        let shareParames = NSMutableDictionary()
+        shareParames.ssdkSetupShareParams(byText: "六阿哥网是国内最大的以奇闻异事探索为主题的网站之一，为广大探索爱好者提供丰富的探索资讯内容。进入app下载界面...",
+                                          images : image,
+                                          url : URL(string:"https://itunes.apple.com/app/id1120896924"),
+                                          title : "六阿哥",
+                                          type : SSDKContentType.auto)
+        
+        ShareSDK.share(platformType, parameters: shareParames) { (state, _, entity, error) in
+            switch state {
+            case SSDKResponseState.success:
+                print("分享成功")
+            case SSDKResponseState.fail:
+                print("授权失败,错误描述:\(error)")
+            case SSDKResponseState.cancel:
+                print("操作取消")
+            default:
+                break
+            }
+        }
+        
+    }
+}
+
 
 // MARK: - JFProfileHeaderViewDelegate
 extension JFProfileViewController: JFProfileHeaderViewDelegate {

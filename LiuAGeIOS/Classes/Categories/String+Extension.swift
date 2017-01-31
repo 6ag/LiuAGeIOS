@@ -18,8 +18,8 @@ extension String {
     func timeStampToString() -> String {
         
         let string = NSString(string: self)
-        let timeSta: NSTimeInterval = string.doubleValue
-        let date = NSDate(timeIntervalSince1970: timeSta)
+        let timeSta: TimeInterval = string.doubleValue
+        let date = Date(timeIntervalSince1970: timeSta)
         return date.dateDescription()
     }
 }

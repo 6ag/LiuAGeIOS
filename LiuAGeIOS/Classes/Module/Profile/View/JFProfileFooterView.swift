@@ -30,7 +30,7 @@ class JFProfileFooterView: UIView {
     /**
      准备UI
      */
-    private func prepareUI() {
+    fileprivate func prepareUI() {
         addSubview(wxBgView)
         wxBgView.addSubview(wxImageView)
         wxBgView.addSubview(wxLabel)
@@ -73,56 +73,56 @@ class JFProfileFooterView: UIView {
     /**
      点击微信
      */
-    func didTappedWxBgView(gesture: UITapGestureRecognizer) {
+    func didTappedWxBgView(_ gesture: UITapGestureRecognizer) {
         delegate?.didTappedWxBgView()
     }
     
     /**
      点击点赞
      */
-    func didTappedStarBgView(gesture: UITapGestureRecognizer) {
+    func didTappedStarBgView(_ gesture: UITapGestureRecognizer) {
         delegate?.didTappedStarBgView()
     }
     
     // MARK: - 懒加载
     
-    private lazy var wxBgView: UIView = {
+    fileprivate lazy var wxBgView: UIView = {
         let wxBgView = UIView()
-        wxBgView.backgroundColor = UIColor.clearColor()
+        wxBgView.backgroundColor = UIColor.clear
         wxBgView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTappedWxBgView(_:))))
         return wxBgView
     }()
     
-    private lazy var starBgView: UIView = {
+    fileprivate lazy var starBgView: UIView = {
         let starBgView = UIView()
-        starBgView.backgroundColor = UIColor.clearColor()
+        starBgView.backgroundColor = UIColor.clear
         starBgView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTappedStarBgView(_:))))
         return starBgView
     }()
     
-    private lazy var wxImageView: UIImageView = {
+    fileprivate lazy var wxImageView: UIImageView = {
         let wxImageView = UIImageView(image: UIImage(named: "profile_footer_wx"))
         return wxImageView
     }()
     
-    private lazy var wxLabel: UILabel = {
+    fileprivate lazy var wxLabel: UILabel = {
         let wxLabel = UILabel()
         wxLabel.text = "关注微信"
-        wxLabel.font = UIFont.systemFontOfSize(14)
-        wxLabel.textColor = UIColor.whiteColor()
+        wxLabel.font = UIFont.systemFont(ofSize: 14)
+        wxLabel.textColor = UIColor.white
         return wxLabel
     }()
     
-    private lazy var starImageView: UIImageView = {
+    fileprivate lazy var starImageView: UIImageView = {
         let starImageView = UIImageView(image: UIImage(named: "profile_footer_star"))
         return starImageView
     }()
     
-    private lazy var starLabel: UILabel = {
+    fileprivate lazy var starLabel: UILabel = {
         let starLabel = UILabel()
         starLabel.text = "点赞"
-        starLabel.font = UIFont.systemFontOfSize(14)
-        starLabel.textColor = UIColor.whiteColor()
+        starLabel.font = UIFont.systemFont(ofSize: 14)
+        starLabel.textColor = UIColor.white
         return starLabel
     }()
 

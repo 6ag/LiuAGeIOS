@@ -48,7 +48,7 @@ class JFArticleDetailModel: NSObject {
     var titlepic: String?
     
     /// 所有图片
-    var allphoto: [AnyObject]?
+    var allphoto: [JFInsetPhotoModel]?
     
     /// 信息来源 - 如果没有则返回空字符串，所以可以直接强拆
     var befrom: String?
@@ -63,12 +63,12 @@ class JFArticleDetailModel: NSObject {
     /**
      字典转模型构造方法
      */
-    init(dict: [String : AnyObject]) {
+    init(dict: [String : Any]) {
         super.init()
-        setValuesForKeysWithDictionary(dict)
+        setValuesForKeys(dict)
     }
     
-    override func setValue(value: AnyObject?, forUndefinedKey key: String) {}
+    override func setValue(_ value: Any?, forUndefinedKey key: String) {}
     
     
     /**
@@ -77,7 +77,7 @@ class JFArticleDetailModel: NSObject {
      - parameter value: 值
      - parameter key:   键
      */
-    override func setValue(value: AnyObject?, forKey key: String) {
+    override func setValue(_ value: Any?, forKey key: String) {
         if key == "morepic" {
             if let array = value as? [[String: AnyObject]] {
                 var morepicModels = [JFPhotoDetailModel]()
@@ -98,6 +98,20 @@ class JFArticleDetailModel: NSObject {
                 otherLinks = otherModels
             }
             return
+        } else if key == "allphoto" {
+            if let array = value as? [[String: AnyObject]] {
+                var allphotoModels = [JFInsetPhotoModel]()
+                for dict in array {
+                    let insetPhotoModel = JFInsetPhotoModel(dict: dict)
+                    if let pixel = dict["pixel"] as? [String : CGFloat] {
+                        insetPhotoModel.widthPixel = pixel["width"] ?? 0
+                        insetPhotoModel.heightPixel = pixel["height"] ?? 0
+                    }
+                    allphotoModels.append(insetPhotoModel)
+                }
+                allphoto = allphotoModels
+            }
+            return
         }
         return super.setValue(value, forKey: key)
     }
@@ -111,21 +125,48 @@ class JFArticleDetailModel: NSObject {
      - parameter cache:     是否需要使用缓存
      - parameter finished:  数据回调
      */
-    class func loadNewsDetail(classid: Int, id: Int, cache: Bool, finished: (articleDetailModel: JFArticleDetailModel?, error: NSError?) -> ()) {
+    class func loadNewsDetail(_ classid: Int, id: Int, cache: Bool, finished: @escaping (_ articleDetailModel: JFArticleDetailModel?, _ error: NSError?) -> ()) {
         
         JFNewsDALManager.shareManager.loadNewsDetail(classid, id: id, cache: cache) { (result, error) in
             
             // 请求失败
             if error != nil || result == nil {
-                finished(articleDetailModel: nil, error: error)
+                finished(nil, error)
                 return
             }
             
             // 正文数据
             let dict = result!.dictionaryObject
-            finished(articleDetailModel: JFArticleDetailModel(dict: dict!), error: nil)
+            finished(JFArticleDetailModel(dict: dict!), nil)
         }
     }
+    
+}
+
+/// 正文插图模型
+class JFInsetPhotoModel: NSObject {
+    
+    // 图片占位字符
+    var ref: String?
+    
+    // 图片描述
+    var caption: String?
+    
+    // 图片url
+    var url: String?
+    
+    // 宽度
+    var widthPixel: CGFloat = 0
+    
+    // 高度
+    var heightPixel: CGFloat = 0
+    
+    init(dict: [String : Any]) {
+        super.init()
+        setValuesForKeys(dict)
+    }
+    
+    override func setValue(_ value: Any?, forUndefinedKey key: String) {}
     
 }
 
@@ -144,12 +185,12 @@ class JFOtherLinkModel: NSObject {
     
     var classname: String?
     
-    init(dict: [String : AnyObject]) {
+    init(dict: [String : Any]) {
         super.init()
-        setValuesForKeysWithDictionary(dict)
+        setValuesForKeys(dict)
     }
     
-    override func setValue(value: AnyObject?, forUndefinedKey key: String) {}
+    override func setValue(_ value: Any?, forUndefinedKey key: String) {}
 }
 
 /// 图库详情模型
@@ -167,11 +208,11 @@ class JFPhotoDetailModel: NSObject {
     /**
      字典转模型构造方法
      */
-    init(dict: [String: AnyObject]) {
+    init(dict: [String: Any]) {
         super.init()
-        setValuesForKeysWithDictionary(dict)
+        setValuesForKeys(dict)
     }
     
-    override func setValue(value: AnyObject?, forUndefinedKey key: String) {}
+    override func setValue(_ value: Any?, forUndefinedKey key: String) {}
     
 }

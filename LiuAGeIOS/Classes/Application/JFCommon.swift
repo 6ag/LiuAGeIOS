@@ -10,6 +10,74 @@ import UIKit
 import pop
 import MJRefresh
 
+/// 基于iPhone6垂直方向适配
+///
+/// - Parameter size: iPhone6垂直方向尺寸
+/// - Returns: 其他型号尺寸
+func layoutVertical(iPhone6: CGFloat) -> CGFloat {
+    
+    var newHeight: CGFloat = 0
+    
+    switch iPhoneModel.getCurrentModel() {
+    case .iPhone5:
+        newHeight = iPhone6 * (568.0 / 667.0)
+    case .iPhone6:
+        newHeight = iPhone6
+    case .iPhone6p:
+        newHeight = iPhone6 * (736.0 / 667.0)
+    default:
+        newHeight = iPhone6 * (1024.0 / 667.0 * 0.9)
+    }
+    
+    return newHeight
+    
+}
+
+/// 基于iPhone6水平方向适配
+///
+/// - Parameter iPhone6: iPhone6水平方向尺寸
+/// - Returns: 其他型号尺寸
+func layoutHorizontal(iPhone6: CGFloat) -> CGFloat {
+    
+    var newWidth: CGFloat = 0
+    
+    switch iPhoneModel.getCurrentModel() {
+    case .iPhone5:
+        newWidth = iPhone6 * (320.0 / 375.0)
+    case .iPhone6:
+        newWidth = iPhone6
+    case .iPhone6p:
+        newWidth = iPhone6 * (414.0 / 375.0)
+    default:
+        newWidth = iPhone6 * (768.0 / 375.0 * 0.9)
+    }
+    
+    return newWidth
+    
+}
+
+/// 基于iPhone6字体的屏幕适配
+///
+/// - Parameter iPhone6: iPhone字体大小
+/// - Returns: 其他型号字体
+func layoutFont(iPhone6: CGFloat) -> CGFloat {
+    
+    var newFont: CGFloat = 0
+    
+    switch iPhoneModel.getCurrentModel() {
+    case .iPhone5:
+        newFont = iPhone6 * (320.0 / 375.0)
+    case .iPhone6:
+        newFont = iPhone6
+    case .iPhone6p:
+        newFont = iPhone6 * (414.0 / 375.0)
+    default:
+        newFont = iPhone6 * 1.2
+    }
+    
+    return newFont
+}
+
 /**
  手机型号枚举
  */
@@ -48,7 +116,7 @@ enum iPhoneModel {
  - returns: true 是夜间模式
  */
 func isNight() -> Bool {
-    return NSUserDefaults.standardUserDefaults().boolForKey(NIGHT_KEY)
+    return UserDefaults.standard.bool(forKey: NIGHT_KEY)
 }
 
 /**
@@ -57,41 +125,41 @@ func isNight() -> Bool {
  - returns: true 接收
  */
 func isPush() -> Bool {
-    return NSUserDefaults.standardUserDefaults().boolForKey(PUSH_KEY)
+    return UserDefaults.standard.bool(forKey: PUSH_KEY)
 }
 
 /**
  给控件添加弹簧动画
  */
-func jf_setupButtonSpringAnimation(view: UIView) {
+func jf_setupButtonSpringAnimation(_ view: UIView) {
     let sprintAnimation = POPSpringAnimation(propertyNamed: kPOPViewScaleXY)
-    sprintAnimation.fromValue = NSValue(CGPoint: CGPoint(x: 0.8, y: 0.8))
-    sprintAnimation.toValue = NSValue(CGPoint: CGPoint(x: 1, y: 1))
-    sprintAnimation.velocity = NSValue(CGPoint: CGPoint(x: 30, y: 30))
-    sprintAnimation.springBounciness = 20
-    view.pop_addAnimation(sprintAnimation, forKey: "springAnimation")
+    sprintAnimation?.fromValue = NSValue(cgPoint: CGPoint(x: 0.8, y: 0.8))
+    sprintAnimation?.toValue = NSValue(cgPoint: CGPoint(x: 1, y: 1))
+    sprintAnimation?.velocity = NSValue(cgPoint: CGPoint(x: 30, y: 30))
+    sprintAnimation?.springBounciness = 20
+    view.pop_add(sprintAnimation, forKey: "springAnimation")
 }
 
 /**
  快速创建上拉加载更多控件
  */
-func setupFooterRefresh(target: AnyObject, action: Selector) -> MJRefreshAutoNormalFooter {
+func setupFooterRefresh(_ target: AnyObject, action: Selector) -> MJRefreshAutoNormalFooter {
     let footerRefresh = MJRefreshAutoNormalFooter(refreshingTarget: target, refreshingAction: action)
-    footerRefresh.automaticallyHidden = true
-    footerRefresh.setTitle("正在为您加载更多...", forState: MJRefreshState.Refreshing)
-    footerRefresh.setTitle("上拉即可加载更多...", forState: MJRefreshState.Idle)
-    footerRefresh.setTitle("没有更多数据啦...", forState: MJRefreshState.NoMoreData)
-    return footerRefresh
+    footerRefresh?.isAutomaticallyHidden = true
+    footerRefresh?.setTitle("正在为您加载更多...", for: MJRefreshState.refreshing)
+    footerRefresh?.setTitle("上拉即可加载更多...", for: MJRefreshState.idle)
+    footerRefresh?.setTitle("没有更多数据啦...", for: MJRefreshState.noMoreData)
+    return footerRefresh!
 }
 
 /**
  快速创建下拉加载最新控件
  */
-func setupHeaderRefresh(target: AnyObject, action: Selector) -> MJRefreshNormalHeader {
+func setupHeaderRefresh(_ target: AnyObject, action: Selector) -> MJRefreshNormalHeader {
     let headerRefresh = MJRefreshNormalHeader(refreshingTarget: target, refreshingAction: action)
-    headerRefresh.lastUpdatedTimeLabel.hidden = true
-    headerRefresh.stateLabel.hidden = true
-    return headerRefresh
+    headerRefresh?.lastUpdatedTimeLabel.isHidden = true
+    headerRefresh?.stateLabel.isHidden = true
+    return headerRefresh!
 }
 
 /// 保存夜间模式的状态的key
@@ -137,13 +205,13 @@ let MARGIN: CGFloat = 12
 let CORNER_RADIUS: CGFloat = 5
 
 /// 屏幕宽度
-let SCREEN_WIDTH = UIScreen.mainScreen().bounds.width
+let SCREEN_WIDTH = UIScreen.main.bounds.width
 
 /// 屏幕高度
-let SCREEN_HEIGHT = UIScreen.mainScreen().bounds.height
+let SCREEN_HEIGHT = UIScreen.main.bounds.height
 
 /// 屏幕bounds
-let SCREEN_BOUNDS = UIScreen.mainScreen().bounds
+let SCREEN_BOUNDS = UIScreen.main.bounds
 
 /// 全局遮罩透明度
 let GLOBAL_SHADOW_ALPHA: CGFloat = 0.5

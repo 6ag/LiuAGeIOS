@@ -11,26 +11,30 @@ import YYWebImage
 
 class JFNewsOnePicCell: UITableViewCell {
     
+    @IBOutlet weak var iconView: UIImageView!
+    @IBOutlet weak var articleTitleLabel: UILabel!
+    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var befromLabel: UILabel!
+    @IBOutlet weak var showNumLabel: UILabel!
+    @IBOutlet weak var smalltextLabel: UILabel!
+    
     var postModel: JFArticleListModel? {
         didSet {
             
-            if postModel!.titlepic!.hasSuffix("gif") {
-                iconView.image = UIImage(named: "list_placeholder")
-                iconView.yy_imageURL = NSURL(string: postModel!.titlepic!)
-            } else {
-                iconView.yy_setImageWithURL(NSURL(string: postModel!.titlepic!), placeholder: UIImage(named: "list_placeholder"), options: YYWebImageOptions.ProgressiveBlur, completion: nil)
-            }
+            guard let postModel = postModel else { return }
+            iconView.image = nil
+            iconView.setImage(urlString: postModel.titlepic ?? "", placeholderImage: UIImage(named: "list_placeholder"))
             
-            articleTitleLabel.text = postModel?.title!
-            timeLabel.text = postModel?.newstimeString
-            befromLabel.text = postModel?.befrom!
-            showNumLabel.text = postModel?.onclick!
+            articleTitleLabel.text = postModel.title
+            timeLabel.text = postModel.newstimeString
+            befromLabel.text = postModel.befrom
+            showNumLabel.text = postModel.onclick
             
             if iPhoneModel.getCurrentModel() == .iPad {
-                smalltextLabel.hidden = false
-                smalltextLabel.text = postModel?.smalltext!
+                smalltextLabel.isHidden = false
+                smalltextLabel.text = postModel.smalltext
             } else {
-                smalltextLabel.hidden = true
+                smalltextLabel.isHidden = true
             }
         }
     }
@@ -51,19 +55,24 @@ class JFNewsOnePicCell: UITableViewCell {
     /**
      计算行高 - 暂时这个cell高度是固定的，所以这个方法不用
      */
-    func getRowHeight(postModel: JFArticleListModel) -> CGFloat {
+    func getRowHeight(_ postModel: JFArticleListModel) -> CGFloat {
         self.postModel = postModel
         setNeedsLayout()
         layoutIfNeeded()
         
-        return CGRectGetMaxY(timeLabel.frame) + 15
+        return timeLabel.frame.maxY + 15
     }
     
-    @IBOutlet weak var iconView: UIImageView!
-    @IBOutlet weak var articleTitleLabel: UILabel!
-    @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var befromLabel: UILabel!
-    @IBOutlet weak var showNumLabel: UILabel!
-    @IBOutlet weak var smalltextLabel: UILabel!
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // 离屏渲染 - 异步绘制
+        layer.drawsAsynchronously = true
+        
+        // 栅格化 - 异步绘制之后，会生成一张独立的图像，cell在屏幕上滚动的时候，本质滚动的是这张图片
+        layer.shouldRasterize = true
+        
+        // 使用栅格化，需要指定分辨率
+        layer.rasterizationScale = UIScreen.main.scale
+    }
     
 }

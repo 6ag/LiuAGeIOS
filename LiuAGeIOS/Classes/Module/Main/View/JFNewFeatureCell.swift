@@ -30,17 +30,17 @@ class JFNewFeatureCell: UICollectionViewCell {
     
     // MARK: - 开始按钮动画
     func startButtonAnimation() {
-        startButton.transform = CGAffineTransformMakeScale(0, 0)
-        UIView.animateWithDuration(1, delay: 0.1, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: UIViewAnimationOptions(rawValue: 0), animations: { () -> Void in
+        startButton.transform = CGAffineTransform(scaleX: 0, y: 0)
+        UIView.animate(withDuration: 1, delay: 0.1, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: UIViewAnimationOptions(rawValue: 0), animations: { () -> Void in
             self.startButton.alpha = 1
-            self.startButton.transform = CGAffineTransformIdentity
+            self.startButton.transform = CGAffineTransform.identity
         }) { (_) -> Void in
             
         }
     }
     
     // MARK: - 准备UI
-    private func prepareUI() {
+    fileprivate func prepareUI() {
         contentView.addSubview(backgroundImageView)
         contentView.addSubview(startButton)
         
@@ -52,20 +52,20 @@ class JFNewFeatureCell: UICollectionViewCell {
      开始按钮点击
      */
     func startButtonClick() {
-        UIApplication.sharedApplication().keyWindow?.rootViewController = UIStoryboard.init(name: "JFNewsViewController", bundle: nil).instantiateInitialViewController()
+        UIApplication.shared.keyWindow?.rootViewController = UIStoryboard.init(name: "JFNewsViewController", bundle: nil).instantiateInitialViewController()
     }
     
     // MARK: - 懒加载
     /// 背景
-    private lazy var backgroundImageView = UIImageView()
+    fileprivate lazy var backgroundImageView = UIImageView()
     
     /// 开始体验按钮
-    private lazy var startButton: UIButton = {
+    fileprivate lazy var startButton: UIButton = {
         let button = UIButton()
         button.layer.cornerRadius = 20
-        button.backgroundColor = UIColor.orangeColor()
-        button.setTitle("开始体验", forState: UIControlState.Normal)
-        button.addTarget(self, action: #selector(startButtonClick), forControlEvents: UIControlEvents.TouchUpInside)
+        button.backgroundColor = UIColor.orange
+        button.setTitle("开始体验", for: UIControlState())
+        button.addTarget(self, action: #selector(startButtonClick), for: UIControlEvents.touchUpInside)
         return button
     }()
 }

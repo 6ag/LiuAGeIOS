@@ -26,15 +26,15 @@ class JFProfileCell: UITableViewCell {
             }
             
             // 右边数据
-            selectionStyle = cellModel!.isKindOfClass(JFProfileCellArrowModel.self) ? .Default : .None
-            if cellModel!.isKindOfClass(JFProfileCellArrowModel.self) {
+            selectionStyle = cellModel!.isKind(of: JFProfileCellArrowModel.self) ? .default : .none
+            if cellModel!.isKind(of: JFProfileCellArrowModel.self) {
                 accessoryView = settingArrowView
-            } else if cellModel!.isKindOfClass(JFProfileCellSwitchModel.self) {
+            } else if cellModel!.isKind(of: JFProfileCellSwitchModel.self) {
                 if cellModel!.title == "推送开关" {
-                    settingSwitchView.on = NSUserDefaults.standardUserDefaults().boolForKey(PUSH_KEY)
+                    settingSwitchView.isOn = UserDefaults.standard.bool(forKey: PUSH_KEY)
                 }
                 accessoryView = settingSwitchView
-            } else if cellModel!.isKindOfClass(JFProfileCellLabelModel.self) {
+            } else if cellModel!.isKind(of: JFProfileCellLabelModel.self) {
                 let settingCellLabel = cellModel as! JFProfileCellLabelModel
                 settingRightLabel.text = settingCellLabel.text
                 accessoryView = settingRightLabel
@@ -59,46 +59,46 @@ class JFProfileCell: UITableViewCell {
         
     }
     
-    override func setHighlighted(highlighted: Bool, animated: Bool) {
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         super.setHighlighted(highlighted, animated: animated)
         
-        if self.highlighted {
+        if self.isHighlighted {
             let scaleAnimation = POPBasicAnimation(propertyNamed: kPOPViewScaleXY)
-            scaleAnimation.duration = 0.1
-            scaleAnimation.toValue = NSValue(CGPoint: CGPoint(x: 1.5, y: 1.5))
-            imageView?.pop_addAnimation(scaleAnimation, forKey: "scalingUp")
+            scaleAnimation?.duration = 0.1
+            scaleAnimation?.toValue = NSValue(cgPoint: CGPoint(x: 1.5, y: 1.5))
+            imageView?.pop_add(scaleAnimation, forKey: "scalingUp")
         } else {
             let sprintAnimation = POPSpringAnimation(propertyNamed: kPOPViewScaleXY)
-            sprintAnimation.toValue = NSValue(CGPoint: CGPoint(x: 0.9, y: 0.9))
-            sprintAnimation.velocity = NSValue(CGPoint: CGPoint(x: 2, y: 2))
-            sprintAnimation.springBounciness = 20
-            imageView?.pop_addAnimation(sprintAnimation, forKey: "springAnimation")
+            sprintAnimation?.toValue = NSValue(cgPoint: CGPoint(x: 0.9, y: 0.9))
+            sprintAnimation?.velocity = NSValue(cgPoint: CGPoint(x: 2, y: 2))
+            sprintAnimation?.springBounciness = 20
+            imageView?.pop_add(sprintAnimation, forKey: "springAnimation")
         }
     }
     
-    private func prepareUI() {
+    fileprivate func prepareUI() {
         
-        textLabel?.font = UIFont.systemFontOfSize(14)
-        textLabel?.textColor = UIColor.blackColor()
+        textLabel?.font = UIFont.systemFont(ofSize: 14)
+        textLabel?.textColor = UIColor.black
         
-        detailTextLabel?.font = UIFont.systemFontOfSize(11)
-        detailTextLabel?.textColor = UIColor.blackColor()
+        detailTextLabel?.font = UIFont.systemFont(ofSize: 11)
+        detailTextLabel?.textColor = UIColor.black
     }
     
-    @objc private func didChangedSwitch(settingSwitch: UISwitch) {
+    @objc fileprivate func didChangedSwitch(_ settingSwitch: UISwitch) {
         
         if cellModel!.title == "推送开关" {
             // 修改本地存储的状态
-            NSUserDefaults.standardUserDefaults().setBool(settingSwitch.on, forKey: PUSH_KEY)
+            UserDefaults.standard.set(settingSwitch.isOn, forKey: PUSH_KEY)
         }
     }
     
     // MARK: - 懒加载
     lazy var settingRightLabel: UILabel = {
         let settingRightLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 150, height: 20))
-        settingRightLabel.textColor = UIColor.grayColor()
-        settingRightLabel.textAlignment = .Right
-        settingRightLabel.font = UIFont.systemFontOfSize(14)
+        settingRightLabel.textColor = UIColor.gray
+        settingRightLabel.textAlignment = .right
+        settingRightLabel.font = UIFont.systemFont(ofSize: 14)
         return settingRightLabel
     }()
     
@@ -109,7 +109,7 @@ class JFProfileCell: UITableViewCell {
     
     lazy var settingSwitchView: UISwitch = {
         let settingSwitchView = UISwitch()
-        settingSwitchView.addTarget(self, action: #selector(didChangedSwitch(_:)), forControlEvents: .ValueChanged)
+        settingSwitchView.addTarget(self, action: #selector(didChangedSwitch(_:)), for: .valueChanged)
         return settingSwitchView
     }()
 

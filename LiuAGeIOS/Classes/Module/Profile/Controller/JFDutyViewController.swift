@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Mustache
 
 class JFDutyViewController: UIViewController {
 
@@ -16,7 +15,7 @@ class JFDutyViewController: UIViewController {
 
         title = "关于六阿哥"
         
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor.white
         
         let html = "<!doctype html>" +
         "<head>" +
@@ -39,17 +38,14 @@ class JFDutyViewController: UIViewController {
         "</html>"
         
         let webView = UIWebView(frame: SCREEN_BOUNDS)
-        webView.dataDetectorTypes = .None
+        webView.dataDetectorTypes = UIDataDetectorTypes()
         view.addSubview(webView)
-        
-        let template = try! Template(string: html)
-        let rendering = try! template.render()
-        webView.loadHTMLString(rendering, baseURL: nil)
+        webView.loadHTMLString(html, baseURL: nil)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
+        UIApplication.shared.statusBarStyle = UIStatusBarStyle.default
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
 

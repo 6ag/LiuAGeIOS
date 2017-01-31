@@ -7,13 +7,37 @@
 //
 
 import UIKit
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class JFModifySafeTableViewController: JFBaseTableViewController {
     
     let modifyInfoIdenfitier = "modifyInfoIdenfitier"
     
     override init(style: UITableViewStyle) {
-        super.init(style: UITableViewStyle.Grouped)
+        super.init(style: UITableViewStyle.grouped)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -35,23 +59,23 @@ class JFModifySafeTableViewController: JFBaseTableViewController {
         groupModels = [group1]
     }
     
-    func didChangeTextField(sender: UITextField) {
+    func didChangeTextField(_ sender: UITextField) {
         if oldPasswordField.text?.characters.count > 1 && newPasswordField.text?.characters.count > 1 && reNewPasswordField.text?.characters.count > 1 && emailField.text?.characters.count > 1 {
-            saveButton.enabled = true
+            saveButton.isEnabled = true
             saveButton.backgroundColor = NAVIGATIONBAR_COLOR_DARK
         } else {
-            saveButton.enabled = false
+            saveButton.isEnabled = false
             saveButton.backgroundColor = DISENABLED_BUTTON_COLOR
         }
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 4
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = super.tableView(tableView, cellForRowAtIndexPath: indexPath)
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
         switch indexPath.row {
         case 0:
             cell.contentView.addSubview(oldPasswordField)
@@ -71,23 +95,23 @@ class JFModifySafeTableViewController: JFBaseTableViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 30
     }
     
-    override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 20
     }
     
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "修改密码或邮箱时，需要原密码进行验证"
     }
     
     /**
      点击了保存
      */
-    func didTappedSaveButton(button: UIButton) -> Void {
-        let parameters: [String : AnyObject] = [
+    func didTappedSaveButton(_ button: UIButton) -> Void {
+        let parameters = [
             "username" : JFAccountModel.shareAccount()!.username!,
             "userid" : JFAccountModel.shareAccount()!.id,
             "action" : "EditSafeInfo",
@@ -96,12 +120,12 @@ class JFModifySafeTableViewController: JFBaseTableViewController {
             "password" : newPasswordField.text!,
             "repassword" : reNewPasswordField.text!,
             "email" : emailField.text!
-            ]
+            ] as [String : Any]
         
         JFNetworkTool.shareNetworkTool.post(MODIFY_ACCOUNT_INFO, parameters: parameters) { (success, result, error) in
             if success {
                 JFProgressHUD.showSuccessWithStatus("修改资料成功")
-                self.navigationController?.popViewControllerAnimated(true)
+                _ = self.navigationController?.popViewController(animated: true)
                 
                 // 修改资料成功需要重新更新资料
                 JFAccountModel.checkUserInfo({})
@@ -112,59 +136,59 @@ class JFModifySafeTableViewController: JFBaseTableViewController {
     }
     
     /// 尾部保存视图
-    private lazy var footerView: UIView = {
+    fileprivate lazy var footerView: UIView = {
         let footerView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 44))
         footerView.addSubview(self.saveButton)
         return footerView
     }()
     
-    private lazy var saveButton: UIButton = {
+    fileprivate lazy var saveButton: UIButton = {
         let saveButton = UIButton(frame: CGRect(x: 20, y: 0, width: SCREEN_WIDTH - 40, height: 44))
-        saveButton.addTarget(self, action: #selector(didTappedSaveButton(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        saveButton.setTitle("保存修改", forState: UIControlState.Normal)
-        saveButton.enabled = false
+        saveButton.addTarget(self, action: #selector(didTappedSaveButton(_:)), for: UIControlEvents.touchUpInside)
+        saveButton.setTitle("保存修改", for: UIControlState())
+        saveButton.isEnabled = false
         saveButton.backgroundColor = DISENABLED_BUTTON_COLOR
         saveButton.layer.cornerRadius = CORNER_RADIUS
         return saveButton
     }()
     
-    private lazy var oldPasswordField: UITextField = {
+    fileprivate lazy var oldPasswordField: UITextField = {
         let field = UITextField(frame: CGRect(x: SCREEN_WIDTH * 0.25, y: 0, width: SCREEN_WIDTH * 0.7, height: 44))
-        field.addTarget(self, action: #selector(didChangeTextField(_:)), forControlEvents: UIControlEvents.EditingChanged)
-        field.font = UIFont.systemFontOfSize(14)
+        field.addTarget(self, action: #selector(didChangeTextField(_:)), for: UIControlEvents.editingChanged)
+        field.font = UIFont.systemFont(ofSize: 14)
         field.placeholder = "原密码"
-        field.secureTextEntry = true
-        field.clearButtonMode = .WhileEditing
+        field.isSecureTextEntry = true
+        field.clearButtonMode = .whileEditing
         return field
     }()
     
-    private lazy var newPasswordField: UITextField = {
+    fileprivate lazy var newPasswordField: UITextField = {
         let field = UITextField(frame: CGRect(x: SCREEN_WIDTH * 0.25, y: 0, width: SCREEN_WIDTH * 0.7, height: 44))
-        field.addTarget(self, action: #selector(didChangeTextField(_:)), forControlEvents: UIControlEvents.EditingChanged)
-        field.font = UIFont.systemFontOfSize(14)
+        field.addTarget(self, action: #selector(didChangeTextField(_:)), for: UIControlEvents.editingChanged)
+        field.font = UIFont.systemFont(ofSize: 14)
         field.placeholder = "新密码（不修改请留空）"
-        field.secureTextEntry = true
-        field.clearButtonMode = .WhileEditing
+        field.isSecureTextEntry = true
+        field.clearButtonMode = .whileEditing
         return field
     }()
     
-    private lazy var reNewPasswordField: UITextField = {
+    fileprivate lazy var reNewPasswordField: UITextField = {
         let field = UITextField(frame: CGRect(x: SCREEN_WIDTH * 0.25, y: 0, width: SCREEN_WIDTH * 0.7, height: 44))
-        field.addTarget(self, action: #selector(didChangeTextField(_:)), forControlEvents: UIControlEvents.EditingChanged)
-        field.font = UIFont.systemFontOfSize(14)
+        field.addTarget(self, action: #selector(didChangeTextField(_:)), for: UIControlEvents.editingChanged)
+        field.font = UIFont.systemFont(ofSize: 14)
         field.placeholder = "确认新密码（不修改请留空）"
-        field.secureTextEntry = true
-        field.clearButtonMode = .WhileEditing
+        field.isSecureTextEntry = true
+        field.clearButtonMode = .whileEditing
         return field
     }()
     
-    private lazy var emailField: UITextField = {
+    fileprivate lazy var emailField: UITextField = {
         let field = UITextField(frame: CGRect(x: SCREEN_WIDTH * 0.25, y: 0, width: SCREEN_WIDTH * 0.7, height: 44))
-        field.addTarget(self, action: #selector(didChangeTextField(_:)), forControlEvents: UIControlEvents.EditingChanged)
-        field.font = UIFont.systemFontOfSize(14)
+        field.addTarget(self, action: #selector(didChangeTextField(_:)), for: UIControlEvents.editingChanged)
+        field.font = UIFont.systemFont(ofSize: 14)
         field.placeholder = "邮箱"
-        field.keyboardType = .EmailAddress
-        field.clearButtonMode = .WhileEditing
+        field.keyboardType = .emailAddress
+        field.clearButtonMode = .whileEditing
         return field
     }()
     
