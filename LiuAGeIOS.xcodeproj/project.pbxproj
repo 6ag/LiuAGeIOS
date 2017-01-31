@@ -62,7 +62,6 @@
 		B264A3C41D016C0D00C72E13 /* JFNetworkTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A33F1D016C0D00C72E13 /* JFNetworkTool.swift */; };
 		B264A3C51D016C0D00C72E13 /* JFProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A3401D016C0D00C72E13 /* JFProgressHUD.swift */; };
 		B264A3D41D016C0D00C72E13 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B264A3681D016C0D00C72E13 /* Info.plist */; };
-		B264A3D51D016C0D00C72E13 /* LaunchScreen.strings in Resources */ = {isa = PBXBuildFile; fileRef = B264A36A1D016C0D00C72E13 /* LaunchScreen.strings */; };
 		B264A4021D018DC800C72E13 /* JFEditColumnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A3D91D018DC800C72E13 /* JFEditColumnViewController.swift */; };
 		B264A4031D018DC800C72E13 /* JFCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A3DB1D018DC800C72E13 /* JFCommentViewController.swift */; };
 		B264A4041D018DC800C72E13 /* JFNewsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B264A3DD1D018DC800C72E13 /* JFNewsDetailViewController.swift */; };
@@ -213,7 +212,6 @@
 		B264A3401D016C0D00C72E13 /* JFProgressHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFProgressHUD.swift; sourceTree = "<group>"; };
 		B264A3441D016C0D00C72E13 /* JPUSHService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPUSHService.h; sourceTree = "<group>"; };
 		B264A3681D016C0D00C72E13 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B264A36B1D016C0D00C72E13 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		B264A3D91D018DC800C72E13 /* JFEditColumnViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFEditColumnViewController.swift; sourceTree = "<group>"; };
 		B264A3DB1D018DC800C72E13 /* JFCommentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFCommentViewController.swift; sourceTree = "<group>"; };
 		B264A3DD1D018DC800C72E13 /* JFNewsDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFNewsDetailViewController.swift; sourceTree = "<group>"; };
@@ -269,6 +267,7 @@
 		B2EA2DC41E40D40F008AFC00 /* UIImageViewWebImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageViewWebImage.swift; sourceTree = "<group>"; };
 		B2EA2DC51E40D40F008AFC00 /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		B2EA2DC81E40DDD4008AFC00 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
+		B2EA2DCA1E40F657008AFC00 /* LiuAGeIOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LiuAGeIOS.entitlements; sourceTree = "<group>"; };
 		B2EBCE3E1D0960F300A09BA2 /* JFFPSLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFFPSLabel.swift; sourceTree = "<group>"; };
 		B2F122C81D1EC14F007ADBD1 /* JFPlaceholderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFPlaceholderView.swift; sourceTree = "<group>"; };
 		B2F122CA1D1EC837007ADBD1 /* loading */ = {isa = PBXFileReference; lastKnownFileType = folder; path = loading; sourceTree = "<group>"; };
@@ -388,10 +387,10 @@
 		B264A2BE1D016C0D00C72E13 /* LiuAGeIOS */ = {
 			isa = PBXGroup;
 			children = (
+				B2EA2DCA1E40F657008AFC00 /* LiuAGeIOS.entitlements */,
 				B264A3681D016C0D00C72E13 /* Info.plist */,
 				B264A2C01D016C0D00C72E13 /* LaunchScreen.storyboard */,
 				B264A2BF1D016C0D00C72E13 /* Assets.xcassets */,
-				B264A36A1D016C0D00C72E13 /* LaunchScreen.strings */,
 				B264A3691D016C0D00C72E13 /* Resource */,
 				B264A2C21D016C0D00C72E13 /* Classes */,
 			);
@@ -874,6 +873,9 @@
 							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
+							com.apple.Push = {
+								enabled = 1;
+							};
 						};
 					};
 				};
@@ -907,7 +909,6 @@
 				B264A4151D018DC800C72E13 /* JFNewsBottomBar.xib in Resources */,
 				B264A3AE1D016C0D00C72E13 /* JFRegisterViewController.xib in Resources */,
 				B264A41C1D018DC800C72E13 /* JFNewsNoPicCell.xib in Resources */,
-				B264A3D51D016C0D00C72E13 /* LaunchScreen.strings in Resources */,
 				B2F122CB1D1EC837007ADBD1 /* loading in Resources */,
 				B264A3AC1D016C0D00C72E13 /* JFLoginViewController.xib in Resources */,
 				B264A4101D018DC800C72E13 /* JFCommentCell.xib in Resources */,
@@ -1086,14 +1087,6 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
-		B264A36A1D016C0D00C72E13 /* LaunchScreen.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B264A36B1D016C0D00C72E13 /* zh-Hans */,
-			);
-			name = LaunchScreen.strings;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -1186,6 +1179,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = LiuAGeIOS/LiuAGeIOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = 35PE24U644;
 				ENABLE_BITCODE = NO;
@@ -1249,6 +1243,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = LiuAGeIOS/LiuAGeIOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = 35PE24U644;
 				ENABLE_BITCODE = NO;
