@@ -135,14 +135,14 @@ class JFNewsDetailViewController: UIViewController {
         view.addSubview(activityView)
         activityView.startAnimating()
         
-        activityView.snp_makeConstraints { (make) in
+        activityView.snp.makeConstraints { (make) in
             make.center.equalTo(view)
         }
-        topBarView.snp_makeConstraints { (make) in
+        topBarView.snp.makeConstraints { (make) in
             make.left.right.top.equalTo(0)
             make.height.equalTo(20)
         }
-        bottomBarView.snp_makeConstraints { (make) in
+        bottomBarView.snp.makeConstraints { (make) in
             make.left.right.bottom.equalTo(0)
             make.height.equalTo(45)
         }

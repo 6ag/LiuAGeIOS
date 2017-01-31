@@ -333,7 +333,7 @@ class JFNewsViewController: UIViewController {
             topScrollView.addSubview(label)
             
             // 利用layout来自适应各种长度的label
-            label.snp_makeConstraints({ (make) -> Void in
+            label.snp.makeConstraints({ (make) -> Void in
                 make.left.equalTo(leftMargin + 15)
                 make.centerY.equalTo(topScrollView)
             })

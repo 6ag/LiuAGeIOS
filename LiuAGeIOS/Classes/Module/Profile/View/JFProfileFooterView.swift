@@ -38,34 +38,34 @@ class JFProfileFooterView: UIView {
         starBgView.addSubview(starImageView)
         starBgView.addSubview(starLabel)
         
-        wxBgView.snp_makeConstraints { (make) in
+        wxBgView.snp.makeConstraints { (make) in
             make.left.top.bottom.equalTo(0)
-            make.right.equalTo(starBgView.snp_left)
+            make.right.equalTo(starBgView.snp.left)
         }
         
-        starBgView.snp_makeConstraints { (make) in
+        starBgView.snp.makeConstraints { (make) in
             make.top.right.bottom.equalTo(0)
             make.width.equalTo(wxBgView)
         }
         
-        wxImageView.snp_makeConstraints { (make) in
+        wxImageView.snp.makeConstraints { (make) in
             make.center.equalTo(wxBgView)
             make.size.equalTo(CGSize(width: 30, height: 30))
         }
         
-        wxLabel.snp_makeConstraints { (make) in
+        wxLabel.snp.makeConstraints { (make) in
             make.centerX.equalTo(wxBgView)
-            make.top.equalTo(wxImageView.snp_bottom).offset(10)
+            make.top.equalTo(wxImageView.snp.bottom).offset(10)
         }
         
-        starImageView.snp_makeConstraints { (make) in
+        starImageView.snp.makeConstraints { (make) in
             make.center.equalTo(starBgView)
             make.size.equalTo(CGSize(width: 30, height: 30))
         }
         
-        starLabel.snp_makeConstraints { (make) in
+        starLabel.snp.makeConstraints { (make) in
             make.centerX.equalTo(starBgView)
-            make.top.equalTo(starImageView.snp_bottom).offset(10)
+            make.top.equalTo(starImageView.snp.bottom).offset(10)
         }
         
     }

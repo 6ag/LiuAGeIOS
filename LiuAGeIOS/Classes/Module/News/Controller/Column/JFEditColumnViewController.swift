@@ -7,30 +7,6 @@
 //
 
 import UIKit
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 class JFEditColumnViewController: UIViewController, JFEditColumnViewCellDelegate {
     
@@ -96,7 +72,7 @@ class JFEditColumnViewController: UIViewController, JFEditColumnViewCellDelegate
             let rect = CGRect(x: attributes.center.x - 6, y: attributes.center.y - 6, width: 12, height: 12)
             
             if rect.contains(CGPoint(x: pan.view!.center.x, y: pan.view!.center.y)) && cellIndexPath != attributes.indexPath {
-                if cellIndexPath?.row > attributes.indexPath.row {
+                if cellIndexPath?.row ?? 0 > attributes.indexPath.row {
                     //后面跟前面交换
                     //交替操作0 1 2 3 变成（3<->2 3<->1 3<->0）
                     for index in ((attributes.indexPath.row + 1)...cellIndexPath!.row).reversed() {
