@@ -24,7 +24,7 @@ class JFPhotoDetailCell: UICollectionViewCell {
     var urlString: String? {
         didSet {
             guard let imageURL = urlString else {
-                print("imageURL 为空")
+                log("imageURL 为空")
                 return
             }
             

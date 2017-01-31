@@ -73,7 +73,7 @@ class JFLoginViewController: UIViewController, JFRegisterViewControllerDelegate 
 
             // 发送登录请求
             JFNetworkTool.shareNetworkTool.post(LOGIN, parameters: parameters) { (success, result, error) in
-                print(result)
+                log(result)
                 if success {
                     // 保存账号和密码
                     UserDefaults.standard.set(self.usernameField.text, forKey: "username")

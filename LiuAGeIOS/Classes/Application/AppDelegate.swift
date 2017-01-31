@@ -212,7 +212,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, JPUSHRegisterDelegate {
      注册远程通知失败
      */
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print("did Fail To Register For Remote Notifications With Error: \(error)")
+        log("did Fail To Register For Remote Notifications With Error: \(error)")
     }
     
     /**

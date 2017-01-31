@@ -32,7 +32,7 @@ extension JFNetworkTool {
     func get(_ APIString: String, parameters: [String : Any]?, finished: @escaping NetworkFinished) {
         
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        //        print("APIString = \(APIString)")
+        log("APIString = \(APIString)")
         Alamofire.request(APIString, method: .get, parameters: parameters, headers: nil).responseJSON { (response) in
             self.handle(response: response, finished: finished)
         }
@@ -49,7 +49,7 @@ extension JFNetworkTool {
     func post(_ APIString: String, parameters: [String : Any]?, finished: @escaping NetworkFinished) {
         
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        //        print("APIString = \(APIString)")
+        log("APIString = \(APIString)")
         Alamofire.request(APIString, method: .post, parameters: parameters, headers: nil).responseJSON { (response) in
             self.handle(response: response, finished: finished)
         }
@@ -65,7 +65,7 @@ extension JFNetworkTool {
         
         switch response.result {
         case .success(let value):
-            print(value)
+            log(value)
             let json = JSON(value)
             if json["err_msg"].string == "success" {
                 finished(true, json, nil)
@@ -93,7 +93,7 @@ extension JFNetworkTool {
      */
     func uploadUserAvatar(_ APIString: String, imagePath: URL, parameters: [String : AnyObject]?, finished: @escaping NetworkFinished) {
         
-        //        print("APIString=\(APIString)")
+        log("APIString=\(APIString)")
         
         let headers = ["content-type" : "multipart/form-data"]
         // 字符串转data型
@@ -122,7 +122,7 @@ extension JFNetworkTool {
                                     }
                                 }
                             case .failure(let encodingError):
-                                print(encodingError)
+                                log(encodingError)
                                 JFProgressHUD.showInfoWithStatus("您的网络不给力哦")
                                 finished(false, nil, encodingError as NSError?)
                             }

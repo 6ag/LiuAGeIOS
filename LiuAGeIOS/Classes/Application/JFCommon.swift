@@ -10,6 +10,13 @@ import UIKit
 import pop
 import MJRefresh
 
+/// 打印日志封装 - 打包的时候注释掉
+///
+/// - Parameter string: 需要打印的字符串
+func log(_ string: Any?) {
+    print(string ?? "")
+}
+
 /// 基于iPhone6垂直方向适配
 ///
 /// - Parameter size: iPhone6垂直方向尺寸

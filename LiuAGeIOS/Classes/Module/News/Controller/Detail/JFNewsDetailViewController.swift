@@ -725,7 +725,7 @@ extension JFNewsDetailViewController: UIWebViewDelegate {
                 
                 // 图片URL
                 let imgUrl = insetPhoto.url!
-                print("imgUrl = \(imgUrl)")
+                log("imgUrl = \(imgUrl)")
                 
                 // img标签
                 let imgTag = "<img onclick='didTappedImage(\(index), \"\(imgUrl)\");' src='\(loading)' id='\(imgUrl)' width='\(width)' height='\(height)' />"
@@ -767,7 +767,7 @@ extension JFNewsDetailViewController: UIWebViewDelegate {
                 let imagePath = JFArticleStorage.getFilePathForKey(imageString)
                 // 发送图片占位标识和本地绝对路径给webView
                 bridge?.send("replaceimage\(imageString)~\(imagePath)")
-                print("图片已有缓存，发送给js \(imagePath)")
+                log("图片已有缓存，发送给js \(imagePath)")
             } else {
                 YYWebImageManager(cache: JFArticleStorage.getArticleImageCache(), queue: OperationQueue()).requestImage(with: URL(string: imageString)!, options: YYWebImageOptions.useNSURLCache, progress: { (_, _) in
                 }, transform: { (image, url) -> UIImage? in
@@ -781,7 +781,7 @@ extension JFNewsDetailViewController: UIWebViewDelegate {
                         let imagePath = JFArticleStorage.getFilePathForKey(imageString)
                         // 发送图片占位标识和本地绝对路径给webView
                         self.bridge?.send("replaceimage\(imageString)~\(imagePath)")
-                        print("图片缓存完成，发送给js \(imagePath)")
+                        log("图片缓存完成，发送给js \(imagePath)")
                     }
                     
                 })
@@ -837,11 +837,11 @@ extension JFNewsDetailViewController: JFStarAndShareCellDelegate, JFShareViewDel
         ShareSDK.share(platformType, parameters: shareParames) { (state, _, entity, error) in
             switch state {
             case SSDKResponseState.success:
-                print("分享成功")
+                log("分享成功")
             case SSDKResponseState.fail:
-                print("授权失败,错误描述:\(error)")
+                log("授权失败,错误描述:\(error)")
             case SSDKResponseState.cancel:
-                print("操作取消")
+                log("操作取消")
             default:
                 break
             }

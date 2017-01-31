@@ -70,12 +70,12 @@ class JFAccountModel: NSObject, NSCoding {
                 
                 guard let successResult = result, success == true else {
                     JFAccountModel.logout()
-                    print("登录信息无效")
+                    log("登录信息无效")
                     return
                 }
                 
-                print("登录信息有效")
-                print(successResult)
+                log("登录信息有效")
+                log(successResult)
                 let account = JFAccountModel(dict: successResult["data"].dictionaryObject! as [String : AnyObject])
                 // 更新用户信息
                 account.updateUserInfo()
@@ -105,7 +105,7 @@ class JFAccountModel: NSObject, NSCoding {
         do {
             try FileManager.default.removeItem(atPath: JFAccountModel.accountPath)
         } catch {
-            print("退出异常")
+            log("退出异常")
         }
     }
     

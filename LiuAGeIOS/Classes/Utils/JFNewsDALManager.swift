@@ -24,7 +24,7 @@ class JFNewsDALManager: NSObject {
         
         // 计算过期时间
         let overDate = Date(timeIntervalSinceNow: -timeInterval)
-        print("时间低于 \(overDate) 的都清除")
+        log("时间低于 \(overDate) 的都清除")
         
         // 记录时间格式 2016-06-13 02:29:37
         let df = DateFormatter()
@@ -40,7 +40,7 @@ class JFNewsDALManager: NSObject {
         
         JFSQLiteManager.shareManager.dbQueue.inDatabase { (db) -> Void in
             if (db?.executeStatements(sql))! {
-                print("清除缓存数据成功")
+                log("清除缓存数据成功")
             }
         }
     }
@@ -97,7 +97,7 @@ extension JFNewsDALManager {
         JFSQLiteManager.shareManager.dbQueue.inDatabase { (db) in
             
             if (db?.executeStatements("DELETE FROM \(SEARCH_KEYBOARD);"))! {
-                print("清空表成功")
+                log("清空表成功")
                 
                 JFNetworkTool.shareNetworkTool.loadSearchKeyListFromNetwork { (success, result, error) in
                     
@@ -118,9 +118,9 @@ extension JFNewsDALManager {
                             let num = Int(dict["num"] as! String)!
                             
                             if (db?.executeUpdate(sql, withArgumentsIn: [keyboard, pinyin, num]))! {
-                                // print("缓存数据成功 - \(keyboard)")
+                                // log("缓存数据成功 - \(keyboard)")
                             } else {
-                                // print("缓存数据失败 - \(keyboard)")
+                                // log("缓存数据失败 - \(keyboard)")
                                 rollback?.pointee = true
                                 break
                             }
@@ -128,7 +128,7 @@ extension JFNewsDALManager {
                     }
                 }
             } else {
-                print("清空表失败")
+                log("清空表失败")
             }
         }
     }
@@ -153,9 +153,9 @@ extension JFNewsDALManager {
         JFSQLiteManager.shareManager.dbQueue.inDatabase { (db) in
             
             if (db?.executeStatements(sql))! {
-                print("清空表成功 classid = \(classid)")
+                log("清空表成功 classid = \(classid)")
             } else {
-                print("清空表失败 classid = \(classid)")
+                log("清空表失败 classid = \(classid)")
             }
         }
     }
@@ -178,7 +178,7 @@ extension JFNewsDALManager {
                 // 本地有数据直接返回
                 if success == true {
                     finished(result, nil)
-                    print("加载了本地数据 \(result)")
+                    log("加载了本地数据 \(result)")
                     return
                 }
                 
@@ -193,7 +193,7 @@ extension JFNewsDALManager {
                     // 缓存数据到本地
                     self.saveNewsListData(classid, data: result!, type: type)
                     finished(result, nil)
-                    print("加载了远程数据 \(result)")
+                    log("加载了远程数据 \(result)")
                 }
             }
         } else {
@@ -298,9 +298,9 @@ extension JFNewsDALManager {
                 let newsJson = String(data: newsData, encoding: String.Encoding.utf8)!
                 
                 if (db?.executeUpdate(sql, withArgumentsIn: [classid, newsJson]))! {
-                    print("缓存数据成功 - \(classid)")
+                    log("缓存数据成功 - \(classid)")
                 } else {
-                    print("缓存数据失败 - \(classid)")
+                    log("缓存数据失败 - \(classid)")
                     rollback?.pointee = true
                     break
                 }
@@ -380,7 +380,7 @@ extension JFNewsDALManager {
                 let newsJson = result?.string(forColumn: "news")
                 let json = JSON.parse(string: newsJson!)
                 finished(true, json, nil)
-                print("从缓存中取正文数据 \(json)")
+                log("从缓存中取正文数据 \(json)")
                 result?.close()
                 return
             }
@@ -411,9 +411,9 @@ extension JFNewsDALManager {
             let newsJson = String(data: newsData, encoding: String.Encoding.utf8)!
             
             if (db?.executeUpdate(sql, withArgumentsIn: [id, classid, newsJson]))! {
-                print("缓存数据成功 - \(classid)")
+                log("缓存数据成功 - \(classid)")
             } else {
-                print("缓存数据失败 - \(classid)")
+                log("缓存数据失败 - \(classid)")
                 rollback?.pointee = true
             }
             

@@ -68,7 +68,7 @@ class JFCollectionTableViewController: UITableViewController {
             
             self.tableView.mj_header.endRefreshing()
             self.tableView.mj_footer.endRefreshing()
-            print(result)
+            log(result)
             if success == true {
                 if let successResult = result {
                     let data = successResult["data"].arrayValue.reversed()
@@ -105,7 +105,7 @@ class JFCollectionTableViewController: UITableViewController {
                     self.tableView.reloadData()
                     
                 } else {
-                    print("error:\(error)")
+                    log("error:\(error)")
                 }
                 
             }

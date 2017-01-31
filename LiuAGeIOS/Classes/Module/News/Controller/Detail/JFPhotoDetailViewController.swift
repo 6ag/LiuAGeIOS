@@ -109,7 +109,7 @@ class JFPhotoDetailViewController: UIViewController {
     
     // MARK: - 各种tap事件
     @objc fileprivate func didTappedRightBarButtonItem(_ item: UIBarButtonItem) -> Void {
-        print("didTappedRightBarButtonItem")
+        log("didTappedRightBarButtonItem")
         JFProgressHUD.showInfoWithStatus("举报成功，谢谢您的支持")
     }
     
@@ -445,11 +445,11 @@ extension JFPhotoDetailViewController: JFShareViewDelegate {
         ShareSDK.share(platformType, parameters: shareParames) { (state, _, entity, error) in
             switch state {
             case SSDKResponseState.success:
-                print("分享成功")
+                log("分享成功")
             case SSDKResponseState.fail:
-                print("授权失败,错误描述:\(error)")
+                log("授权失败,错误描述:\(error)")
             case SSDKResponseState.cancel:
-                print("操作取消")
+                log("操作取消")
             default:
                 break
             }

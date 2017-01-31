@@ -29,7 +29,7 @@ class JFSQLiteManager: NSObject {
     override init() {
         let documentPath = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true).last!
         let dbPath = "\(documentPath)/\(newsDBName)"
-        print(dbPath)
+        log(dbPath)
         
         // 根据路径创建并打开数据库，开启一个串行队列
         dbQueue = FMDatabaseQueue(path: dbPath)
@@ -60,9 +60,9 @@ class JFSQLiteManager: NSObject {
         
         dbQueue.inDatabase { (db) in
             if (db?.executeStatements(sql))! {
-                print("创建 \(tbname) 表成功")
+                log("创建 \(tbname) 表成功")
             } else {
-                print("创建 \(tbname) 表失败")
+                log("创建 \(tbname) 表失败")
             }
         }
     }
@@ -81,9 +81,9 @@ class JFSQLiteManager: NSObject {
         
         dbQueue.inDatabase { (db) in
             if (db?.executeStatements(sql))! {
-                print("创建 \(NEWS_CONTENT) 表成功")
+                log("创建 \(NEWS_CONTENT) 表成功")
             } else {
-                print("创建 \(NEWS_CONTENT) 表失败")
+                log("创建 \(NEWS_CONTENT) 表失败")
             }
         }
     }
@@ -103,9 +103,9 @@ class JFSQLiteManager: NSObject {
         
         dbQueue.inDatabase { (db) in
             if (db?.executeStatements(sql))! {
-                print("创建 \(SEARCH_KEYBOARD) 表成功")
+                log("创建 \(SEARCH_KEYBOARD) 表成功")
             } else {
-                print("创建 \(SEARCH_KEYBOARD) 表失败")
+                log("创建 \(SEARCH_KEYBOARD) 表失败")
             }
         }
     }
