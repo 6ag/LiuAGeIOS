@@ -40,9 +40,7 @@ class JFProgressHUD: NSObject {
     }
     
     class func dismiss() {
-        DispatchQueue.main.async { () -> Void in
-            SVProgressHUD.dismiss()
-        }
+        SVProgressHUD.dismiss()
     }
     
 }

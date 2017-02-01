@@ -11,22 +11,24 @@ import YYWebImage
 
 class JFNewsDetailViewController: UIViewController {
     
-    var bridge: WebViewJavascriptBridge?
-    
-    // MARK: - 属性
-    var contentOffsetY: CGFloat = 0.0
+    fileprivate var bridge: WebViewJavascriptBridge?
     
     /// 文章详情请求参数
     var articleParam: (classid: String, id: String)? {
         didSet {
             prepareUI()
             setupWebViewJavascriptBridge()
-            updateData()
+            DispatchQueue.main.async {
+                self.updateData()
+            }
         }
     }
     
+    // MARK: - 属性
+    fileprivate var contentOffsetY: CGFloat = 0.0
+    
     /// 详情页面模型
-    var model: JFArticleDetailModel? {
+    fileprivate var model: JFArticleDetailModel? {
         didSet {
             
             if !isLoaded {
@@ -46,18 +48,18 @@ class JFNewsDetailViewController: UIViewController {
     }
     
     /// 是否已经加载过webView
-    var isLoaded = false
+    fileprivate var isLoaded = false
     
     /// 相关连接模型
-    var otherLinks = [JFOtherLinkModel]()
+    fileprivate var otherLinks = [JFOtherLinkModel]()
     /// 评论模型
-    var commentList = [JFCommentModel]()
+    fileprivate var commentList = [JFCommentModel]()
     
     // cell标识符
-    let detailContentIdentifier = "detailContentIdentifier"
-    let detailStarAndShareIdentifier = "detailStarAndShareIdentifier"
-    let detailOtherLinkIdentifier = "detailOtherLinkIdentifier"
-    let detailCommentIdentifier = "detailCommentIdentifier"
+    fileprivate let detailContentIdentifier = "detailContentIdentifier"
+    fileprivate let detailStarAndShareIdentifier = "detailStarAndShareIdentifier"
+    fileprivate let detailOtherLinkIdentifier = "detailOtherLinkIdentifier"
+    fileprivate let detailCommentIdentifier = "detailCommentIdentifier"
     
     // MARK: - 生命周期
     override func viewDidLoad() {

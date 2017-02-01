@@ -86,7 +86,9 @@ class JFNewsViewController: UIViewController {
         UIApplication.shared.applicationIconBadgeNumber = 0
         
         if let userInfo = notification.userInfo {
-            guard let classid = userInfo["classid"] as? String, let id = userInfo["id"] as? String, let type = userInfo["type"] as? String else {return}
+            guard let classid = userInfo["classid"] as? String,
+                let id = userInfo["id"] as? String,
+                let type = userInfo["type"] as? String else {return}
             
             if type == "photo" {
                 let detailVc = JFPhotoDetailViewController()
@@ -121,8 +123,6 @@ class JFNewsViewController: UIViewController {
                 
                 // 如果是直接点击的分类，则跳转到指定分类
                 if let userInfo = notification.userInfo as? [String : Int] {
-                    
-                    
                     
                     self.contentScrollView.setContentOffset(CGPoint(x: CGFloat(userInfo["index"]!) * self.contentScrollView.frame.size.width, y: self.contentScrollView.contentOffset.y), animated: true)
                 }

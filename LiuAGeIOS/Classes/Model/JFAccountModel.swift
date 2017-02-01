@@ -47,7 +47,7 @@ class JFAccountModel: NSObject, NSCoding {
     var qq: String?
 
     // KVC 字典转模型
-    init(dict: [String: AnyObject]) {
+    init(dict: [String: Any]) {
         super.init()
         setValuesForKeys(dict)
     }
@@ -60,10 +60,10 @@ class JFAccountModel: NSObject, NSCoding {
     class func checkUserInfo(_ finished: @escaping () -> ()) {
         if isLogin() {
             // 已经登录并保存过信息，验证信息是否有效
-            let parameters: [String : AnyObject] = [
-                "username" : JFAccountModel.shareAccount()!.username! as AnyObject,
-                "userid" : JFAccountModel.shareAccount()!.id as AnyObject,
-                "token" : JFAccountModel.shareAccount()!.token! as AnyObject
+            let parameters: [String : Any] = [
+                "username" : JFAccountModel.shareAccount()!.username!,
+                "userid" : JFAccountModel.shareAccount()!.id,
+                "token" : JFAccountModel.shareAccount()!.token!
             ]
             
             JFNetworkTool.shareNetworkTool.post(GET_USERINFO, parameters: parameters, finished: { (success, result, error) in
@@ -76,8 +76,9 @@ class JFAccountModel: NSObject, NSCoding {
                 
                 log("登录信息有效")
                 log(successResult)
-                let account = JFAccountModel(dict: successResult["data"].dictionaryObject! as [String : AnyObject])
+                
                 // 更新用户信息
+                let account = JFAccountModel(dict: successResult["data"].dictionaryObject!)
                 account.updateUserInfo()
                 
                 // 回调

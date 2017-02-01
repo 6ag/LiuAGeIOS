@@ -59,7 +59,7 @@ class JFSQLiteManager: NSObject {
         ");"
         
         dbQueue.inDatabase { (db) in
-            if (db?.executeStatements(sql))! {
+            if db?.executeStatements(sql) == true {
                 log("创建 \(tbname) 表成功")
             } else {
                 log("创建 \(tbname) 表失败")
@@ -80,7 +80,7 @@ class JFSQLiteManager: NSObject {
         ");"
         
         dbQueue.inDatabase { (db) in
-            if (db?.executeStatements(sql))! {
+            if db?.executeStatements(sql) == true {
                 log("创建 \(NEWS_CONTENT) 表成功")
             } else {
                 log("创建 \(NEWS_CONTENT) 表失败")
@@ -102,7 +102,7 @@ class JFSQLiteManager: NSObject {
         ");"
         
         dbQueue.inDatabase { (db) in
-            if (db?.executeStatements(sql))! {
+            if db?.executeStatements(sql) == true {
                 log("创建 \(SEARCH_KEYBOARD) 表成功")
             } else {
                 log("创建 \(SEARCH_KEYBOARD) 表失败")

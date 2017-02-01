@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
-/// 网络请求回调闭包 success:是否成功  flag:预留参数  result:字典数据 error:错误信息
+/// 网络请求回调闭包 success:是否成功是指逻辑成功，比如登录成功，并不是网络请求成功 result:JSON数据 error:网络请求失败后的错误信息
 typealias NetworkFinished = (_ success: Bool, _ result: JSON?, _ error: NSError?) -> ()
 
 class JFNetworkTool: NSObject {
@@ -22,35 +22,78 @@ class JFNetworkTool: NSObject {
 // MARK: - 基础请求方法
 extension JFNetworkTool {
     
+    /// get请求 - 基本请求，需要自己判断逻辑是否成功
+    ///
+    /// - Parameters:
+    ///   - urlString: urlString
+    ///   - params: 参数
+    ///   - success: 成功回调
+    ///   - failure: 失败回调
+    func get(_ urlString: String, params: [String : Any], success: @escaping (_ response: JSON) -> (), failure: @escaping (_ error : Error) -> ()) {
+        log("urlString = \(urlString)")
+        Alamofire.request(urlString, method: .get, parameters: params, headers: nil)
+            .responseJSON { [weak self] (response) in
+                self?.handle(response: response, success: success, failure: failure)
+        }
+    }
+    
+    /// post请求 - 基本请求，需要自己判断逻辑是否成功
+    ///
+    /// - Parameters:
+    ///   - urlString: urlString
+    ///   - params: 参数
+    ///   - success: 成功回调
+    ///   - failure: 失败回调
+    func post(_ urlString: String, params: [String : Any], success: @escaping (_ response: JSON) -> (), failure: @escaping (_ error : Error) -> ()) {
+        log("urlString = \(urlString)")
+        Alamofire.request(urlString, method: .post, parameters: params, headers: nil)
+            .responseJSON { [weak self] (response) in
+                self?.handle(response: response, success: success, failure: failure)
+        }
+    }
+    
+    /// 处理请求
+    ///
+    /// - Parameters:
+    ///   - response: 响应对象
+    ///   - success: 成功回调
+    ///   - failure: 失败回调
+    fileprivate func handle(response: DataResponse<Any>, success: @escaping (_ response: JSON) -> (), failure: @escaping (_ error : Error) -> ()) {
+        switch response.result {
+        case .success(let value):
+            success(JSON(value))
+        case .failure(let error):
+            failure(error)
+        }
+    }
+    
     /**
-     GET请求
+     GET请求 - 封装了请求逻辑成功
      
-     - parameter URLString:  urlString
+     - parameter urlString:  urlString
      - parameter parameters: 参数
      - parameter finished:   完成回调
      */
-    func get(_ APIString: String, parameters: [String : Any]?, finished: @escaping NetworkFinished) {
-        
+    func get(_ urlString: String, parameters: [String : Any]?, finished: @escaping NetworkFinished) {
+        log("urlString = \(urlString)")
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        log("APIString = \(APIString)")
-        Alamofire.request(APIString, method: .get, parameters: parameters, headers: nil).responseJSON { (response) in
+        Alamofire.request(urlString, method: .get, parameters: parameters, headers: nil).responseJSON { (response) in
             self.handle(response: response, finished: finished)
         }
         
     }
     
     /**
-     POST请求
+     POST请求 - 封装了请求逻辑成功
      
-     - parameter URLString:  urlString
+     - parameter urlString:  urlString
      - parameter parameters: 参数
      - parameter finished:   完成回调
      */
-    func post(_ APIString: String, parameters: [String : Any]?, finished: @escaping NetworkFinished) {
-        
+    func post(_ urlString: String, parameters: [String : Any]?, finished: @escaping NetworkFinished) {
+        log("urlString = \(urlString)")
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        log("APIString = \(APIString)")
-        Alamofire.request(APIString, method: .post, parameters: parameters, headers: nil).responseJSON { (response) in
+        Alamofire.request(urlString, method: .post, parameters: parameters, headers: nil).responseJSON { (response) in
             self.handle(response: response, finished: finished)
         }
     }
@@ -62,7 +105,6 @@ extension JFNetworkTool {
     ///   - finished: 完成回调
     fileprivate func handle(response: DataResponse<Any>, finished: @escaping NetworkFinished) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
-        
         switch response.result {
         case .success(let value):
             log(value)
@@ -86,28 +128,29 @@ extension JFNetworkTool {
     /**
      上传用户头像
      
-     - parameter APIString:  api接口
+     - parameter urlString:  api接口
      - parameter image:      图片对象
      - parameter parameters: 绑定参数
      - parameter finished:   完成回调
      */
-    func uploadUserAvatar(_ APIString: String, imagePath: URL, parameters: [String : AnyObject]?, finished: @escaping NetworkFinished) {
+    func uploadUserAvatar(_ urlString: String, imagePath: URL, parameters: [String : Any]?, finished: @escaping NetworkFinished) {
         
-        log("APIString=\(APIString)")
+        log("urlString=\(urlString)")
         
         let headers = ["content-type" : "multipart/form-data"]
         // 字符串转data型
         Alamofire.upload(multipartFormData: { multipartFormData in
             
             for (key, value) in parameters! {
-                let data = (value as AnyObject).data!(using: String.Encoding.utf8.rawValue)!
-                multipartFormData.append(data, withName: key)
+                if let data = (value as AnyObject).data?(using: String.Encoding.utf8.rawValue) {
+                    multipartFormData.append(data, withName: key)
+                }
             }
             
             // 文件流方式上传图片 - 后端根据tempName进行操作上传文件
             multipartFormData.append(imagePath, withName: "file")
         },
-                         to: APIString,
+                         to: urlString,
                          headers: headers,
                          encodingCompletion: { encodingResult in
                             switch encodingResult {
@@ -117,13 +160,10 @@ extension JFNetworkTool {
                                         let json = JSON(data: data)
                                         finished(true, json, nil)
                                     } else {
-                                        JFProgressHUD.showInfoWithStatus("您的网络不给力哦")
                                         finished(false, nil, response.result.error as NSError?)
                                     }
                                 }
                             case .failure(let encodingError):
-                                log(encodingError)
-                                JFProgressHUD.showInfoWithStatus("您的网络不给力哦")
                                 finished(false, nil, encodingError as NSError?)
                             }
         })
@@ -138,12 +178,12 @@ extension JFNetworkTool {
     func shouldUpdateKeyboardList(_ finished: @escaping (_ update: Bool) -> ()) {
         
         JFNetworkTool.shareNetworkTool.get(UPDATE_SEARCH_KEY_LIST, parameters: nil) { (success, result, error) in
-            guard let successResult = result, success == true else {
+            guard let result = result, success == true else {
                 finished(false)
                 return
             }
             
-            let updateNum = successResult["data"].intValue
+            let updateNum = result["data"].intValue
             if UserDefaults.standard.integer(forKey: UPDATE_SEARCH_KEYBOARD) == updateNum {
                 finished(false)
             } else {
@@ -162,12 +202,12 @@ extension JFNetworkTool {
     func loadSearchKeyListFromNetwork(_ finished: @escaping NetworkFinished) {
         
         JFNetworkTool.shareNetworkTool.get(SEARCH_KEY_LIST, parameters: nil) { (success, result, error) in
-            guard let successResult = result, success == true else {
+            guard let result = result, success == true else {
                 finished(false, nil, error)
                 return
             }
             
-            finished(true, successResult["data"], nil)
+            finished(true, result["data"], nil)
         }
     }
     
@@ -180,19 +220,20 @@ extension JFNetworkTool {
      */
     func loadSearchResultFromNetwork(_ keyboard: String, pageIndex: Int, finished: @escaping NetworkFinished) {
         
-        let parameters: [String : AnyObject] = [
-            "keyboard" : keyboard as AnyObject,   // 搜索关键字
-            "pageIndex" : pageIndex as AnyObject, // 页码
-            "pageSize" : 20 as AnyObject          // 单页数量
+        let parameters: [String : Any] = [
+            "keyboard" : keyboard,   // 搜索关键字
+            "pageIndex" : pageIndex, // 页码
+            "pageSize" : 20          // 单页数量
         ]
         
         JFNetworkTool.shareNetworkTool.get(SEARCH, parameters: parameters) { (success, result, error) -> () in
             
-            guard let successResult = result, success == true else {
+            guard let result = result, success == true else {
                 finished(false, nil, error)
                 return
             }
-            finished(true, successResult["data"], nil)
+            
+            finished(true, result["data"], nil)
         }
     }
     
@@ -206,29 +247,30 @@ extension JFNetworkTool {
      */
     func loadNewsListFromNetwork(_ classid: Int, pageIndex: Int, type: Int, finished: @escaping NetworkFinished) {
         
-        var parameters = [String : AnyObject]()
+        var parameters = [String : Any]()
         
         if type == 1 {
             parameters = [
-                "classid" : classid as AnyObject,
-                "pageIndex" : pageIndex as AnyObject, // 页码
-                "pageSize" : 20 as AnyObject          // 单页数量
+                "classid" : classid,
+                "pageIndex" : pageIndex, // 页码
+                "pageSize" : 20          // 单页数量
             ]
         } else {
             parameters = [
-                "classid" : classid as AnyObject,
-                "query" : "isgood" as AnyObject,
-                "pageSize" : 3 as AnyObject
+                "classid" : classid,
+                "query" : "isgood",
+                "pageSize" : 3
             ]
         }
         
         JFNetworkTool.shareNetworkTool.get(ARTICLE_LIST, parameters: parameters) { (success, result, error) -> () in
             
-            guard let successResult = result, success == true else {
+            guard let result = result, success == true else {
                 finished(false, nil, error)
                 return
             }
-            finished(true, successResult["data"], nil)
+            
+            finished(true, result["data"], nil)
         }
     }
     
@@ -241,29 +283,30 @@ extension JFNetworkTool {
      */
     func loadNewsDetailFromNetwork(_ classid: Int, id: Int, finished: @escaping NetworkFinished) {
         
-        var parameters = [String : AnyObject]()
+        var parameters = [String : Any]()
         if JFAccountModel.isLogin() {
             parameters = [
-                "classid" : classid as AnyObject,
-                "id" : id as AnyObject,
-                "username" : JFAccountModel.shareAccount()!.username! as AnyObject,
-                "userid" : JFAccountModel.shareAccount()!.id as AnyObject,
-                "token" : JFAccountModel.shareAccount()!.token! as AnyObject,
+                "classid" : classid,
+                "id" : id,
+                "username" : JFAccountModel.shareAccount()!.username!,
+                "userid" : JFAccountModel.shareAccount()!.id,
+                "token" : JFAccountModel.shareAccount()!.token!,
             ]
         } else {
             parameters = [
-                "classid" : classid as AnyObject,
-                "id" : id as AnyObject,
+                "classid" : classid,
+                "id" : id,
             ]
         }
         
         JFNetworkTool.shareNetworkTool.get(ARTICLE_DETAIL, parameters: parameters) { (success, result, error) -> () in
             
-            guard let successResult = result, success == true else {
+            guard let result = result, success == true else {
                 finished(false, nil, error)
                 return
             }
-            finished(true, successResult["data"], nil)
+            
+            finished(true, result["data"], nil)
         }
     }
     
@@ -278,20 +321,21 @@ extension JFNetworkTool {
      */
     func loadCommentListFromNetwork(_ classid: Int, id: Int, pageIndex: Int, pageSize: Int, finished: @escaping NetworkFinished) {
         
-        let parameters: [String : AnyObject] = [
-            "classid" : classid as AnyObject,
-            "id" : id as AnyObject,
-            "pageIndex" : pageIndex as AnyObject,
-            "pageSize" : pageSize as AnyObject
+        let parameters: [String : Any] = [
+            "classid" : classid,
+            "id" : id,
+            "pageIndex" : pageIndex,
+            "pageSize" : pageSize
         ]
         
         JFNetworkTool.shareNetworkTool.get(GET_COMMENT, parameters: parameters) { (success, result, error) -> () in
             
-            guard let successResult = result, success == true else {
+            guard let result = result, success == true else {
                 finished(false, nil, error)
                 return
             }
-            finished(true, successResult["data"], nil)
+            
+            finished(true, result["data"], nil)
         }
     }
     
