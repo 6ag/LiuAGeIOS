@@ -49,12 +49,12 @@ class JFNewsPhotoBrowserViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: true)
-        UIApplication.shared.isStatusBarHidden = true
+        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        UIApplication.shared.isStatusBarHidden = false
+        UIApplication.shared.statusBarStyle = UIStatusBarStyle.default
     }
     
     /**
@@ -110,7 +110,7 @@ class JFNewsPhotoBrowserViewController: UIViewController {
         
         bottomToolView.snp.makeConstraints { (make) in
             make.left.right.bottom.equalTo(0)
-            make.height.equalTo(45)
+            make.height.equalTo(60)
         }
         
         bottomTitleLabel.snp.makeConstraints { (make) in
@@ -128,7 +128,7 @@ class JFNewsPhotoBrowserViewController: UIViewController {
         // 更新底部工具条高度
         view.layoutIfNeeded()
         bottomToolView.snp.updateConstraints { (make) in
-            make.height.equalTo(bottomTitleLabel.height + 20)
+            make.height.equalTo(bottomTitleLabel.height + 25)
         }
         
     }
