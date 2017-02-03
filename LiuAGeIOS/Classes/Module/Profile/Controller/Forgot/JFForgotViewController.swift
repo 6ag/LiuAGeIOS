@@ -7,30 +7,6 @@
 //
 
 import UIKit
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 class JFForgotViewController: UIViewController {
     
@@ -62,18 +38,18 @@ class JFForgotViewController: UIViewController {
     }
     
     @IBAction func didChangeTextField(_ sender: UITextField) {
-        if usernameField.text?.characters.count > 5 && emailField.text?.characters.count > 5 {
+        if usernameField.text?.characters.count ?? 0 > 5 && emailField.text?.characters.count ?? 0 > 5 {
             retrieveButton.isEnabled = true
             retrieveButton.backgroundColor = UIColor(red: 32/255.0, green: 170/255.0, blue: 238/255.0, alpha: 1)
         } else {
             retrieveButton.isEnabled = false
-            retrieveButton.backgroundColor = UIColor.gray
+            retrieveButton.backgroundColor = UIColor.colorWithHexString("78c8f0")
         }
     }
     
     @IBAction func didTappedBackButton() {
         view.endEditing(true)
-        navigationController?.popViewController(animated: true)
+        _ = navigationController?.popViewController(animated: true)
     }
     
     @IBAction func didTappedRetrieveButton(_ sender: JFLoginButton) {

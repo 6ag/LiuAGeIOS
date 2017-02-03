@@ -9,8 +9,8 @@
 import UIKit
 
 /// 对UIView的扩展
-extension UIView
-{
+extension UIView {
+    
     /// X值
     var x: CGFloat {
         return self.frame.origin.x

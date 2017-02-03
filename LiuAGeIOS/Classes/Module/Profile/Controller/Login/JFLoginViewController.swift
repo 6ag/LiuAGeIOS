@@ -107,7 +107,7 @@ class JFLoginViewController: UIViewController, JFRegisterViewControllerDelegate 
             loginButton.backgroundColor = UIColor(red: 32/255.0, green: 170/255.0, blue: 238/255.0, alpha: 1)
         } else {
             loginButton.isEnabled = false
-            loginButton.backgroundColor = UIColor.gray
+            loginButton.backgroundColor = UIColor.colorWithHexString("78c8f0")
         }
     }
     
