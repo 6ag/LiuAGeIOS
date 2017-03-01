@@ -94,7 +94,7 @@ class JFFeedbackViewController: JFBaseTableViewController {
         
         if contentTextView.text.characters.count >= 3 && contactTextField.text?.characters.count ?? 0 >= 3 {
             commitButton.isEnabled = true
-            commitButton.backgroundColor = PRIMARY_COLOR
+            commitButton.backgroundColor = ACCENT_COLOR
         } else {
             commitButton.isEnabled = false
             commitButton.backgroundColor = DISENABLED_BUTTON_COLOR

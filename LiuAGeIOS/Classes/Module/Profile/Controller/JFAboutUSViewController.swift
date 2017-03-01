@@ -60,7 +60,7 @@ extension JFAboutUSViewController {
         }
         
         activityView.startAnimating()
-        let html = try! String(contentsOfFile: Bundle.main.path(forResource: "aboutus.html", ofType: nil)!, encoding: String.Encoding.utf8)
+        let html = try! String(contentsOfFile: Bundle.main.path(forResource: "www/html/aboutus.html", ofType: nil)!, encoding: String.Encoding.utf8)
         webView.loadHTMLString(html, baseURL: nil)
         
     }

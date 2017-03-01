@@ -57,7 +57,7 @@ extension JFRegisterAgreeViewController {
         }
         
         activityView.startAnimating()
-        let html = try! String(contentsOfFile: Bundle.main.path(forResource: "agreement.html", ofType: nil)!, encoding: String.Encoding.utf8)
+        let html = try! String(contentsOfFile: Bundle.main.path(forResource: "www/html/agreement.html", ofType: nil)!, encoding: String.Encoding.utf8)
         webView.loadHTMLString(html, baseURL: nil)
         
     }

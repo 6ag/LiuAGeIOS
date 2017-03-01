@@ -288,7 +288,7 @@ extension JFProfileViewController: JFShareViewDelegate {
         let shareParames = NSMutableDictionary()
         shareParames.ssdkSetupShareParams(byText: "六阿哥网是国内最大的以奇闻异事探索为主题的网站之一，为广大探索爱好者提供丰富的探索资讯内容。进入app下载界面...",
                                           images : image,
-                                          url : URL(string:"https://blog.6ag.cn"),
+                                          url : URL(string:"https://www.6ag.cn"),
                                           title : "六阿哥",
                                           type : SSDKContentType.auto)
         

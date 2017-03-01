@@ -57,7 +57,7 @@
                     </imageView>
                     <button opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GRe-EI-vVr" customClass="JFNoHighlightedButton">
                         <rect key="frame" x="316" y="110.5" width="40" height="18"/>
-                        <color key="backgroundColor" white="0.33333333333333331" alpha="0.69999999999999996" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="0.90000000000000002" colorSpace="calibratedWhite"/>
                         <accessibility key="accessibilityConfiguration">
                             <accessibilityTraits key="traits" button="YES" notEnabled="YES"/>
                             <bool key="isElement" value="YES"/>

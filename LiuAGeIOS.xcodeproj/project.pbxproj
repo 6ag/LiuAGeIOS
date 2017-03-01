@@ -141,8 +141,6 @@
 		B20B169A1E6678320004DFBC /* YYWebImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B20B15DB1E6678320004DFBC /* YYWebImageManager.m */; };
 		B20B169B1E6678320004DFBC /* YYWebImageOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = B20B15DD1E6678320004DFBC /* YYWebImageOperation.m */; };
 		B20B169C1E6678320004DFBC /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B20B15DE1E6678320004DFBC /* Info.plist */; };
-		B20B169D1E6678320004DFBC /* aboutus.html in Resources */ = {isa = PBXBuildFile; fileRef = B20B15E11E6678320004DFBC /* aboutus.html */; };
-		B20B169E1E6678320004DFBC /* agreement.html in Resources */ = {isa = PBXBuildFile; fileRef = B20B15E21E6678320004DFBC /* agreement.html */; };
 		B20B16C01E6690AE0004DFBC /* loading in Resources */ = {isa = PBXBuildFile; fileRef = B20B16BE1E6690AE0004DFBC /* loading */; };
 		B20B16C11E6690AE0004DFBC /* www in Resources */ = {isa = PBXBuildFile; fileRef = B20B16BF1E6690AE0004DFBC /* www */; };
 		B20B16DB1E669C340004DFBC /* JFNoHighlightedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B20B16C41E669C340004DFBC /* JFNoHighlightedButton.m */; };
@@ -370,8 +368,6 @@
 		B20B15DD1E6678320004DFBC /* YYWebImageOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYWebImageOperation.m; sourceTree = "<group>"; };
 		B20B15DE1E6678320004DFBC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B20B15DF1E6678320004DFBC /* LiuAGeIOS.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = LiuAGeIOS.entitlements; sourceTree = "<group>"; };
-		B20B15E11E6678320004DFBC /* aboutus.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = aboutus.html; sourceTree = "<group>"; };
-		B20B15E21E6678320004DFBC /* agreement.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = agreement.html; sourceTree = "<group>"; };
 		B20B16BE1E6690AE0004DFBC /* loading */ = {isa = PBXFileReference; lastKnownFileType = folder; path = loading; sourceTree = "<group>"; };
 		B20B16BF1E6690AE0004DFBC /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		B20B16C31E669C340004DFBC /* JFNoHighlightedButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFNoHighlightedButton.h; sourceTree = "<group>"; };
@@ -1008,8 +1004,6 @@
 		B20B15E01E6678320004DFBC /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				B20B15E11E6678320004DFBC /* aboutus.html */,
-				B20B15E21E6678320004DFBC /* agreement.html */,
 				B20B16BE1E6690AE0004DFBC /* loading */,
 				B20B16BF1E6690AE0004DFBC /* www */,
 			);
@@ -1157,7 +1151,6 @@
 				B20B16521E6678320004DFBC /* JFNewsThreePicCell.xib in Resources */,
 				B20B16091E6678320004DFBC /* Assets.xcassets in Resources */,
 				B20B16EA1E669C340004DFBC /* JFDetailOtherNoneCell.xib in Resources */,
-				B20B169D1E6678320004DFBC /* aboutus.html in Resources */,
 				B20B16E41E669C340004DFBC /* JFSetFontView.xib in Resources */,
 				B20B16701E6678320004DFBC /* JFProfileHeaderView.xib in Resources */,
 				B20B16C11E6690AE0004DFBC /* www in Resources */,
@@ -1165,7 +1158,6 @@
 				B20B164E1E6678320004DFBC /* JFNewsNoPicCell.xib in Resources */,
 				B20B16351E6678320004DFBC /* JFCommentCell.xib in Resources */,
 				B20B16571E6678320004DFBC /* JFForgotViewController.xib in Resources */,
-				B20B169E1E6678320004DFBC /* agreement.html in Resources */,
 				B20B16631E6678320004DFBC /* JFLoginViewController.xib in Resources */,
 				B20B16651E6678320004DFBC /* JFRegisterViewController.xib in Resources */,
 				B20B16E21E669C340004DFBC /* JFNewsBottomBar.xib in Resources */,

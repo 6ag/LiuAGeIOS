@@ -114,13 +114,6 @@ class JFAdWebViewController: UIViewController {
         return closeDetailView
     }()
     
-    /// 分享视图
-    fileprivate lazy var shareView: JFShareView = {
-        let shareView = JFShareView()
-        shareView.delegate = self
-        return shareView
-    }()
-    
 }
 
 // MARK: - 控制底部条
@@ -233,94 +226,7 @@ extension JFAdWebViewController: JFNewsBottomBarDelegate {
      底部分享按钮点击
      */
     func didTappedShareButton(_ button: UIButton) {
-        if JFShareItemModel.loadShareItems().count == 0 {
-            JFProgressHUD.showInfoWithStatus("没有可分享内容")
-            return
-        }
-        
-        // 弹出分享视图
-        shareView.showShareView()
-    }
-    
-}
-
-// MARK: - 分享相关 - 这是正文中心的三个按钮和底部分享视图的分享事件
-extension JFAdWebViewController: JFShareViewDelegate {
-    
-    /**
-     获取文章分享参数
-     
-     - returns: 获取文章分享参数
-     */
-    func getShareParameters() -> NSMutableDictionary? {
-        
-        // 分享图片
-        var image = YYImageCache.shared().getImageForKey(webParam?.titlepic ?? "")
-        if image != nil && (image!.size.width > 300.0 || image!.size.height > 300.0) {
-            image = image?.resizeImageWithNewSize(CGSize(width: 300, height: 300 * image!.size.height / image!.size.width))
-        } else {
-            image = UIImage(named: "app_icon")
-        }
-        
-        // 分享标题
-        var titleurl = webParam?.titleurl ?? ""
-        titleurl = titleurl.hasPrefix("http") ? titleurl : "\(BASE_URL)\(titleurl)"
-        
-        let shareParames = NSMutableDictionary()
-        shareParames.ssdkSetupShareParams(byText: webParam?.title ?? "",
-                                          images : image,
-                                          url : URL(string: titleurl),
-                                          title : webParam?.title ?? "",
-                                          type : SSDKContentType.auto)
-        return shareParames
-    }
-    
-    /**
-     根据类型分享
-     */
-    fileprivate func shareWithType(_ platformType: SSDKPlatformType) {
-        
-        guard let shareParames = getShareParameters() else {
-            return
-        }
-        
-        ShareSDK.share(platformType, parameters: shareParames) { (state, _, entity, error) in
-            switch state {
-            case SSDKResponseState.success:
-                log("分享成功")
-            case SSDKResponseState.fail:
-                log("授权失败,错误描述:\(error)")
-            case SSDKResponseState.cancel:
-                log("操作取消")
-            default:
-                break
-            }
-        }
-        
-    }
-    
-    /// 底部弹出的分享视图的分享按钮点击事件
-    ///
-    /// - Parameter type: 需要分享的类型
-    func share(type: JFShareType) {
-        
-        let platformType: SSDKPlatformType!
-        switch type {
-        case .qqFriend:
-            platformType = SSDKPlatformType.subTypeQZone // 尼玛，这竟然是反的。。ShareSDK bug
-        case .qqQzone:
-            platformType = SSDKPlatformType.subTypeQQFriend // 尼玛，这竟然是反的。。
-        case .weixinFriend:
-            platformType = SSDKPlatformType.subTypeWechatSession
-        case .friendCircle:
-            platformType = SSDKPlatformType.subTypeWechatTimeline
-        case .sina:
-            platformType = SSDKPlatformType.typeSinaWeibo
-        }
-        
-        // 立即分享
-        shareWithType(platformType)
-        
+        JFProgressHUD.showInfoWithStatus("当前不支持分享")
     }
     
 }
