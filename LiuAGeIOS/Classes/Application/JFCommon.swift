@@ -14,7 +14,7 @@ import MJRefresh
 ///
 /// - Parameter string: 需要打印的字符串
 func log(_ string: Any?) {
-    print(string ?? "")
+//    print(string ?? "")
 }
 
 /// 基于iPhone6垂直方向适配
