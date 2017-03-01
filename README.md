@@ -4,22 +4,6 @@
 
 资讯类客户端，数据来源我的个人网站 [六阿哥网](http://www.6ag.cn)。
 
-## AppStore
-
-<a target='_blank' href='https://itunes.apple.com/app/id1120896924'>
-<img src='http://ww2.sinaimg.cn/large/0060lm7Tgw1f1hgrs1ebwj308102q0sp.jpg' width='144' height='49' />
-</a>
-
-## 主要技术
-
-+ `tableView` / `scrollView` 手势冲突处理
-+ 主流选项卡切换控制器、加载数据方式
-+ 分类栏目自定义管理、 `collectionView` 排序
-+ 主流图片浏览器处理、各种手势、用户体验增强
-+ 使用 `sqlite` 数据库缓存列表页、幻灯片、新闻正文、图库正文数据
-+ `js` 与 `swift` 交互，实现正文加载图片占位和缓存处理，并添加图片点击交互
-+ 集成 `JPush` 实现各种远程推送，集成 `ShareSDK` 实现社交分享、第三方登录
-
 ## 开发环境
 
 *XCode8.2.1* + *swift3.0* ，如果下载项目后，编译失败，请检查 `XCode` 版本是否满足。
