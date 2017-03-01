@@ -155,7 +155,7 @@ class JFProfileViewController: JFBaseTableViewController {
         group3CellModel2.operation = { () -> Void in
             self.shareToGoodFriend()
         }
-        let group3CellModel3 = JFProfileCellModel(title: "关于PCB世界", icon: "profile_about_icon")
+        let group3CellModel3 = JFProfileCellModel(title: "关于我们", icon: "profile_about_icon")
         group3CellModel3.operation = { () -> Void in
             self.profileDelegate?.didTappedMyDutyCell()
             self.viewDismiss()
