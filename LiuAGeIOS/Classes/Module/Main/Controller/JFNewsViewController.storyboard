@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="hz5-hD-UIz">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--六阿哥-->
+        <scene sceneID="ckc-Uq-vFg">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="mqn-Xd-dLs" customClass="JFNewsViewController" customModule="LiuAGeIOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="tUK-om-XoJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="fuU-RQ-tUC"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="rwb-V9-5e0">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fNF-2X-T8b">
+                                <rect key="frame" x="335" y="64" width="40" height="40"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Myr-FY-0Ym"/>
+                                    <constraint firstAttribute="width" constant="40" id="kmt-ii-9xV"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" image="channel_nav_plus"/>
+                                <connections>
+                                    <action selector="didTappedEditColumnButton:" destination="mqn-Xd-dLs" eventType="touchUpInside" id="zvq-oB-JQI"/>
+                                </connections>
+                            </button>
+                            <scrollView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" indicatorStyle="white" translatesAutoresizingMaskIntoConstraints="NO" id="FHU-EV-o5G" userLabel="contentScrollView">
+                                <rect key="frame" x="0.0" y="104" width="375" height="563"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <outlet property="delegate" destination="mqn-Xd-dLs" id="nNF-bf-4ZL"/>
+                                </connections>
+                            </scrollView>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V3q-ZM-xaJ" userLabel="topScrollView">
+                                <rect key="frame" x="0.0" y="64" width="335" height="40"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="cvn-BJ-qt9"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="FHU-EV-o5G" firstAttribute="top" secondItem="fNF-2X-T8b" secondAttribute="bottom" id="04j-Wk-wpa"/>
+                            <constraint firstItem="V3q-ZM-xaJ" firstAttribute="leading" secondItem="rwb-V9-5e0" secondAttribute="leading" id="2Oa-Ga-56e"/>
+                            <constraint firstItem="V3q-ZM-xaJ" firstAttribute="top" secondItem="tUK-om-XoJ" secondAttribute="bottom" id="6XY-sQ-dKN"/>
+                            <constraint firstAttribute="trailing" secondItem="fNF-2X-T8b" secondAttribute="trailing" id="VLx-QO-igl"/>
+                            <constraint firstItem="fuU-RQ-tUC" firstAttribute="top" secondItem="FHU-EV-o5G" secondAttribute="bottom" id="ZBW-cO-yTr"/>
+                            <constraint firstAttribute="trailing" secondItem="FHU-EV-o5G" secondAttribute="trailing" id="n0h-zf-Th1"/>
+                            <constraint firstItem="fNF-2X-T8b" firstAttribute="top" secondItem="tUK-om-XoJ" secondAttribute="bottom" id="t0u-uf-s0z"/>
+                            <constraint firstItem="FHU-EV-o5G" firstAttribute="leading" secondItem="rwb-V9-5e0" secondAttribute="leading" id="tsN-zH-cM8"/>
+                            <constraint firstItem="V3q-ZM-xaJ" firstAttribute="top" secondItem="tUK-om-XoJ" secondAttribute="bottom" id="uv1-rx-JBN"/>
+                            <constraint firstItem="fNF-2X-T8b" firstAttribute="leading" secondItem="V3q-ZM-xaJ" secondAttribute="trailing" id="wWM-gn-utu"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="uv1-rx-JBN"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <navigationItem key="navigationItem" title="六阿哥" id="UN2-ep-CMR">
+                        <barButtonItem key="leftBarButtonItem" style="plain" id="4NQ-ve-cHw">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ska-bJ-hpa">
+                                <rect key="frame" x="16" y="11" width="20" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="navigation_right_menu"/>
+                                <connections>
+                                    <action selector="didTappedLeftButton:" destination="mqn-Xd-dLs" eventType="touchUpInside" id="Y8e-fg-DKg"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="oK6-GY-yFg">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="5Yd-E8-xQs">
+                                <rect key="frame" x="339" y="11" width="20" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="top_navigation_search"/>
+                                <connections>
+                                    <action selector="didTappedRightButton:" destination="mqn-Xd-dLs" eventType="touchUpInside" id="jXb-I5-rOn"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="arrowButton" destination="fNF-2X-T8b" id="fpG-Zv-nwo"/>
+                        <outlet property="contentScrollView" destination="FHU-EV-o5G" id="CSU-ks-opV"/>
+                        <outlet property="topScrollView" destination="V3q-ZM-xaJ" id="fCP-cN-6FT"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xIM-ra-rAm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1127" y="286"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="AFD-bS-gwD">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hz5-hD-UIz" customClass="JFNavigationController" customModule="LiuAGeIOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Vjb-ye-gYw">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="mqn-Xd-dLs" kind="relationship" relationship="rootViewController" id="rxE-wk-V0W"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Js1-Lo-eVj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="242" y="286"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="channel_nav_plus" width="19" height="19"/>
+        <image name="navigation_right_menu" width="20" height="13"/>
+        <image name="top_navigation_search" width="18" height="18"/>
+    </resources>
+</document>
