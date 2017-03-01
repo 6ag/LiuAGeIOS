@@ -12,7 +12,7 @@ import Foundation
 let BASE_URL = "http://www.6ag.cn/"
 
 /// 基础url
-let API_URL = "\(BASE_URL)e/api-v2/"
+let API_URL = "\(BASE_URL)e/api/"
 
 /// 分类
 let GET_CLASS = "\(API_URL)getNewsClass.php"
