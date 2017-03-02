@@ -17,7 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, JPUSHRegisterDelegate {
     // 给注册推送时用 - 因为注册推送想在主界面加载出来才询问是否授权
     var launchOptions: [AnyHashable: Any]?
     var hostReach: Reachability?
-    var networkState = 0
     var launchArticleModel: JFArticleListModel? // 开屏广告模型
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -38,6 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, JPUSHRegisterDelegate {
     /// 配置启动广告 - 这个方法会阻塞主线程
     fileprivate func setupLaunchAd() {
         
+        // 从本地缓存加载开屏广告数据
         JFAdManager.shared.loadLaunchAd { (isSuccess, articleModel) in
             
             guard let imageUrl = articleModel?.morepic?.first,
@@ -48,12 +48,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, JPUSHRegisterDelegate {
                     return
             }
             
+            // 配置开屏广告
             self.launchArticleModel = articleModel
             let config = XHLaunchImageAdConfiguration.default()
             config.imageNameOrURLString = imageUrl
             config.openURLString = titleurl
             config.duration = 5
-            config.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT - layoutVertical(iPhone6: 100))
+            config.frame = SCREEN_BOUNDS
             config.contentMode = .scaleToFill
             config.showFinishAnimate = .fadein
             config.showEnterForeground = false
@@ -82,13 +83,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, JPUSHRegisterDelegate {
         
         switch curReach.currentReachabilityStatus() {
         case NotReachable:
-            networkState = 0
             log("无网络")
         case ReachableViaWiFi:
-            networkState = 1
             log("WiFi")
         case ReachableViaWWAN:
-            networkState = 2
             log("WAN")
         default:
             break
@@ -107,18 +105,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, JPUSHRegisterDelegate {
             UserDefaults.standard.set("", forKey: CONTENT_FONT_TYPE_KEY)
         }
         
+        // 预加载广告软文数据
+        JFAdManager.shared.loadAdList(isCache: true)
+        
+        // 是否需要更新本地搜索关键词列表
+        JFNetworkTool.shareNetworkTool.isShouldUpdateKeyboardList()
+        
         // 验证缓存的账号是否有效
         JFAccountModel.checkUserInfo({})
         
-        // 是否需要更新本地搜索关键词列表
-        JFNetworkTool.shareNetworkTool.shouldUpdateKeyboardList({ (update) in
-            if update {
-                JFNewsDALManager.shareManager.updateSearchKeyListData()
-            }
-        })
-        
-        // 预加载广告软文数据
-        JFAdManager.shared.loadAdList(isCache: true)
     }
     
     /**

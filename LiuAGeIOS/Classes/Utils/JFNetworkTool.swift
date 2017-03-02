@@ -174,20 +174,16 @@ extension JFNetworkTool {
      
      - parameter finished: 数据回调
      */
-    func shouldUpdateKeyboardList(_ finished: @escaping (_ update: Bool) -> ()) {
+    func isShouldUpdateKeyboardList() {
         
         JFNetworkTool.shareNetworkTool.get(UPDATE_SEARCH_KEY_LIST, parameters: nil) { (success, result, error) in
             guard let result = result, success == true else {
-                finished(false)
                 return
             }
             
-            let updateNum = result["data"].intValue
-            if UserDefaults.standard.integer(forKey: UPDATE_SEARCH_KEYBOARD) == updateNum {
-                finished(false)
-            } else {
-                UserDefaults.standard.set(updateNum, forKey: UPDATE_SEARCH_KEYBOARD)
-                finished(true)
+            let version = result["version"].stringValue
+            if UserDefaults.standard.string(forKey: UPDATE_SEARCH_KEYBOARD) != version {
+                JFNewsDALManager.shareManager.updateSearchKeyListData(keyboardVersion: version)
             }
             
         }

@@ -32,11 +32,6 @@ class JFEditColumnViewController: UIViewController, JFEditColumnViewCellDelegate
         prepareUI()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        view.backgroundColor = PRIMARY_COLOR
-    }
-    
     fileprivate func prepareUI() {
         
         view.addSubview(collectionView)

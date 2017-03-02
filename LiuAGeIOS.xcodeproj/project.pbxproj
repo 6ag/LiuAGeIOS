@@ -92,12 +92,10 @@
 		B20B16691E6678320004DFBC /* JFProfileCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20B157D1E6678310004DFBC /* JFProfileCellModel.swift */; };
 		B20B166A1E6678320004DFBC /* JFProfileCellSwitchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20B157E1E6678310004DFBC /* JFProfileCellSwitchModel.swift */; };
 		B20B166B1E6678320004DFBC /* JFInfoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20B15811E6678310004DFBC /* JFInfoHeaderView.swift */; };
-		B20B166C1E6678320004DFBC /* JFLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20B15821E6678310004DFBC /* JFLoginButton.swift */; };
 		B20B166D1E6678320004DFBC /* JFProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20B15831E6678310004DFBC /* JFProfileCell.swift */; };
 		B20B166E1E6678320004DFBC /* JFProfileFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20B15841E6678310004DFBC /* JFProfileFooterView.swift */; };
 		B20B166F1E6678320004DFBC /* JFProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20B15851E6678310004DFBC /* JFProfileHeaderView.swift */; };
 		B20B16701E6678320004DFBC /* JFProfileHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B20B15861E6678310004DFBC /* JFProfileHeaderView.xib */; };
-		B20B16711E6678320004DFBC /* JFProfileTopButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20B15871E6678310004DFBC /* JFProfileTopButton.swift */; };
 		B20B16721E6678320004DFBC /* JFAdManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20B15891E6678310004DFBC /* JFAdManager.swift */; };
 		B20B16731E6678320004DFBC /* JFArticleStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20B158A1E6678310004DFBC /* JFArticleStorage.swift */; };
 		B20B16741E6678320004DFBC /* JFNetworkTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20B158B1E6678310004DFBC /* JFNetworkTool.swift */; };
@@ -283,12 +281,10 @@
 		B20B157D1E6678310004DFBC /* JFProfileCellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFProfileCellModel.swift; sourceTree = "<group>"; };
 		B20B157E1E6678310004DFBC /* JFProfileCellSwitchModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFProfileCellSwitchModel.swift; sourceTree = "<group>"; };
 		B20B15811E6678310004DFBC /* JFInfoHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFInfoHeaderView.swift; sourceTree = "<group>"; };
-		B20B15821E6678310004DFBC /* JFLoginButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFLoginButton.swift; sourceTree = "<group>"; };
 		B20B15831E6678310004DFBC /* JFProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFProfileCell.swift; sourceTree = "<group>"; };
 		B20B15841E6678310004DFBC /* JFProfileFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFProfileFooterView.swift; sourceTree = "<group>"; };
 		B20B15851E6678310004DFBC /* JFProfileHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFProfileHeaderView.swift; sourceTree = "<group>"; };
 		B20B15861E6678310004DFBC /* JFProfileHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JFProfileHeaderView.xib; sourceTree = "<group>"; };
-		B20B15871E6678310004DFBC /* JFProfileTopButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFProfileTopButton.swift; sourceTree = "<group>"; };
 		B20B15891E6678310004DFBC /* JFAdManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFAdManager.swift; sourceTree = "<group>"; };
 		B20B158A1E6678310004DFBC /* JFArticleStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFArticleStorage.swift; sourceTree = "<group>"; };
 		B20B158B1E6678310004DFBC /* JFNetworkTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JFNetworkTool.swift; sourceTree = "<group>"; };
@@ -607,9 +603,9 @@
 		B20B15191E6678310004DFBC /* News */ = {
 			isa = PBXGroup;
 			children = (
+				B20B15311E6678310004DFBC /* Transition */,
 				B20B151A1E6678310004DFBC /* Controller */,
 				B20B15291E6678310004DFBC /* Model */,
-				B20B15311E6678310004DFBC /* Transition */,
 				B20B15381E6678310004DFBC /* View */,
 			);
 			path = News;
@@ -826,8 +822,8 @@
 				B20B157A1E6678310004DFBC /* JFProfileCellArrowModel.swift */,
 				B20B157B1E6678310004DFBC /* JFProfileCellGroupModel.swift */,
 				B20B157C1E6678310004DFBC /* JFProfileCellLabelModel.swift */,
-				B20B157D1E6678310004DFBC /* JFProfileCellModel.swift */,
 				B20B157E1E6678310004DFBC /* JFProfileCellSwitchModel.swift */,
+				B20B157D1E6678310004DFBC /* JFProfileCellModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -836,12 +832,10 @@
 			isa = PBXGroup;
 			children = (
 				B20B15801E6678310004DFBC /* Info */,
-				B20B15821E6678310004DFBC /* JFLoginButton.swift */,
 				B20B15831E6678310004DFBC /* JFProfileCell.swift */,
 				B20B15841E6678310004DFBC /* JFProfileFooterView.swift */,
 				B20B15851E6678310004DFBC /* JFProfileHeaderView.swift */,
 				B20B15861E6678310004DFBC /* JFProfileHeaderView.xib */,
-				B20B15871E6678310004DFBC /* JFProfileTopButton.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1326,7 +1320,6 @@
 				B20B16111E6678320004DFBC /* UIImageExtension.swift in Sources */,
 				B20B16601E6678320004DFBC /* JFProfileViewController.swift in Sources */,
 				B20B16151E6678320004DFBC /* JFNavigationController.swift in Sources */,
-				B20B16711E6678320004DFBC /* JFProfileTopButton.swift in Sources */,
 				B20B164F1E6678320004DFBC /* JFNewsOnePicCell.swift in Sources */,
 				B20B16661E6678320004DFBC /* JFProfileCellArrowModel.swift in Sources */,
 				B20B16671E6678320004DFBC /* JFProfileCellGroupModel.swift in Sources */,
@@ -1337,7 +1330,6 @@
 				B20B16511E6678320004DFBC /* JFNewsThreePicCell.swift in Sources */,
 				B20B162B1E6678320004DFBC /* JFShareItemModel.swift in Sources */,
 				B20B165A1E6678320004DFBC /* JFModifySafeTableViewController.swift in Sources */,
-				B20B166C1E6678320004DFBC /* JFLoginButton.swift in Sources */,
 				B20B16291E6678320004DFBC /* JFCommentModel.swift in Sources */,
 				B20B162A1E6678320004DFBC /* JFSearchKeyboardModel.swift in Sources */,
 				B20B162D1E6678320004DFBC /* JFNewsPhotoModalAnimation.swift in Sources */,

@@ -9,6 +9,7 @@
 #import <UserNotifications/UserNotifications.h>
 #endif
 
+// ShareSDK
 #import <ShareSDK/ShareSDK.h>
 #import <ShareSDKUI/ShareSDKUI.h>
 #import <ShareSDKConnector/ShareSDKConnector.h>
@@ -23,14 +24,23 @@
 // 新浪微博SDK头文件
 #import "WeiboSDK.h"
 
+// YY图片库
 #import "YYWebImage.h"
+
+// 网络监测
 #import "Reachability.h"
+
+// js桥接库
 #import "WebViewJavascriptBridge.h"
 
-#import "JFNoHighlightedButton.h"
-#import "JFObjcTool.h"
-
-// 开屏广告
+// 开屏广告库
 #import "XHLaunchAd.h"
+
+// 加密用到的头文件
+#import <CommonCrypto/CommonDigest.h>
+
+// 按下按钮不高亮
+#import "JFNoHighlightedButton.h"
+
 
 

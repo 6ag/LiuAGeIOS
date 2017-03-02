@@ -10,6 +10,7 @@ import UIKit
 import pop
 import MJRefresh
 
+// MARK: - 各种全局方法
 /// 打印日志封装 - 打包的时候注释掉
 ///
 /// - Parameter string: 需要打印的字符串
@@ -191,56 +192,46 @@ func jumpToDetailVc(nav: UINavigationController, articleModel: JFArticleListMode
 }
 
 
+// MARK: - 各种全局常量
 /// 夜间模式的状态
 let NIGHT_KEY = "night"
-
 /// 正文字体名称
 let CONTENT_FONT_TYPE_KEY = "contentFontType"
-
 /// 正文字体大小
 let CONTENT_FONT_SIZE_KEY = "contentFontSize"
-
 /// 推送开关
 let PUSH_KEY = "push"
-
 /// 更新搜索关键词列表
 let UPDATE_SEARCH_KEYBOARD = "updateSearchKeyboard"
 
+
 /// 主色调 - 白色
 let PRIMARY_COLOR = UIColor.white
-
 /// 强调色，比如顶部标签选择颜色 - 橙色
 let ACCENT_COLOR = UIColor.colorWithRGB(231, g: 129, b: 112)
-
 /// 按钮禁用时的颜色 - 灰色
 let DISENABLED_BUTTON_COLOR = UIColor.colorWithRGB(178, g: 178, b: 178)
-
 /// 控制器背景颜色 - 接近白色
-let BACKGROUND_COLOR = UIColor.colorWithRGB(252, g: 252, b: 252)
-
+let BACKGROUND_COLOR = UIColor.colorWithHexString("#ECECF2") //UIColor.colorWithRGB(252, g: 252, b: 252)
 /// 侧栏背景色 - 浅黑色
 let LEFT_BACKGROUND_COLOR = UIColor(red:0.133,  green:0.133,  blue:0.133, alpha:1)
-
 /// 设置界面分割线颜色
 let SETTING_SEPARATOR_COLOR = UIColor(white: 0.5, alpha: 0.3)
 
+
 /// 全局边距
 let MARGIN: CGFloat = 12
-
 /// 全局圆角
 let CORNER_RADIUS: CGFloat = 5
-
 /// 屏幕宽度
 let SCREEN_WIDTH = UIScreen.main.bounds.width
-
 /// 屏幕高度
 let SCREEN_HEIGHT = UIScreen.main.bounds.height
-
 /// 屏幕bounds
 let SCREEN_BOUNDS = UIScreen.main.bounds
-
 /// 全局遮罩透明度
 let GLOBAL_SHADOW_ALPHA: CGFloat = 0.5
+
 
 /// appStore中的应用id
 let APPSTORE_ID = "1120896924"

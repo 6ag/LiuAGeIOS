@@ -145,7 +145,7 @@ extension JFNewsDALManager {
     /**
      更新本地搜索关键词列表数据到本地 - 这个方法是定期更新的哈
      */
-    func updateSearchKeyListData() {
+    func updateSearchKeyListData(keyboardVersion: String) {
         
         DispatchQueue.global().async {
             JFSQLiteManager.shareManager.dbQueue.inDatabase { (db) in
@@ -181,6 +181,9 @@ extension JFNewsDALManager {
                                     }
                                     
                                 }
+                                
+                                // 更新成功修改本地关键词库版本
+                                UserDefaults.standard.set(keyboardVersion, forKey: UPDATE_SEARCH_KEYBOARD)
                             }
                             
                         }
