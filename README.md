@@ -8,6 +8,12 @@
 
 *XCode8.2.1* + *swift3.0* ，如果下载项目后，编译失败，请检查 `XCode` 版本是否满足。
 
+## Android端
+
+`Android` 端使用 `Android Studio2.2.3` 开发，功能基本和 `iOS` 端实现一致。
+
+[Android端仓库](https://github.com/6ag/LiuAGeAndroid)
+
 ## 讲解文章
 
 + [使用NSKeyedArchiver缓存app用户账号数据](https://blog.6ag.cn/1545.html)
